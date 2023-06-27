@@ -4,16 +4,38 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "back": "set DEBUG=SQL* & npx nodemon --trace-warnings index.js",
+    "react": "vite --open"
   },
   "author": "Mouss",
   "license": "ISC",
   "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
     "eslint": "^8.39.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.27.5"
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "sass": "^1.63.6",
+    "typescript": "^4.9.3"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "@popperjs/core": "^2.11.8",
+    "@vitejs/plugin-react": "^3.1.0",
+    "bootstrap": "^5.3.0",
+    "dayjs": "^1.11.8",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "pg": "^8.11.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^4.2.0"
   }
 }
