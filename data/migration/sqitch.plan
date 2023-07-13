@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=home
+
+initdb 2023-07-13T08:16:24Z Mouss <lepriol.matthieu@gmail.com> # initialisation BDD

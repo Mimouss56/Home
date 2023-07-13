@@ -1,15 +1,13 @@
-import './style.scss';
-
 function Contact() {
   return (
-    <section id="contact" className="py-3">
+    <section id="contact" className="py-3 text-white">
       <h1 className="name px-3 fw-bold">LE PRIOL Matthieu</h1>
       <p className="px-3">
         Développeur Application Web et Mobile
       </p>
-      <h2 className="title p-3 fw-bold fs-5">Contact</h2>
+      <h2 id="title_contact" className="p-3 fw-bold fs-5">Contact</h2>
       <div id="contact">
-        <div className="px-3" id="info">
+        <div className="px-3 mt-2" id="info">
           <p id="email" className="mb-1">lepriol.matthieu@gmail.com</p>
           <p id="phone" className="mb-1">06.49.38.99.05</p>
           <p id="adress" className="mb-1">Belz, Morbihan, France</p>

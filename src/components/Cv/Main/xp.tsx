@@ -26,7 +26,7 @@ function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {
   const contentFiltred = content.filter((emploi: IEmploi) => emploi.competences.includes(filter));
   return (
     <section id="xp" className="px-3">
-      <h2 id="title" className="py-1">{titre}</h2>
+      <h2 id="title_info" className="py-1">{titre}</h2>
       {
         contentFiltred.map((emploi: IEmploi) => (
           <DetailsXp

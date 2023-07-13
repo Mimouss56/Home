@@ -29,11 +29,11 @@ function DetailsXp({
           <span id="xp_title" className="fs-6 fw-bold text-start">
             {title}
           </span>
-          <p id="xp_ent" className="fst-italic text-left">{`${ent}, ${lieu.ville}(${lieu.departement})`}</p>
+          <span id="xp_ent" className="fst-italic text-left">{`${ent}, ${lieu.ville}(${lieu.departement})`}</span>
         </div>
         <div id="xp_skills">
           <ul className="list-group list-group-flush">
-            <li className="list-group-item d-flex flex-wrap pt-0 flex-column">
+            <li className="list-group-item d-flex flex-wrap flex-column p-0">
               <span>{description}</span>
             </li>
           </ul>

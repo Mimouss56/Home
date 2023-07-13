@@ -1,1 +1,19 @@
 @import "bootstrap/scss/bootstrap";
+
+html {
+  background-color: gray;
+}
+
+@media print {
+
+  header,
+  footer,
+  aside,
+  nav {
+    display: none;
+  }
+  main{
+    width: 100%;
+    margin : 0;
+  }
+}

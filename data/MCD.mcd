@@ -1,0 +1,24 @@
+:
+FORMATION : id_formation, ent, title, niveau, town, postal_code, date_started, date_ended
+APPARTIENT, 0N FORMATION, 0N COMPETENCE
+:
+
+:
+FORME, 0N USER, 0N FORMATION
+COMPETENCE: id_competence, name
+:
+
+DETIENT, 11 USER, 11 ROLE
+USER : id_user, username, email, password
+POSSEDE, 0N EMPLOI, 0N COMPETENCE
+:
+
+ROLE: id_role, name, color
+TRAVAIL, 0N USER, 0N EMPLOI
+EMPLOI : id_emploi, ent, title, desc, town, postal_code, date_started, date_ended
+:
+
+:
+:
+:
+OPTION : id_option, name, value

@@ -1,11 +1,16 @@
-/* eslint-disable max-len */
+/* eslint-disable react/no-unescaped-entities */
+import './style.scss';
+
 function HeaderCv() {
   return (
     <>
-      <h1 className="text-center fw-bold fs-4">Développeur Application Web et Mobile</h1>
-      <header id="intro" className="p-3 fs-6">
-        En pleine reconversion, je suis passionné d&apos;informatique et spécialisé en développement web fullstack JavaScript. Autonome et autodidacte, j&apos;ai acquis des compétences solides dans ce domaine en suivant ma passion.
-      </header>
+      <h1 className="text-center fw-bold fs-2">Développeur Application Web et Mobile</h1>
+      <p id="intro" className="p-3 fs-6 text-justify">
+        En pleine reconversion,
+        je suis passionné d'informatique et spécialisé en développement web fullstack JavaScript.
+        Autonome et autodidacte,
+        j'ai acquis des compétences solides dans ce domaine en suivant ma passion.
+      </p>
     </>
   );
 }
