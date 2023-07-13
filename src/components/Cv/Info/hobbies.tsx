@@ -1,15 +1,15 @@
 function Hobbies() {
   return (
-    <section id="contact" className="pt-3">
+    <section id="contact" className="pt-1">
       <h2 id="title_contact" className="p-3 fw-bold fs-5">Loisirs</h2>
-      <div id="langues" className="m-3 text-white">
-        <p id="website" className="mb-0">
+      <div id="langues" className="mx-3 text-white mb-3">
+        <p id="website" className="mb-1">
           Jeux vidéo
         </p>
-        <p id="github" className="mb-0">
+        <p id="github" className="mb-1">
           Lecture
         </p>
-        <p id="github" className="mb-0">
+        <p id="github" className="mb-1">
           Musique
         </p>
       </div>

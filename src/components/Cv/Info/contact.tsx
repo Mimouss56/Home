@@ -15,14 +15,14 @@ function Contact() {
         <div id="site" className="d-flex flex-column items-align-between px-3 py-0">
           <p id="website" className="mb-0">
             {/* Logo Web */}
-            <a href="https://www.mimouss.fr" className="text-white">Site Web</a>
+            <a href="https://www.mimouss.fr">Site Web</a>
           </p>
           <p id="github" className="mb-0">
             {/* Logo GitHub */}
-            <a href="https://www.github.com/Mimouss56" className="text-white">
+            <a href="https://www.github.com/Mimouss56">
               <img src="https://img.icons8.com/ios-filled/32/ffffff/github.png" alt="GitHub" />
             </a>
-            <a href="https://www.linkedin.com/in/matthieu-le-priol56/" className="text-white">
+            <a href="https://www.linkedin.com/in/matthieu-le-priol56/">
               <img src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" alt="LinkedIn" />
             </a>
           </p>

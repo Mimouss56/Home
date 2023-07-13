@@ -4,8 +4,8 @@ import './style.scss';
 function HeaderCv() {
   return (
     <>
-      <h1 className="text-center fw-bold fs-2">Développeur Application Web et Mobile</h1>
-      <p id="intro" className="p-3 fs-6 text-justify">
+      <h1 className="text-center fw-bold fs-2 py-3">Développeur Application Web et Mobile</h1>
+      <p id="intro" className="px-3 fs-6 text-justify">
         En pleine reconversion,
         je suis passionné d'informatique et spécialisé en développement web fullstack JavaScript.
         Autonome et autodidacte,

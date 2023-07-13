@@ -17,9 +17,9 @@ main {
 }
 
 #title_contact {
-    background-color: #eba422;
+    background-color: #eba422 !important;
     margin-bottom: 0;
-    color: white;
+    color: white !important;
 }
 
 #xp_date {
@@ -40,6 +40,8 @@ main {
 #right {
     background-color: #ce6b01;
     padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
 }
 
 
