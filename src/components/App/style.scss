@@ -1,0 +1,8 @@
+main {
+  margin: 10vh auto;
+}
+@media print{
+  main {
+    margin: 0;
+  }
+}
