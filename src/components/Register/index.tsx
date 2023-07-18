@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+/* eslint-disable react/no-unstable-nested-components */
+import { useState } from 'react';
 import {
   Form, Input, Button, Alert,
 } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  LockOutlined,
+  EyeTwoTone,
+  EyeInvisibleOutlined,
+} from '@ant-design/icons';
 import logo from '../../assets/react.svg';
 import { IRegister } from '../../@types/register';
 
@@ -21,13 +27,7 @@ function Register() {
       password: values.password,
       email: values.email,
     };
-    fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    });
+
     console.log('Received values of form: ', values);
   };
 
@@ -80,10 +80,20 @@ function Register() {
               rules={[{ required: true, message: 'Please input your password!' }]}
               validateStatus={error ? 'error' : 'success'}
             >
-              <Input
+              <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
                 placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item
+              name="confirmPassword"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+              validateStatus={error ? 'error' : 'success'}
+            >
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="Confirm Password"
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
               />
             </Form.Item>
             {success && (
