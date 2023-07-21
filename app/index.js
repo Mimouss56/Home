@@ -26,11 +26,18 @@ app.use((req, res, next) => {
   next();
 });
 
+  // response to preflight request
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 // Decodage des request.body
 app.use(express.json());
 
 // Chargement des fichiers 'Médias'
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Chargement Router
 app.use(router);
