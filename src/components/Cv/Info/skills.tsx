@@ -4,7 +4,7 @@ const size = '40';
 function Skills() {
   return (
     <section>
-      <h2 id="title_contact" className="p-3 fw-bold fs-5">Technos</h2>
+      <h2 id="title_contact" className="p-2 fw-bold fs-5">Technos</h2>
       <div className="px-3 mt-2 text-white">
         <div id="skill">
           <h3 className="fs-5 text-center text-white">Front-end</h3>

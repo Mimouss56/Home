@@ -1,10 +1,3 @@
-main {
-    width: 100vw;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-}
-
 #title_info {
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
@@ -38,10 +31,19 @@ main {
 }
 
 #right {
+    border: 1px solid #ccc;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
     background-color: #ce6b01;
     padding: 0;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+}
+
+#left {
+    border: 1px solid #ccc;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
 }
 
 
@@ -51,4 +53,14 @@ main {
     font-weight: bold;
     text-align: left;
     padding: 0 5px;
+}
+
+@media print {
+    #left, #right {
+        border: none;
+        border-radius: 0;
+    }
+    .noprint {
+        display: none;
+    }
 }

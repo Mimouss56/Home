@@ -18,13 +18,13 @@ module.exports = {
         message: 'Username already exist',
       };
     }
-    if (inputData.password !== inputData.passwordConfirm) {
+    if (inputData.password !== inputData.confirmPassword) {
       return {
         code: 400,
         message: 'Password and password confirm must be the same',
       };
     }
-    delete inputData.passwordConfirm;
+    delete inputData.confirmPassword;
 
     const hash = await bcrypt.hash(inputData.password, 10);
     try {
