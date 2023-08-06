@@ -41,7 +41,7 @@ function Register() {
       }
       // redirection sur la page d'accueil
     }).catch((err) => {
-      console.log(err);
+      setErrorMessage(`Probleme de connexion au serveur : ${err}`);
     });
   };
 

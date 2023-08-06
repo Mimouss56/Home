@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "title": "Dashboard",
+    "link": "/admin/dashboard",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  }
+]

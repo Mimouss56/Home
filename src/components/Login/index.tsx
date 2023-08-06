@@ -2,35 +2,21 @@ import axios from 'axios';
 import './style.scss';
 import { useState } from 'react';
 import {
-  Form, Input, Button, Alert,
+  Form, Input, Button,
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { redirect } from 'react-router-dom';
-import { LoginPost, LoginResponse } from '../../@types/login';
-import { User } from '../../@types/user';
+import { useNavigate } from 'react-router-dom';
+import { LoginPost } from '../../@types/login';
 
 function Login() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [notifToast, setnotifToast] = useState('');
+  const [notifToast, setnotifToast] = useState({ text: '', color: '' });
   const [success, setSuccess] = useState(false);
 
-  const saveSession = async (data: LoginResponse) => {
-    setnotifToast(data.message);
-    const infoUser = {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-      role: data.role,
-    };
-    sessionStorage.setItem('sessionToken', data.sessionToken);
-    sessionStorage.setItem('user', JSON.stringify(infoUser));
-    setSuccess(true);
-    setLoading(false);
-  };
-
+  const navigate = useNavigate();
   const handleSubmit = (values: LoginPost) => {
     // promise to get the values from the api
     axios.post('http://localhost:3001/login', values).then((res) => {
@@ -38,11 +24,29 @@ function Login() {
         setError(true);
         setErrorMessage(res.data.error);
         setLoading(false);
+        setnotifToast({
+          text: res.data.message,
+          color: 'danger',
+        });
       } else {
-        saveSession(res.data);
-        redirect('/');
+        const infoUser = {
+          id: res.data.id,
+          username: res.data.username,
+          email: res.data.email,
+          role: res.data.role,
+        };
+        sessionStorage.setItem('sessionToken', res.data.sessionToken);
+        sessionStorage.setItem('user', JSON.stringify(infoUser));
+        sessionStorage.setItem('notifToast', res.data.message);
+        setSuccess(true);
+        setLoading(false);
+        setnotifToast({
+          text: res.data.message,
+          color: 'success',
+        });
+
+        navigate('/');
       }
-      // redirection sur la page d'accueil
     }).catch((err) => {
       console.log(err);
     });
@@ -59,6 +63,7 @@ function Login() {
         setErrorMessage('');
         setSuccess(false);
         handleSubmit(values);
+        setnotifToast(values.message);
       }}
     >
       <div
@@ -95,11 +100,6 @@ function Login() {
                   placeholder="Password"
                 />
               </Form.Item>
-              {success && (
-                <Form.Item>
-                  <Alert message="Login success" type="success" showIcon />
-                </Form.Item>
-              )}
               <Form.Item />
             </div>
             <div className="modal-footer">
@@ -117,6 +117,7 @@ function Login() {
                 htmlType="submit"
                 className="login__container__form__button"
                 loading={loading}
+                data-bs-dismiss="modal"
               >
                 Log in
               </Button>
@@ -129,3 +130,6 @@ function Login() {
 }
 
 export default Login;
+function toastify(notifToast: string) {
+  throw new Error('Function not implemented.');
+}

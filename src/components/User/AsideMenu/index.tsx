@@ -5,60 +5,16 @@ import { MenuItemsProp } from '../../../@types/menu';
 import './style.scss';
 import Nav from './Nav';
 
-const navItemsUser = [
-  {
-    id: 1,
-    title: 'Profil',
-    link: '/user/setting',
-    icon: 'person',
-  },
-  {
-    id: 2,
-    title: 'Jobs',
-    link: '/user/jobs',
-    icon: 'briefcase',
-  },
-  {
-    id: 3,
-    title: 'School',
-    link: '/user/school',
-    icon: 'book',
-  },
+interface MenuProp {
+  navContent: MenuItemsProp[][];
+}
 
-] as MenuItemsProp[];
-
-const navItemsAdmin = [
-  {
-    id: 1,
-    title: 'Dashboard',
-    link: '/admin',
-    icon: 'speedometer2',
-  },
-  {
-    id: 2,
-    title: 'Users',
-    link: '/admin/users',
-    icon: 'people',
-  },
-  {
-    id: 3,
-    title: 'Jobs',
-    link: '/admin/jobs',
-    icon: 'briefcase',
-  },
-  {
-    id: 4,
-    title: 'Schools',
-    link: '/admin/schools',
-    icon: 'book',
-  },
-] as MenuItemsProp[];
-
-function Menu() {
+function Menu({ navContent }: MenuProp) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
+  const [navItemsUser, navItemsAdmin] = navContent;
 
   return (
-    <div
+    <aside
       id="aside"
       className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end"
       data-bs-backdrop="false"
@@ -66,16 +22,18 @@ function Menu() {
       data-bs-scroll="true"
     >
       <ul className="nav nav-pills flex-column mb-auto">
-        <Nav navItems={navItemsUser} />
-        {
-          userSession.role.label === 'admin' && (
-            <Nav navItems={navItemsAdmin} />
-          )
-        }
+        <Nav navItems={navItemsUser as MenuItemsProp[]} />
+        {userSession.role.label === 'admin' && (
+          <Nav navItems={navItemsAdmin} />
+        )}
+        <Link to="/logout" className="btn btn-outline-danger">
+          Déconnexion
+        </Link>
 
       </ul>
+      <hr />
       <Outlet />
-    </div>
+    </aside>
 
   );
 }

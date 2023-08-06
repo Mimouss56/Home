@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { MenuItemsProp } from '../../../@types/menu';
 
 interface NavProps {
