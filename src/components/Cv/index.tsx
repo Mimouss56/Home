@@ -1,3 +1,4 @@
+import { useSearchParams } from 'react-router-dom';
 import HeaderCv from './Header/header';
 import Xp from './Main/xp';
 import './style.scss';
@@ -12,13 +13,16 @@ import emplois from '../../../data/emploi.json';
 import etudes from '../../../data/formation.json';
 
 function Cv() {
+  const [searchParams] = useSearchParams();
+  const filterJob = searchParams.get('fj') || '';
+
   return (
     <>
       <div id="left" className="col-9">
         <HeaderCv />
         <Dev />
-        <Xp content={emplois} titre="Autres Expériences" filter="Maintenance" />
-        <Xp content={etudes} titre="Formations" filter="Formation" />
+        <Xp content={emplois} titre="Autres Expériences" filter={filterJob} />
+        <Xp content={etudes} titre="Formations" filter="" />
       </div>
       <div id="right" className="col-3">
         <Contact />

@@ -1,20 +1,5 @@
 import DetailsXp from './detailsXp';
 
-interface IEmploi {
-  ent: string
-  title: string
-  date: {
-    debut: string,
-    fin: string
-  },
-  lieu: {
-    ville: string,
-    departement: string
-  },
-  description: string,
-  competences: string[]
-}
-
 function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {
   const {
     content,
@@ -23,9 +8,10 @@ function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {
   } = contents;
 
   // filtre par compétences = informatique
-  const contentFiltred = content.filter((emploi: IEmploi) => emploi.competences.includes(filter));
+  const contentFiltred = (filter.length !== 0)
+    ? content.filter((emploi: IEmploi) => emploi.competences.includes(filter)) : content;
   return (
-    <section id="xp" className="px-3">
+    <section id="xp" className="p-3">
       <h2 id="title_info" className="py-1">{titre}</h2>
       {
         contentFiltred.map((emploi: IEmploi) => (
