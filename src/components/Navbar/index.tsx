@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Menu } from 'react-feather';
 import { Link } from 'react-router-dom';
 import NavBar from './Menu';
@@ -52,6 +53,29 @@ function Navbar({ navContent }: NavbarProp) {
             )
         }
 
+=======
+import Menu from './Menu';
+import './style.scss';
+
+const navContent = [
+  {
+    id: 1,
+    name: 'Accueil',
+    link: '/',
+  },
+  {
+    id: 2,
+    name: 'Cv',
+    link: '/Cv',
+  },
+];
+
+function Navbar() {
+  return (
+    <header>
+      <nav className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start bg-dark p-2 fixed-top">
+        <Menu navContentArray={navContent} />
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
       </nav>
 
     </header>

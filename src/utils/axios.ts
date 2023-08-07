@@ -3,7 +3,11 @@ import { getUserDataFromLocalStorage } from './login';
 
 // Je créer une instance d'axios pour pouvoir utiliser les interceptors et généré l'url de base
 const axiosInstance = axios.create({
+<<<<<<< HEAD
   baseURL: 'http://localhost:3001/api/',
+=======
+  baseURL: 'http://localhost:3000/api/',
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
 });
 // J'utilise un interceptor pour ajouter le token dans le header de chaque requête
 axiosInstance.interceptors.request.use((config) => {

@@ -1,7 +1,11 @@
 /* eslint-disable react/no-unstable-nested-components */
+<<<<<<< HEAD
 import axios from 'axios';
 import { useState } from 'react';
 import { redirect } from 'react-router-dom';
+=======
+import { useState } from 'react';
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
 import {
   Form, Input, Button, Alert,
 } from 'antd';
@@ -11,8 +15,13 @@ import {
   EyeTwoTone,
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
+<<<<<<< HEAD
 import { RegisterPost } from '../../@types/register';
 import './style.scss';
+=======
+import logo from '../../assets/react.svg';
+import { IRegister } from '../../@types/register';
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
 
 function Register() {
   const [form] = Form.useForm();
@@ -21,6 +30,7 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
 
+<<<<<<< HEAD
   const handleSubmit = (values: RegisterPost) => {
     const url = 'http://localhost:3001/register';
     const data = {
@@ -139,6 +149,99 @@ function Register() {
         </div>
       </div>
     </Form>
+=======
+  const handleSubmit = (values: IRegister) => {
+    // requetes POST axiios
+    const url = 'http://localhost:3001/api/v1/auth/login';
+    const data = {
+      username: values.username,
+      password: values.password,
+      email: values.email,
+    };
+
+    console.log('Received values of form: ', values);
+  };
+
+  return (
+    <div className="register">
+      <div className="register__container">
+        <div className="register__container__logo">
+          <img src={logo} alt="logo" />
+        </div>
+        <div className="register__container__form">
+          <Form
+            form={form}
+            name="register"
+            initialValues={{ remember: true }}
+            onFinish={(values) => {
+              setLoading(true);
+              setError(false);
+              setErrorMessage('');
+              setSuccess(false);
+              setTimeout(() => {
+                if (values.username === 'admin' && values.password === 'admin') {
+                  setSuccess(true);
+                } else {
+                  setError(true);
+                  setErrorMessage('Invalid username or password');
+                }
+                setLoading(false);
+              }, 1000);
+              handleSubmit(values);
+            }}
+          >
+            <Form.Item
+              name="username"
+              rules={[{ required: true, message: 'Please input your username!' }]}
+              validateStatus={error ? 'error' : 'success'}
+              help={errorMessage}
+            >
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: 'Please input your email!' }]}
+              validateStatus={error ? 'error' : 'success'}
+            >
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+              validateStatus={error ? 'error' : 'success'}
+            >
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item
+              name="confirmPassword"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+              validateStatus={error ? 'error' : 'success'}
+            >
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="Confirm Password"
+                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+              />
+            </Form.Item>
+            {success && (
+              <Form.Item>
+                <Alert message="Login success" type="success" showIcon />
+              </Form.Item>
+            )}
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="register__container__form__button" loading={loading}>
+                Register
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+      </div>
+    </div>
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
   );
 }
 

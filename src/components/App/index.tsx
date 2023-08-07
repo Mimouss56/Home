@@ -1,11 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
+<<<<<<< HEAD
 import { User as UserInfo } from '../../@types/user';
 import Under from '../UnderContruct';
+=======
+
+import Main from '../Main';
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
 import Cv from '../Cv';
 import Footer from '../Footer';
 import Navbar from '../Navbar';
 import Login from '../Login';
 import Register from '../Register';
+<<<<<<< HEAD
 import NotFound from '../notFound';
 import './style.scss';
 // User Import
@@ -57,6 +63,24 @@ function App() {
           </Route>
 
         </Routes>
+=======
+import './style.scss';
+
+function App() {
+  return (
+
+    <>
+      <Navbar />
+      <main className="bg-white d-flex flex-row">
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/Cv" element={<Cv />} />
+          <Route path="/about" element={<Cv />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
       </main>
       <Footer />
     </>

@@ -1,5 +1,6 @@
 main {
   margin: 10vh auto;
+<<<<<<< HEAD
   width: 80vw;
 }
 
@@ -9,5 +10,11 @@ main {
     width: 100%;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+=======
+}
+@media print{
+  main {
+    margin: 0;
+>>>>>>> 07764e19d3de1573d3072b5886d889345b9347fe
   }
 }
