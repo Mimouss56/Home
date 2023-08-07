@@ -17,7 +17,8 @@ function Menu({ navContent }: MenuProp) {
     sessionStorage.removeItem('sessionToken');
 
     sessionStorage.setItem('notifToast', 'Vous êtes déconnecté');
-    window.location.reload();
+    // redirect to home
+    window.location.replace('/');
   };
 
   return (

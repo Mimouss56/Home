@@ -11,6 +11,7 @@ import {
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import { RegisterPost } from '../../@types/register';
+import { port } from '../../../config.json';
 
 function Register() {
   const [form] = Form.useForm();
@@ -20,7 +21,7 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (values: RegisterPost) => {
-    const url = `http://localhost:${process.env.PORT}/register`;
+    const url = `http://localhost:${port}/register`;
     const data = {
       username: values.username,
       password: values.password,

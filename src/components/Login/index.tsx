@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginPost } from '../../@types/login';
+import { port } from '../../../config.json';
 
 function Login() {
   const [form] = Form.useForm();
@@ -13,7 +14,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [success, setSuccess] = useState(false);
-  const url = `http://localhost:${process.env.PORT}`;
+  const url = `http://localhost:${port}`;
 
   const handleSubmit = (values: LoginPost) => {
     axios.post(`${url}/login`, values).then((res) => {

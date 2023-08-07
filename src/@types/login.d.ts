@@ -1,6 +1,7 @@
 import { Role } from './user';
 
 export interface LoginResponse {
+  token: any;
   id: number
   username: string
   email: string

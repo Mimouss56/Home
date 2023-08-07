@@ -9,7 +9,7 @@ interface INotifToastProps {
 
 function Toast(content: INotifToastProps) {
   const { text, color } = content;
-  const [NotifToast, setNotifToast] = useState('');
+  const [, setNotifToast] = useState('');
   function handleOncharge() {
     setNotifToast('');
   }
