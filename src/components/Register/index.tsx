@@ -22,6 +22,7 @@ function Register() {
 
   const handleSubmit = (values: RegisterPost) => {
     const url = `http://localhost:${port}/register`;
+
     const data = {
       username: values.username,
       password: values.password,
