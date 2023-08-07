@@ -30,7 +30,6 @@ function Sanction() {
   useEffect(() => {
     fetchData();
   }, []);
-
   return (
     <div>
       <h1>Sanction</h1>

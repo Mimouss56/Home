@@ -18,7 +18,6 @@ function Toast(content: INotifToastProps) {
       {text}
       <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={handleOncharge} />
     </div>
-
   );
 }
 

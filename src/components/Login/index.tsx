@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { useState } from 'react';
 import {
   Form, Input, Button,
@@ -12,6 +13,7 @@ function Login() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [notifToast, setnotifToast] = useState({ text: '', color: '' });
   const [success, setSuccess] = useState(false);
   const url = `http://localhost:${process.env.PORT}`;
 
@@ -33,6 +35,42 @@ function Login() {
       setError(true);
       setErrorMessage(err.response.data);
       setLoading(false);
+    });
+  };
+
+  const navigate = useNavigate();
+  const handleSubmit = (values: LoginPost) => {
+    // promise to get the values from the api
+    axios.post('http://localhost:3001/login', values).then((res) => {
+      if (res.data.error) {
+        setError(true);
+        setErrorMessage(res.data.error);
+        setLoading(false);
+        setnotifToast({
+          text: res.data.message,
+          color: 'danger',
+        });
+      } else {
+        const infoUser = {
+          id: res.data.id,
+          username: res.data.username,
+          email: res.data.email,
+          role: res.data.role,
+        };
+        sessionStorage.setItem('sessionToken', res.data.sessionToken);
+        sessionStorage.setItem('user', JSON.stringify(infoUser));
+        sessionStorage.setItem('notifToast', res.data.message);
+        setSuccess(true);
+        setLoading(false);
+        setnotifToast({
+          text: res.data.message,
+          color: 'success',
+        });
+
+        navigate('/');
+      }
+    }).catch((err) => {
+      console.log(err);
     });
   };
 
@@ -96,11 +134,13 @@ function Login() {
               >
                 Register
               </Button>
+
               <Button
                 type="primary"
                 htmlType="submit"
                 className="btn btn-primary"
                 loading={loading}
+                data-bs-dismiss="modal"
               >
                 Log in
               </Button>
@@ -113,3 +153,6 @@ function Login() {
 }
 
 export default Login;
+function toastify(notifToast: string) {
+  throw new Error('Function not implemented.');
+}

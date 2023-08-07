@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import axios from 'axios';
 import { useState } from 'react';
+import { redirect } from 'react-router-dom';
 import {
   Form, Input, Button, Alert,
 } from 'antd';
@@ -27,6 +28,7 @@ function Register() {
       confirmPassword: values.confirmPassword,
       email: values.email,
     };
+
     axios.post(url, data).then((res) => {
       if (res.data.error) {
         setError(true);
@@ -35,6 +37,7 @@ function Register() {
       }
       // refresh la page
       window.location.reload();
+
       // redirection sur la page d'accueil
     }).catch((err) => {
       setErrorMessage(`Probleme de connexion au serveur : ${err}`);
@@ -129,6 +132,7 @@ function Register() {
                 htmlType="submit"
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
+
                 loading={loading}
               >
                 Sign in

@@ -6,6 +6,7 @@ module.exports = {
 
   async login(username, password) {
     const userExist = await user.findOne({ where: { username } });
+
     if (!userExist) {
       return {
         code: 403,
@@ -31,7 +32,6 @@ module.exports = {
       delete_at: null,
     });
 
-  
     // Return user && token
     const userLogged = {
       id: userExist.id,
@@ -39,7 +39,9 @@ module.exports = {
       email: userExist.email,
       sessionToken: token,
       message : `Connecté sous ${userExist.username} !`,
+
       role : await role.findByPk(userExist.id_role),
+
     };
     return userLogged;
   },

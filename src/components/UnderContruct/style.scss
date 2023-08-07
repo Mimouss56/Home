@@ -44,8 +44,6 @@ svg {
 
 #clock {
   animation: clockHand 5s infinite linear;
-
-
   transform-box: fill-box;
   transform-origin: bottom;
 }
@@ -79,57 +77,9 @@ svg {
   font-size: 1.3rem;
 }
 
-@keyframes clockHand {
-  from {
-    transform: rotateZ(0deg);
-  }
-
-  from {
-    transform: rotateZ(-360deg);
-  }
-}
-
-@keyframes manBody {
-  from {
-    transform: rotateX(0deg);
-  }
-
-  to {
-    transform: rotateX(10deg);
-  }
-}
-
-@keyframes tree {
-  from {
-    transform: rotateZ(10deg);
-  }
-
-  to {
-    transform: rotateZ(-20deg);
-  }
-}
-
-@keyframes change-light {
-  0% {
-    stroke: #cd61f8;
-  }
-
-  25% {
-    stroke: #6ace66;
-  }
-
-  75% {
-    stroke: #2995c0;
-  }
-
-  100% {
-    stroke: #e92949;
-  }
-}
-
 /* Media Queries */
 
-@media (min-width: 4520px) {
+@media (min-width: 450px) {
   .main-title h1 {
     font-size: 5rem;
     text-transform: uppercase;

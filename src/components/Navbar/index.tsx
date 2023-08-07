@@ -5,6 +5,7 @@ import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { User } from '../../@types/user';
 import './style.scss';
+import { User } from '../../@types/user';
 
 interface NavbarProp {
   navContent: MenuProp[];

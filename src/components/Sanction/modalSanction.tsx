@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import axiosInstance from '../../utils/axios';
 
+
 const { TextArea } = Input;
 
 interface FormValues {
@@ -66,7 +67,7 @@ function ModalAddSanction() {
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
               >
-                Ajouter
+Ajouter
               </Button>
             </div>
           </div>
