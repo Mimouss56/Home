@@ -1,50 +1,39 @@
 import axios from 'axios';
-import './style.scss';
 import { useState } from 'react';
 import {
-  Form, Input, Button, Alert,
+  Form, Input, Button,
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { redirect } from 'react-router-dom';
-import { LoginPost, LoginResponse } from '../../@types/login';
-import { User } from '../../@types/user';
+import { LoginPost } from '../../@types/login';
+import { port } from '../../../config.json';
 
 function Login() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [notifToast, setnotifToast] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [success, setSuccess] = useState(false);
-
-  const saveSession = async (data: LoginResponse) => {
-    setnotifToast(data.message);
-    const infoUser = {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-      role: data.role,
-    };
-    sessionStorage.setItem('sessionToken', data.sessionToken);
-    sessionStorage.setItem('user', JSON.stringify(infoUser));
-    setSuccess(true);
-    setLoading(false);
-  };
+  const url = `http://localhost:${port}`;
 
   const handleSubmit = (values: LoginPost) => {
-    // promise to get the values from the api
-    axios.post('http://localhost:3002/login', values).then((res) => {
-      if (res.data.error) {
-        setError(true);
-        setErrorMessage(res.data.error);
-        setLoading(false);
-      } else {
-        saveSession(res.data);
-        redirect('/');
-      }
-      // redirection sur la page d'accueil
+    axios.post(`${url}/login`, values).then((res) => {
+      const infoUser = {
+        id: res.data.id,
+        username: res.data.username,
+        email: res.data.email,
+        role: res.data.role,
+      };
+      sessionStorage.setItem('sessionToken', res.data.sessionToken);
+      sessionStorage.setItem('user', JSON.stringify(infoUser));
+      sessionStorage.setItem('notifToast', res.data.message);
+      setSuccess(true);
+      setLoading(false);
+      window.location.reload();
     }).catch((err) => {
-      console.log(err);
+      setError(true);
+      setErrorMessage(err.response.data);
+      setLoading(false);
     });
   };
 
@@ -52,7 +41,7 @@ function Login() {
     <Form
       form={form}
       name="login"
-      initialValues={{ remember: true }}
+      initialValues={{ remember: false }}
       onFinish={(values) => {
         setLoading(true);
         setError(false);
@@ -95,27 +84,23 @@ function Login() {
                   placeholder="Password"
                 />
               </Form.Item>
-              {success && (
-                <Form.Item>
-                  <Alert message="Login success" type="success" showIcon />
-                </Form.Item>
-              )}
               <Form.Item />
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
+            <div className="modal-footer d-flex justify-content-around">
+              <Button
+                type="primary"
+                htmlType="button"
                 className="btn btn-secondary"
                 data-bs-target="#modalregister"
                 data-bs-toggle="modal"
                 data-bs-dismiss="modal"
               >
                 Register
-              </button>
+              </Button>
               <Button
                 type="primary"
                 htmlType="submit"
-                className="login__container__form__button"
+                className="btn btn-primary"
                 loading={loading}
               >
                 Log in

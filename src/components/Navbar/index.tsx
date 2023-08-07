@@ -1,9 +1,10 @@
 import { Menu } from 'react-feather';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import './style.scss';
 import { User } from '../../@types/user';
+import './style.scss';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -15,21 +16,26 @@ function Navbar({ navContent }: NavbarProp) {
 
   return (
     <header>
-      <nav className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start bg-dark p-2 fixed-top">
+      <nav className="d-flex flex-wrap align-items-center justify-content-between bg-dark p-2 fixed-top">
         <NavBar navContentArray={navContent} />
         {
           (sessionToken !== null && userInfo !== null)
             ? (
               <>
-                <p className="text-light align-items-center m-2">
+                <p className="text-light align-items-center m-2 d-none d-sm-block">
                   {`Bienvenu ${userInfo.username}`}
                 </p>
-                <Link to="/user/setting" className="d-block link-body-emphasis text-decoration-none m-2">
+                <Link
+                  to="/user/setting"
+                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-sm-block"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#aside"
+                >
                   <img src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg" alt="mdo" className="rounded-circle" width="32" height="32" />
                 </Link>
                 <button
                   type="button"
-                  className="btn btn-light"
+                  className="btn btn-light align-items-end"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                   aria-controls="offcanvasRight"

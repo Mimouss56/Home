@@ -9,4 +9,5 @@ export interface MenuItemsProp {
   link : string;
   icon : string;
   title : string;
+  component : string;
 }

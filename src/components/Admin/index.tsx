@@ -1,5 +1,3 @@
-import Menu from '../App/User/AsideMenu';
-
 function Admin() {
   return (
     <div>
