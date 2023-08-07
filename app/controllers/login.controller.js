@@ -20,6 +20,7 @@ module.exports = {
       username,
       password,
       confirmPassword,
+      id_role: 2,
     };
     const data = await registerService.register(inputData);
     if (data.code) return res.status(data.code).json(data.message);

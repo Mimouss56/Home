@@ -1,30 +1,35 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { ISanction } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 
 function Sanction() {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
+  const [, setErrorMessage] = useState('');
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') || '{}'));
 
   const fetchData = async () => {
     try {
       const response = await axiosInstance.get('/sanction');
       setSanctions(response.data);
     } catch (error) {
-      toast.error('Erreur lors du chargement des sanctions.');
+      setErrorMessage('Erreur lors du chargement des sanctions.');
     }
   };
 
   const handleSubmitDelete = (id: number) => {
     axiosInstance.delete(`/sanction/${id}`).then((res) => {
       if (res.data.error) {
-        toast.error(res.data.error);
+        setErrorMessage(res.data.error);
       } else {
-        toast.success('Sanction supprimée');
+        setErrorMessage('Sanction supprimée');
         setSanctions(sanctions.filter((sanction: ISanction) => sanction.id !== id));
       }
     });
+  };
+
+  const handleAddSanction = (sanction: ISanction) => {
+    setSanctions((oldSanctions) => [...oldSanctions, sanction]);
   };
 
   useEffect(() => {
@@ -34,10 +39,15 @@ function Sanction() {
   return (
     <div>
       <h1>Sanction</h1>
-      <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalAddSanction">
-        Ajout d&apos;une sanction
-      </button>
-      <AddSanction />
+
+      {user.role.id === 1 && (
+        <>
+          <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalAddSanction">
+            Ajout d&apos;une sanction
+          </button>
+          <AddSanction onAddSanction={handleAddSanction} />
+        </>
+      )}
       <table className="table table-striped">
         <thead>
           <tr>
@@ -47,23 +57,35 @@ function Sanction() {
             <th scope="col">Semaine</th>
             <th scope="col">Date</th>
             <th scope="col">Auteur</th>
-            <th scope="col">Actions</th>
+            {user.role.id === 1 && (
+              <th scope="col">Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
           {sanctions.map((sanction) => (
+
             <tr key={sanction.id}>
               <td>{sanction.id}</td>
-              <td>{sanction.label}</td>
+              <td>
+                {
+                  (user.role.id !== 1) ? (sanction.label).replace(/./g, '*') : sanction.label
+                }
+
+              </td>
               <td>{sanction.date.year}</td>
               <td>{`S${sanction.date.week}`}</td>
               <td>{sanction.date.complete}</td>
               <td>{sanction.author.username}</td>
-              <td>
-                <button type="button" className="btn btn-danger" onClick={() => handleSubmitDelete(sanction.id)}>
-                  x
-                </button>
-              </td>
+              {
+                user.role.id === 1 && (
+                  <td>
+                    <button type="button" className="btn btn-danger" onClick={() => handleSubmitDelete(sanction.id)}>
+                      x
+                    </button>
+                  </td>
+                )
+              }
             </tr>
           ))}
         </tbody>

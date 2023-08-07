@@ -25,7 +25,6 @@ module.exports = {
       };
     }
     delete inputData.confirmPassword;
-
     const hash = await bcrypt.hash(inputData.password, 10);
     try {
       const data = await user.create({

@@ -12,9 +12,7 @@ module.exports = {
   },
 
   async post(req, res) {
-    const { label } = req.body;
-    const author_id = 2;
-
+    const { label, author_id } = req.body;
     const inputQuery = { label, author_id };
     const result = await sanctionService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

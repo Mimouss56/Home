@@ -70,10 +70,10 @@ function App() {
                   <Route path="setting" element={<Setting />} />
                   <Route path="jobs" element={<Job jobs={emplois} />} />
                   <Route path="school" element={<Job jobs={formation} />} />
-                  <Route path="sanction" element={<Sanction />} />
                   <Route path="*" element={<NotFound />} />
-
                 </Route>
+                <Route path="sanction" element={<Sanction />} />
+
                 {userSession.role.label === 'admin' && (
                   <Route path="admin/">
                     <Route path="dashboard" element={<Dashboard />} />

@@ -1,37 +1,37 @@
 import { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import axiosInstance from '../../utils/axios';
+import { ISanction } from '../../@types/sanction';
 
 const { TextArea } = Input;
 
 interface FormValues {
   reason: string;
 }
-
-function ModalAddSanction() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface ModalAddSanctionProps {
+  onAddSanction: (sanction: ISanction) => void;
+}
+function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
   const [error, setError] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (values: FormValues) => {
-    // on recupere les infos du user connecté
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const newUser = {
       label: values.reason,
       author_id: user.id,
     };
+
     axiosInstance.post('/sanction', newUser).then((res) => {
-      if (res.data.error) {
-        setError(true);
-        setErrorMessage(res.data.error);
-      } else {
-        setErrorMessage('Sanction ajoutée');
-      }
-    })
-      .catch((err) => {
-        setErrorMessage(`Problème de connexion au serveur : ${err}`);
-      });
+      setErrorMessage('Sanction ajoutée');
+
+      // Assume that the server returns the newly created sanction object
+      const newSanction = res.data;
+      onAddSanction(newSanction);
+    }).catch((err) => {
+      setError(true);
+      setErrorMessage(err.message);
+    });
   };
 
   return (

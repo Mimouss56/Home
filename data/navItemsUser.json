@@ -23,7 +23,7 @@
   {
     "id": 4,
     "title": "Sanction",
-    "link": "/user/sanction",
+    "link": "/sanction",
     "icon": "bandaid",
     "component": "Sanction"
   }

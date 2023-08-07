@@ -1,5 +1,5 @@
 {
-  "port": 3002,
-  "urlAPI": "https://www.mimouss.fr/api",
-  "baseUrl": "https://www.mimouss.fr"
+  "port": 3001,
+  "urlAPI": "http://localhost:3001/api",
+  "baseUrl": "http://localhost:3001"
 }
