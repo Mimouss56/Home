@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import axios from 'axios';
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
 import {
   Form, Input, Button, Alert,
 } from 'antd';
@@ -12,7 +11,6 @@ import {
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import { RegisterPost } from '../../@types/register';
-import './style.scss';
 
 function Register() {
   const [form] = Form.useForm();
@@ -22,23 +20,21 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (values: RegisterPost) => {
-    const url = 'http://localhost:3001/register';
+    const url = `http://localhost:${process.env.PORT}/register`;
     const data = {
       username: values.username,
       password: values.password,
       confirmPassword: values.confirmPassword,
       email: values.email,
     };
-    console.log('Received values of form: ', values);
     axios.post(url, data).then((res) => {
       if (res.data.error) {
         setError(true);
         setErrorMessage(res.data.error);
         setLoading(false);
-      } else {
-        console.log('Received values of form: ', res.data);
-        redirect('/');
       }
+      // refresh la page
+      window.location.reload();
       // redirection sur la page d'accueil
     }).catch((err) => {
       setErrorMessage(`Probleme de connexion au serveur : ${err}`);
@@ -116,20 +112,23 @@ function Register() {
               )}
 
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
+            <div className="modal-footer d-flex justify-content-around">
+              <Button
+                type="primary"
+                htmlType="button"
                 className="btn btn-secondary"
                 data-bs-target="#modalLogin"
                 data-bs-toggle="modal"
                 data-bs-dismiss="modal"
               >
                 Login
-              </button>
+              </Button>
+
               <Button
                 type="primary"
                 htmlType="submit"
-                className="login__container__form__button"
+                className="btn btn-primary"
+                data-bs-dismiss="modal"
                 loading={loading}
               >
                 Sign in

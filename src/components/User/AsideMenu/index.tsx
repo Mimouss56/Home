@@ -12,11 +12,18 @@ interface MenuProp {
 function Menu({ navContent }: MenuProp) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
   const [navItemsUser, navItemsAdmin] = navContent;
+  const handleClickLogout = () => {
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('sessionToken');
+
+    sessionStorage.setItem('notifToast', 'Vous êtes déconnecté');
+    window.location.reload();
+  };
 
   return (
     <aside
       id="aside"
-      className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end"
+      className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg"
       data-bs-backdrop="false"
       data-bs-dismiss="true"
       data-bs-scroll="true"
@@ -26,9 +33,9 @@ function Menu({ navContent }: MenuProp) {
         {userSession.role.label === 'admin' && (
           <Nav navItems={navItemsAdmin} />
         )}
-        <Link to="/logout" className="btn btn-outline-danger">
+        <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
           Déconnexion
-        </Link>
+        </button>
 
       </ul>
       <hr />

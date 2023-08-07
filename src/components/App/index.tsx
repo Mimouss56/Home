@@ -46,9 +46,14 @@ function App() {
     <>
       {userSession && (<Menu navContent={[navItemsUser, navItemsAdmin]} />)}
 
-      {notifToast && <Toast text={notifToast} color="success" />}
       <main className="d-flex flex-row">
         <Navbar navContent={navTop} />
+        {notifToast && (
+          <Toast
+            text={notifToast}
+            color="success"
+          />
+        )}
         <Login />
         <Register />
 
@@ -66,6 +71,7 @@ function App() {
                   <Route path="jobs" element={<Job jobs={emplois} />} />
                   <Route path="school" element={<Job jobs={formation} />} />
                   <Route path="sanction" element={<Sanction />} />
+                  <Route path="*" element={<NotFound />} />
 
                 </Route>
                 {userSession.role.label === 'admin' && (

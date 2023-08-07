@@ -6,8 +6,6 @@ import formation from '../../../data/formation.json';
 
 function User() {
   const location = useLocation();
-  console.log(location.pathname);
-
   if (location.pathname === '/user/setting') {
     return (
       <Setting />

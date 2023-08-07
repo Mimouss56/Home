@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Input, Button } from 'antd';
-import axios from 'axios';
+import axiosInstance from '../../utils/axios';
 
 const { TextArea } = Input;
 
@@ -21,16 +21,14 @@ function ModalAddSanction() {
       label: values.reason,
       author_id: user.id,
     };
-
-    axios.post('http://localhost:3001/api/sanction', newUser)
-      .then((res) => {
-        if (res.data.error) {
-          setError(true);
-          setErrorMessage(res.data.error);
-        } else {
-          setErrorMessage('Sanction ajoutée');
-        }
-      })
+    axiosInstance.post('/sanction', newUser).then((res) => {
+      if (res.data.error) {
+        setError(true);
+        setErrorMessage(res.data.error);
+      } else {
+        setErrorMessage('Sanction ajoutée');
+      }
+    })
       .catch((err) => {
         setErrorMessage(`Problème de connexion au serveur : ${err}`);
       });
@@ -53,15 +51,22 @@ function ModalAddSanction() {
                 <TextArea placeholder="Raison" />
               </Form.Item>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            <div className="modal-footer d-flex justify-content-around">
+              <Button
+                type="primary"
+                htmlType="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Fermer
+              </Button>
               <Button
                 type="primary"
                 htmlType="submit"
                 className="btn btn-primary"
                 data-bs-dismiss="modal"
               >
-                Sign in
+                Ajouter
               </Button>
             </div>
           </div>

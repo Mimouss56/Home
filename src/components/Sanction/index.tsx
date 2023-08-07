@@ -31,11 +31,6 @@ function Sanction() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (sanctions.length > 0) {
-      toast.success('Sanctions chargées');
-    }
-  }, [sanctions]);
   return (
     <div>
       <h1>Sanction</h1>
