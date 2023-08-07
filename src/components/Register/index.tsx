@@ -22,7 +22,7 @@ function Register() {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (values: RegisterPost) => {
-    const url = 'http://localhost:3001/register';
+    const url = 'http://localhost:3002/register';
     const data = {
       username: values.username,
       password: values.password,

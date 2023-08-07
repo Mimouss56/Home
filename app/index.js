@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Chargement des fichiers 'Médias'
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Chargement Router
 app.use(router);

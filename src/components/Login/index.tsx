@@ -33,7 +33,7 @@ function Login() {
 
   const handleSubmit = (values: LoginPost) => {
     // promise to get the values from the api
-    axios.post('http://localhost:3001/login', values).then((res) => {
+    axios.post('http://localhost:3002/login', values).then((res) => {
       if (res.data.error) {
         setError(true);
         setErrorMessage(res.data.error);
