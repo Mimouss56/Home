@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { getUserDataFromLocalStorage } from './login';
-import { port } from '../../config.json';
+import { urlAPI } from '../../config.json';
 // Je créer une instance d'axios pour pouvoir utiliser les interceptors et généré l'url de base
 const axiosInstance = axios.create({
-  baseURL: `http://localhost:${port}/api/`,
+  baseURL: urlAPI,
 });
 // J'utilise un interceptor pour ajouter le token dans le header de chaque requête
 axiosInstance.interceptors.request.use((config) => {

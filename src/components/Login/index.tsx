@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginPost } from '../../@types/login';
-import { port } from '../../../config.json';
+import { baseUrl } from '../../../config.json';
 
 function Login() {
   const [form] = Form.useForm();
@@ -14,10 +14,9 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [success, setSuccess] = useState(false);
-  const url = `http://localhost:${port}`;
 
   const handleSubmit = (values: LoginPost) => {
-    axios.post(`${url}/login`, values).then((res) => {
+    axios.post(`${baseUrl}/login`, values).then((res) => {
       const infoUser = {
         id: res.data.id,
         username: res.data.username,
@@ -32,7 +31,7 @@ function Login() {
       window.location.reload();
     }).catch((err) => {
       setError(true);
-      setErrorMessage(err.response.data);
+      setErrorMessage(err.message);
       setLoading(false);
     });
   };

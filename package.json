@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "back": "set DEBUG=SQL* & npx nodemon --trace-warnings index.js",
-    "react": "vite --open",
+    "react": "vite --open --host",
     "build": "vite build --emptyOutDir"
   },
   "author": "Mouss",
