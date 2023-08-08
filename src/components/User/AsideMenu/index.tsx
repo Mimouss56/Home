@@ -1,4 +1,6 @@
-import { Link, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import * as bootstrap from 'bootstrap';
 import { User as UserInfo } from '../../../@types/user';
 import { MenuItemsProp } from '../../../@types/menu';
 
@@ -12,6 +14,7 @@ interface MenuProp {
 function Menu({ navContent }: MenuProp) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
   const [navItemsUser, navItemsAdmin] = navContent;
+
   const handleClickLogout = () => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('sessionToken');
@@ -21,13 +24,32 @@ function Menu({ navContent }: MenuProp) {
     window.location.replace('/');
   };
 
+  useEffect(() => {
+    const asideElement = document.getElementById('aside');
+    if (asideElement) {
+      const bsOffcanvas = new bootstrap.Offcanvas(asideElement);
+
+      const links = asideElement.getElementsByTagName('a');
+      for (let i = 0; i < links.length; i += 1) {
+        links[i].addEventListener('click', () => {
+          bsOffcanvas.hide();
+        });
+      }
+
+      return () => {
+        bsOffcanvas.dispose();
+      };
+    }
+    return undefined;
+  }, []);
+
   return (
     <aside
       id="aside"
       className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg"
+      data-bs-scroll="true"
       data-bs-backdrop="false"
       data-bs-dismiss="true"
-      data-bs-scroll="true"
     >
       <ul className="nav nav-pills flex-column mb-auto">
         <Nav navItems={navItemsUser as MenuItemsProp[]} />
