@@ -15,18 +15,18 @@ function Navbar({ navContent }: NavbarProp) {
 
   return (
     <header>
-      <nav className="d-flex flex-wrap align-items-center justify-content-between bg-dark p-2 fixed-top">
+      <nav className="d-flex flex-wrap align-items-center justify-content-between bg-dark p-2 fixed-top vw-100">
         <NavBar navContentArray={navContent} />
         {
           (sessionToken !== null && userInfo !== null)
             ? (
               <>
-                <p className="text-light align-items-center m-2 d-none d-sm-block">
+                <p className="text-light m-2 d-none d-md-block">
                   {`Bienvenu ${userInfo.username}`}
                 </p>
                 <Link
                   to="/user/setting"
-                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-sm-block"
+                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                 >

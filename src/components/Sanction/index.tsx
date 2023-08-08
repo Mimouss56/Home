@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import axiosInstance from '../../utils/axios';
 import { ISanction } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 
+dayjs.extend(isoWeek);
 function Sanction() {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
   const [, setErrorMessage] = useState('');
@@ -29,33 +32,34 @@ function Sanction() {
   };
 
   const handleAddSanction = (sanction: ISanction) => {
+    console.log(sanction);
+
     setSanctions((oldSanctions) => [...oldSanctions, sanction]);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-
+  const thisWeek = dayjs().isoWeek();
   return (
-    <div>
-      <h1>Sanction</h1>
+    <article className="vw-100 table-responsive">
+      <div className="d-flex justify-content-between">
+        <h1>Sanction</h1>
 
-      {user.role.id === 1 && (
-        <>
+        {user.role.id === 1 && (
           <button type="button" className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalAddSanction">
             Ajout d&apos;une sanction
           </button>
-          <AddSanction onAddSanction={handleAddSanction} />
-        </>
-      )}
-      <table className="table table-striped">
+        )}
+      </div>
+      <AddSanction onAddSanction={handleAddSanction} />
+
+      <table className="table table-striped table-sm text-center">
         <thead>
           <tr>
-            <th scope="col">Id</th>
             <th scope="col">Description</th>
-            <th scope="col">Année</th>
             <th scope="col">Semaine</th>
-            <th scope="col">Date</th>
+            <th scope="col" className="d-none d-sm-table-cell">Date</th>
             <th scope="col">Auteur</th>
             {user.role.id === 1 && (
               <th scope="col">Actions</th>
@@ -66,16 +70,17 @@ function Sanction() {
           {sanctions.map((sanction) => (
 
             <tr key={sanction.id}>
-              <td>{sanction.id}</td>
               <td>
                 {
-                  (user.role.id !== 1) ? (sanction.label).replace(/./g, '*') : sanction.label
+
+                  (user.role.id !== 1 && (thisWeek + 1 === sanction.date.week)) ? '************' : sanction.label
                 }
 
               </td>
-              <td>{sanction.date.year}</td>
-              <td>{`S${sanction.date.week}`}</td>
-              <td>{sanction.date.complete}</td>
+              <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
+              <td className="d-none d-sm-table-cell">
+                {sanction.date.complete}
+              </td>
               <td>{sanction.author.username}</td>
               {
                 user.role.id === 1 && (
@@ -90,7 +95,7 @@ function Sanction() {
           ))}
         </tbody>
       </table>
-    </div>
+    </article>
   );
 }
 

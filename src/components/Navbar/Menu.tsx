@@ -12,7 +12,7 @@ interface MenuProps {
 
 function NavBar({ navContentArray }: MenuProps) {
   return (
-    <ul className="nav col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+    <ul className="nav col-lg-auto me-lg-auto mb-2 mb-md-0 flex-grow-1">
       <li>
         <Link to="/" className="nav-link px-2 link-light">
           Accueil

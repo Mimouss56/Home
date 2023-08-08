@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import {
+  Form, Input, Button, Switch,
+} from 'antd';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import axiosInstance from '../../utils/axios';
 import { ISanction } from '../../@types/sanction';
 
@@ -12,9 +14,6 @@ interface ModalAddSanctionProps {
   onAddSanction: (sanction: ISanction) => void;
 }
 function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleSubmit = (values: FormValues) => {
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const newUser = {
@@ -23,14 +22,13 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
     };
 
     axiosInstance.post('/sanction', newUser).then((res) => {
-      setErrorMessage('Sanction ajoutée');
+      sessionStorage.setItem('notifToast', 'Sanction ajoutée');
 
       // Assume that the server returns the newly created sanction object
       const newSanction = res.data;
       onAddSanction(newSanction);
     }).catch((err) => {
-      setError(true);
-      setErrorMessage(err.message);
+      sessionStorage.setItem('notifToast', err.message);
     });
   };
 
@@ -50,6 +48,14 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
               >
                 <TextArea placeholder="Raison" />
               </Form.Item>
+              <Form.Item>
+                <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                  disabled
+                />
+                <span className="ms-2">Important</span>
+              </Form.Item>
             </div>
             <div className="modal-footer d-flex justify-content-around">
               <Button
@@ -63,7 +69,7 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
               <Button
                 type="primary"
                 htmlType="submit"
-                className="btn btn-primary"
+                className="btn btn-success"
                 data-bs-dismiss="modal"
               >
                 Ajouter
