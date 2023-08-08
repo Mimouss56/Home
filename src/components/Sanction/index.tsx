@@ -2,45 +2,42 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import axiosInstance from '../../utils/axios';
-import { ISanction } from '../../@types/sanction';
+import { ISanction, ISanctionResult } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 
 dayjs.extend(isoWeek);
 function Sanction() {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
-  const [, setErrorMessage] = useState('');
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') || '{}'));
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
   const fetchData = async () => {
     try {
       const response = await axiosInstance.get('/sanction');
       setSanctions(response.data);
     } catch (error) {
-      setErrorMessage('Erreur lors du chargement des sanctions.');
+      sessionStorage.setItem('notifToast', 'Erreur lors du chargement des sanctions.');
     }
   };
 
   const handleSubmitDelete = (id: number) => {
     axiosInstance.delete(`/sanction/${id}`).then((res) => {
       if (res.data.error) {
-        setErrorMessage(res.data.error);
+        sessionStorage.setItem('notifToast', res.data.error);
       } else {
-        setErrorMessage('Sanction supprimée');
+        sessionStorage.setItem('notifToast', 'Sanction supprimée');
+
         setSanctions(sanctions.filter((sanction: ISanction) => sanction.id !== id));
       }
     });
   };
 
-  const handleAddSanction = (sanction: ISanction) => {
-    console.log(sanction);
-
-    setSanctions((oldSanctions) => [...oldSanctions, sanction]);
+  const handleAddSanction = (sanction: ISanctionResult) => {
+    setSanctions((oldSanctions) => [...oldSanctions, sanction.sanction]);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-  const thisWeek = dayjs().isoWeek();
   return (
     <article className="vw-100 table-responsive">
       <div className="d-flex justify-content-between">
@@ -73,7 +70,7 @@ function Sanction() {
               <td>
                 {
 
-                  (user.role.id !== 1 && (thisWeek + 1 === sanction.date.week)) ? '************' : sanction.label
+                  (user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : sanction.label
                 }
 
               </td>

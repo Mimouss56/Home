@@ -13,3 +13,8 @@ export interface ISanction {
   }
 
 }
+export interface ISanctionResult {
+  code : number;
+  message : string;
+  sanction : ISanction;
+}

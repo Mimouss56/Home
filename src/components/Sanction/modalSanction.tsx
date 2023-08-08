@@ -3,7 +3,7 @@ import {
 } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import axiosInstance from '../../utils/axios';
-import { ISanction } from '../../@types/sanction';
+import { ISanctionResult } from '../../@types/sanction';
 
 const { TextArea } = Input;
 
@@ -11,10 +11,12 @@ interface FormValues {
   reason: string;
 }
 interface ModalAddSanctionProps {
-  onAddSanction: (sanction: ISanction) => void;
+  onAddSanction: (sanction: ISanctionResult) => void;
 }
 function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (e: any) => (values: FormValues) => {
+    e.preventDefault();
+    e.target.reset();
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const newUser = {
       label: values.reason,
@@ -23,8 +25,6 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
 
     axiosInstance.post('/sanction', newUser).then((res) => {
       sessionStorage.setItem('notifToast', 'Sanction ajoutée');
-
-      // Assume that the server returns the newly created sanction object
       const newSanction = res.data;
       onAddSanction(newSanction);
     }).catch((err) => {
@@ -33,7 +33,9 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
   };
 
   return (
-    <Form onFinish={handleSubmit}>
+    <Form
+      onFinish={handleSubmit}
+    >
       <div className="modal fade" id="ModalAddSanction" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -45,6 +47,7 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
               <Form.Item
                 name="reason"
                 rules={[{ required: true, message: 'Merci de saisir la raison!' }]}
+                initialValue=""
               >
                 <TextArea placeholder="Raison" />
               </Form.Item>

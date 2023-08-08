@@ -19,6 +19,7 @@ module.exports = {
     return res.json({
       code: 201,
       message: 'Sanction créée',
+      sanction: await sanctionService.getData(result.id),
     });
   },
   // async put(req, res) {
