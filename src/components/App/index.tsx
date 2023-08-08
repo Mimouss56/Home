@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 
 import { User as UserInfo } from '../../@types/user';
 // Data Import
@@ -8,6 +9,7 @@ import formation from '../../../data/formation.json';
 import navItemsAdmin from '../../../data/navItemsAdmin.json';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navTop from '../../../data/navTop.json';
+import 'react-toastify/dist/ReactToastify.css';
 import './style.scss';
 // Classic Import
 import Under from '../UnderContruct';
@@ -25,35 +27,33 @@ import Setting from '../User/Setting';
 import Dashboard from '../Admin';
 import Logout from '../Logout';
 import Menu from '../User/AsideMenu';
-import Toast from '../notifToast';
 import Sanction from '../Sanction';
 
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
-  const [notifToast, setnotifToast] = useState(sessionStorage.getItem('notifToast'));
-  useEffect(
-    () => {
-      if (notifToast) {
-        setTimeout(() => {
-          sessionStorage.removeItem('notifToast');
-          setnotifToast('');
-        }, 2000);
-      }
-    },
-    [notifToast],
-  );
+
+  useEffect(() => {
+    if (sessionStorage.getItem('notifToast') != null) {
+      toast.success(
+        `🦄 ${sessionStorage.getItem('notifToast')} !`,
+        {
+          position: 'top-left',
+          autoClose: 5000,
+          theme: 'dark',
+        },
+      );
+    }
+    sessionStorage.removeItem('notifToast');
+  }, []);
+
   return (
     <>
       {userSession && (<Menu navContent={[navItemsUser, navItemsAdmin]} />)}
 
       <main className="d-flex flex-row">
         <Navbar navContent={navTop} />
-        {notifToast && (
-          <Toast
-            text={notifToast}
-            color="success"
-          />
-        )}
+        <ToastContainer />
+
         <Login />
         <Register />
 
