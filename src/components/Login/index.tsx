@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginPost } from '../../@types/login';
-import { baseUrl } from '../../../config.json';
+import { urlAPI } from '../../../config.json';
 
 function Login() {
   const [form] = Form.useForm();
@@ -16,7 +16,7 @@ function Login() {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (values: LoginPost) => {
-    axios.post(`${baseUrl}/login`, values).then((res) => {
+    axios.post(`${urlAPI}/login`, values).then((res) => {
       const infoUser = {
         id: res.data.id,
         username: res.data.username,

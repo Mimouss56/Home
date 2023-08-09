@@ -24,7 +24,7 @@ const isModoPost = (schema, provider) => [
 ];
 const isAdminPost = (schema, provider) => [
   ...isLogged(schema, provider),
-  checkRole(3),
+  checkRole(1),
 ];
 // const isModo = () => [
 //   loggedAs,

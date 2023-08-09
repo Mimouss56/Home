@@ -11,7 +11,7 @@ import {
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import { RegisterPost } from '../../@types/register';
-import { baseUrl } from '../../../config.json';
+import { urlAPI } from '../../../config.json';
 
 function Register() {
   const [form] = Form.useForm();
@@ -27,7 +27,7 @@ function Register() {
       confirmPassword: values.confirmPassword,
       email: values.email,
     };
-    axios.post(`${baseUrl}/register`, data).then((res) => {
+    axios.post(`${urlAPI}/register`, data).then((res) => {
       if (res.data.error) {
         setError(true);
         setErrorMessage(res.data.error);

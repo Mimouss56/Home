@@ -29,7 +29,7 @@ const loggedAs = async (req, res, next) => {
 const checkRole = (minimumRole) => async (req, res, next) => {
   const { user } = req;
   const userInfo = await userService.getData(user.id);
-  if (userInfo.role.id < minimumRole) {
+  if (userInfo.role.id != minimumRole) {
     return res.status(401).json({
       message: 'Pas les droits nécessaires',
     });
@@ -42,7 +42,7 @@ const isHimself = () => [
     const { user } = req;
     const userInfo = await userService.getData(user.id);
 
-    if (userInfo.role.id === 3) return next(); // admin
+    if (userInfo.role.id === 1) return next(); // admin
 
     if (userInfo.id !== Number(req.params.id)) {
       return res.status(401).json({

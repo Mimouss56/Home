@@ -16,10 +16,6 @@ const options = {
         basePath: {
           default: 'api',
         },
-        schemes: {
-          enum: ['HTTP'],
-          default: 'http',
-        }
       },
     },
     {
@@ -37,7 +33,7 @@ const options = {
     },
   ],
   security: {
-    bearerAuth: {
+    BearerAuth: {
       type: "http",
       scheme: "bearer",
       bearerFormat: "JWT"
