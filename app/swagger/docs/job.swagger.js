@@ -10,6 +10,17 @@
  * @property {array<Skill>} competences - Liste des compétences acquises
 */
 
+/**
+ * Post Job
+ * @typedef {object} JobPost
+ * @property {string} ent - Nom de l'entreprise
+ * @property {string} title - Titre de l'emploi
+ * @property {string} description - Description de l'emploi
+ * @property {string} debut - Date de début dans l'entreprise
+ * @property {string} fin - Date de fin dans l'entreprise
+ * @property {string} ville - Ville de l'entreprise
+ * @property {integer} departement - Département de l'entreprise
+ */
 // Routes for Job
 /**
  * GET /job
@@ -29,3 +40,12 @@
  * @return 500 - Erreur serveur
 */
 
+/**
+ * POST /job/@me
+ * @summary Ajoute un emploi à l'utilisateur
+ * @tags Job
+ * @security BearerAuth
+ * @param {JobPost} request.body.required - L'emploi à ajouter
+ * @return {Job} 200 - L'emploi ajouté
+ * @return 500 - Erreur serveur
+ */

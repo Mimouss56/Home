@@ -95,6 +95,8 @@ module.exports = {
   async create(inputQuery) {
     try {
       const valueCreated = await job.create(inputQuery);
+      // await job.createCompetence(valueCreated.id, inputQuery.competences);
+      await job.addJobUser(valueCreated.id, inputQuery.id_user);
       return valueCreated;
     } catch (error) {
       return {
@@ -126,4 +128,16 @@ module.exports = {
       };
     }
   },
+
+  async deleteJobUser(idUser, idJob) {
+    try {
+      const valueDeleted = await job.deleteJobUser(idUser, idJob);
+      return valueDeleted;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not deleted`,
+      };
+    }
+  }
 };

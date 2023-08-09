@@ -8,6 +8,6 @@ router.route('/')
   .post(isAdminPost(sanction), sanctionController.post);
 
 router.route('/:id')
-  .delete(isAdminPost(objectID, 'params'), sanctionController.delete)
+  .delete(isAdminPost(objectID, 'params'), sanctionController.delete);
 
 module.exports = router;

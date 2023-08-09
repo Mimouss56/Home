@@ -35,7 +35,8 @@ module.exports = {
       date_started: debut,
       date_ended: fin,
       town: ville,
-      postal_code: departement
+      postal_code: departement,
+      id_user: req.user.id,
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -46,9 +47,26 @@ module.exports = {
   },
   async put(req, res) {
     const { id } = req.params;
-    const { label, color } = req.body;
+    const {
+      ent,
+      title,
+      description,
+      debut,
+      fin,
+      ville,
+      departement
+    } = req.body;
 
-    const inputQuery = { label, color };
+    const inputQuery = {
+      ent,
+      title,
+      description,
+      date_started: debut,
+      date_ended: fin,
+      town: ville,
+      postal_code: departement,
+      id_user: req.user.id,
+    };
     const result = await jobService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
@@ -65,5 +83,16 @@ module.exports = {
       message: 'Role deleted',
     });
   },
+
+  async deleteJobUser(req, res) {
+    const { id } = req.params;
+    const { id: idUser } = req.user;
+    const result = await jobService.deleteJobUser(id, idUser);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      code: 200,
+      message: 'Role deleted',
+    });
+  }
 
 };
