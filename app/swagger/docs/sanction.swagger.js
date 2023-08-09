@@ -22,9 +22,9 @@
  * @tags Sanction
  * @security BearerAuth
  * @return {array<Sanction>} 200
- * @return {Error} 404
- * @return {Error} 500
- * @return {Error} 401
+ * @return 404
+ * @return 500
+ * @return 401
 */
 
 /**
@@ -33,9 +33,9 @@
  * @tags Sanction
  * @security BearerAuth
  * @param {SanctionPost} request.body.required - La sanction à ajouter
- * @return {Sanction} 200 - La sanction ajoutée
- * @return {Error} 400 - La sanction n'a pas pu être ajoutée
- * @return {Error} 500 - Erreur serveur
+ * @return 200 - La sanction ajoutée
+ * @return 400 - La sanction n'a pas pu être ajoutée
+ * @return 500 - Erreur serveur
 */
 
 /**
@@ -44,8 +44,8 @@
  * @tags Sanction
  * @security BearerAuth
  * @param {integer} id.path.required - ID de la sanction à supprimer
- * @return {Sanction} 200 - La sanction supprimée
- * @return {Error} 404 - La sanction n'a pas été trouvée
- * @return {Error} 500 - Erreur serveur
- * @return {Error} 401 - Non autorisé
+ * @return 200 - Sanction deleted
+ * @return 404 - La sanction n'a pas été trouvée
+ * @return 500 - Erreur serveur
+ * @return 401 - Non autorisé
 */ 

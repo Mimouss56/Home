@@ -18,26 +18,11 @@ const isLogged = (schema, provider) => ([
   validate(schema, provider),
 ]);
 
-const isModoPost = (schema, provider) => [
-  ...isLogged(schema, provider),
-  checkRole(2),
-];
 const isAdminPost = (schema, provider) => [
-  ...isLogged(schema, provider),
+  loggedAs,
   checkRole(1),
+  validate(schema, provider),
 ];
-// const isModo = () => [
-//   loggedAs,
-//   checkRole(2),
-// ];
-// const isAdmin = () => [
-//   loggedAs,
-//   (req, res, next) => {
-//     console.log('isAdmin');
-//     next();
-//   },
-//   checkRole(3),
-// ];
 
 const isOwner = (schema, provider) => [
   ...isLogged(schema, provider),
@@ -60,9 +45,6 @@ const isOwner = (schema, provider) => [
 module.exports = {
   validate,
   isLogged,
-  isModoPost,
-  //   isAdmin,
-  //   isModo,
   isAdminPost,
   isOwner,
 };

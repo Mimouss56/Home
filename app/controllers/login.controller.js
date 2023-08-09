@@ -24,6 +24,6 @@ module.exports = {
     };
     const data = await registerService.register(inputData);
     if (data.code) return res.status(data.code).json(data.message);
-    return res.json(data);
+    return res.json({message: 'Utilisateur créé'});
   },
 }

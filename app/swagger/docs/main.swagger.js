@@ -26,10 +26,3 @@
  * @property {integer} id - ID de la compétence
  * @property {string} nom - Nom de la compétence
  */
-
-/**
- * Error
- * @typedef {object} Error
- * @property {integer} code - Code d'erreur
- * @property {string} message - Message d'erreur
- */

@@ -4,9 +4,9 @@
  * @tags Auth
  * @param {Login} request.body.required - Login object
  * @return {Logged} 200 - token
- * @return {Error} 400 - Invalid username/password supplied
- * @return {Error} 401 - Unauthorized
- * @return {Error} 500 - Unexpected error
+ * @return 400 - Invalid username/password supplied
+ * @return 401 - Unauthorized
+ * @return 500 - Unexpected error
  */
 
 /**
@@ -14,11 +14,11 @@
  * @summary Register to the application
  * @tags Auth
  * @param {Register} request.body.required - Register object
- * @return {string} 200 - token
- * @return {Error} 400 - Invalid username/password supplied
- * @return {Error} 500 - Unexpected error
- * @return {Error} 409 - User already exists
- * @return {Error} 401 - Unauthorized
+ * @return 200 - Utilisateur créé
+ * @return 400 - Invalid username/password supplied
+ * @return 500 - Unexpected error
+ * @return 409 - User already exists
+ * @return 401 - Unauthorized
 */
 
 /**

@@ -17,8 +17,7 @@
  * @tags Job
  * @link /job
  * @return {array<Job>} 200
- * @return {Error} 404
- * @return {Error} 500
+ * @return 500 - Erreur serveur
 */
 
 /**
@@ -27,8 +26,6 @@
  * @tags Job
  * @security BearerAuth
  * @return {array<Job>} 200
- * @return {Error} 404
- * @return {Error} 500
- * @return {Error} 401
+ * @return 500 - Erreur serveur
 */
 
