@@ -1,41 +1,37 @@
-import {
-  Form, Input, Button, Switch,
-} from 'antd';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
+import { FormEvent, useState } from 'react';
 import axiosInstance from '../../utils/axios';
 import { ISanctionResult } from '../../@types/sanction';
 
-const { TextArea } = Input;
-
-interface FormValues {
-  reason: string;
-}
 interface ModalAddSanctionProps {
   onAddSanction: (sanction: ISanctionResult) => void;
 }
+
 function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
-  const handleSubmit = (e: any) => (values: FormValues) => {
+  const [content, setContent] = useState('');
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    e.target.reset();
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
     const newUser = {
-      label: values.reason,
+      label: content,
       author_id: user.id,
     };
+    setContent('');
 
     axiosInstance.post('/sanction', newUser).then((res) => {
-      sessionStorage.setItem('notifToast', 'Sanction ajoutée');
-      const newSanction = res.data;
-      onAddSanction(newSanction);
+      toast.success(
+        res.data.message,
+
+      );
+      onAddSanction(res.data);
     }).catch((err) => {
-      sessionStorage.setItem('notifToast', err.message);
+      toast.warning(err.message);
     });
   };
 
   return (
-    <Form
-      onFinish={handleSubmit}
-    >
+    <form onSubmit={(e) => handleSubmit(e)}>
       <div className="modal fade" id="ModalAddSanction" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -44,44 +40,34 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
             <div className="modal-body">
-              <Form.Item
-                name="reason"
-                rules={[{ required: true, message: 'Merci de saisir la raison!' }]}
-                initialValue=""
-              >
-                <TextArea placeholder="Raison" />
-              </Form.Item>
-              <Form.Item>
-                <Switch
-                  checkedChildren={<CheckOutlined />}
-                  unCheckedChildren={<CloseOutlined />}
-                  disabled
-                />
-                <span className="ms-2">Important</span>
-              </Form.Item>
+              <textarea name="reason" className="form-control" required value={content} onChange={(e) => setContent(e.currentTarget.value)} />
             </div>
             <div className="modal-footer d-flex justify-content-around">
-              <Button
-                type="primary"
-                htmlType="button"
+              <button
+                type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Fermer
-              </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
+              </button>
+              <button
+                type="submit"
                 className="btn btn-success"
                 data-bs-dismiss="modal"
               >
                 Ajouter
-              </Button>
+              </button>
+
             </div>
           </div>
         </div>
       </div>
-    </Form>
+
+    </form>
+    // <Form
+    //   onFinish={handleSubmit}
+    // >
+    // </Form>
   );
 }
 

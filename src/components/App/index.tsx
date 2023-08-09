@@ -34,14 +34,7 @@ function App() {
 
   useEffect(() => {
     if (sessionStorage.getItem('notifToast') != null) {
-      toast.success(
-        `🦄 ${sessionStorage.getItem('notifToast')} !`,
-        {
-          position: 'top-left',
-          autoClose: 5000,
-          theme: 'dark',
-        },
-      );
+      toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
     }
     sessionStorage.removeItem('notifToast');
   }, []);
@@ -52,7 +45,11 @@ function App() {
 
       <main className="d-flex flex-row">
         <Navbar navContent={navTop} />
-        <ToastContainer />
+        <ToastContainer
+          position="top-left"
+          autoClose={5000}
+          theme="dark"
+        />
 
         <Login />
         <Register />
