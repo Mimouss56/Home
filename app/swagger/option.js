@@ -1,35 +1,25 @@
+
+console.log(process.env.NODE_ENV);
 const options = {
   info: {
     version: "1.0.0",
     title: "Mimouss Home API",
     description: "Détails de l'API de Mimouss",
   },
+
   servers: [
     {
-      url: 'http://localhost:{port}/{basePath}',
-      description: 'Local server',
-      variables: {
-        port: {
-          enum: [process.env.PORT, 3000],
-          default: process.env.PORT
-        },
-        basePath: {
-          default: 'api',
-        },
-      },
-    },
-    {
-      url: 'https://www.mimouss.fr/{basePath}',
+      url: 'https://www.mimouss.fr/api',
       description: 'Production server',
-      variables: {
-        basePath: {
-          default: 'api',
-        },
-        schemes: {
-          enum: ['HTTPS'],
-          default: 'HTTPS',
-        }
-      },
+      // variables: {
+      //   port: {
+      //     enum: [process.env.PORT, 3000],
+      //     default: process.env.PORT
+      //   },
+      //   basePath: {
+      //     default: 'api',
+      //   },
+      // },
     },
   ],
   security: {
@@ -52,4 +42,12 @@ const options = {
   notRequiredAsNullable: false,
 };
 
+if (process.env.NODE_ENV === 'dev') {
+  const devoption =
+  {
+    url: `http://localhost:${process.env.PORT}/api`,
+    description: 'Local server',
+  };
+  options.servers.push(devoption);
+}
 module.exports = options;
