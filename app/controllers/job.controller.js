@@ -5,6 +5,12 @@ module.exports = {
     const data = await jobService.getAll();
     res.json(data);
   },
+  async getAllByUser(req, res) {
+    const { id } = req.user;
+    const data = await jobService.getAllByUser(id);
+    return res.json(data);
+  },
+
   async get(req, res) {
     const { id } = req.params;
     const dataRole = await jobService.getData(id);

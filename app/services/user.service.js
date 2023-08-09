@@ -12,7 +12,7 @@ module.exports = {
         message: 'User not found',
       };
     }
-    const role = await roleService.getData(userByID.role_id);
+    const role = await roleService.getData(userByID.id_role);
 
     const userDetails = {
       ...userByID,
@@ -20,7 +20,7 @@ module.exports = {
     };
     // delete userDetails.github_id;
     delete userDetails.password;
-    delete userDetails.role_id;
+    delete userDetails.id_role;
     return userDetails;
   },
 

@@ -1,4 +1,6 @@
 const express = require('express');
+const expressJSDocSwagger = require('express-jsdoc-swagger');
+const options = require('./swagger/option');
 require('dotenv').config();
 
 const app = express();
@@ -30,6 +32,10 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+// Swagger
+expressJSDocSwagger(app)(options);
+
 // Decodage des request.body
 app.use(express.json());
 

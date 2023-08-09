@@ -23,7 +23,10 @@ function Login() {
         email: res.data.email,
         role: res.data.role,
       };
-      sessionStorage.setItem('sessionToken', res.data.sessionToken);
+      const token = res.data.sessionToken;
+      console.log(token);
+
+      sessionStorage.setItem('sessionToken', token);
       sessionStorage.setItem('user', JSON.stringify(infoUser));
       sessionStorage.setItem('notifToast', res.data.message);
       setSuccess(true);

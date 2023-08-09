@@ -30,9 +30,44 @@ module.exports = {
     return returnValue;
   },
 
+  async getAllByUser(id) {
+    const find = await job.findAllByUserId(id);
+    if (!find) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    const returnValue = find.map((value) => {
+      const one = {
+        id: value.id,
+        title: value.title,
+        date: {
+          debut: value.date_started,
+          fin: value.date_ended,
+        },
+        lieu: {
+          ville: value.town,
+          departement: Number(value.postal_code),
+        },
+        ent: value.ent,
+        description: value.description
+      };
+      return one;
+    });
+    return returnValue;
+  },
+
   async getData(id) {
     try {
       const findByID = await job.findByPk(id);
+      if (!findByID) {
+        return {
+          code: 404,
+          message: `${textValue} not found`,
+        };
+      }
+      const competences = await job.findAllCompetence(findByID.id);
       const returnValue = {
         id: findByID.id,
         title: findByID.title,
@@ -45,7 +80,8 @@ module.exports = {
           departement: findByID.postal_code,
         },
         ent: findByID.ent,
-        description: findByID.description
+        description: findByID.description,
+        competences
       };
 
       return returnValue;

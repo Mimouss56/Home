@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import HeaderCv from './Header/header';
 import Xp from './Main/xp';
@@ -11,10 +12,16 @@ import Hobbies from './Info/hobbies';
 
 import emplois from '../../../data/emploi.json';
 import etudes from '../../../data/formation.json';
+import axiosInstance from '../../utils/axios';
 
 function Cv() {
   const [searchParams] = useSearchParams();
   const filterJob = searchParams.get('fj') || '';
+  const [jobs, setJobs] = useState([]);
+  const user = sessionStorage.getItem('user');
+
+  axiosInstance.get('/job').then((res) => {
+  });
 
   return (
     <>

@@ -7,10 +7,11 @@ const axiosInstance = axios.create({
 });
 // J'utilise un interceptor pour ajouter le token dans le header de chaque requête
 axiosInstance.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem('sessionToken')?.toString();
   const userData = getUserDataFromLocalStorage();
   // Do something before request is sent
   // eslint-disable-next-line no-param-reassign
-  config.headers.Authorization = userData ? `Bearer ${userData.token}` : null;
+  config.headers.Authorization = token ? `Bearer ${token}` : null;
   return config;
 }, (error) => {
   Promise.reject(error);

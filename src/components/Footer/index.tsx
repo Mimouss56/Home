@@ -7,7 +7,13 @@ function Footer() {
         </div>
 
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li className="ms-3">
+            <a className="text-white" href="/swagger-ui">
+              <img src="https://seeklogo.com/images/S/swagger-logo-A49F73BAF4-seeklogo.com.png" width="25" alt="Swagger" />
+            </a>
+          </li>
           <li className="ms-3"><a className="text-white" href="/about">About</a></li>
+
         </ul>
       </div>
     </footer>
