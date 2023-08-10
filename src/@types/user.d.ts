@@ -3,6 +3,8 @@ export interface User {
   email: string
   username: string
   role: Role
+  job: Job[]
+  school: Job
 }
 
 export interface Role {

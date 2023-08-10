@@ -23,13 +23,19 @@ module.exports = {
   async getData(id) {
     try {
       const roleByID = await role.findByPk(id);
-      const returnRoles = {
+      if(!roleByID) {
+        return {
+          code: 404,
+          message: 'Role not found',
+        };
+      }
+      const returnValues = {
         id: roleByID.id,
         label: roleByID.label,
         color: roleByID.color,
       };
 
-      return returnRoles;
+      return returnValues;
     } catch (error) {
       return {
         code: 404,

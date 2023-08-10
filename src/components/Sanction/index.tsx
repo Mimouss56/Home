@@ -14,8 +14,15 @@ function Sanction() {
     try {
       const response = await axiosInstance.get('/sanction');
       setSanctions(response.data);
-    } catch (error) {
-      sessionStorage.setItem('notifToast', 'Erreur lors du chargement des sanctions.');
+    } catch (error: any) {
+      console.log(error.response.status);
+
+      sessionStorage.setItem('notifToast', error.response.data.message);
+      if (error.response.status === 401) {
+        sessionStorage.clear();
+        // redirect to home
+        window.location.href = '/';
+      }
     }
   };
 

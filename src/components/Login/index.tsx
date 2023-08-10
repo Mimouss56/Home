@@ -17,18 +17,11 @@ function Login() {
 
   const handleSubmit = (values: LoginPost) => {
     axios.post(`${urlAPI}/login`, values).then((res) => {
-      const infoUser = {
-        id: res.data.id,
-        username: res.data.username,
-        email: res.data.email,
-        role: res.data.role,
-      };
-      const token = res.data.sessionToken;
-      console.log(token);
+      const { data, sessionToken, message } = res.data;
 
-      sessionStorage.setItem('sessionToken', token);
-      sessionStorage.setItem('user', JSON.stringify(infoUser));
-      sessionStorage.setItem('notifToast', res.data.message);
+      sessionStorage.setItem('sessionToken', sessionToken);
+      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('notifToast', message);
       setSuccess(true);
       setLoading(false);
       window.location.reload();

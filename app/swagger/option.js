@@ -1,5 +1,4 @@
 
-console.log(process.env.NODE_ENV);
 const options = {
   info: {
     version: "1.0.0",

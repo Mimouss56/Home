@@ -2,28 +2,28 @@ const CoreDatamapper = require('./core.mapper');
 
 module.exports = class Techno extends CoreDatamapper {
   tableName = 'job';
-  userJobRelated = 'user_job';
-  jobSkillRelated = 'job_skill';
+  userRelated = 'user_job';
+  skillRelated = 'job_skill';
 
 
   async findAllByUserId(id) {
     const preparedQuery = {
       text: `
         SELECT * FROM "${this.tableName}" 
-        INNER JOIN "${this.userJobRelated}" ON "${this.tableName}".id = "${this.userJobRelated}".id_job 
-        WHERE "${this.userJobRelated}".id_user = $1`,
+        INNER JOIN "${this.userRelated}" ON "${this.tableName}".id = "${this.userRelated}".id_job 
+        WHERE "${this.userRelated}".id_user = $1`,
       values: [id],
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
   }
 
-  async findAllCompetence(id) {
+  async findAllJobSkill(id) {
     const preparedQuery = {
       text: `
         SELECT * FROM "${this.tableName}" 
-        INNER JOIN "${this.jobSkillRelated}" ON "${this.tableName}".id = "${this.jobSkillRelated}".id_job
-        WHERE "${this.jobSkillRelated}".id_skill = $1`,
+        INNER JOIN "${this.skillRelated}" ON "${this.tableName}".id = "${this.skillRelated}".id_job
+        WHERE "${this.skillRelated}".id_skill = $1`,
       values: [id],
     };
     const result = await this.client.query(preparedQuery);

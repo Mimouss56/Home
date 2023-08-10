@@ -11,7 +11,7 @@
 */
 
 /**
- * Post Job
+ * PostJob
  * @typedef {object} JobPost
  * @property {string} ent - Nom de l'entreprise
  * @property {string} title - Titre de l'emploi

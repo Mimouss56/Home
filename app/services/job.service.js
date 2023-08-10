@@ -38,7 +38,8 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = find.map((value) => {
+    const returnValue = find.map(async (value) => {
+      const jobSkill = await job.findAllJobSkill(value.id);
       const one = {
         id: value.id,
         title: value.title,
@@ -51,11 +52,13 @@ module.exports = {
           departement: Number(value.postal_code),
         },
         ent: value.ent,
-        description: value.description
+        description: value.description,
+        competences: jobSkill
       };
       return one;
     });
-    return returnValue;
+    const data = await Promise.all(returnValue);
+    return data;
   },
 
   async getData(id) {
@@ -67,7 +70,7 @@ module.exports = {
           message: `${textValue} not found`,
         };
       }
-      const competences = await job.findAllCompetence(findByID.id);
+      const competences = await job.findAllJobSkill(findByID.id);
       const returnValue = {
         id: findByID.id,
         title: findByID.title,

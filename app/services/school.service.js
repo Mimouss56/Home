@@ -30,6 +30,37 @@ module.exports = {
     return returnValue;
   },
 
+  async getAllByUser(id) {
+    const find = await school.findAllByUserId(id);
+    if (!find) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    const returnValue = find.map(async (value) => {
+      const schoolSkill = await school.findAllSchoolSkill(value.id);
+      const one = {
+        id: value.id,
+        title: value.title,
+        date: {
+          debut: value.date_started,
+          fin: value.date_ended,
+        },
+        lieu: {
+          ville: value.town,
+          departement: Number(value.postal_code),
+        },
+        ent: value.ent,
+        description: value.description,
+        competences: schoolSkill
+      };
+      return one;
+    });
+    const data = await Promise.all(returnValue);
+    return data;
+  },
+
   async getData(id) {
     try {
       const findByID = await school.findByPk(id);

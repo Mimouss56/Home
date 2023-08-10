@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const roleService = require('./role.service');
+const jobService = require('./job.service');
+const schoolService = require('./school.service');
 
 module.exports = {
 
@@ -12,11 +14,11 @@ module.exports = {
         message: 'User not found',
       };
     }
-    const role = await roleService.getData(userByID.id_role);
-
     const userDetails = {
       ...userByID,
-      role,
+      role: await roleService.getData(userByID.id_role),
+      job: await jobService.getAllByUser(userByID.id),
+      school: await schoolService.getAllByUser(userByID.id),
     };
     // delete userDetails.github_id;
     delete userDetails.password;
@@ -80,7 +82,7 @@ module.exports = {
     }
   },
 
-  async checkUserExist(email, username ) {
+  async checkUserExist(email, username) {
     const userExist = {
       emailExist: await user.findOne({ where: { email } }),
       usernameExist: await user.findOne({ where: { username } }),
