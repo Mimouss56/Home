@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const sanction = Joi.object({
-  id: Joi.number().integer().required(),
   label: Joi.string().required(),
   author_id: Joi.number().integer().required(),
 });
