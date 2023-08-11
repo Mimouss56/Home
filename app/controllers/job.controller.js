@@ -13,8 +13,8 @@ module.exports = {
 
   async get(req, res) {
     const { id } = req.params;
-    const dataRole = await jobService.getData(id);
-    return res.json(dataRole);
+    const data = await jobService.getData(id);
+    return res.json(data);
   },
 
   async post(req, res) {
@@ -35,7 +35,7 @@ module.exports = {
       date_started: debut,
       date_ended: fin,
       town: ville,
-      postal_code: departement,
+      postal_code: Number(departement),
       id_user: req.user.id,
     };
     const result = await jobService.create(inputQuery);
@@ -43,6 +43,7 @@ module.exports = {
     return res.json({
       code: 201,
       message: 'Nouvel Emploi créé',
+      ...result,
     });
   },
   async put(req, res) {
@@ -61,17 +62,17 @@ module.exports = {
       ent,
       title,
       description,
-      date_started: debut,
-      date_ended: fin,
-      town: ville,
-      postal_code: departement,
+      debut,
+      fin,
+      ville,
+      departement,
       id_user: req.user.id,
     };
     const result = await jobService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 200,
-      message: 'Role updated',
+      message: 'Emploi updated',
     });
   },
   async delete(req, res) {
@@ -80,7 +81,7 @@ module.exports = {
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 200,
-      message: 'Role deleted',
+      message: 'Emploi deleted',
     });
   },
 
@@ -91,7 +92,7 @@ module.exports = {
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 200,
-      message: 'Role deleted',
+      message: 'Emploi deleted',
     });
   }
 

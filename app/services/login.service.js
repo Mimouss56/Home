@@ -54,7 +54,6 @@ module.exports = {
       // email: userExist.email,
       // role: await roleService.getData(userExist.id_role),
     };
-    console.log(userLogged);
     return userLogged;
   },
 

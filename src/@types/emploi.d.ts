@@ -1,4 +1,4 @@
-interface IEmploi {
+export interface IEmploi {
   ent: string
   title: string
   date: {
@@ -26,6 +26,6 @@ export interface Job {
     departement: number,
   },
   description: string,
-  competences : string[],
+  competences? : string[],
   url_img: string
 }

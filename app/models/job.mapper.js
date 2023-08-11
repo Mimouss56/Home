@@ -30,10 +30,10 @@ module.exports = class Techno extends CoreDatamapper {
     return result.rows;
   };
 
-  async addJobUser(idUser, idJob) {
+  async addJobUser(idJob, idUser) {
     const preparedQuery = {
       text: `
-        INSERT INTO "${this.userJobRelated}" (id_user, id_job) 
+        INSERT INTO "${this.userRelated}" (id_user, id_job) 
         VALUES ($1, $2)`,
       values: [idUser, idJob],
     };

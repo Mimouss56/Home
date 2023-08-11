@@ -97,14 +97,30 @@ module.exports = {
   },
   async create(inputQuery) {
     try {
-      const valueCreated = await job.create(inputQuery);
+      const userId = inputQuery.id_user;
+      delete inputQuery.id_user;
+      const value = await job.create(inputQuery);
       // await job.createCompetence(valueCreated.id, inputQuery.competences);
-      await job.addJobUser(valueCreated.id, inputQuery.id_user);
-      return valueCreated;
+      await job.addJobUser(value.id, userId);
+      return {
+        id: value.id,
+        title: value.title,
+        date: {
+          debut: value.date_started,
+          fin: value.date_ended,
+        },
+        lieu: {
+          ville: value.town,
+          departement: Number(value.postal_code),
+        },
+        ent: value.ent,
+        description: value.description,
+        competences: value.competences
+      };
     } catch (error) {
       return {
         code: 500,
-        message: `${textValue} not created`,
+        message: `${textValue} not created : ${error}}`,
       };
     }
   },

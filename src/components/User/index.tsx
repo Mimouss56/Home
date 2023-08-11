@@ -1,15 +1,43 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Routes, Route } from 'react-router-dom';
-import { Modal } from 'antd';
+import { useEffect, useState } from 'react';
 import Setting from './Setting';
 import Job from './Job';
-import { User as IUser } from '../../@types/user';
 import NotFound from '../notFound';
 import ModalAddItem from './ModalAdd';
+import { Job as IJob } from '../../@types/emploi';
+import axiosInstance from '../../utils/axios';
 
 function User() {
-  const userInfos = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
-  const { school, job } = userInfos;
+  const [job, setJob] = useState<IJob[]>([]);
+  const [school, setSchool] = useState<IJob[]>([]);
+  const fetchData = async () => {
+    try {
+      const response = await axiosInstance.get('/job/@me');
+
+      setJob(response.data);
+      const response2 = await axiosInstance.get('/school/@me');
+      setSchool(response2.data);
+    } catch (error: any) {
+      sessionStorage.setItem('notifToast', error.response.data.message);
+      if (error.response.status === 401) {
+        sessionStorage.clear();
+        // redirect to home
+        window.location.href = '/user';
+      }
+    }
+  };
+
+  const handleAddElement = (data: IJob, type: string) => {
+    if (type === 'job') {
+      setJob((oldjob) => [...oldjob, data]);
+    } else {
+      setSchool((oldSchool) => [...oldSchool, data]);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -18,7 +46,7 @@ function User() {
       <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItem">
         Ajout d'un item
       </button>
-      <ModalAddItem />
+      <ModalAddItem onAddElement={handleAddElement} />
 
       <Routes>
         <Route path="setting" element={<Setting />} />

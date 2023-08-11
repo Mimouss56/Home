@@ -6,8 +6,6 @@ interface JobProps {
 }
 
 function Job({ jobs }: JobProps) {
-  console.log(jobs);
-
   return (
     <div className="d-flex flex-wrap vw-80 m-auto container">
       {
@@ -19,7 +17,7 @@ function Job({ jobs }: JobProps) {
             desc={job.description}
             url_img={job.url_img}
             date={job.date}
-            competences={job.competences}
+            competences={job.competences || []}
           />
         ))
       }

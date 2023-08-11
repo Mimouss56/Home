@@ -15,8 +15,6 @@ const loggedAs = async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(new Date(decoded.exp * 1000));
-    console.log(new Date());
     // verifie si le token n'est pas expiré
     if (decoded.exp < Date.now().valueOf() / 1000) {
       return res.status(401).json({

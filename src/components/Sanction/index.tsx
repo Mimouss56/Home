@@ -6,6 +6,7 @@ import { ISanction, ISanctionResult } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 
 dayjs.extend(isoWeek);
+
 function Sanction() {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -15,8 +16,6 @@ function Sanction() {
       const response = await axiosInstance.get('/sanction');
       setSanctions(response.data);
     } catch (error: any) {
-      console.log(error.response.status);
-
       sessionStorage.setItem('notifToast', error.response.data.message);
       if (error.response.status === 401) {
         sessionStorage.clear();

@@ -22,7 +22,6 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
     axiosInstance.post('/sanction', newUser).then((res) => {
       toast.success(
         res.data.message,
-
       );
       onAddSanction(res.data);
     }).catch((err) => {
