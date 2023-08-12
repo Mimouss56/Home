@@ -20,6 +20,9 @@ const initUser: User = {
   school: [] as Job[],
   email: '',
   job: [] as Job[],
+  child: false,
+  sanction: [],
+
 };
 
 function Cv() {

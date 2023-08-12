@@ -30,7 +30,7 @@ function User() {
 
   const handleAddElement = (data: IJob, type: string) => {
     if (type === 'job') {
-      setJob((oldjob) => [...oldjob, data]);
+      setJob((oldJob) => [...oldJob, data]);
     } else {
       setSchool((oldSchool) => [...oldSchool, data]);
     }

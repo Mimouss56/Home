@@ -2,6 +2,8 @@ const Joi = require('joi');
 const sanction = Joi.object({
   label: Joi.string().required(),
   author_id: Joi.number().integer().required(),
+  id_child: Joi.number().integer().required(),
+  warn: Joi.boolean().required(),
 });
 
 const objectID = Joi.object({

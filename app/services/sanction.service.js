@@ -7,8 +7,14 @@ dayjs.extend(advancedFormat)
 dayjs.extend(isoWeek)
 
 module.exports = {
-  async getAll() {
-    const data = await sanction.findAll();
+  async getAll(id_child = false) {
+    let data;
+    if (id_child) {
+      data = await sanction.findAll({ where: { id_child } });
+    }else{
+      data = await sanction.findAll();
+    }
+    // const data = await sanction.findAll({where});
     if (!data) {
       return {
         code: 404,
@@ -20,12 +26,13 @@ module.exports = {
       return findByID;
     }));
     return findAll;
-  },
+  },   
 
   async getData(id) {
     try {
       const findByID = await sanction.findByPk(id);
       const author = await user.findByPk(findByID.author_id);
+      const child = await user.findByPk(findByID.id_child);
       const returnValue = {
         id: findByID.id,
         label: findByID.label,
@@ -40,6 +47,10 @@ module.exports = {
           week: dayjs(findByID.created_at).isoWeek(),
           complete : dayjs(findByID.created_at).format('DD/MM/YYYY'),
         },
+        child : {
+          id: child.id,
+          username: child.username,
+        }
       };
       delete returnValue.author_id;
       return returnValue;

@@ -28,6 +28,7 @@ const options = {
       bearerFormat: "JWT"
     }
   },
+  
   // Base directory which we use to locate your JSDOC files
   baseDir: __dirname,
   // URL where SwaggerUI will be rendered
@@ -35,10 +36,9 @@ const options = {
   // Expose OpenAPI UI
   exposeSwaggerUI: true,
   // Expose Open API JSON Docs documentation in `apiDocsPath` path.
-  exposeApiDocs: false,
+  exposeApiDocs: true,
   // Open API JSON Docs endpoint.
   apiDocsPath: '/swagger/docs',
-  notRequiredAsNullable: false,
 };
 
 if (process.env.NODE_ENV === 'dev') {

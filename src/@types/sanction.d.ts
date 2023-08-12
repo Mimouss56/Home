@@ -11,6 +11,11 @@ export interface ISanction {
     week: number;
     complete: string;
   }
+  child :
+  {
+    id: number;
+    username: string;
+  }
 
 }
 export interface ISanctionResult {

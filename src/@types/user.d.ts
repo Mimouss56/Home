@@ -5,6 +5,8 @@ export interface User {
   role: Role
   job: Job[]
   school: Job
+  sanction: Sanction[]
+  child: boolean
 }
 
 export interface Role {

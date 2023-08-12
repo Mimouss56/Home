@@ -2,18 +2,27 @@ const sanctionService = require('../services/sanction.service');
 
 module.exports = {
   async getAll(req, res) {
-    const data = await sanctionService.getAll();
-    return res.json(data);
+    const result = await sanctionService.getAll();
+    if (result.code) return res.status(result.code).json(result);
+    return res.json(result);
   },
   async get(req, res) {
     const { id } = req.params;
-    const dataRole = await sanctionService.getData(id);
+    const result = await sanctionService.getData(id);
+    if (result.code) return res.status(result.code).json(result);
     return res.json(dataRole);
   },
 
+  async getMe(req, res) {
+    const { id } = req.user;
+    const result = await sanctionService.getAll(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json(result);
+  },
+
   async post(req, res) {
-    const { label, author_id } = req.body;
-    const inputQuery = { label, author_id };
+    const { label, author_id, id_child, warn } = req.body;
+    const inputQuery = { label, author_id, id_child, warn };
     const result = await sanctionService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
