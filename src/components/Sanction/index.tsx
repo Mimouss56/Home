@@ -3,21 +3,23 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import axiosInstance from '../../utils/axios';
 import { ISanction, ISanctionResult } from '../../@types/sanction';
-import { User as IUser } from '../../@types/user';
 import AddSanction from './modalSanction';
 
 dayjs.extend(isoWeek);
 
 function Sanction() {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
-  const [showEditModal, setShowEditModal] = useState(false);
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const url = user.role.id === 1 ? '/sanction' : '/sanction/@me';
-  const [childrenList, setChildrenList] = useState<IUser[]>([]);
 
   const fetchData = async (urlSanction: string) => {
     try {
       const response = await axiosInstance.get(urlSanction);
+      // sort data by date desc
+      response.data.sort(
+        (a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1),
+      );
+
       setSanctions(response.data);
     } catch (error: any) {
       sessionStorage.setItem('notifToast', error.response.data.message);
@@ -30,13 +32,17 @@ function Sanction() {
   };
 
   const handleAddSanction = (sanction: ISanctionResult) => {
+    // si la sanction existe on l'a met a jour sinon on l'ajoute
+    const index = sanctions.findIndex((s) => s.id === sanction.sanction.id);
+    if (index !== -1) {
+      sanctions[index] = sanction.sanction;
+      setSanctions([...sanctions]);
+      return;
+    }
+
     setSanctions((oldSanctions) => [...oldSanctions, sanction.sanction]);
   };
 
-  const handleShowModalEdit = (id: any) => {
-    // affichage de la modal d'ajout avec les données de la sanction a modifier
-    setShowEditModal(true);
-  };
   const handleSubmitDelete = (id: number) => {
     axiosInstance.delete(`/sanction/${id}`).then((res) => {
       if (res.data.error) {
@@ -44,19 +50,15 @@ function Sanction() {
       } else {
         sessionStorage.setItem('notifToast', 'Sanction supprimée');
 
-        setSanctions(sanctions.filter((sanction: ISanction) => sanction.id !== id));
+        setSanctions(
+          sanctions.filter((sanction: ISanction) => sanction.id !== id),
+        );
       }
     });
   };
 
   useEffect(() => {
     fetchData(url);
-    axiosInstance.get(('/user')).then((res) => {
-      const { data } = res;
-      const childrenListData = data.filter((child: IUser) => child.child === true);
-      // filtre la liste des des enfants
-      setChildrenList(childrenListData);
-    });
   }, [url]);
 
   return (
@@ -70,7 +72,7 @@ function Sanction() {
           </button>
         )}
       </div>
-      <AddSanction childs={childrenList} onAddSanction={handleAddSanction} id={0} />
+      <AddSanction onAddSanction={handleAddSanction} />
 
       <table className="table table-striped table-sm text-center">
         <thead>

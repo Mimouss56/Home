@@ -1,3 +1,4 @@
+const { warn } = require('console');
 const { sanction, user } = require('../models/index.mapper');
 const textValue = "sanction"
 const dayjs = require('dayjs');
@@ -11,7 +12,7 @@ module.exports = {
     let data;
     if (id_child) {
       data = await sanction.findAll({ where: { id_child } });
-    }else{
+    } else {
       data = await sanction.findAll();
     }
     // const data = await sanction.findAll({where});
@@ -26,7 +27,7 @@ module.exports = {
       return findByID;
     }));
     return findAll;
-  },   
+  },
 
   async getData(id) {
     try {
@@ -45,14 +46,14 @@ module.exports = {
         date: {
           year: findByID.created_at.getFullYear(),
           week: dayjs(findByID.created_at).isoWeek(),
-          complete : dayjs(findByID.created_at).format('DD/MM/YYYY'),
+          complete: dayjs(findByID.created_at).format('DD/MM/YYYY'),
         },
-        child : {
+        child: {
           id: child.id,
           username: child.username,
-        }
+        },
+        warn: findByID.warn
       };
-      delete returnValue.author_id;
       return returnValue;
     } catch (error) {
       return {
@@ -80,7 +81,7 @@ module.exports = {
     } catch (error) {
       return {
         code: 500,
-        message: `${textValue} not updated`,
+        message: `${textValue} not updated : ${error}}`,
       };
     }
   },

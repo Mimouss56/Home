@@ -14,7 +14,8 @@ ALTER TABLE "user" ADD COLUMN
 
 ALTER TABLE sanction 
 ADD COLUMN "id_child" INT REFERENCES "user"(id) ON DELETE CASCADE,
-ADD COLUMN "warn" boolean NOT NULL DEFAULT false;
+ADD COLUMN "warn" boolean NOT NULL DEFAULT false,
+ADD COLUMN "updated_at" TIMESTAMP NOT NULL DEFAULT NOW();
 
 UPDATE sanction 
   SET "id_child" = (SELECT id FROM "user" WHERE "username" ILIKE 'ewen' LIMIT 1);

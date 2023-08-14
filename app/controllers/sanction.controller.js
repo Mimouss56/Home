@@ -10,7 +10,7 @@ module.exports = {
     const { id } = req.params;
     const result = await sanctionService.getData(id);
     if (result.code) return res.status(result.code).json(result);
-    return res.json(dataRole);
+    return res.json(result);
   },
 
   async getMe(req, res) {
@@ -31,18 +31,19 @@ module.exports = {
       sanction: await sanctionService.getData(result.id),
     });
   },
-  // async put(req, res) {
-  //   const { id } = req.params;
-  //   const { label, color } = req.body;
+  async put(req, res) {
+    const { id } = req.params;
+    const { author_id, label, id_child, warn } = req.body;
 
-  //   const inputQuery = { label, color };
-  //   const result = await jobService.update(id, inputQuery);
-  //   if (result.code) return res.status(result.code).json(result);
-  //   return res.json({
-  //     code: 200,
-  //     message: 'Role updated',
-  //   });
-  // },
+    const inputQuery = { author_id, label, id_child, warn };
+    const result = await sanctionService.update(id, inputQuery);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      code: 200,
+      message: 'Sanction updated',
+      sanction: await sanctionService.getData(id),
+    });
+  },
   async delete(req, res) {
     const { id } = req.params;
     const result = await sanctionService.delete(id);
