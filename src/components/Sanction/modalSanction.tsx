@@ -1,4 +1,3 @@
-import { copyFileSync } from 'fs';
 import { toast } from 'react-toastify';
 import {
   FormEvent, useEffect, useState,
@@ -6,6 +5,8 @@ import {
 import axiosInstance from '../../utils/axios';
 import { ISanctionResult } from '../../@types/sanction';
 import { User as IUser } from '../../@types/user';
+import { ErrorSanctionProps } from '../../@types/error';
+import { BootstrapEvent } from '../../@types/event';
 
 interface ModalAddSanctionProps {
   onAddSanction: (sanction: ISanctionResult) => void;
@@ -17,16 +18,16 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
   const [child, setChild] = useState(0);
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
   const [sanctionID, setSanctionID] = useState(0);
-  const [warning, setWarning] = useState(false);
-  const [warningMessage, setWarningMessage] = useState('');
 
   useEffect(() => {
     const modal = document.getElementById('ModalAddSanction');
 
     const handleModalShow = (e: Event) => {
-      const target = e as any;
-      const modalSanctionID = Number(target.relatedTarget.getAttribute('data-bs-id'));
-      setSanctionID(modalSanctionID);
+      const bootstrapEvent = e as unknown as BootstrapEvent;
+      // Cast e.relatedTarget as HTMLElement
+      const relatedTarget = bootstrapEvent.relatedTarget as HTMLElement;
+      const modalSanctionID = relatedTarget.getAttribute('data-bs-id');
+      setSanctionID(Number(modalSanctionID));
     };
 
     modal?.addEventListener('show.bs.modal', handleModalShow);
@@ -44,7 +45,6 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
     const fetchData = async () => {
       const response = await axiosInstance.get(`/sanction/${sanctionID}`);
       const { data } = response;
-      console.log(data.warn);
 
       setContent(data.label);
       setChild(data.child.id);
@@ -89,8 +89,9 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
       setWarn(false);
       setSanctionID(0);
       onAddSanction(response.data);
-    } catch (err: any) {
-      toast.warning(err.message);
+    } catch (err) {
+      const error = err as ErrorSanctionProps;
+      toast.warning(error.response.data.message);
     }
   };
 

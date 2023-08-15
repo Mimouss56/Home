@@ -4,15 +4,8 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import axiosInstance from '../../utils/axios';
 import { ISanction, ISanctionResult } from '../../@types/sanction';
 import AddSanction from './modalSanction';
+import { ErrorSanctionProps } from '../../@types/error';
 
-interface ErrorSanctionProps {
-  response: {
-    data: {
-      message: string;
-    };
-    status: number;
-  };
-}
 dayjs.extend(isoWeek);
 
 function Sanction() {
