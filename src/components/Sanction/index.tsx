@@ -5,6 +5,8 @@ import axiosInstance from '../../utils/axios';
 import { ISanction, ISanctionResult } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 import { ErrorSanctionProps } from '../../@types/error';
+import excerpt from '../../utils/main';
+import ModalViewDetails from './modalViewDetails';
 
 dayjs.extend(isoWeek);
 
@@ -75,6 +77,7 @@ function Sanction() {
         )}
       </div>
       <AddSanction onAddSanction={handleAddSanction} />
+      <ModalViewDetails />
 
       <table className="table table-striped table-sm text-center">
         <thead>
@@ -100,8 +103,12 @@ function Sanction() {
                 (sanction.warn === true) ? 'table-danger' : ''
               }
             >
-              <td>
-                {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : sanction.label}
+              <td
+                data-bs-toggle="modal"
+                data-bs-target="#ModalViewSanction"
+                data-bs-id={sanction.id}
+              >
+                {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : excerpt(sanction.label)}
 
               </td>
               <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
