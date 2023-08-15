@@ -1,3 +1,4 @@
+import { copyFileSync } from 'fs';
 import { toast } from 'react-toastify';
 import {
   FormEvent, useEffect, useState,
@@ -16,6 +17,8 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
   const [child, setChild] = useState(0);
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
   const [sanctionID, setSanctionID] = useState(0);
+  const [warning, setWarning] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
 
   useEffect(() => {
     const modal = document.getElementById('ModalAddSanction');
@@ -30,6 +33,10 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
 
     return () => {
       modal?.removeEventListener('show.bs.modal', handleModalShow);
+      setChild(0);
+      setContent('');
+      setWarn(false);
+      setSanctionID(0);
     };
   }, []);
 
@@ -37,7 +44,7 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
     const fetchData = async () => {
       const response = await axiosInstance.get(`/sanction/${sanctionID}`);
       const { data } = response;
-      console.log(data);
+      console.log(data.warn);
 
       setContent(data.label);
       setChild(data.child.id);
@@ -136,7 +143,7 @@ function ModalAddSanction({ onAddSanction }: ModalAddSanctionProps) {
                   type="checkbox"
                   role="switch"
                   id="flexSwitchCheckDefault"
-                  defaultChecked={warn}
+                  checked={warn}
                   onChange={() => setWarn(!warn)}
                 />
                 <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Important</label>

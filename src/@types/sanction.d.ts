@@ -16,6 +16,7 @@ export interface ISanction {
     id: number;
     username: string;
   }
+  warn : boolean;
 
 }
 export interface ISanctionResult {

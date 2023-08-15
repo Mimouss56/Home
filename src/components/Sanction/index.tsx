@@ -5,6 +5,14 @@ import axiosInstance from '../../utils/axios';
 import { ISanction, ISanctionResult } from '../../@types/sanction';
 import AddSanction from './modalSanction';
 
+interface ErrorSanctionProps {
+  response: {
+    data: {
+      message: string;
+    };
+    status: number;
+  };
+}
 dayjs.extend(isoWeek);
 
 function Sanction() {
@@ -21,7 +29,8 @@ function Sanction() {
       );
 
       setSanctions(response.data);
-    } catch (error: any) {
+    } catch (unknownError) {
+      const error = unknownError as ErrorSanctionProps;
       sessionStorage.setItem('notifToast', error.response.data.message);
       if (error.response.status === 401) {
         sessionStorage.clear();
@@ -92,7 +101,12 @@ function Sanction() {
         <tbody>
           {sanctions.map((sanction) => (
 
-            <tr key={sanction.id}>
+            <tr
+              key={sanction.id}
+              className={
+                (sanction.warn === true) ? 'table-danger' : ''
+              }
+            >
               <td>
                 {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : sanction.label}
 
