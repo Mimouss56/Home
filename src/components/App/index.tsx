@@ -19,7 +19,6 @@ import Dashboard from '../Admin';
 import Under from '../UnderContruct';
 import Cv from '../Cv';
 import Footer from '../Footer';
-import Job from '../User/Job';
 import Setting from '../User/Setting';
 import ProtectedRoute from '../ProtectedRoute';
 
@@ -52,24 +51,48 @@ function App() {
           <Route path="/" element={<Under />} />
           <Route path="cv" element={<Cv />} />
           <Route path="about" element={<Cv />} />
-          <ProtectedRoute>
-            <Route path="logout" element={<Logout />} />
-          </ProtectedRoute>
-          <ProtectedRoute>
-            <Route path="user/*" element={<User />} />
-          </ProtectedRoute>
-          <ProtectedRoute>
-            <Route path="user/setting" element={<Setting />} />
-          </ProtectedRoute>
-          <ProtectedRoute>
-            <Route path="sanction" element={<Sanction />} />
-          </ProtectedRoute>
+          <Route
+            path="logout"
+            element={(
+              <ProtectedRoute>
+                <Logout />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="user/*"
+            element={(
+              <ProtectedRoute>
+                <User />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="user/setting"
+            element={(
+              <ProtectedRoute>
+                <Setting />
+              </ProtectedRoute>
+            )}
+          />
+          <Route
+            path="sanction"
+            element={(
+              <ProtectedRoute>
+                <Sanction />
+              </ProtectedRoute>
+            )}
+          />
 
           {userSession?.role.label === 'admin' && (
-            <ProtectedRoute>
-
-              <Route path="admin/dashboard" element={<Dashboard />} />
-            </ProtectedRoute>
+            <Route
+              path="admin/dashboard"
+              element={(
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              )}
+            />
           )}
           <Route path="*" element={<NotFound />} />
         </Routes>
