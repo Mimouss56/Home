@@ -6,11 +6,7 @@ export interface ISanction {
     username: string;
     email: string;
   }
-  date: {
-    year: number;
-    week: number;
-    complete: string;
-  }
+  date: ISanctionDate
   child :
   {
     id: number;
@@ -23,4 +19,17 @@ export interface ISanctionResult {
   code : number;
   message : string;
   sanction : ISanction;
+}
+
+export interface ISanctionAuthor {
+  id: number;
+  username: string;
+  email: string;
+
+}
+
+export interface ISanctionDate {
+  year: number;
+  week: number;
+  complete: string;
 }

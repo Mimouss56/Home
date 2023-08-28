@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../utils/axios';
 import { BootstrapEvent } from '../../@types/event';
-import { ISanction } from '../../@types/sanction';
+import { ISanction, ISanctionAuthor, ISanctionDate } from '../../@types/sanction';
 
 function ModalViewDetails() {
   const [sanction, setSanction] = useState({} as ISanction);
   const [sanctionID, setSanctionID] = useState(0);
+  const [sanctionDate, setSanctionDate] = useState({} as ISanctionDate);
+  const [sanctionAuthor, setSanctionAuthor] = useState({} as ISanctionAuthor);
   useEffect(() => {
     const modal = document.getElementById('ModalViewSanction');
 
@@ -23,13 +25,14 @@ function ModalViewDetails() {
     const fetchData = async () => {
       const response = await axiosInstance.get(`/sanction/${sanctionID}`);
       const { data } = response;
-      console.log(data);
+      setSanctionDate(data.date);
       setSanction(data);
+      setSanctionAuthor(data.author);
     };
     if (sanctionID) fetchData();
   }, [sanctionID]);
 
-  const bgColor = sanction.warn ? 'bg-warning' : 'bg-danger';
+  const bgColor = !sanction.warn ? 'bg-warning' : 'bg-danger';
 
   return (
     <div
@@ -48,11 +51,16 @@ function ModalViewDetails() {
             </h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
-          <div className={`modal-body ${bgColor} bg-gradient`}>
-            {sanction.warn && <span className="badge text-bg-danger rounded-pill">Important</span>}
+          <div
+            className={`modal-body ${bgColor} bg-gradient`}
+          >
+            {sanction.warn && <span className="badge text-bg-warning rounded-pill">Important</span>}
             <p>{sanction.label}</p>
+            <p className="text-end fst-italic m-0">
+              {`${sanctionAuthor.username} le ${sanctionDate.complete}`}
+            </p>
           </div>
-          <div className="modal-footer d-flex justify-content-around">
+          <div className="modal-footer d-flex justify-content-around ">
             <button
               type="button"
               className="btn btn-secondary"

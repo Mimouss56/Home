@@ -84,7 +84,6 @@ function Sanction() {
           <tr>
             <th scope="col">Description</th>
             <th scope="col">Semaine</th>
-            <th scope="col" className="d-none d-sm-table-cell">Date</th>
             <th scope="col">Auteur</th>
             {user.role.id === 1 && (
               <>
@@ -102,17 +101,16 @@ function Sanction() {
               className={
                 (sanction.warn === true) ? 'table-danger' : ''
               }
+              data-bs-toggle="modal"
+              data-bs-target="#ModalViewSanction"
+              data-bs-id={sanction.id}
+
             >
-              <td
-                data-bs-toggle="modal"
-                data-bs-target="#ModalViewSanction"
-                data-bs-id={sanction.id}
-              >
+              <td>
                 {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : excerpt(sanction.label)}
 
               </td>
               <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-              <td className="d-none d-sm-table-cell">{sanction.date.complete}</td>
               <td>{sanction.author.username}</td>
               {user.role.id === 1 && (
                 <>
