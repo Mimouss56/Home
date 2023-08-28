@@ -1,16 +1,4 @@
-interface IEmploi {
-  ent: string
-  title: string
-  date: {
-    debut: string,
-    fin: string
-  },
-  lieu: {
-    ville: string,
-    departement: string
-  },
-  description: string
-}
+import { IEmploi } from '../../../@types/emploi';
 
 function DetailsXp({
   ent,
@@ -19,17 +7,19 @@ function DetailsXp({
   lieu,
   description,
 }: IEmploi) {
+  const dateDebut = new Date(date.debut);
+  const dateFin = new Date(date.fin);
   return (
     <article id="xp_1" className="d-flex align-items-center">
       <p id="xp_date" className="col-2 px-2">
-        {`${date.debut} - ${date.fin}`}
+        {`${dateDebut.getMonth() + 1}/${dateDebut.getFullYear()} - ${dateFin.getMonth() + 1}/${dateFin.getFullYear()}`}
       </p>
       <div className="d-flex flex-column col-10 px-2">
         <div id="ent" className="d-flex justify-content-between">
           <span id="xp_title" className="fs-6 fw-bold text-start">
             {title}
           </span>
-          <span id="xp_ent" className="fst-italic text-left">{`${ent}, ${lieu.ville}(${lieu.departement})`}</span>
+          <span id="xp_ent" className="fst-italic text-left">{`${ent}, ${lieu.ville} (${lieu.departement})`}</span>
         </div>
         <div id="xp_skills">
           <ul className="list-group list-group-flush">

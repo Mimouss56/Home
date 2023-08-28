@@ -11,6 +11,9 @@ function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {
   // filtre par compétences = informatique
   const contentFiltred = (filter.length !== 0)
     ? content.filter((emploi: IEmploi) => emploi.competences.includes(filter)) : content;
+
+  console.log(contentFiltred);
+
   return (
     <section id="xp" className="p-3">
       <h2 id="title_info" className="py-1">{titre}</h2>
@@ -23,6 +26,7 @@ function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {
             lieu={emploi.lieu}
             description={emploi.description}
             title={emploi.title}
+            competences={emploi.competences}
           />
         ))
       }

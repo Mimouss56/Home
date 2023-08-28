@@ -7,10 +7,13 @@ import NotFound from '../notFound';
 import ModalAddItem from './ModalAdd';
 import { Job as IJob } from '../../@types/emploi';
 import axiosInstance from '../../utils/axios';
+import { ErrorSanctionProps } from '../../@types/error';
 
 function User() {
   const [job, setJob] = useState<IJob[]>([]);
   const [school, setSchool] = useState<IJob[]>([]);
+
+  // On récupère les données de l'utilisateur
   const fetchData = async () => {
     try {
       const response = await axiosInstance.get('/job/@me');
@@ -18,9 +21,10 @@ function User() {
       setJob(response.data);
       const response2 = await axiosInstance.get('/school/@me');
       setSchool(response2.data);
-    } catch (error: any) {
-      sessionStorage.setItem('notifToast', error.response.data.message);
-      if (error.response.status === 401) {
+    } catch (error) {
+      const messageError = error as ErrorSanctionProps;
+      sessionStorage.setItem('notifToast', messageError.response.data.message);
+      if (messageError.response.status === 401) {
         sessionStorage.clear();
         // redirect to home
         window.location.href = '/user';

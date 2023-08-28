@@ -1,4 +1,5 @@
 const { job } = require('../models/index.mapper');
+const skillService = require('./skill.service');
 const textValue = "job"
 
 module.exports = {
@@ -39,7 +40,7 @@ module.exports = {
       };
     }
     const returnValue = find.map(async (value) => {
-      const jobSkill = await job.findAllJobSkill(value.id);
+      const jobSkill = await skillService.getAllSkillJob(value.id);
       const one = {
         id: value.id,
         title: value.title,

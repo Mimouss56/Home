@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import HeaderCv from './Header/header';
 import Xp from './Main/xp';
@@ -12,6 +12,8 @@ import Hobbies from './Info/hobbies';
 
 import { Role, User } from '../../@types/user';
 import { Job } from '../../@types/emploi';
+import Selected from './Select';
+import axiosInstance from '../../utils/axios';
 
 const initUser: User = {
   id: 0,
@@ -26,29 +28,70 @@ const initUser: User = {
 };
 
 function Cv() {
+  const userJson = sessionStorage.getItem('user') || '';
+  // let userInfos: User;
+  const userInfos = (userJson ? JSON.parse(userJson) : initUser) as User;
   const [searchParams] = useSearchParams();
   const filterJob = searchParams.get('fj') || '';
-  const userInfos = sessionStorage.getItem('user') as unknown as User || initUser;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [jobs, setJobs] = useState(userInfos.job || [] as Job[]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [school, setSchool] = useState(userInfos.school || [] as Job[]);
+  // const filterschool = searchParams.get('fs') || '';
+  const [filteredJob, setFilteredJob] = useState(filterJob);
+  // const [filteredSchool, setFilteredSchool] = useState(filterschool);
+  const [skills, setSkills] = useState([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const targetJob = e.target.id;
+    let textSearch = '';
+
+    if (targetJob === 'jobSkill') {
+      textSearch = 'fj';
+      // setFilteredJob(option.value);
+    }
+    if (targetJob === 'schoolSkill') {
+      textSearch = 'fs';
+      // setFilteredSchool(option.value);
+    }
+
+    const valueSelected = e.target.options[e.target.selectedIndex].value;
+    const url = new URL(window.location.href);
+    url.searchParams.set(textSearch, valueSelected);
+    window.history.pushState({}, '', url.toString());
+  };
+  // Chargement des Skills pour le select
+  const fetchDataSkills = async () => {
+    const response = await axiosInstance.get('/skill');
+    setSkills(response.data);
+  };
+  useEffect(() => {
+    fetchDataSkills();
+    setFilteredJob(filterJob);
+  }, [filterJob]);
+
+  console.log('filteredJob', filteredJob);
+  console.log('filteredSchool', filteredJob);
 
   return (
-    <>
-      <div id="left" className="col-9">
-        <HeaderCv />
-        <Dev />
-        <Xp content={jobs} titre="Autres Expériences" filter={filterJob} />
-        <Xp content={school} titre="Formations" filter="" />
+    <div className="d-flex flex-column ">
+      {
+        (!searchParams.get('fj') || !searchParams.get('fs')) && (
+          <Selected skills={skills} onHandleSelect={handleChange} />
+        )
+      }
+      <div className="d-flex flex-row">
+        <div id="left" className="col-9">
+          <HeaderCv />
+          <Dev />
+          <Xp content={userInfos.job} titre="Autres Expériences" filter={filteredJob} />
+          <Xp content={userInfos.school} titre="Formations" filter={filteredJob} />
+        </div>
+        <div id="right" className="col-3">
+          <Contact />
+          <Skills />
+          <Lang />
+          <Hobbies />
+        </div>
+
       </div>
-      <div id="right" className="col-3">
-        <Contact />
-        <Skills />
-        <Lang />
-        <Hobbies />
-      </div>
-    </>
+    </div>
   );
 }
 
