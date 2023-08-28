@@ -40,6 +40,7 @@ module.exports = class Techno extends CoreDatamapper {
     const result = await this.client.query(preparedQuery);
     return result.rows;
   };
+  
   async deleteJobUser(idUser, idJob) {
     const preparedQuery = {
       text: `

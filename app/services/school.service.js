@@ -39,7 +39,7 @@ module.exports = {
       };
     }
     const returnValue = find.map(async (value) => {
-      const schoolSkill = await school.findAllSchoolSkill(value.id);
+      // const schoolSkill = await schoolService.getAllSchoolSkill(value.id);
       const one = {
         id: value.id,
         title: value.title,
@@ -53,7 +53,7 @@ module.exports = {
         },
         ent: value.ent,
         description: value.description,
-        competences: schoolSkill
+        // competences: schoolSkill
       };
       return one;
     });
@@ -89,9 +89,28 @@ module.exports = {
   },
   async create(inputQuery) {
     try {
-      const valueCreated = await school.create(inputQuery);
-      return valueCreated;
+      const userId = inputQuery.id_user;
+      delete inputQuery.id_user;
+      const value = await school.create(inputQuery);
+      await school.addSchoolUser(value.id, userId);
+      return {
+        id: value.id,
+        title: value.title,
+        date: {
+          debut: value.date_started,
+          fin: value.date_ended,
+        },
+        lieu: {
+          ville: value.town,
+          departement: Number(value.postal_code),
+        },
+        ent: value.ent,
+        description: value.description,
+        competences: value.competences
+      }
+      valueCreated;
     } catch (error) {
+      console.log(error);
       return {
         code: 500,
         message: `${textValue} not created`,

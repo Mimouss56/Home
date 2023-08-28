@@ -15,7 +15,7 @@ module.exports = {
     const {
       ent,
       title,
-      description,
+      niveau,
       debut,
       fin,
       ville,
@@ -25,17 +25,19 @@ module.exports = {
     const inputQuery = {
       ent,
       title,
-      description,
+      niveau,
       date_started: debut,
       date_ended: fin,
       town: ville,
-      postal_code: departement
+      postal_code: Number(departement),
+      id_user: req.user.id,
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 201,
       message: 'Nouvelle formation créée',
+      ...result,
     });
   },
   async put(req, res) {

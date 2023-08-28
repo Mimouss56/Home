@@ -7,7 +7,7 @@
  * @property {Lieu} lieu - Lieu de l'entreprise
  * @property {string} ent - Nom de l'entreprise
  * @property {string} description - Description de l'emploi
- * @property {array<Skill>} competences - Liste des compétences acquises
+ * @property {array<string>} competences - Liste des compétences acquises
 */
 
 /**

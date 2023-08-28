@@ -1,4 +1,4 @@
-const { job } = require('../models/index.mapper');
+const { job, skill } = require('../models/index.mapper');
 const skillService = require('./skill.service');
 const textValue = "job"
 
@@ -11,7 +11,8 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = find.map((value) => {
+    const returnValue = find.map(async (value) => {
+      const jobSkill = await skillService.getAllSkillJob(value.id);
       const one = {
         id: value.id,
         title: value.title,
@@ -24,7 +25,8 @@ module.exports = {
           departement: value.postal_code,
         },
         ent: value.ent,
-        description: value.description
+        description: value.description,
+        competences: jobSkill
       };
       return one;
     });
@@ -71,7 +73,7 @@ module.exports = {
           message: `${textValue} not found`,
         };
       }
-      const competences = await job.findAllJobSkill(findByID.id);
+      const competences = await skillService.getAllSkillJob(findByID.id);
       const returnValue = {
         id: findByID.id,
         title: findByID.title,

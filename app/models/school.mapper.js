@@ -15,7 +15,18 @@ module.exports = class User extends CoreDatamapper {
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
-  }
+  };
+  
+  async addSchoolUser(idSchool, idUser) {
+    const preparedQuery = {
+      text: `
+        INSERT INTO "${this.userRelated}" (id_user, id_schooling) 
+        VALUES ($1, $2)`,
+      values: [idUser, idSchool],
+    };
+    const result = await this.client.query(preparedQuery);
+    return result.rows;
+  };
 
 
 };
