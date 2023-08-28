@@ -26,7 +26,6 @@
  * GET /job
  * @summary Récupère tous les emplois
  * @tags Job
- * @link /job
  * @return {array<Job>} 200
  * @return 500 - Erreur serveur
 */

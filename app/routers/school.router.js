@@ -9,7 +9,7 @@ router.route('/')
   .get(schoolController.getAll);
 
 router.route('/@me')
-  // .get(loggedAs, schoolController.getAllByUser)
+  .get(loggedAs, schoolController.getAllByUser)
   .post(isLogged(postSchool), schoolController.post);
 
 router.route('/:id')

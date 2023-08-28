@@ -13,6 +13,8 @@ module.exports = {
     const returnValue = find.map((value) => {
       const one = {
         id: value.id,
+        ent: value.ent,
+        description: value.niveau,
         title: value.title,
         date: {
           debut: value.date_started,
@@ -22,8 +24,6 @@ module.exports = {
           ville: value.town,
           departement: value.postal_code,
         },
-        ent: value.ent,
-        description: value.description
       };
       return one;
     });
@@ -42,6 +42,8 @@ module.exports = {
       // const schoolSkill = await schoolService.getAllSchoolSkill(value.id);
       const one = {
         id: value.id,
+        ent: value.ent,
+        description: value.niveau,
         title: value.title,
         date: {
           debut: value.date_started,
@@ -51,8 +53,7 @@ module.exports = {
           ville: value.town,
           departement: Number(value.postal_code),
         },
-        ent: value.ent,
-        description: value.description,
+
         // competences: schoolSkill
       };
       return one;
@@ -66,6 +67,8 @@ module.exports = {
       const findByID = await school.findByPk(id);
       const returnValue = {
         id: findByID.id,
+        ent: findByID.ent,
+        description: findByID.niveau,
         title: findByID.title,
         date: {
           debut: findByID.date_started,
@@ -75,8 +78,6 @@ module.exports = {
           ville: findByID.town,
           departement: findByID.postal_code,
         },
-        ent: findByID.ent,
-        description: findByID.description
       };
 
       return returnValue;
@@ -92,6 +93,7 @@ module.exports = {
       const userId = inputQuery.id_user;
       delete inputQuery.id_user;
       const value = await school.create(inputQuery);
+      // await school.createCompetence(valueCreated.id, inputQuery.competences);
       await school.addSchoolUser(value.id, userId);
       return {
         id: value.id,
@@ -105,12 +107,10 @@ module.exports = {
           departement: Number(value.postal_code),
         },
         ent: value.ent,
-        description: value.description,
+        niveau: value.niveau,
         competences: value.competences
       }
-      valueCreated;
     } catch (error) {
-      console.log(error);
       return {
         code: 500,
         message: `${textValue} not created`,

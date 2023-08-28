@@ -1,6 +1,6 @@
 const CoreDatamapper = require('./core.mapper');
 
-module.exports = class User extends CoreDatamapper {
+module.exports = class School extends CoreDatamapper {
   tableName = 'schooling';
   userRelated = 'user_schooling';
   skillRelated = 'school_skill';

@@ -13,7 +13,7 @@ const postJob = Joi.object({
 const postSchool = Joi.object({
   ent: Joi.string().required(),
   title: Joi.string().required(),
-  niveau: Joi.string().required(),
+  description: Joi.string().required(),
   debut: Joi.date().required(),
   fin: Joi.date().required(),
   ville: Joi.string().required(),

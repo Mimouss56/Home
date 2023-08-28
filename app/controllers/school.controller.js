@@ -3,19 +3,27 @@ const schoolService = require('../services/school.service');
 module.exports = {
   async getAll(req, res) {
     const data = await schoolService.getAll();
+    if (data.code) return res.status(data.code).json(data);
     res.json(data);
+  },
+  async getAllByUser(req, res) {
+    const { id } = req.user;
+    const data = await schoolService.getAllByUser(id);
+    if (data.code) return res.status(data.code).json(data);
+    return res.json(data);
   },
   async get(req, res) {
     const { id } = req.params;
-    const dataRole = await schoolService.getData(id);
-    return res.json(dataRole);
+    const data = await schoolService.getData(id);
+    if (data.code) return res.status(data.code).json(data);
+    return res.json(data);
   },
 
   async post(req, res) {
     const {
       ent,
       title,
-      niveau,
+      description,
       debut,
       fin,
       ville,
@@ -25,7 +33,7 @@ module.exports = {
     const inputQuery = {
       ent,
       title,
-      niveau,
+      niveau : description,
       date_started: debut,
       date_ended: fin,
       town: ville,
