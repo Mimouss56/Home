@@ -18,6 +18,7 @@ function Job({ jobs }: JobProps) {
             url_img={job.url_img}
             date={job.date}
             competences={job.competences || []}
+            id={job.id}
           />
         ))
       }

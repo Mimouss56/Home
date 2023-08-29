@@ -3,7 +3,7 @@ import './style.scss';
 import ModalCard from './Modal';
 
 function FloatCard({
-  url_img, title, desc, date, competences, ent,
+  url_img, title, desc, date, competences, ent, id,
 }: ICard) {
   return (
     <>
@@ -16,14 +16,19 @@ function FloatCard({
         <div className="face face2">
           <div className="content">
             <p>{title}</p>
-            <button type="button" className="btn" data-bs-toggle="modal" data-bs-target={`#${title.replaceAll(' ', '-')}`}>
+            <button
+              type="button"
+              className="btn"
+              data-bs-toggle="modal"
+              data-bs-target={`#${title.replaceAll(' ', '-')}`}
+            >
               Voir plus
             </button>
 
           </div>
         </div>
       </article>
-      <ModalCard title={title} date={date} desc={desc} competences={competences} url_img="" ent={ent} />
+      <ModalCard title={title} date={date} desc={desc} competences={competences} url_img="" ent={ent} id={id} />
     </>
   );
 }

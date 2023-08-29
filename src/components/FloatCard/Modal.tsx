@@ -2,7 +2,7 @@ import { ICard } from '../../@types/card';
 import Badge from './Badge';
 
 function ModalCard({
-  title, date, desc, competences,
+  title, desc, competences, id,
 }: ICard) {
   return (
     <div className="modal fade" id={title.replaceAll(' ', '-')} aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -13,13 +13,23 @@ function ModalCard({
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
           <div className="modal-body ">
+            {desc}
+          </div>
+          <div className="modal-footer">
             <div className="d-flex flex-wrap justify-content-evenly py-0">
 
               {competences.map((competence: string) => (
                 <Badge key={competence} name={competence} />
               ))}
             </div>
-            {desc}
+            <button
+              type="button"
+              className="bi bi-gear text-danger btn"
+              data-bs-toggle="modal"
+              data-bs-id={id}
+              data-bs-target="#addItem"
+            />
+
           </div>
         </div>
       </div>

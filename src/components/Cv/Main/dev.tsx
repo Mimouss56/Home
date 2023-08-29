@@ -15,7 +15,7 @@ function Dev() {
             </span>
           </div>
           <div id="xp_skills">
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush border-bottom border-2">
               <li className="list-group-item d-flex flex-wrap pt-0 flex-column p-0">
                 <span>Création d&apos;une application web sous ReactJS et NodeJS</span>
                 <span>(système de collaboration entre développeurs pour du pair-programming.)</span>
@@ -28,8 +28,6 @@ function Dev() {
               </li>
             </ul>
           </div>
-
-          <p id="xp_skills" className="mb-0 " />
         </div>
       </article>
 
@@ -45,7 +43,7 @@ function Dev() {
             </span>
           </div>
           <div id="xp_skills">
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush border-bottom border-2">
               <li className="list-group-item d-flex flex-wrap pt-0 flex-column p-0">
                 <span>Création sous PHP du site de la kermesse de l&apos;école maternelle de Fouras.</span>
                 <span>(Gestion complète des lots et des tickets de tombola.)</span>
@@ -76,7 +74,7 @@ function Dev() {
             </span>
           </div>
           <div id="xp_skills">
-            <ul className="list-group list-group-flush">
+            <ul className="list-group list-group-flush border-bottom border-2">
               <li className="list-group-item d-flex flex-wrap pt-0 flex-column p-0">
                 <span>Apprentissage de WordPress et des plugins.</span>
                 <span>Création du site vitrine du club de handball, gestion complète avec hébergement sous OVH.</span>

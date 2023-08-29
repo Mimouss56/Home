@@ -38,23 +38,6 @@ function Selected({ skills, onHandleSelect }: ISelected) {
             </select>
           </div>
           <div className="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
-          <div className="input-group">
-            <span className="input-group-text" id="school-skill">School Compétence</span>
-            <select
-              id="schoolSkill"
-              className="form-select form-control"
-              aria-label="Liste Compétence Formation"
-              aria-describedby="school-skill"
-              defaultValue={0}
-              onChange={(e) => onHandleSelect(e)}
-            >
-              <option value={0}>Choisir Compétence Emploi</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-            </select>
-          </div>
-          <div className="form-text" id="basic-addon4">Example help text goes outside the input group.</div>
-
         </div>
 
         <div className="mb-3" />

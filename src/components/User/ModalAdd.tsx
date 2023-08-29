@@ -1,44 +1,105 @@
-import { FormEvent, useState } from 'react';
+import {
+  FormEvent, useEffect, useRef, useState,
+} from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { Job } from '../../@types/emploi';
 
-function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string) => void }) {
-  const [type, setType] = useState('job');
-  const [ent, setEnt] = useState('');
-  const [title, settitle] = useState('');
-  const [ville, setVille] = useState('');
-  const [departement, setDepartement] = useState('');
-  const [dateDebut, setDateDebut] = useState('');
-  const [dateFin, setDateFin] = useState('');
-  const [description, setDescription] = useState('');
-  const [urlImg, setUrlImg] = useState('');
+interface ModalAddItemProps {
+  onAddElement: (data: Job, type: string) => void;
+}
 
-  const handleSave = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const inputData = {
-      ent,
-      title,
-      description,
-      debut: dateDebut,
-      fin: dateFin,
-      ville,
-      departement,
-      // urlImg,
-    };
-    axiosInstance.post(`/${type}/@me`, inputData).then((res) => {
-      toast.success(
-        res.data.message,
-      );
-      delete res.data.message;
-      delete res.data.code;
-      onAddElement(res.data, type);
-    }).catch((err) => {
-      toast.warning(err.message);
-    });
+function ModalAddItem({ onAddElement }: ModalAddItemProps) {
+  const [formData, setFormData] = useState({
+    type: 'job',
+    ent: '',
+    title: '',
+    ville: '',
+    departement: '',
+    debut: '',
+    fin: '',
+    description: '',
+    // urlImg: '',
+  });
+  // const [type, setType] = useState('job');
+  // const [ent, setEnt] = useState('');
+  // const [title, settitle] = useState('');
+  // const [ville, setVille] = useState('');
+  // const [departement, setDepartement] = useState('');
+  // const [dateDebut, setDateDebut] = useState('');
+  // const [dateFin, setDateFin] = useState('');
+  // const [description, setDescription] = useState('');
+  // const [urlImg, setUrlImg] = useState('');
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => {
+    console.log(e.currentTarget);
+
+    const { name, value } = e.currentTarget;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { type, ...inputData } = formData;
+    // const inputData = {
+    //   ent,
+    //   title,
+    //   description,
+    //   debut: dateDebut,
+    //   fin: dateFin,
+    //   ville,
+    //   departement,
+    //   // urlImg,
+    // };
+    try {
+      const response = await axiosInstance.post(`/${type}/@me`, inputData);
+      toast.success(response.data.message);
+      delete response.data.message;
+      delete response.data.code;
+      onAddElement(response.data, type);
+    } catch (err) {
+      const error = err as Error;
+      toast.warning(error.message);
+    }
+    // axiosInstance.post(`/${type}/@me`, inputData).then((res) => {
+    //   toast.success(
+    //     res.data.message,
+    //   );
+    //   delete res.data.message;
+    //   delete res.data.code;
+    //   onAddElement(res.data, type);
+    // }).catch((err) => {
+    //   toast.warning(err.message);
+    // });
+  };
+
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.addEventListener('show.bs.modal', (e) => {
+        const event = e as MouseEvent;
+        const relatedTarget = event.relatedTarget as HTMLElement;
+        const selectValue = relatedTarget.getAttribute('data-bs-select');
+        setFormData((prev) => ({ ...prev, type: selectValue || 'job' }));
+      });
+    }
+  }, []);
+
+  // const modal = document.getElementById('addItem');
+  // if (modal) {
+  //   modal.addEventListener('show.bs.modal', (e) => {
+  //     const button = e.relatedTarget as HTMLButtonElement;
+  //     const titleElement = button.getAttribute('data-bs-title');
+  //     const modalTitle = modal.querySelector('.modal-title') as HTMLHeadingElement;
+  //     modalTitle.textContent = `Ajouter un ${titleElement}`;
+  //     setType(titleElement as string);
+  //   });
+  // }
+
   return (
-    <form onSubmit={(e) => handleSave(e)}>
+    <form onSubmit={handleSave}>
       <div
         className="modal fade"
         id="addItem"
@@ -46,17 +107,20 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Ajouter un élément</h5>
-              <select
-                className="form-select"
-                aria-label="Default select example"
-                onChange={(e) => setType(e.currentTarget.value)}
-                defaultValue={type}
-                required
-              >
-                <option value="job">Emploi</option>
-                <option value="school">Formation</option>
-              </select>
+              <div className="input-group">
+                <span className="input-group-text" id="basic-addon1">Ajouter un </span>
+                <select
+                  className="form-select input-group-select"
+                  aria-label="Default select example"
+                  defaultValue={formData.type}
+                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  required
+                >
+                  <option value="job">Emploi</option>
+                  <option value="school">Formation</option>
+                </select>
+
+              </div>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
             <div className="modal-body">
@@ -72,7 +136,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Entreprise"
                     aria-describedby="basic-addon1"
                     name="ent"
-                    onChange={(e) => setEnt(e.currentTarget.value)}
+                    value={formData.ent}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -86,7 +151,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Intitulé"
                     aria-describedby="basic-addon1"
                     name="title"
-                    onChange={(e) => settitle(e.currentTarget.value)}
+                    value={formData.title}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -102,7 +168,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Ville"
                     aria-describedby="basic-addon1"
                     name="ville"
-                    onChange={(e) => setVille(e.currentTarget.value)}
+                    value={formData.ville}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -116,7 +183,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Departement"
                     aria-describedby="basic-addon1"
                     name="departement"
-                    onChange={(e) => setDepartement(e.currentTarget.value)}
+                    value={formData.departement}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -132,7 +200,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Date de début"
                     aria-describedby="basic-addon1"
                     name="debut"
-                    onChange={(e) => setDateDebut(e.currentTarget.value)}
+                    value={formData.debut}
+                    onChange={handleInputChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -146,7 +215,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                     aria-label="Date de fin"
                     aria-describedby="basic-addon1"
                     name="fin"
-                    onChange={(e) => setDateFin(e.currentTarget.value)}
+                    value={formData.fin}
+                    onChange={handleInputChange}
                   />
                 </div>
               </div>
@@ -160,7 +230,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                   aria-label="Description"
                   aria-describedby="basic-addon1"
                   name="description"
-                  onChange={(e) => setDescription(e.currentTarget.value)}
+                  value={formData.description}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className="input-group mb-3">
@@ -173,7 +244,8 @@ function ModalAddItem({ onAddElement }: { onAddElement: (data: Job, type: string
                   aria-label="Url de l'image"
                   aria-describedby="basic-addon1"
                   name="urlImg"
-                  onChange={(e) => setUrlImg(e.currentTarget.value)}
+                  // value={formData.urlImg}
+                  onChange={handleInputChange}
                 />
               </div>
 

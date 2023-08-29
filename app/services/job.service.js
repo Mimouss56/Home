@@ -1,4 +1,4 @@
-const { job, skill } = require('../models/index.mapper');
+const { job } = require('../models/index.mapper');
 const skillService = require('./skill.service');
 const textValue = "job"
 

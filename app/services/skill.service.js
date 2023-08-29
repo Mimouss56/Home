@@ -30,6 +30,17 @@ module.exports = {
     }
     return find.map(value => value.name);;
   },
+  async getAllSkillschool(id) {
+    const find = await skill.findAllSkillSchool(id);
+    if (!find) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    return find.map(value => value.name);;
+  },
+
 
   async getData(id) {
     try {

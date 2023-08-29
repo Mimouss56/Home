@@ -68,14 +68,6 @@ function App() {
             )}
           />
           <Route
-            path="user/setting"
-            element={(
-              <ProtectedRoute>
-                <Setting />
-              </ProtectedRoute>
-            )}
-          />
-          <Route
             path="sanction"
             element={(
               <ProtectedRoute>

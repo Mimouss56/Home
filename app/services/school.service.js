@@ -1,4 +1,5 @@
 const { school } = require('../models/index.mapper');
+const skillService = require('./skill.service');
 const textValue = "school"
 
 module.exports = {
@@ -39,7 +40,7 @@ module.exports = {
       };
     }
     const returnValue = find.map(async (value) => {
-      // const schoolSkill = await schoolService.getAllSchoolSkill(value.id);
+      const schoolSkill = await skillService.getAllSkillschool(value.id);
       const one = {
         id: value.id,
         ent: value.ent,
@@ -53,8 +54,7 @@ module.exports = {
           ville: value.town,
           departement: Number(value.postal_code),
         },
-
-        // competences: schoolSkill
+        competences: schoolSkill
       };
       return one;
     });

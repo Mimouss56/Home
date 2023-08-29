@@ -33,25 +33,25 @@ function Cv() {
   const userInfos = (userJson ? JSON.parse(userJson) : initUser) as User;
   const [searchParams] = useSearchParams();
   const filterJob = searchParams.get('fj') || '';
-  // const filterschool = searchParams.get('fs') || '';
+  const filterschool = searchParams.get('fs') || '';
   const [filteredJob, setFilteredJob] = useState(filterJob);
-  // const [filteredSchool, setFilteredSchool] = useState(filterschool);
+  const [filteredSchool, setFilteredSchool] = useState(filterschool);
   const [skills, setSkills] = useState([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const targetJob = e.target.id;
     let textSearch = '';
+    const valueSelected = e.target.options[e.target.selectedIndex].value;
 
     if (targetJob === 'jobSkill') {
       textSearch = 'fj';
-      // setFilteredJob(option.value);
+      setFilteredJob(valueSelected);
     }
     if (targetJob === 'schoolSkill') {
       textSearch = 'fs';
-      // setFilteredSchool(option.value);
+      setFilteredSchool(valueSelected);
     }
 
-    const valueSelected = e.target.options[e.target.selectedIndex].value;
     const url = new URL(window.location.href);
     url.searchParams.set(textSearch, valueSelected);
     window.history.pushState({}, '', url.toString());
@@ -64,15 +64,13 @@ function Cv() {
   useEffect(() => {
     fetchDataSkills();
     setFilteredJob(filterJob);
-  }, [filterJob]);
-
-  console.log('filteredJob', filteredJob);
-  console.log('filteredSchool', filteredJob);
+    setFilteredSchool(filterschool);
+  }, [filterJob, filterschool]);
 
   return (
     <div className="d-flex flex-column ">
       {
-        (!searchParams.get('fj') || !searchParams.get('fs')) && (
+        !searchParams.get('fj') && (
           <Selected skills={skills} onHandleSelect={handleChange} />
         )
       }
@@ -81,7 +79,7 @@ function Cv() {
           <HeaderCv />
           <Dev />
           <Xp content={userInfos.job} titre="Autres Expériences" filter={filteredJob} />
-          <Xp content={userInfos.school} titre="Formations" filter={filteredJob} />
+          <Xp content={userInfos.school} titre="Formations" filter="" />
         </div>
         <div id="right" className="col-3">
           <Contact />
