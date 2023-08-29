@@ -27,7 +27,8 @@ module.exports = {
       debut,
       fin,
       ville,
-      departement
+      departement,
+      imgUrl
     } = req.body;
 
     const inputQuery = {
@@ -39,6 +40,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
+      img_url: imgUrl
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -50,9 +52,28 @@ module.exports = {
   },
   async put(req, res) {
     const { id } = req.params;
-    const { label, color } = req.body;
+    const {
+      ent,
+      title,
+      description,
+      debut,
+      fin,
+      ville,
+      departement,
+      imgUrl
+    } = req.body;
 
-    const inputQuery = { label, color };
+    const inputQuery = {
+      ent,
+      title,
+      niveau : description,
+      date_started: debut,
+      date_ended: fin,
+      town: ville,
+      postal_code: Number(departement),
+      id_user: req.user.id,
+      img_url: imgUrl
+    };
     const result = await schoolService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({

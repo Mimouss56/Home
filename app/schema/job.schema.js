@@ -8,6 +8,7 @@ const postJob = Joi.object({
   fin: Joi.date().required(),
   ville: Joi.string().required(),
   departement: Joi.number().required(),
+  urlImg: Joi.string().required(),
 });
 
 const postSchool = Joi.object({
@@ -18,6 +19,7 @@ const postSchool = Joi.object({
   fin: Joi.date().required(),
   ville: Joi.string().required(),
   departement: Joi.number().required(),
+  urlImg: Joi.string().required(),
 });
 module.exports = {
   postJob,

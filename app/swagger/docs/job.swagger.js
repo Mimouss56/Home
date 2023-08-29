@@ -20,6 +20,7 @@
  * @property {string} fin - Date de fin dans l'entreprise
  * @property {string} ville - Ville de l'entreprise
  * @property {integer} departement - Département de l'entreprise
+ * @property {string} urlImg - URL de l'image de l'entreprise
  */
 // Routes for Job
 /**

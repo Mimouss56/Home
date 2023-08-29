@@ -25,7 +25,8 @@ module.exports = {
       debut,
       fin,
       ville,
-      departement
+      departement,
+      urlImg
     } = req.body;
 
     const inputQuery = {
@@ -37,6 +38,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
+      img_url: urlImg
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -55,7 +57,8 @@ module.exports = {
       debut,
       fin,
       ville,
-      departement
+      departement,
+      imgUrl
     } = req.body;
 
     const inputQuery = {
@@ -67,6 +70,7 @@ module.exports = {
       ville,
       departement,
       id_user: req.user.id,
+      img_url: imgUrl
     };
     const result = await jobService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);

@@ -20,6 +20,7 @@
  * @property {string} fin - Date de fin dans la formation
  * @property {string} ville - Ville de la formation
  * @property {integer} departement - Département de la formation
+ * @property {string} urlImg - URL de l'image de la formation
  */
 // Routes for Job
 /**

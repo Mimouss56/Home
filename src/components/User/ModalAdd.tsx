@@ -19,7 +19,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     debut: '',
     fin: '',
     description: '',
-    // urlImg: '',
+    urlImg: '',
   });
   // const [type, setType] = useState('job');
   // const [ent, setEnt] = useState('');
@@ -35,8 +35,6 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
-    console.log(e.currentTarget);
-
     const { name, value } = e.currentTarget;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -244,7 +242,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   aria-label="Url de l'image"
                   aria-describedby="basic-addon1"
                   name="urlImg"
-                  // value={formData.urlImg}
+                  value={formData.urlImg}
                   onChange={handleInputChange}
                 />
               </div>
