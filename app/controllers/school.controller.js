@@ -28,7 +28,7 @@ module.exports = {
       fin,
       ville,
       departement,
-      imgUrl
+      urlImg
     } = req.body;
 
     const inputQuery = {
@@ -40,7 +40,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      img_url: imgUrl
+      img_url: urlImg
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -60,7 +60,7 @@ module.exports = {
       fin,
       ville,
       departement,
-      imgUrl
+      urlImg
     } = req.body;
 
     const inputQuery = {
@@ -72,7 +72,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      img_url: imgUrl
+      img_url: urlImg
     };
     const result = await schoolService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
