@@ -40,7 +40,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      img_url: urlImg
+      url_img: urlImg
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
