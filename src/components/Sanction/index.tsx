@@ -104,6 +104,7 @@ function Sanction() {
               data-bs-toggle="modal"
               data-bs-target="#ModalViewSanction"
               data-bs-id={sanction.id}
+              data-bs-roleId={user.role.id}
 
             >
               <td>

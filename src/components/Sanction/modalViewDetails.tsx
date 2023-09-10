@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import axiosInstance from '../../utils/axios';
 import { BootstrapEvent } from '../../@types/event';
 import { ISanction, ISanctionAuthor, ISanctionDate } from '../../@types/sanction';
+
+dayjs.extend(isoWeek);
 
 function ModalViewDetails() {
   const [sanction, setSanction] = useState({} as ISanction);
   const [sanctionID, setSanctionID] = useState(0);
   const [sanctionDate, setSanctionDate] = useState({} as ISanctionDate);
   const [sanctionAuthor, setSanctionAuthor] = useState({} as ISanctionAuthor);
+  const [userRoleId, setUserRoleId] = useState(2);
   useEffect(() => {
     const modal = document.getElementById('ModalViewSanction');
 
@@ -16,7 +21,9 @@ function ModalViewDetails() {
       // Cast e.relatedTarget as HTMLElement
       const relatedTarget = bootstrapEvent.relatedTarget as HTMLElement;
       const modalSanctionID = relatedTarget.getAttribute('data-bs-id');
+      const roleUser = relatedTarget.getAttribute('data-bs-roleId');
       setSanctionID(Number(modalSanctionID));
+      setUserRoleId(Number(roleUser));
     };
     modal?.addEventListener('show.bs.modal', handleModalShow);
   }, []);
@@ -25,12 +32,13 @@ function ModalViewDetails() {
     const fetchData = async () => {
       const response = await axiosInstance.get(`/sanction/${sanctionID}`);
       const { data } = response;
+      data.label = (userRoleId !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : sanction.label;
       setSanctionDate(data.date);
       setSanction(data);
       setSanctionAuthor(data.author);
     };
     if (sanctionID) fetchData();
-  }, [sanctionID]);
+  }, [sanctionID, userRoleId, sanction.date, sanction.label]);
 
   const bgColor = !sanction.warn ? 'bg-warning' : 'bg-danger';
 
