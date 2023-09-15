@@ -24,12 +24,13 @@ module.exports = {
     }
     const findAll = await Promise.all(data.map(async (findOne) => {
       const findByID = await this.getData(findOne.id);
-      // trier par date decroisssante
-      const sortByDate = findByID.sort((a, b) => {
-        return b.date.complete - a.date.complete;
-      });
       return findByID;
     }));
+    // trier par date.complete
+    findAll.sort((a, b) => {
+      return dayjs(b.date.complete, 'DD/MM/YYYY').isAfter(dayjs(a.date.complete, 'DD/MM/YYYY')) ? 1 : -1;
+    });
+
     return findAll;
   },
 
