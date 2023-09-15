@@ -24,6 +24,10 @@ module.exports = {
     }
     const findAll = await Promise.all(data.map(async (findOne) => {
       const findByID = await this.getData(findOne.id);
+      // trier par date decroisssante
+      const sortByDate = findByID.sort((a, b) => {
+        return b.date.complete - a.date.complete;
+      });
       return findByID;
     }));
     return findAll;
