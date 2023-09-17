@@ -28,7 +28,7 @@ module.exports = {
     }));
     // trier par date.complete
     findAll.sort((a, b) => {
-      return dayjs(b.date.complete, 'DD/MM/YYYY').isAfter(dayjs(a.date.complete, 'DD/MM/YYYY')) ? 1 : -1;
+      return new Date(b.date.complete) - new Date(a.date.complete);
     });
 
     return findAll;
@@ -51,7 +51,7 @@ module.exports = {
         date: {
           year: findByID.created_at.getFullYear(),
           week: dayjs(findByID.created_at).isoWeek(),
-          complete: dayjs(findByID.created_at).format('DD/MM/YYYY'),
+          complete: findByID.created_at,
         },
         child: {
           id: child.id,

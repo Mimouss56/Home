@@ -32,13 +32,13 @@ function ModalViewDetails() {
     const fetchData = async () => {
       const response = await axiosInstance.get(`/sanction/${sanctionID}`);
       const { data } = response;
-      data.label = (userRoleId !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : sanction.label;
+      data.label = (userRoleId !== 1 && (dayjs().isoWeek() === data.date.week)) ? '************' : data.label;
       setSanctionDate(data.date);
       setSanction(data);
       setSanctionAuthor(data.author);
     };
     if (sanctionID) fetchData();
-  }, [sanctionID, userRoleId, sanction.date, sanction.label]);
+  }, [sanctionID, userRoleId]);
 
   const bgColor = !sanction.warn ? 'bg-warning' : 'bg-danger';
 
@@ -65,7 +65,7 @@ function ModalViewDetails() {
             {sanction.warn && <span className="badge text-bg-warning rounded-pill">Important</span>}
             <p>{sanction.label}</p>
             <p className="text-end fst-italic m-0">
-              {`${sanctionAuthor.username} le ${sanctionDate.complete}`}
+              {`${sanctionAuthor.username} le ${dayjs(sanctionDate.complete).format('DD/MM/YYYY')}`}
             </p>
           </div>
           <div className="modal-footer d-flex justify-content-around ">
