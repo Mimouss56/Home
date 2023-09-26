@@ -1,9 +1,10 @@
 const express = require('express');
+
 const router = express.Router();
 const jobController = require('../controllers/job.controller');
 const { loggedAs } = require('../middlewares/auth.middleware');
 const { isLogged, validate, isAdminPost } = require('../middlewares/validate.middleware');
-const {postJob} = require('../schema/job.schema');
+const { postJob } = require('../schema/job.schema');
 const { objectID } = require('../schema/sanction.schema');
 
 router.route('/')
@@ -11,9 +12,9 @@ router.route('/')
 
 router.route('/@me')
   .get(loggedAs, jobController.getAllByUser)
-  .post(isLogged(postJob), jobController.post)
-  // TODO a revoir
-  // .delete(isLogged(objectID, 'params'), jobController.deleteJobUser);
+  .post(isLogged(postJob), jobController.post);
+// TODO a revoir
+// .delete(isLogged(objectID, 'params'), jobController.deleteJobUser);
 
 router.route('/:id')
   .put(isLogged(postJob), validate(objectID, 'params'), jobController.put)

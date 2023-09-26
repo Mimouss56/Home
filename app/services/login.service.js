@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { user } = require('../models/index.mapper');
-const jobService = require('./job.service');
-const schoolService = require('./school.service');
-const roleService = require('./role.service');
+// const jobService = require('./job.service');
+// const schoolService = require('./school.service');
+// const roleService = require('./role.service');
 const userService = require('./user.service');
 
 module.exports = {
@@ -31,7 +31,7 @@ module.exports = {
       process.env.JWT_SECRET,
       {
         expiresIn: process.env.JWT_EXPIRES_IN, // 24 hours
-      }
+      },
     );
     // Mettre à jour la date de la dernière connexion
     await user.update(userExist.id, {
@@ -47,7 +47,7 @@ module.exports = {
       sessionToken: token,
       message: `Connecté sous ${userExist.username} !`,
       data: {
-        ... await userService.getData(userExist.id),
+        ...await userService.getData(userExist.id),
       },
       // id: userExist.id,
       // username: userExist.username,

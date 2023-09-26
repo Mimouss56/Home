@@ -7,7 +7,7 @@
  * @property {string} image - image de la news
  * @property {Author} author - auteur de la news
  */
- 
+
 /**
  * GET /news
  * @summary Récupère toutes les news

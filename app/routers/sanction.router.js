@@ -1,9 +1,11 @@
 const express = require('express');
+
 const router = express.Router();
 const sanctionController = require('../controllers/sanction.controller');
 const { isAdminPost, validate } = require('../middlewares/validate.middleware');
 const { loggedAs } = require('../middlewares/auth.middleware');
 const { sanction, objectID } = require('../schema/sanction.schema');
+
 router.route('/')
   .get(sanctionController.getAll)
   .post(isAdminPost(sanction), sanctionController.post);

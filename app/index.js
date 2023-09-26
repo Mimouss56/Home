@@ -1,11 +1,11 @@
+const path = require('path');
 const express = require('express');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
+const expressSession = require('express-session');
 const options = require('./swagger/option');
 require('dotenv').config();
 
 const app = express();
-const expressSession = require('express-session');
-const path = require('path');
 const router = require('./routers');
 
 app.set('views', './app/views');

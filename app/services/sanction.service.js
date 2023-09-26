@@ -1,11 +1,13 @@
-const { warn } = require('console');
-const { sanction, user } = require('../models/index.mapper');
-const textValue = "sanction"
+/* eslint-disable camelcase */
+
+const textValue = 'sanction';
 const dayjs = require('dayjs');
-const advancedFormat = require('dayjs/plugin/advancedFormat')
-const isoWeek = require('dayjs/plugin/isoWeek')
-dayjs.extend(advancedFormat)
-dayjs.extend(isoWeek)
+const advancedFormat = require('dayjs/plugin/advancedFormat');
+const isoWeek = require('dayjs/plugin/isoWeek');
+const { sanction, user } = require('../models/index.mapper');
+
+dayjs.extend(advancedFormat);
+dayjs.extend(isoWeek);
 
 module.exports = {
   async getAll(id_child = false) {
@@ -27,9 +29,7 @@ module.exports = {
       return findByID;
     }));
     // trier par date.complete
-    findAll.sort((a, b) => {
-      return new Date(b.date.complete) - new Date(a.date.complete);
-    });
+    findAll.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
 
     return findAll;
   },
@@ -57,7 +57,7 @@ module.exports = {
           id: child.id,
           username: child.username,
         },
-        warn: findByID.warn
+        warn: findByID.warn,
       };
       return returnValue;
     } catch (error) {
@@ -79,7 +79,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-
     try {
       const valueUpdated = await sanction.update(id, inputQuery);
       return valueUpdated;

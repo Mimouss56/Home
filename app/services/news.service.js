@@ -1,10 +1,10 @@
 const { news, user, role } = require('../models/index.mapper');
-const userService = require('./user.service');
+// const userService = require('./user.service');
 
 module.exports = {
   async getAll() {
     const dataInfo = await news.findAll();
-    
+
     if (!dataInfo || dataInfo.length === 0) {
       return {
         code: 404,
@@ -13,16 +13,17 @@ module.exports = {
     }
 
     // Map over dataInfo and get an array of promises
-    const promises = dataInfo.map(async (newsInfo) => {
-      return this.getData(newsInfo.id); // Use this.getData to get detailed info
-    });
+    const promises = dataInfo.map(
+      // Use this.getData to get detailed info
+      async (newsInfo) => this.getData(newsInfo.id),
+    );
 
     // Await all promises to resolve
     const returnNews = await Promise.all(promises);
 
     return returnNews;
   },
-  
+
   async getData(id) {
     try {
       const newsByID = await news.findByPk(id);
@@ -53,7 +54,7 @@ module.exports = {
     }
   },
   async create(inputQuery) {
-  try {
+    try {
       const newsCreated = await news.create(inputQuery);
       return newsCreated;
     } catch (error) {

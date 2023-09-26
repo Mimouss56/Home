@@ -1,8 +1,7 @@
-
 const options = {
   info: {
-    version: "1.0.0",
-    title: "Mimouss Home API",
+    version: '1.0.0',
+    title: 'Mimouss Home API',
     description: "Détails de l'API de Mimouss",
   },
 
@@ -23,12 +22,12 @@ const options = {
   ],
   security: {
     BearerAuth: {
-      type: "http",
-      scheme: "bearer",
-      bearerFormat: "JWT"
-    }
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+    },
   },
-  
+
   // Base directory which we use to locate your JSDOC files
   baseDir: __dirname,
   // URL where SwaggerUI will be rendered
@@ -42,8 +41,7 @@ const options = {
 };
 
 if (process.env.NODE_ENV === 'dev') {
-  const devoption =
-  {
+  const devoption = {
     url: `http://localhost:${process.env.PORT}/api`,
     description: 'Local server',
   };

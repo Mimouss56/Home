@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const sanctionService = require('../services/sanction.service');
 
 module.exports = {
@@ -21,8 +22,12 @@ module.exports = {
   },
 
   async post(req, res) {
-    const { label, author_id, id_child, warn } = req.body;
-    const inputQuery = { label, author_id, id_child, warn };
+    const {
+      label, author_id, id_child, warn,
+    } = req.body;
+    const inputQuery = {
+      label, author_id, id_child, warn,
+    };
     const result = await sanctionService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
@@ -33,9 +38,13 @@ module.exports = {
   },
   async put(req, res) {
     const { id } = req.params;
-    const { author_id, label, id_child, warn } = req.body;
+    const {
+      author_id, label, id_child, warn,
+    } = req.body;
 
-    const inputQuery = { author_id, label, id_child, warn };
+    const inputQuery = {
+      author_id, label, id_child, warn,
+    };
     const result = await sanctionService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({

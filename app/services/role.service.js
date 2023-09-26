@@ -23,7 +23,7 @@ module.exports = {
   async getData(id) {
     try {
       const roleByID = await role.findByPk(id);
-      if(!roleByID) {
+      if (!roleByID) {
         return {
           code: 404,
           message: 'Role not found',

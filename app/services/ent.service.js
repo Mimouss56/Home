@@ -1,6 +1,8 @@
+const { job } = require('../models/index.mapper');
+
 module.exports = {
-  //Get Data
-  async getData(id){
+  // Get Data
+  async getData(id) {
     const jobByID = await job.findByPk(id);
     if (!jobByID) {
       return {
@@ -13,14 +15,13 @@ module.exports = {
       data: jobByID,
     };
   },
-  //Get All Data
-  async getAllData(){
+  // Get All Data
+  async getAllData() {
     const jobs = await job.findAll();
     return {
       code: 200,
       data: jobs,
     };
-  }
-  
+  },
 
-}
+};

@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const news = Joi.object({
   title: Joi.string(),
   description: Joi.string().required(),
@@ -6,5 +7,5 @@ const news = Joi.object({
 });
 
 module.exports = {
-  news
+  news,
 };

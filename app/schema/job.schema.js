@@ -23,5 +23,5 @@ const postSchool = Joi.object({
 });
 module.exports = {
   postJob,
-  postSchool
+  postSchool,
 };

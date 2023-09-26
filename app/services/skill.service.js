@@ -1,5 +1,6 @@
 const { skill } = require('../models/index.mapper');
-const textValue = "skill"
+
+const textValue = 'skill';
 
 module.exports = {
   async getAll() {
@@ -28,7 +29,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    return find.map(value => value.name);;
+    return find.map((value) => value.name);
   },
   async getAllSkillschool(id) {
     const find = await skill.findAllSkillSchool(id);
@@ -38,9 +39,8 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    return find.map(value => value.name);;
+    return find.map((value) => value.name);
   },
-
 
   async getData(id) {
     try {
@@ -57,7 +57,8 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-  }, async create(inputQuery) {
+  },
+  async create(inputQuery) {
     try {
       const valueCreated = await skill.create(inputQuery);
       return valueCreated;
@@ -69,7 +70,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-
     try {
       const valueUpdated = await skill.update(id, inputQuery);
       return valueUpdated;

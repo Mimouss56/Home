@@ -5,7 +5,6 @@
  * @property {string} name - Nom de la compétence
  */
 
-
 /**
  * GET /skill
  * @summary Récupère toutes les compétences

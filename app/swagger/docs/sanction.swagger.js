@@ -15,7 +15,6 @@
  * @property {boolean} important - Si la sanction est importante
  */
 
-
 /**
  * GET /sanction
  * @summary Récupère toutes les sanctions
@@ -48,4 +47,4 @@
  * @return 404 - La sanction n'a pas été trouvée
  * @return 500 - Erreur serveur
  * @return 401 - Non autorisé
-*/ 
+*/

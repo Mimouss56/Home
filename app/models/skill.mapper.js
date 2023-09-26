@@ -2,8 +2,11 @@ const CoreDatamapper = require('./core.mapper');
 
 module.exports = class Techno extends CoreDatamapper {
   tableName = 'skill';
+
   userRelated = 'user_skill';
+
   jobRelated = 'job_skill';
+
   schoolRelated = 'school_skill';
 
   async findAllSkillJob(id) {
@@ -17,6 +20,7 @@ module.exports = class Techno extends CoreDatamapper {
     const result = await this.client.query(preparedQuery);
     return result.rows;
   }
+
   async findAllSkillSchool(id) {
     const preparedQuery = {
       text: `

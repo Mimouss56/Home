@@ -19,7 +19,7 @@ module.exports = {
     const inputQuery = {
       title,
       description,
-      id_author : req.user.id,
+      id_author: req.user.id,
     };
     const result = await newsService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -27,6 +27,5 @@ module.exports = {
       code: 201,
       message: 'Nouvelle news créée',
     });
-  }
+  },
 };
-

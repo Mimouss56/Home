@@ -2,7 +2,9 @@ const CoreDatamapper = require('./core.mapper');
 
 module.exports = class School extends CoreDatamapper {
   tableName = 'schooling';
+
   userRelated = 'user_schooling';
+
   skillRelated = 'school_skill';
 
   async findAllByUserId(id) {
@@ -15,8 +17,8 @@ module.exports = class School extends CoreDatamapper {
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
-  };
-  
+  }
+
   async addSchoolUser(idSchool, idUser) {
     const preparedQuery = {
       text: `
@@ -26,7 +28,5 @@ module.exports = class School extends CoreDatamapper {
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
-  };
-
-
+  }
 };

@@ -17,9 +17,9 @@ module.exports = {
 
     res.json({
       ...user,
-      job : jobUser,
+      job: jobUser,
       school: schoolUser,
-      sanction: sanctionUser
+      sanction: sanctionUser,
     });
-  }
+  },
 };

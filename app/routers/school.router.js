@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const schoolController = require('../controllers/school.controller');
 const { isLogged } = require('../middlewares/validate.middleware');

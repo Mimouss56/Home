@@ -1,4 +1,3 @@
-const userService = require('../services/user.service');
 const { checkRole, loggedAs } = require('./auth.middleware');
 
 const validate = (schema, provider = 'body') => (req, res, next) => {
@@ -24,27 +23,8 @@ const isAdminPost = (schema, provider) => [
   validate(schema, provider),
 ];
 
-const isOwner = (schema, provider) => [
-  ...isLogged(schema, provider),
-  async (req, res, next) => {
-    const { user } = req;
-    const userInfo = await userService.getData(user.id);
-    const projetInfo = await projetService.getData(req.params.id);
-
-    if (userInfo.role.id === 3) return next();
-
-    if (userInfo.id !== projetInfo.author.id) {
-      return res.status(403).json({
-        message: 'Pas les droits nécessaire',
-      });
-    }
-    return next();
-  },
-];
-
 module.exports = {
   validate,
   isLogged,
   isAdminPost,
-  isOwner,
 };

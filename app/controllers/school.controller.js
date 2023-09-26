@@ -4,7 +4,7 @@ module.exports = {
   async getAll(req, res) {
     const data = await schoolService.getAll();
     if (data.code) return res.status(data.code).json(data);
-    res.json(data);
+    return res.json(data);
   },
   async getAllByUser(req, res) {
     const { id } = req.user;
@@ -28,19 +28,19 @@ module.exports = {
       fin,
       ville,
       departement,
-      urlImg
+      urlImg,
     } = req.body;
 
     const inputQuery = {
       ent,
       title,
-      niveau : description,
+      niveau: description,
       date_started: debut,
       date_ended: fin,
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      url_img: urlImg
+      url_img: urlImg,
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -60,19 +60,19 @@ module.exports = {
       fin,
       ville,
       departement,
-      urlImg
+      urlImg,
     } = req.body;
 
     const inputQuery = {
       ent,
       title,
-      niveau : description,
+      niveau: description,
       date_started: debut,
       date_ended: fin,
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      img_url: urlImg
+      img_url: urlImg,
     };
     const result = await schoolService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);

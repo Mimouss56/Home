@@ -2,9 +2,10 @@ const CoreDatamapper = require('./core.mapper');
 
 module.exports = class Techno extends CoreDatamapper {
   tableName = 'job';
-  userRelated = 'user_job';
-  skillRelated = 'job_skill';
 
+  userRelated = 'user_job';
+
+  skillRelated = 'job_skill';
 
   async findAllByUserId(id) {
     const preparedQuery = {
@@ -28,7 +29,7 @@ module.exports = class Techno extends CoreDatamapper {
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
-  };
+  }
 
   async addJobUser(idJob, idUser) {
     const preparedQuery = {
@@ -39,8 +40,8 @@ module.exports = class Techno extends CoreDatamapper {
     };
     const result = await this.client.query(preparedQuery);
     return result.rows;
-  };
-  
+  }
+
   async deleteJobUser(idUser, idJob) {
     const preparedQuery = {
       text: `
@@ -51,5 +52,4 @@ module.exports = class Techno extends CoreDatamapper {
     const result = await this.client.query(preparedQuery);
     return result.rows;
   }
-  
 };

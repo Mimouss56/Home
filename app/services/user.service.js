@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const roleService = require('./role.service');
-const jobService = require('./job.service');
-const schoolService = require('./school.service');
-const sanctionService = require('./sanction.service');
+// const jobService = require('./job.service');
+// const schoolService = require('./school.service');
+// const sanctionService = require('./sanction.service');
 
 module.exports = {
 

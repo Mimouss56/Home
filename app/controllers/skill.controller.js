@@ -1,4 +1,5 @@
 const skillService = require('../services/skill.service');
+const schoolService = require('../services/school.service');
 
 module.exports = {
   async getAll(req, res) {
@@ -19,7 +20,7 @@ module.exports = {
       debut,
       fin,
       ville,
-      departement
+      departement,
     } = req.body;
 
     const inputQuery = {
@@ -29,7 +30,7 @@ module.exports = {
       date_started: debut,
       date_ended: fin,
       town: ville,
-      postal_code: departement
+      postal_code: departement,
     };
     const result = await schoolService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

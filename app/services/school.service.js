@@ -1,6 +1,7 @@
 const { school } = require('../models/index.mapper');
 const skillService = require('./skill.service');
-const textValue = "school"
+
+const textValue = 'school';
 
 module.exports = {
   async getAll() {
@@ -54,7 +55,7 @@ module.exports = {
           ville: value.town,
           departement: Number(value.postal_code),
         },
-        competences: schoolSkill
+        competences: schoolSkill,
       };
       return one;
     });
@@ -108,8 +109,8 @@ module.exports = {
         },
         ent: value.ent,
         niveau: value.niveau,
-        competences: value.competences
-      }
+        competences: value.competences,
+      };
     } catch (error) {
       return {
         code: 500,
@@ -118,7 +119,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-
     try {
       const valueUpdated = await school.update(id, inputQuery);
       return valueUpdated;

@@ -26,7 +26,7 @@ module.exports = {
       fin,
       ville,
       departement,
-      urlImg
+      urlImg,
     } = req.body;
 
     const inputQuery = {
@@ -38,7 +38,7 @@ module.exports = {
       town: ville,
       postal_code: Number(departement),
       id_user: req.user.id,
-      img_url: urlImg
+      img_url: urlImg,
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -58,7 +58,7 @@ module.exports = {
       fin,
       ville,
       departement,
-      imgUrl
+      imgUrl,
     } = req.body;
 
     const inputQuery = {
@@ -70,7 +70,7 @@ module.exports = {
       ville,
       departement,
       id_user: req.user.id,
-      img_url: imgUrl
+      img_url: imgUrl,
     };
     const result = await jobService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -98,6 +98,6 @@ module.exports = {
       code: 200,
       message: 'Emploi deleted',
     });
-  }
+  },
 
 };

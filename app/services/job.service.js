@@ -1,6 +1,7 @@
 const { job } = require('../models/index.mapper');
 const skillService = require('./skill.service');
-const textValue = "job"
+
+const textValue = 'job';
 
 module.exports = {
   async getAll() {
@@ -26,7 +27,7 @@ module.exports = {
         },
         ent: value.ent,
         description: value.description,
-        competences: jobSkill
+        competences: jobSkill,
       };
       return one;
     });
@@ -56,7 +57,7 @@ module.exports = {
         },
         ent: value.ent,
         description: value.description,
-        competences: jobSkill
+        competences: jobSkill,
       };
       return one;
     });
@@ -87,7 +88,7 @@ module.exports = {
         },
         ent: findByID.ent,
         description: findByID.description,
-        competences
+        competences,
       };
 
       return returnValue;
@@ -118,7 +119,7 @@ module.exports = {
         },
         ent: value.ent,
         description: value.description,
-        competences: value.competences
+        competences: value.competences,
       };
     } catch (error) {
       return {
@@ -128,7 +129,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-
     try {
       const valueUpdated = await job.update(id, inputQuery);
       return valueUpdated;
@@ -161,5 +161,5 @@ module.exports = {
         message: `${textValue} not deleted`,
       };
     }
-  }
+  },
 };
