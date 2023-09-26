@@ -18,11 +18,7 @@ module.exports = {
     const userDetails = {
       ...userByID,
       role: await roleService.getData(userByID.id_role),
-      job: await jobService.getAllByUser(userByID.id),
-      school: await schoolService.getAllByUser(userByID.id),
-      sanction: (userByID.child) ? await sanctionService.getAll(userByID.id) : [],
     };
-    // delete userDetails.github_id;
     delete userDetails.password;
     delete userDetails.id_role;
     return userDetails;

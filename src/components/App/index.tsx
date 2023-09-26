@@ -15,12 +15,12 @@ import User from '../User';
 import Sanction from '../Sanction';
 import Logout from '../Logout';
 import Menu from '../User/AsideMenu';
-import Dashboard from '../Admin';
-import Under from '../UnderContruct';
 import Cv from '../Cv';
 import Footer from '../Footer';
-import Setting from '../User/Setting';
+// import Setting from '../User/Setting';
 import ProtectedRoute from '../ProtectedRoute';
+import Main from '../Main';
+import Admin from '../Admin';
 
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -48,7 +48,7 @@ function App() {
         <Register />
 
         <Routes>
-          <Route path="/" element={<Under />} />
+          <Route path="/" element={<Main />} />
           <Route path="cv" element={<Cv />} />
           <Route path="about" element={<Cv />} />
           <Route
@@ -78,10 +78,10 @@ function App() {
 
           {userSession?.role.label === 'admin' && (
             <Route
-              path="admin/dashboard"
+              path="admin/*"
               element={(
                 <ProtectedRoute>
-                  <Dashboard />
+                  <Admin />
                 </ProtectedRoute>
               )}
             />

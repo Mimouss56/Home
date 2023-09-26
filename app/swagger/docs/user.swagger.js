@@ -14,4 +14,5 @@
  * @property {integer} id - ID de l'auteur
  * @property {string} username - Nom d'utilisateur de l'auteur
  * @property {string} email - Email de l'auteur
+ * @property {Role} role - Rôle de l'auteur
  */
