@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "back": "set DEBUG=SQL* & npx nodemon --trace-warnings index.js",
+    "back": "set DEBUG=server* & npx nodemon --trace-warnings index.js",
     "react": "vite --open --host",
-    "build": "vite build --emptyOutDir"
+    "build": "vite build --emptyOutDir",
+    "deploy-command-bot": "node bot/deploy/deploy-commands.js",
+    "remove-command-bot": "node bot/deploy/remove-commands.js"
+
   },
   "author": "Mouss",
   "license": "ISC",
@@ -39,6 +42,7 @@
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.3.0",
     "dayjs": "^1.11.8",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-jsdoc-swagger": "^1.8.0",
