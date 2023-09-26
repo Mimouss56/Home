@@ -6,6 +6,7 @@ const User = require('./user.mapper');
 const School = require('./school.mapper');
 const Sanction = require('./sanction.mapper');
 const Skill = require('./skill.mapper');
+const News = require('./news.mapper');
 
 
 module.exports = {
@@ -14,5 +15,6 @@ module.exports = {
   user: new User(client),
   school: new School(client),
   sanction: new Sanction(client),
-  skill : new Skill(client)
+  skill : new Skill(client),
+  news : new News(client)
 };

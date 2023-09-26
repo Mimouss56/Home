@@ -4,3 +4,4 @@
 initdb 2023-07-13T08:16:24Z Mouss <lepriol.matthieu@gmail.com> # initialisation BDD
 sanction 2023-08-06T20:24:20Z Mouss <lepriol.matthieu@gmail.com> # Gestion des sanctions
 sanctionBis 2023-08-12T07:55:25Z Mouss <lepriol.matthieu@gmail.com> # Update des sanction  + url ent
+news 2023-09-17T14:47:06Z Mouss <lepriol.matthieu@gmail.com> # System de news

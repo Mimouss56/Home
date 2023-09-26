@@ -14,3 +14,15 @@ export interface Role {
   label: string
   color?: string
 }
+
+export interface Author {
+  id: number
+  username: string
+  email: string
+  created_at: string
+  updated_at: string
+  deleted_at: string
+  last_visited: string
+  child: boolean
+  role: Role
+}

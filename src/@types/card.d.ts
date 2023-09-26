@@ -1,3 +1,5 @@
+import { Author } from './user';
+
 export interface ICard {
   id: number;
   ent: string;
@@ -9,4 +11,11 @@ export interface ICard {
     fin : string;
   }
   competences : string[];
+}
+
+export interface ICardNews {
+  id: number;
+  title: string;
+  description: string;
+  author : Author
 }
