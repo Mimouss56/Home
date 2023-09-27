@@ -35,7 +35,6 @@ function App() {
   return (
     <>
       {userSession && (<Menu navContent={[navItemsUser, navItemsAdmin]} />)}
-
       <main className="d-flex flex-row">
         <Navbar navContent={navTop} />
         <ToastContainer

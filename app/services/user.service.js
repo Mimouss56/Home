@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const roleService = require('./role.service');
-// const jobService = require('./job.service');
-// const schoolService = require('./school.service');
+const jobService = require('./job.service');
+const schoolService = require('./school.service');
 // const sanctionService = require('./sanction.service');
 
 module.exports = {
@@ -18,6 +18,8 @@ module.exports = {
     const userDetails = {
       ...userByID,
       role: await roleService.getData(userByID.id_role),
+      job: await jobService.getAllByUser(userByID.id),
+      school: await schoolService.getAllByUser(userByID.id),
     };
     delete userDetails.password;
     delete userDetails.id_role;

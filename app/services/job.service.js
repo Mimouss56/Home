@@ -68,12 +68,6 @@ module.exports = {
   async getData(id) {
     try {
       const findByID = await job.findByPk(id);
-      if (!findByID) {
-        return {
-          code: 404,
-          message: `${textValue} not found`,
-        };
-      }
       const competences = await skillService.getAllSkillJob(findByID.id);
       const returnValue = {
         id: findByID.id,

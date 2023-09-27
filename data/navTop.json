@@ -3,10 +3,5 @@
     "id": 1,
     "name": "Cv",
     "link": "/Cv"
-  },
-  {
-    "id": 2,
-    "name": "Portfolio",
-    "link": "/portfolio"
-  }  
+  }
 ]
