@@ -70,14 +70,14 @@ module.exports = {
       }
       inputData.password = bcrypt.hash(inputQuery.password, 10);
     }
-
     try {
-      const result = await user.update(userByID.id, inputData);
-      return { message: 'User updated', result };
+      await user.update(userByID.id, inputData);
+      return { message: 'Données mises à jour' };
     } catch (error) {
       return {
         code: 500,
         message: 'Error while updating user',
+        error,
       };
     }
   },

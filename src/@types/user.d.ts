@@ -7,6 +7,7 @@ export interface User {
   school: Job
   sanction: Sanction[]
   child: boolean
+  last_visited: string
 }
 
 export interface Role {

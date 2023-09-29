@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
 import { User as UserInfo } from '../../../@types/user';
 import { MenuItemsProp } from '../../../@types/menu';
@@ -54,7 +54,16 @@ function Menu({ navContent }: MenuProp) {
       <ul className="nav nav-pills flex-column mb-auto">
         <Nav navItems={navItemsUser as MenuItemsProp[]} />
         {userSession.role.label === 'admin' && (
-          <Nav navItems={navItemsAdmin} />
+          <>
+            <li className="border-top my-3" />
+            <li className="nav-intem">
+              <Link to="/admin/" className="nav-link ">
+                <i className="bi bi-setting px-1" />
+                Espace Admin
+              </Link>
+            </li>
+          </>
+
         )}
         <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
           Déconnexion

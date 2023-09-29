@@ -7,6 +7,7 @@ interface ErrorSanctionProps {
   response: {
     data: {
       message: string;
+      error?: string;
     };
     status: number;
   };

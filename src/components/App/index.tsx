@@ -10,7 +10,6 @@ import './style.scss';
 import Navbar from '../Navbar';
 import Login from '../Login';
 import Register from '../Register';
-import NotFound from '../notFound';
 import User from '../User';
 import Sanction from '../Sanction';
 import Logout from '../Logout';
@@ -35,6 +34,18 @@ function App() {
   return (
     <>
       {userSession && (<Menu navContent={[navItemsUser, navItemsAdmin]} />)}
+      {userSession?.role.label === 'admin' && (
+        <Routes>
+          <Route
+            path="admin/*"
+            element={(
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            )}
+          />
+        </Routes>
+      )}
       <main className="d-flex flex-row">
         <Navbar navContent={navTop} />
         <ToastContainer
@@ -74,18 +85,6 @@ function App() {
               </ProtectedRoute>
             )}
           />
-
-          {userSession?.role.label === 'admin' && (
-            <Route
-              path="admin/*"
-              element={(
-                <ProtectedRoute>
-                  <Admin />
-                </ProtectedRoute>
-              )}
-            />
-          )}
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

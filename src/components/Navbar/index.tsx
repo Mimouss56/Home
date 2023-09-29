@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { User } from '../../@types/user';
-import './style.scss';
 
 interface NavbarProp {
   navContent: MenuProp[];

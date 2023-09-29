@@ -42,8 +42,7 @@ module.exports = {
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
-    return res.json({
-      code: 201,
+    return res.status(200).json({
       message: 'Nouvel Emploi créé',
       ...result,
     });
@@ -75,7 +74,6 @@ module.exports = {
     const result = await jobService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Emploi updated',
     });
   },
@@ -84,7 +82,6 @@ module.exports = {
     const result = await jobService.delete(id);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Emploi deleted',
     });
   },
@@ -95,7 +92,6 @@ module.exports = {
     const result = await jobService.deleteJobUser(id, idUser);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Emploi deleted',
     });
   },

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import HeaderCv from './Header/header';
-import './style.scss';
 import { MoussID } from '../../../config.json';
 
 import Xp from './Main/xp';

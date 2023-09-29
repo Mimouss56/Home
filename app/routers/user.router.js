@@ -6,6 +6,8 @@ const { loggedAs } = require('../middlewares/auth.middleware');
 
 router.get('/', loggedAs, userController.getAll);
 
-router.get('/:id', userController.get);
+router.route('/:id')
+  .get(userController.get)
+  .put(loggedAs, userController.put);
 
 module.exports = router;
