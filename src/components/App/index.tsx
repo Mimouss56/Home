@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { User as UserInfo } from '../../@types/user';
-import navItemsAdmin from '../../../data/navItemsAdmin.json';
+import menuAdmin from '../../../data/navItemsAdmin.json';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navTop from '../../../data/navTop.json';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +20,7 @@ import Footer from '../Footer';
 import ProtectedRoute from '../ProtectedRoute';
 import Main from '../Main';
 import Admin from '../Admin';
+import AsideMenuAdmin from '../Admin/AsideMenu';
 
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -33,20 +34,20 @@ function App() {
 
   return (
     <>
-      {userSession && (<Menu navContent={[navItemsUser, navItemsAdmin]} />)}
-      {userSession?.role.label === 'admin' && (
-        <Routes>
-          <Route
-            path="admin/*"
-            element={(
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            )}
-          />
-        </Routes>
-      )}
-      <main className="d-flex flex-row">
+      {userSession && (<Menu navContent={[navItemsUser]} />)}
+      {userSession?.role.label === 'admin' && (<AsideMenuAdmin navItems={menuAdmin} />)}
+      <main
+        className="d-flex flex-row "
+        style={
+          userSession?.role.label === 'admin' ? {
+            marginLeft: 240,
+            marginTop: 64,
+          } : {
+            margin: '10vh auto',
+            width: '80vw',
+          }
+        }
+      >
         <Navbar navContent={navTop} />
         <ToastContainer
           position="top-left"
@@ -77,6 +78,17 @@ function App() {
               </ProtectedRoute>
             )}
           />
+          {(userSession?.role.label === 'admin') ? (
+            <Route
+              path="admin/*"
+              element={(
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              )}
+            />
+          ) : null}
+
           <Route
             path="sanction"
             element={(
@@ -87,6 +99,7 @@ function App() {
           />
         </Routes>
       </main>
+
       <Footer />
     </>
   );

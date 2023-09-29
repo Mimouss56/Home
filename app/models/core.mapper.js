@@ -138,7 +138,6 @@ module.exports = class CoreDatamapper {
     Object.entries(inputData).forEach(([prop, value]) => {
       fieldsAndPlaceholders.push(`"${prop}" = $${indexPlaceholder}`);
       indexPlaceholder += 1;
-
       values.push(value);
     });
 
@@ -154,6 +153,7 @@ module.exports = class CoreDatamapper {
           `,
       values,
     };
+
     const result = await this.client.query(preparedQuery);
     const row = result.rows[0];
     return row;

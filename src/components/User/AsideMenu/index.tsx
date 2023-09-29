@@ -13,7 +13,7 @@ interface MenuProp {
 
 function Menu({ navContent }: MenuProp) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
-  const [navItemsUser, navItemsAdmin] = navContent;
+  const [navItemsUser] = navContent;
 
   const handleClickLogout = () => {
     sessionStorage.removeItem('user');
@@ -57,7 +57,7 @@ function Menu({ navContent }: MenuProp) {
           <>
             <li className="border-top my-3" />
             <li className="nav-intem">
-              <Link to="/admin/" className="nav-link ">
+              <Link to="/admin" className="nav-link ">
                 <i className="bi bi-setting px-1" />
                 Espace Admin
               </Link>

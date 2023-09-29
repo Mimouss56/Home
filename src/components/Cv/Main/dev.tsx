@@ -22,8 +22,8 @@ function Dev() {
                 <a className="fst-italic text-end" href="https://oside.mimouss.fr"><p className="mb-0">O&apos;Side Project</p></a>
               </li>
               <li className="list-group-item d-flex flex-wrap pt-0 flex-column p-0">
-                <span>Création d&apos;une application pour une communauté de joueurs.</span>
-                <span>(Authentification via Discord, Gestion de dons)</span>
+                <span>Migration de l&apos;application bbc.mimouss.fr de PHP sous JS</span>
+                <span>(Authentification et gestion utilisateur via Discord, Gestion de dons)</span>
                 <a className="fst-italic text-end" href="https://bbc.mimouss.fr"><p className="mb-0">BelBreizh Crew</p></a>
               </li>
             </ul>

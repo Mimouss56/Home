@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import axiosInstance from '../../../utils/axios';
 import { User as IUser } from '../../../@types/user';
 import { ErrorSanctionProps } from '../../../@types/error';
@@ -14,11 +15,10 @@ function User() {
 
   const handleChangeRole = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     try {
-      const response = await axiosInstance.put(`/user/${event.target.id}`, {
+      await axiosInstance.put(`/user/${event.target.id}`, {
         role: event.target.value,
       });
       fetchUsers();
-      toast.success(`🦄 ${response.data.message} !`);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
@@ -44,7 +44,7 @@ function User() {
 
   return (
     <div>
-      <table className="table table-responsive table-striped">
+      <table className="table table-responsive-sm table-hover table-bordered">
         <thead>
           <tr>
             <th>
@@ -53,7 +53,7 @@ function User() {
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
-            <th>child</th>
+            <th>!child</th>
             <th>Sanction</th>
             <th>Last Login</th>
           </tr>
@@ -78,19 +78,28 @@ function User() {
                   <option value="2">User</option>
                 </select>
               </td>
-              <td>
+              <td className="text-center">
                 <div className="form-check form-switch">
                   <input
                     className="form-check-input"
                     type="checkbox"
                     role="switch"
-                    defaultChecked={user.child}
+                    checked={!user.child}
                     id={user.id.toString()}
                     onChange={handleSwitchChild}
                   />
                 </div>
               </td>
-              <td>{(user.child) ? user.sanction.length : 0}</td>
+              <td className="text-center">
+                {
+                  user.child && (
+                    <Link to={`/sanction?child=${user.id}`}>
+                      {user.sanction.length}
+                    </Link>
+                  )
+                }
+
+              </td>
               <td>{dayjs(user.last_visited).format('DD/MM/YYYY HH:mm:ss')}</td>
             </tr>
           ))}

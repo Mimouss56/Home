@@ -1,11 +1,10 @@
-import axios from 'axios';
 import { useState } from 'react';
 import {
   Form, Input, Button,
 } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { LoginPost } from '../../@types/login';
-import { urlAPI } from '../../../config.json';
+import axiosInstance from '../../utils/axios';
 
 function Login() {
   const [form] = Form.useForm();
@@ -13,23 +12,23 @@ function Login() {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (values: LoginPost) => {
-    axios.post(`${urlAPI}/login`, values).then((res) => {
+  const handleSubmit = async (values: LoginPost) => {
+    try {
+      const res = await axiosInstance.post('/login', values);
       const { data, sessionToken, message } = res.data;
 
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(data));
       sessionStorage.setItem('notifToast', message);
-      setSuccess(true);
       setLoading(false);
       window.location.reload();
-    }).catch((err) => {
+    } catch (err) {
+      const { response } = err as any;
       setError(true);
-      setErrorMessage(err.message);
+      setErrorMessage(response.data);
       setLoading(false);
-    });
+    }
   };
 
   return (
@@ -41,7 +40,6 @@ function Login() {
         setLoading(true);
         setError(false);
         setErrorMessage('');
-        setSuccess(false);
         handleSubmit(values);
       }}
     >

@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-import axios from 'axios';
 import { useState } from 'react';
 import {
   Form, Input, Button, Alert,
@@ -11,7 +10,7 @@ import {
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
 import { RegisterPost } from '../../@types/register';
-import { urlAPI } from '../../../config.json';
+import axiosInstance from '../../utils/axios';
 
 function Register() {
   const [form] = Form.useForm();
@@ -20,25 +19,28 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (values: RegisterPost) => {
-    const data = {
+  const handleSubmit = async (values: RegisterPost) => {
+    const dataInput = {
       username: values.username,
       password: values.password,
       confirmPassword: values.confirmPassword,
       email: values.email,
     };
-    axios.post(`${urlAPI}/register`, data).then((res) => {
-      if (res.data.error) {
-        setError(true);
-        setErrorMessage(res.data.error);
-        setLoading(false);
-      }
-      // refresh la page
+    try {
+      const res = await axiosInstance.post('/register', dataInput);
+      const { data, sessionToken, message } = res.data;
+
+      sessionStorage.setItem('sessionToken', sessionToken);
+      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('notifToast', message);
+      setLoading(false);
       window.location.reload();
-      // redirection sur la page d'accueil
-    }).catch((err) => {
-      setErrorMessage(`Probleme de connexion au serveur : ${err}`);
-    });
+    } catch (err) {
+      const { response } = err as any;
+      setError(true);
+      setErrorMessage(response.data);
+      setLoading(false);
+    }
   };
 
   return (

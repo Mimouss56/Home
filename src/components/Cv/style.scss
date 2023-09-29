@@ -46,6 +46,16 @@
     border-bottom-left-radius: 25px;
 }
 
+#right {
+    border: 1px solid #ccc;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: #ce6b01;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
 
 #info {
     font-family: 'Roboto', sans-serif;
@@ -56,10 +66,13 @@
 }
 
 @media print {
-    #left, #right {
+
+    #left,
+    #right {
         border: none;
         border-radius: 0;
     }
+
     .noprint {
         display: none;
     }

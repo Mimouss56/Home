@@ -22,8 +22,14 @@ function Sanction() {
       response.data.sort(
         (a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1),
       );
-
       setSanctions(response.data);
+      const params = new URLSearchParams(window.location.search);
+      const idChild = params.get('child');
+      if (idChild) {
+        setSanctions(
+          response.data.filter((sanction: ISanction) => sanction.child.id === Number(idChild)),
+        );
+      }
     } catch (unknownError) {
       const error = unknownError as ErrorSanctionProps;
       sessionStorage.setItem('notifToast', error.response.data.message);
@@ -63,6 +69,7 @@ function Sanction() {
 
   useEffect(() => {
     fetchData(url);
+    // recupere le req.query s'il existe
   }, [url]);
 
   return (
@@ -104,7 +111,7 @@ function Sanction() {
               data-bs-toggle="modal"
               data-bs-target="#ModalViewSanction"
               data-bs-id={sanction.id}
-              data-bs-roleId={user.role.id}
+              data-bs-roleid={user.role.id}
 
             >
               <td>

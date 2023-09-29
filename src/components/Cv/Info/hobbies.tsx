@@ -4,13 +4,13 @@ function Hobbies() {
       <h2 id="title_contact" className="p-2 fw-bold fs-5">Loisirs</h2>
       <div id="langues" className="mx-3 text-white mb-3">
         <p id="website" className="mb-1">
-          Jeux vidéo
+          License Zelda de Nintendo
         </p>
         <p id="github" className="mb-1">
-          Lecture
+          Série Médicale US
         </p>
         <p id="github" className="mb-1">
-          Musique
+          French Touch
         </p>
       </div>
     </section>

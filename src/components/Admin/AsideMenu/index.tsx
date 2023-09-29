@@ -7,9 +7,19 @@ interface MenuProp {
 
 function AsideMenuAdmin({ navItems }: MenuProp) {
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark fixed" style={{ width: 240, marginTop: 64, height: 300 }}>
+    <div
+      className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark w-240 w-md-auto"
+      style={
+        {
+          bottom: 0,
+          top: 64,
+          position: 'fixed',
+          overflowY: 'auto',
+        }
+      }
+    >
       <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-        <span className="fs-4">Admin</span>
+        <span className="fs-4 d-none d-sm-none d-md-block">Admin</span>
       </a>
       <hr />
       <ul className="nav nav-pills flex-column mb-auto">

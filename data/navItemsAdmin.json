@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Dashboard",
-    "link": "/admin/dashboard",
+    "link": "/admin",
     "icon": "speedometer2",
     "component": "Dashboard"
   },
@@ -19,5 +19,12 @@
     "link": "/admin/news",
     "icon": "newspaper",
     "component": "News"
+  },
+  {
+    "id": 4,
+    "title": "Options",
+    "link": "/admin/options",
+    "icon": "sliders",
+    "component": "Options"
   }
 ]
