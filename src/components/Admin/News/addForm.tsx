@@ -3,7 +3,6 @@ import { ICreateNews, ITag } from '../../../@types/news';
 
 // Mocked
 import { mockTags } from './mocked';
-import axiosInstance from '../../../utils/axios';
 
 interface NewsFormProps {
   news: ICreateNews | null;
@@ -32,31 +31,12 @@ function NewsForm({ news = null }: NewsFormProps) {
     const tagId = Number(e.target.value);
     const selectedTag = availableTags.find((tag) => tag.id === tagId);
     if (selectedTag) {
-      setCurrentNews((prev) => ({ ...prev, tags: [...prev.tags, selectedTag] }));
       setShowSelect(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const inputData = {
-      title: currentNews.title,
-      description: currentNews.content,
-      tags: currentNews.tags.map((tag) => tag.id),
-    };
-
-    if (currentNews.id) {
-      const result = axiosInstance.put(`/news/${currentNews.id}`, inputData);
-      console.log('Editing news:', result);
-    } else {
-      const result = axiosInstance.post('/news', inputData);
-      console.log('Adding news:', result);
-    }
-z  };
-
   return (
-    <form onSubmit={handleSubmit} className="m-5">
+    <>
       <div className="mb-3">
         <label htmlFor="title" className="form-label">Title</label>
         <input
@@ -82,7 +62,7 @@ z  };
 
       <div className="mb-3">
         <div className="d-flex flex-wrap align-items-center">
-          {currentNews.tags.map((tag) => (
+          {currentNews.tags?.map((tag) => (
             <span
               key={tag.id}
               className="badge me-2 mb-2"
@@ -107,14 +87,12 @@ z  };
             >
               <option value="">Select a tag</option>
               {availableTags.filter(
-                (tag) => !currentNews.tags.some((t) => t.id === tag.id),
+                (tag) => !currentNews.tags?.some((t) => t.id === tag.id),
               ).map((tag) => (
                 <option key={tag.id} value={tag.id}>
                   {tag.label}
                 </option>
               ))}
-              {' '}
-
             </select>
           )}
         </div>
@@ -125,9 +103,8 @@ z  };
         data-bs-dismiss="modal"
       >
         Save
-
       </button>
-    </form>
+    </>
   );
 }
 

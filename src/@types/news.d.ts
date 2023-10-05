@@ -22,5 +22,5 @@ export interface ICreateNews {
   title: string;
   content: string;
   author?: Author | null;
-  tags?: ITag[] | null;
+  tags?: ITag[] | undefined;
 }

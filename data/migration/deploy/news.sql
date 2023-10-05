@@ -5,7 +5,7 @@ BEGIN;
 CREATE TABLE NEWS (
   id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   title text,
-  description text NOT NULL,
+  content text NOT NULL,
   id_author int REFERENCES public.user(id) ON DELETE CASCADE,
   created_at timestamptz NOT NULL DEFAULT NOW(),
   updated_at timestamptz

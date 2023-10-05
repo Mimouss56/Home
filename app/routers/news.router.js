@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { isAdminPost } = require('../middlewares/validate.middleware');
+const { isAdminPost, isLogged } = require('../middlewares/validate.middleware');
 const { loggedAs } = require('../middlewares/auth.middleware');
 const { news } = require('../schema/news.schema');
 
@@ -10,6 +10,6 @@ router.post('/', loggedAs, isAdminPost(news), newsController.post);
 
 router.get('/:id', newsController.get);
 router.delete('/:id', loggedAs, newsController.delete);
-// router.put('/:id', newsController.update);
+router.put('/:id', isLogged(news), newsController.update);
 
 module.exports = router;

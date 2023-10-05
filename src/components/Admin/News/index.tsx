@@ -4,28 +4,59 @@ import NewsForm from './addForm';
 import { ICreateNews, INews } from '../../../@types/news';
 import axiosInstance from '../../../utils/axios';
 
+interface ValueTargetForm {
+  value: string;
+  name: string;
+}
 function NewsList() {
   const [newsList, setNewsList] = useState<INews[]>([]);
   const [currentNews, setCurrentNews] = useState(null as ICreateNews | null);
 
   const fetchListNews = async () => {
     const response = await axiosInstance.get('/news');
-    console.log(response.data);
     setNewsList(response.data);
   };
 
-  const handleEdit = (news = null) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { title, content } = e.target as typeof e.target & {
+      title: ValueTargetForm;
+      content: ValueTargetForm;
+    };
+
+    const inputData = {
+      title: title.value,
+      content: content.value,
+      // tags: e.currentTarget.title.value ? currentNews.tags.map((tag) => tag.id) : [],
+    };
+    if (currentNews) {
+      const newNews = { ...currentNews, ...inputData } as INews;
+      const result = await axiosInstance.put(`/news/${currentNews.id}`, inputData);
+      const index = newsList.findIndex((news) => news.id === currentNews.id);
+      newsList[index] = newNews;
+      setNewsList(newsList);
+
+      // setNewsList((prev) => [...prev, newNews]);
+      toast.info(result.data.message);
+    } else {
+      const result = await axiosInstance.post('/news', inputData);
+      setNewsList((prev) => [...prev, result.data.data]);
+      toast.success(result.data.message);
+    }
+    setCurrentNews(null);
+    fetchListNews();
+  };
+
+  const handleEdit = (news: INews | null) => {
     setCurrentNews(news);
   };
 
-  const handleDelete = (id: number) => {
-    const result = axiosInstance.delete(`/news/${id}`);
-    console.log(result);
-    
+  const handleDelete = async (id: number) => {
+    const result = await axiosInstance.delete(`/news/${id}`);
 
-    toast.success(result.message);
+    toast.success(result.data.message);
     fetchListNews();
-    console.log('Delete news with id:', id);
     // API call to delete the news and then update the list
   };
 
@@ -45,7 +76,6 @@ function NewsList() {
         data-bs-target="#addModalNews"
       >
         Add News
-
       </button>
 
       {/* Table to display news */}
@@ -96,7 +126,7 @@ function NewsList() {
 
       {/* Bootstrap Modal */}
       <div className="modal" tabIndex={-1} id="addModalNews">
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{currentNews ? 'Edit News' : 'Add News'}</h5>
@@ -106,7 +136,10 @@ function NewsList() {
                 data-bs-dismiss="modal"
               />
             </div>
-            <NewsForm news={currentNews} />
+            <form onSubmit={handleSubmit} className="m-5">
+
+              <NewsForm news={currentNews} />
+            </form>
           </div>
         </div>
       </div>

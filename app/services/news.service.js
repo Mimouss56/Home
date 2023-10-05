@@ -38,7 +38,7 @@ module.exports = {
       const returnValues = {
         id: newsByID.id,
         title: newsByID.title,
-        description: newsByID.description,
+        content: newsByID.content,
         image: newsByID.image,
         author: authorInfo,
       };
@@ -58,6 +58,28 @@ module.exports = {
       return {
         code: 500,
         message: 'News not created',
+      };
+    }
+  },
+
+  async update(id, inputQuery) {
+    try {
+      const newsByID = await news.findByPk(id);
+      if (!newsByID) {
+        return {
+          code: 404,
+          message: 'News not found',
+        };
+      }
+      await news.update(newsByID.id, inputQuery);
+      return {
+        code: 201,
+        message: 'News updated',
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'News not updated',
       };
     }
   },
@@ -88,8 +110,14 @@ module.exports = {
   },
 
   async delete(id) {
-    const newsByID = await this.getData(id);
     try {
+      const newsByID = await news.findByPk(id);
+      if (!newsByID) {
+        return {
+          code: 404,
+          message: 'News not found',
+        };
+      }
       await news.delete(newsByID.id);
       return {
         message: 'News deleted',

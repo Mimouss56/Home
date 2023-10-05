@@ -13,24 +13,46 @@ module.exports = {
   async post(req, res) {
     const {
       title,
-      description,
+      content,
       tags,
     } = req.body;
 
     const inputQuery = {
       title,
-      description,
+      content,
       id_author: req.user.id,
     };
     const result = await newsService.create(inputQuery);
     if (tags) {
-      console.log('tags', tags);
       await newsService.addTags(result.id, tags);
     }
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 201,
       message: 'Nouvelle news créée',
+      data: await newsService.getData(result.id),
+    });
+  },
+
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      title,
+      content,
+      tags,
+    } = req.body;
+    const inputQuery = {
+      title,
+      content,
+      id_author: req.user.id,
+    };
+    const result = await newsService.update(id, inputQuery);
+    if (tags) {
+      await newsService.addTags(id, tags);
+    }
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      message: 'News modifiée',
+      data: await newsService.getData(id),
     });
   },
 
