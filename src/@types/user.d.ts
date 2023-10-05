@@ -22,7 +22,6 @@ export interface Author {
   email: string
   created_at: string
   updated_at: string
-  deleted_at: string
   last_visited: string
   child: boolean
   role: Role

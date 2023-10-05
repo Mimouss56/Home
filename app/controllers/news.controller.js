@@ -14,6 +14,7 @@ module.exports = {
     const {
       title,
       description,
+      tags,
     } = req.body;
 
     const inputQuery = {
@@ -22,10 +23,23 @@ module.exports = {
       id_author: req.user.id,
     };
     const result = await newsService.create(inputQuery);
+    if (tags) {
+      console.log('tags', tags);
+      await newsService.addTags(result.id, tags);
+    }
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 201,
       message: 'Nouvelle news créée',
+    });
+  },
+
+  async delete(req, res) {
+    const { id } = req.params;
+    const result = await newsService.delete(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      message: 'News supprimée',
     });
   },
 };

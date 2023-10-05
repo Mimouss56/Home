@@ -47,9 +47,6 @@ function User() {
       <table className="table table-responsive-sm table-hover table-bordered">
         <thead>
           <tr>
-            <th>
-              <input type="checkbox" id="all" />
-            </th>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
@@ -61,9 +58,6 @@ function User() {
         <tbody>
           {users.map((user: IUser) => (
             <tr key={user.id}>
-              <td>
-                <input type="checkbox" id={user.id.toString()} />
-              </td>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>

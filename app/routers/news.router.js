@@ -6,9 +6,10 @@ const { news } = require('../schema/news.schema');
 const newsController = require('../controllers/news.controller');
 
 router.get('/', newsController.getAll);
-router.get('/:id', newsController.get);
 router.post('/', loggedAs, isAdminPost(news), newsController.post);
+
+router.get('/:id', newsController.get);
+router.delete('/:id', loggedAs, newsController.delete);
 // router.put('/:id', newsController.update);
-// router.delete('/:id', newsController.delete);
 
 module.exports = router;

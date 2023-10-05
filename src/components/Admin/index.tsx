@@ -1,7 +1,6 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
-import News from '../News';
+import { Routes, Route } from 'react-router-dom';
 import User from './Users';
-import NotFound from '../notFound';
+import News from './News';
 
 function Admin() {
   return (

@@ -12,6 +12,8 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   // Si absence de Token dans le sessionStorage, redirection vers la page d'accueil
   if (!token) {
     sessionStorage.setItem('notifToast', 'Vous devez être connecté pour accéder à cette page');
+    sessionStorage.removeItem('user');
+
     return <Navigate to="/" replace />;
   }
   // Si Token présent dans le sessionStorage, vérification de sa validité
@@ -23,6 +25,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (dateNow > dateExp) {
     sessionStorage.removeItem('sessionToken');
+    sessionStorage.removeItem('user');
     sessionStorage.setItem('notifToast', 'Votre session a expiré');
     return <Navigate to="/" replace />;
   }

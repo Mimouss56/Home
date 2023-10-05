@@ -6,10 +6,7 @@ module.exports = {
     const dataInfo = await news.findAll();
 
     if (!dataInfo || dataInfo.length === 0) {
-      return {
-        code: 404,
-        message: 'News not found',
-      };
+      return [];
     }
 
     // Map over dataInfo and get an array of promises
@@ -61,6 +58,46 @@ module.exports = {
       return {
         code: 500,
         message: 'News not created',
+      };
+    }
+  },
+
+  async addTags(id, tags) {
+    try {
+      const newsByID = await news.findByPk(id);
+      if (!newsByID) {
+        return {
+          code: 404,
+          message: 'News not found',
+        };
+      }
+      const promises = tags.map(
+        async (tag) => newsByID.addTag(tag),
+      );
+      await Promise.all(promises);
+      return {
+        code: 201,
+        message: 'Tags added',
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'Tags not added',
+      };
+    }
+  },
+
+  async delete(id) {
+    const newsByID = await this.getData(id);
+    try {
+      await news.delete(newsByID.id);
+      return {
+        message: 'News deleted',
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'News not deleted',
       };
     }
   },
