@@ -9,7 +9,6 @@
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
     "remove-command-bot": "node bot/deploy/remove-commands.js"
-
   },
   "author": "Mouss",
   "license": "ISC",
@@ -36,6 +35,7 @@
     "@ant-design/icons": "^5.1.4",
     "@popperjs/core": "^2.11.8",
     "@react-pdf/renderer": "^3.1.12",
+    "@tinymce/tinymce-react": "^4.3.0",
     "@vitejs/plugin-react": "^3.1.0",
     "antd": "^5.7.0",
     "axios": "^1.4.0",

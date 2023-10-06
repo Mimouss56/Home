@@ -3,6 +3,7 @@ import Card from '../Card';
 import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/card';
 import { INews } from '../../@types/news';
+import WindguruWidget from '../Modules/Windguru';
 
 function Main() {
   // fetch data from api
@@ -21,9 +22,13 @@ function Main() {
   return (
 
     <div className="container d-flex flex-wrap my-0">
+      <WindguruWidget />
       {data.map((item: ICardNews) => (
         <Card key={item.id}>
-          {item.content}
+
+          {/* eslint-disable-next-line react/no-danger */}
+          <div dangerouslySetInnerHTML={{ __html: item.content }} />
+          {/* { item.content} */}
         </Card>
       ))}
     </div>
