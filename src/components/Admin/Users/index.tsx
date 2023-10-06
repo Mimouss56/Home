@@ -43,7 +43,7 @@ function User() {
   }, []);
 
   return (
-    <div>
+    <div className="table-responsive">
       <table className="table table-responsive-sm table-hover table-bordered">
         <thead>
           <tr>

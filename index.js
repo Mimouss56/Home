@@ -9,7 +9,7 @@ const port = process.env.PORT ?? 3000;
 
 const server = http.createServer(app);
 
-bot.login(tokenBaby);
+bot.login(process.env.TOKEN);
 
 server.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);

@@ -5,6 +5,8 @@ const news = Joi.object({
   content: Joi.string().required(),
   image: Joi.string().optional(),
   tags: Joi.array().items(Joi.number()).optional(),
+  draft: Joi.boolean(),
+
 });
 
 const newsPut = Joi.object({
