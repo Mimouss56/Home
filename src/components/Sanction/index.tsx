@@ -46,7 +46,7 @@ function Sanction() {
 
     const inputData = {
       warn: warn.checked,
-      id_child: childId.value,
+      id_child: Number(childId.value),
       label: content.value,
     };
     if (currentSanction) {
@@ -61,18 +61,16 @@ function Sanction() {
         const { response } = err as { response: { data: { message: string } } };
 
         toast.warning(response.data.message);
-
-        console.log(err);
       }
     } else {
       try {
         const result = await axiosInstance.post('/sanction', inputData);
+
         setSanctionList((prev) => [...prev, result.data.data]);
         toast.success(result.data.message);
       } catch (err) {
         const { response } = err as { response: { data: { message: string } } };
         toast.warning(response.data.message);
-        console.log(err);
       }
     }
     setCurrentSanction(null);

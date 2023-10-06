@@ -23,8 +23,11 @@ module.exports = {
 
   async post(req, res) {
     const {
-      label, author_id, id_child, warn,
+      label, id_child, warn,
     } = req.body;
+
+    const { id: author_id } = req.user;
+
     const inputQuery = {
       label, author_id, id_child, warn,
     };
@@ -33,7 +36,7 @@ module.exports = {
     return res.json({
       code: 201,
       message: 'Sanction créée',
-      sanction: await sanctionService.getData(result.id),
+      data: await sanctionService.getData(result.id),
     });
   },
   async put(req, res) {

@@ -14,12 +14,17 @@ function NewsList() {
   const [currentNews, setCurrentNews] = useState(null as ICreateNews | null);
 
   const fetchListNews = async () => {
-    const response = await axiosInstance.get('/news');
-    // on trie les news par date de création et on recupére seulement les news avec un draft false
-    response.data.sort(
-      (a: INews, b: INews) => (a.updated_at < b.updated_at ? 1 : -1),
-    );
-    setNewsList(response.data);
+    try {
+      const response = await axiosInstance.get('/news');
+      // on trie les news par date de création et on recupére seulement les news avec un draft false
+      response.data.sort(
+        (a: INews, b: INews) => (a.updated_at < b.updated_at ? 1 : -1),
+      );
+      setNewsList(response.data);
+    } catch (error) {
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+    }
   };
 
   const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,42 +48,53 @@ function NewsList() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { title, content } = e.target as typeof e.target & {
+    const { title, content, draft } = e.target as typeof e.target & {
       title: ValueTargetForm;
       content: ValueTargetForm;
+      draft: { checked: boolean };
     };
 
     const inputData = {
       title: title.value,
       content: content.value,
+      draft: draft.checked,
       // tags: e.currentTarget.title.value ? currentNews.tags.map((tag) => tag.id) : [],
     };
     if (currentNews) {
-      const newNews = { ...currentNews, ...inputData } as INews;
-      const result = await axiosInstance.put(`/news/${currentNews.id}`, inputData);
-      const index = newsList.findIndex((news) => news.id === currentNews.id);
-      newsList[index] = newNews;
-      setNewsList(newsList);
-
-      // setNewsList((prev) => [...prev, newNews]);
-      toast.info(result.data.message);
+      try {
+        const newNews = { ...currentNews, ...inputData } as INews;
+        const result = await axiosInstance.put(`/news/${currentNews.id}`, inputData);
+        const index = newsList.findIndex((news) => news.id === currentNews.id);
+        newsList[index] = newNews;
+        setNewsList(newsList);
+        toast.info(result.data.message);
+      } catch (error) {
+        const { response } = error as ErrorSanctionProps;
+        toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+      }
     } else {
-      const result = await axiosInstance.post('/news', inputData);
-      setNewsList((prev) => [...prev, result.data.data]);
-      toast.success(result.data.message);
+      try {
+        const result = await axiosInstance.post('/news', inputData);
+        setNewsList((prev) => [...prev, result.data.data]);
+        toast.success(result.data.message);
+      } catch (error) {
+        const { response } = error as ErrorSanctionProps;
+        toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+      }
     }
     setCurrentNews(null);
     fetchListNews();
   };
 
-  const handleEdit = (news: INews | null) => {
-    setCurrentNews(news);
-  };
-
   const handleDelete = async (id: number) => {
-    const result = await axiosInstance.delete(`/news/${id}`);
-    setNewsList(newsList.filter((news) => news.id !== id));
-    toast.success(result.data.message);
+    try {
+      const result = await axiosInstance.delete(`/news/${id}`);
+      setNewsList(newsList.filter((news) => news.id !== id));
+      toast.success(result.data.message);
+    } catch (error) {
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+    }
   };
 
   useEffect(() => {
@@ -93,7 +109,7 @@ function NewsList() {
         <button
           type="button"
           className="btn btn-primary mb-3"
-          onClick={() => { setCurrentNews(null); }}
+          onClick={() => setCurrentNews(null)}
           data-bs-toggle="modal"
           data-bs-target="#addModalNews"
         >
@@ -139,7 +155,7 @@ function NewsList() {
                   <button
                     type="button"
                     className="btn btn-warning mx-1"
-                    onClick={() => handleEdit(news)}
+                    onClick={() => setCurrentNews(news)}
                     data-bs-toggle="modal"
                     data-bs-target="#addModalNews"
                   >

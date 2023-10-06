@@ -14,7 +14,7 @@ function ModalAddSanction({ sanction = null }: SanctionFormProps) {
   const [currentSanction, setCurrentSanction] = useState<ICreateSanction>(
     {
       label: '', child: null, warn: false,
-    } as ICreateSanction,
+    },
   );
 
   const fetchChildren = async () => {
@@ -31,7 +31,6 @@ function ModalAddSanction({ sanction = null }: SanctionFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.currentTarget;
-    console.log('name', name, 'value', value);
 
     setCurrentSanction((prev) => ({ ...prev, [name]: value }));
   };
@@ -109,9 +108,9 @@ function ModalAddSanction({ sanction = null }: SanctionFormProps) {
         <button
           type="submit"
           className="btn btn-success"
-          data-bs-toggle="modal"
+          data-bs-dismiss="modal"
         >
-          {currentSanction ? 'Modifier' : 'Ajouter'}
+          {currentSanction.id ? 'Modifier' : 'Ajouter'}
         </button>
 
       </div>

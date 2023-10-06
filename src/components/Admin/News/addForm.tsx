@@ -8,21 +8,17 @@ interface NewsFormProps {
   news: ICreateNews | null;
 }
 
-function NewsForm({ news = null }: NewsFormProps) {
+function ModalAddNews({ news = null }: NewsFormProps) {
   const [currentNews, setCurrentNews] = useState<ICreateNews>(
-    { title: '', content: '', tags: [] },
+    {
+      title: '', content: '', tags: [], draft: false,
+    },
   );
   const [availableTags, setAvailableTags] = useState<ITag[]>([]);
   const [showSelect, setShowSelect] = useState(false);
 
-  const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentNews((prev) => ({ ...prev, draft: event.target.checked }));
-  };
-
   useEffect(() => {
     if (news) setCurrentNews(news);
-
-    // Simulated API call to fetch tags list
     setAvailableTags(mockTags);
   }, [news]);
 
@@ -34,9 +30,11 @@ function NewsForm({ news = null }: NewsFormProps) {
   const handleTagSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const tagId = Number(e.target.value);
     const selectedTag = availableTags.find((tag) => tag.id === tagId);
-    if (selectedTag) {
-      setShowSelect(false);
-    }
+    if (selectedTag) setShowSelect(false);
+  };
+
+  const handleSwitchSanction = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentNews((prev) => ({ ...prev, draft: event.target.checked }));
   };
 
   return (
@@ -113,15 +111,16 @@ function NewsForm({ news = null }: NewsFormProps) {
             className="form-check-input"
             type="checkbox"
             role="switch"
-            defaultChecked={currentNews.draft}
+            name="draft"
+            checked={currentNews.draft || false}
             {...(currentNews.id && { id: currentNews.id.toString() })}
-            onChange={handleSwitchNews}
+            onChange={handleSwitchSanction}
           />
-          Public
+          Brouillon
         </div>
       </div>
     </>
   );
 }
 
-export default NewsForm;
+export default ModalAddNews;
