@@ -48,7 +48,10 @@ function App() {
         )}
 
         {/* Main Content */}
-        <main className={`col ${isAdmin ? 'col-10' : 'col-12'} p-3`} style={{ marginTop: 64 }}>
+        <main
+          className={`col ${isAdmin ? 'col-10' : 'col-12'} p-3`}
+          style={{ marginTop: 64 }}
+        >
           <Navbar navContent={navTop} />
           <ToastContainer
             position="top-left"

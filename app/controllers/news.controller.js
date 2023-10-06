@@ -35,14 +35,17 @@ module.exports = {
 
   async update(req, res) {
     const { id } = req.params;
+    const newsData = await newsService.getData(id);
     const {
       title,
       content,
       tags,
+      draft,
     } = req.body;
     const inputQuery = {
-      title,
-      content,
+      title: title || newsData.title,
+      content: content || newsData.content,
+      draft,
       id_author: req.user.id,
     };
     const result = await newsService.update(id, inputQuery);

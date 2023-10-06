@@ -8,6 +8,7 @@ export interface INews {
   created_at: string;
   updated_at: string;
   tags: ITag[];
+  draft: boolean;
 
 }
 
@@ -23,4 +24,5 @@ export interface ICreateNews {
   content: string;
   author?: Author | null;
   tags?: ITag[] | undefined;
+  draft?: boolean;
 }

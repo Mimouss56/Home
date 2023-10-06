@@ -41,6 +41,9 @@ module.exports = {
         content: newsByID.content,
         image: newsByID.image,
         author: authorInfo,
+        draft: newsByID.draft,
+        created_at: newsByID.created_at,
+        updated_at: newsByID.updated_at,
       };
       return returnValues;
     } catch (error) {

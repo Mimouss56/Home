@@ -39,8 +39,9 @@ module.exports = {
   async put(req, res) {
     const { id } = req.params;
     const {
-      author_id, label, id_child, warn,
+      label, id_child, warn,
     } = req.body;
+    const { id: author_id } = req.user;
 
     const inputQuery = {
       author_id, label, id_child, warn,

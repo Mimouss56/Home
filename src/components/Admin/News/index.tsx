@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import NewsForm from './addForm';
 import { ICreateNews, INews } from '../../../@types/news';
 import axiosInstance from '../../../utils/axios';
+import { ErrorSanctionProps } from '../../../@types/error';
 
 interface ValueTargetForm {
   value: string;
@@ -14,9 +15,31 @@ function NewsList() {
 
   const fetchListNews = async () => {
     const response = await axiosInstance.get('/news');
+    // on trie les news par date de création et on recupére seulement les news avec un draft false
+    response.data.sort(
+      (a: INews, b: INews) => (a.updated_at < b.updated_at ? 1 : -1),
+    );
     setNewsList(response.data);
   };
 
+  const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const response = await axiosInstance.put(`/news/${event.target.id}`, {
+        draft: event.target.checked,
+      });
+      setNewsList((prev) => prev.map((newsItem) => {
+        if (newsItem.id === Number(event.target.id)) {
+          return { ...newsItem, draft: !event.target.checked };
+        }
+        return newsItem;
+      }));
+      fetchListNews();
+      toast.success(`🦄 ${response.data.message} !`);
+    } catch (error) {
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -54,10 +77,8 @@ function NewsList() {
 
   const handleDelete = async (id: number) => {
     const result = await axiosInstance.delete(`/news/${id}`);
-
+    setNewsList(newsList.filter((news) => news.id !== id));
     toast.success(result.data.message);
-    fetchListNews();
-    // API call to delete the news and then update the list
   };
 
   useEffect(() => {
@@ -65,64 +86,79 @@ function NewsList() {
   }, []);
 
   return (
-    <div className="container mt-5">
-      <h2>News List</h2>
+    <article>
+      <div className="d-flex justify-content-between">
+        <h1>Liste des News</h1>
 
-      <button
-        type="button"
-        className="btn btn-primary mb-3"
-        onClick={() => { setCurrentNews(null); }}
-        data-bs-toggle="modal"
-        data-bs-target="#addModalNews"
-      >
-        Add News
-      </button>
+        <button
+          type="button"
+          className="btn btn-primary mb-3"
+          onClick={() => { setCurrentNews(null); }}
+          data-bs-toggle="modal"
+          data-bs-target="#addModalNews"
+        >
+          Add News
+        </button>
+      </div>
 
       {/* Table to display news */}
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            {/* <th>Draft</th> */}
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {newsList.map((news) => (
-            <tr key={news.id}>
-              <td>{news.id}</td>
-              <td>{news.title}</td>
-              <td>{news.author.username}</td>
-              <td>{new Date(news.created_at).toLocaleDateString()}</td>
-              <td>{new Date(news.updated_at).toLocaleDateString()}</td>
-              {/* <td>{news.draft ? 'Yes' : 'No'}</td> */}
-              <td>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-primary me-2"
-                  onClick={() => handleEdit(news)}
-                  data-bs-toggle="modal"
-                  data-bs-target="#addModalNews"
-
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-danger"
-                  onClick={() => handleDelete(news.id)}
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Created At</th>
+              <th>Updated At</th>
+              <th scope="col">Brouillon</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {newsList.map((news) => (
+              <tr key={news.id}>
+                <td>{news.id}</td>
+                <td>{news.title}</td>
+                <td>{news.author.username}</td>
+                <td>{new Date(news.created_at).toLocaleDateString()}</td>
+                <td>{news.updated_at ? new Date(news.updated_at).toLocaleDateString() : '-'}</td>
+                <td>
+                  <div className="form-check form-switch ">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      defaultChecked={news.draft}
+                      id={news.id.toString()}
+                      onChange={handleSwitchNews}
+                    />
+                  </div>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-warning mx-1"
+                    onClick={() => handleEdit(news)}
+                    data-bs-toggle="modal"
+                    data-bs-target="#addModalNews"
+                  >
+                    <i className="bi bi-pencil" />
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger mx-1"
+                    onClick={() => handleDelete(news.id)}
+                  >
+                    <i className="bi bi-trash3" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </div>
 
       {/* Bootstrap Modal */}
       <div className="modal" tabIndex={-1} id="addModalNews">
@@ -143,7 +179,7 @@ function NewsList() {
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 

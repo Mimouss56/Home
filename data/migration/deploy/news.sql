@@ -7,6 +7,7 @@ CREATE TABLE NEWS (
   title text,
   content text NOT NULL,
   id_author int REFERENCES public.user(id) ON DELETE CASCADE,
+  draft boolean NOT NULL DEFAULT TRUE,
   created_at timestamptz NOT NULL DEFAULT NOW(),
   updated_at timestamptz
 );

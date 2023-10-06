@@ -4,13 +4,10 @@ import News from './News';
 
 function Admin() {
   return (
-    <div className="d-flex ">
-
-      <Routes>
-        <Route path="news" element={<News />} />
-        <Route path="users" element={<User />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="news" element={<News />} />
+      <Route path="users" element={<User />} />
+    </Routes>
   );
 }
 

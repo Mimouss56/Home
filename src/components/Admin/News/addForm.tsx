@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ICreateNews, ITag } from '../../../@types/news';
 
 // Mocked
@@ -9,14 +9,18 @@ interface NewsFormProps {
 }
 
 function NewsForm({ news = null }: NewsFormProps) {
-  const [currentNews, setCurrentNews] = useState<ICreateNews>({ title: '', content: '', tags: [] });
+  const [currentNews, setCurrentNews] = useState<ICreateNews>(
+    { title: '', content: '', tags: [] },
+  );
   const [availableTags, setAvailableTags] = useState<ITag[]>([]);
   const [showSelect, setShowSelect] = useState(false);
 
+  const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentNews((prev) => ({ ...prev, draft: event.target.checked }));
+  };
+
   useEffect(() => {
-    if (news) {
-      setCurrentNews(news);
-    }
+    if (news) setCurrentNews(news);
 
     // Simulated API call to fetch tags list
     setAvailableTags(mockTags);
@@ -56,7 +60,6 @@ function NewsForm({ news = null }: NewsFormProps) {
           name="content"
           value={currentNews.content}
           onChange={handleChange}
-          rows={5}
         />
       </div>
 
@@ -97,13 +100,26 @@ function NewsForm({ news = null }: NewsFormProps) {
           )}
         </div>
       </div>
-      <button
-        type="submit"
-        className="btn btn-primary"
-        data-bs-dismiss="modal"
-      >
-        Save
-      </button>
+      <div className="modal-footer d-flex justify-content-between">
+        <button
+          type="submit"
+          className="btn btn-primary"
+          data-bs-dismiss="modal"
+        >
+          Save
+        </button>
+        <div className="form-check form-switch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            defaultChecked={currentNews.draft}
+            {...(currentNews.id && { id: currentNews.id.toString() })}
+            onChange={handleSwitchNews}
+          />
+          Public
+        </div>
+      </div>
     </>
   );
 }
