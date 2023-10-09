@@ -7,6 +7,7 @@ const School = require('./school.mapper');
 const Sanction = require('./sanction.mapper');
 const Skill = require('./skill.mapper');
 const News = require('./news.mapper');
+const Option = require('./option.mapper');
 
 module.exports = {
   job: new Job(client),
@@ -16,4 +17,5 @@ module.exports = {
   sanction: new Sanction(client),
   skill: new Skill(client),
   news: new News(client),
+  option: new Option(client),
 };

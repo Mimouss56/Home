@@ -1,32 +1,49 @@
-import { useEffect } from 'react';
-import TideWidget from '../TideWidget';
+import { useEffect, useState } from 'react';
+import { IOption } from '../../../@types/option';
+import { getOption } from '../../../utils/main';
 
 function WindguruWidget() {
-  const loader = () => {
+  const [windguruOption, setWindguruOption] = useState<IOption>(
+    {
+      id: 0,
+      active: false,
+      name: '',
+      value: '',
+    },
+  );
+
+  const fetchOption = async () => {
+    const OptionValue = await getOption('Windguru') as IOption;
+
+    setWindguruOption(OptionValue);
+  };
+  const loader = (idBeach: string) => {
     const arg = [
-      's=48480', 'm=100', 'uid=wg_fwdg_48480_100_1696623687774',
+      's=48480', 'm=100', `uid=${idBeach}`,
       'wj=knots', 'tj=c', 'waj=m', 'tij=cm', 'odh=10', 'doh=19',
       'fhours=48', 'hrsm=1', 'vt=forecasts', 'lng=fr', 'idbs=1',
       'p=WINDSPD,GUST,SMER,TMPE,FLHGT,CDC,APCP1s,RH,RATING',
     ];
     const script = document.createElement('script');
-    script.id = 'wg_fwdg_48480_100_1696623687774';
+    script.id = idBeach;
     script.src = `https://www.windguru.cz/js/widget.php?${arg.join('&')}`;
     document.body.appendChild(script);
   };
 
   useEffect(() => {
-    loader();
-  }, []);
+    fetchOption();
+    loader(windguruOption.value);
+  }, [windguruOption.value]);
 
   return (
-    <div
-      className="card m-auto shadow-sm p-3 mb-2 bg-white rounded d-flex flex-column align-items-center justify-content-center"
-      style={{ width: '100%' }}
-    >
-      <div id="wg_fwdg_48480_100_1696623687774" className="col col-8" />
-      <TideWidget port={99} />
-    </div>
+    windguruOption?.active && (
+      <div
+        className="card shadow-sm p-3 mb-2 bg-white rounded d-flex flex-column align-items-center justify-content-center"
+        style={{ width: '100vw' }}
+      >
+        <div id={windguruOption.value} className="col col-8" />
+      </div>
+    )
   );
 }
 

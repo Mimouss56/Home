@@ -1,4 +1,4 @@
-import { INews, ITag } from '../../../@types/news';
+import { INews, ITag } from '../src/@types/news';
 
 const mockTags: ITag[] = [
   { id: 1, label: 'Breaking', color: 'red' },
@@ -30,10 +30,26 @@ const mockNews: INews[] = [
     tags: mockTags,
     created_at: '2023-08-10T12:00:00Z',
     updated_at: '2023-08-11T12:00:00Z',
+    draft: false,
   },
 ];
 
+const mockOptions = [
+  {
+    id: 1, name: 'Option 1', value: '', active: false,
+  },
+  {
+    id: 2, name: 'Option 2', value: '', active: false,
+  },
+  {
+    id: 3, name: 'Option 3', value: '', active: false,
+  },
+  {
+    id: 4, name: 'Option 4', value: '', active: false,
+  },
+];
 export {
   mockNews,
   mockTags,
+  mockOptions,
 };

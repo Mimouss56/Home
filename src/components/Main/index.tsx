@@ -4,6 +4,7 @@ import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/card';
 import { INews } from '../../@types/news';
 import WindguruWidget from '../Modules/Windguru';
+import TideWidget from '../Modules/TideWidget';
 
 function Main() {
   // fetch data from api
@@ -21,8 +22,9 @@ function Main() {
 
   return (
 
-    <div className="container d-flex flex-wrap my-0">
+    <div className="d-flex flex-wrap my-0">
       <WindguruWidget />
+      <TideWidget />
       {data.map((item: ICardNews) => (
         <Card key={item.id}>
 

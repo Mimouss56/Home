@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axios';
-import { ICreateSanction, ISanction } from '../../@types/sanction';
+import axiosInstance from '../../../utils/axios';
+import { ICreateSanction, ISanction } from '../../../@types/sanction';
 import ModalAdd from './modalAdd';
 import ModalView from './modalViewDetails';
-import excerpt from '../../utils/main';
+import { excerpt } from '../../../utils/main';
 
 dayjs.extend(isoWeek);
 interface ValueTargetForm {

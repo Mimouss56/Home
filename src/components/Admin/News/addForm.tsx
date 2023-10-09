@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { ICreateNews, ITag } from '../../../@types/news';
 // Mocked
-import { mockTags } from './mocked';
+import { mockTags } from '../../../../data/mocked';
 
 interface NewsFormProps {
   news: ICreateNews | null;

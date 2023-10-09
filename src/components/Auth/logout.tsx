@@ -1,23 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Logout() {
-  const [notifToast, setnotifToast] = useState({ text: '', color: '' });
   sessionStorage.removeItem('user');
   sessionStorage.removeItem('sessionToken');
-  setnotifToast({
-    text: 'Vous êtes déconnecté',
-    color: 'success',
-  });
+  toast.success('Vous êtes déconnecté');
+
   const navigate = useNavigate();
   useEffect(
     () => {
       sessionStorage.removeItem('user');
       sessionStorage.removeItem('sessionToken');
-      setnotifToast({
-        text: 'Vous êtes déconnecté',
-        color: 'success',
-      });
+      toast.success('Vous êtes déconnecté');
       navigate('/');
     },
     [navigate],

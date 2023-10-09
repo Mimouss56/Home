@@ -11,7 +11,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
   const handleSubmit = async (values: LoginPost) => {
     try {
@@ -24,7 +23,7 @@ function Login() {
       setLoading(false);
       window.location.reload();
     } catch (err) {
-      const { response } = err as any;
+      const { response } = err as { response: { data: string } };
       setError(true);
       setErrorMessage(response.data);
       setLoading(false);

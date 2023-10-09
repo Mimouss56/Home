@@ -1,9 +1,9 @@
 import {
   useEffect, useState,
 } from 'react';
-import { ICreateSanction } from '../../@types/sanction';
-import { User as IUser } from '../../@types/user';
-import axiosInstance from '../../utils/axios';
+import { ICreateSanction } from '../../../@types/sanction';
+import { User as IUser } from '../../../@types/user';
+import axiosInstance from '../../../utils/axios';
 
 interface SanctionFormProps {
   sanction: ICreateSanction | null;

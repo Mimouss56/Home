@@ -11,6 +11,7 @@ router.use('/skill', require('./skill.router'));
 router.use('/user', require('./user.router'));
 router.use('/sanction', loggedAs, require('./sanction.router'));
 router.use('/news', require('./news.router'));
+router.use('/option', require('./option.router'));
 
 // A faire dans Swagger
 router.use('/cv', loggedAs, require('./cv.router'));

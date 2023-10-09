@@ -83,7 +83,11 @@ module.exports = class CoreDatamapper {
         values.push(value);
       });
       const where = `WHERE ${fields} = ${placeholders}`;
-      const result = await this.client.query(`SELECT * FROM "${this.tableName}" ${where}`, values);
+      const preparedQuery = {
+        text: `SELECT * FROM "${this.tableName}" ${where}`,
+        values,
+      };
+      const result = await this.client.query(preparedQuery);
 
       return result.rows[0];
     }
@@ -135,6 +139,17 @@ module.exports = class CoreDatamapper {
     let indexPlaceholder = 1;
     const values = [];
 
+    // Check if the column "updated_at" exists
+    const reqUpdateColumn = await this.client.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = $1
+      AND column_name = 'updated_at';
+    `, [this.tableName]);
+
+    const updateColumnExists = reqUpdateColumn.rows.length > 0;
+    const updateColumn = updateColumnExists ? 'updated_at = now()' : '';
+
     Object.entries(inputData).forEach(([prop, value]) => {
       fieldsAndPlaceholders.push(`"${prop}" = $${indexPlaceholder}`);
       indexPlaceholder += 1;
@@ -146,8 +161,9 @@ module.exports = class CoreDatamapper {
     const preparedQuery = {
       text: `
             UPDATE "${this.tableName}" SET
-            ${fieldsAndPlaceholders},
-            updated_at = now()
+            ${fieldsAndPlaceholders}
+            ${updateColumn ? ',' : ''}
+            ${updateColumn}
             WHERE id = $${indexPlaceholder}
             RETURNING *
           `,
@@ -156,6 +172,7 @@ module.exports = class CoreDatamapper {
 
     const result = await this.client.query(preparedQuery);
     const row = result.rows[0];
+
     return row;
   }
 
