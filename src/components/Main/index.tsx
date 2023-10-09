@@ -25,14 +25,15 @@ function Main() {
     <div className="d-flex flex-wrap my-0">
       <WindguruWidget />
       <TideWidget />
-      {data.map((item: ICardNews) => (
-        <Card key={item.id}>
+      {data && (
+        data.map((item: ICardNews) => (
+          <Card key={item.id}>
 
-          {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: item.content }} />
-          {/* { item.content} */}
-        </Card>
-      ))}
+            {/* eslint-disable-next-line react/no-danger */}
+            <div dangerouslySetInnerHTML={{ __html: item.content }} />
+            {/* { item.content} */}
+          </Card>
+        )))}
     </div>
 
   );

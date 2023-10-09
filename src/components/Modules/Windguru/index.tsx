@@ -36,7 +36,7 @@ function WindguruWidget() {
   }, [windguruOption.value]);
 
   return (
-    windguruOption?.active && (
+    windguruOption.active && (
       <div
         className="card shadow-sm p-3 mb-2 bg-white rounded d-flex flex-column align-items-center justify-content-center"
         style={{ width: '100vw' }}
