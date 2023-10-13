@@ -10,7 +10,7 @@ CREATE TABLE esa_parent (
   last_name TEXT NOT NULL,
   email valid_email NOT NULL UNIQUE,
   street TEXT,
-  zipcode VARCHAR(10),
+  zipcode NUMERIC(5,0),
   town VARCHAR(255)
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE esa_child (
   id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  class VARCHAR(3)
+  class VARCHAR(3) NOT NULL
 );
 
 CREATE TABLE esa_parent_has_child (

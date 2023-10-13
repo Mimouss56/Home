@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
-const roleService = require('./role.service');
+const roleService = require('./home/role.service');
 
 module.exports = {
 

@@ -1,5 +1,5 @@
-const skillService = require('../../services/skill.service');
-const schoolService = require('../../services/school.service');
+const skillService = require('../../services/home/skill.service');
+const schoolService = require('../../services/home/school.service');
 
 module.exports = {
   async getAll(req, res) {

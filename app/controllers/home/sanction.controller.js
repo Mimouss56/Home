@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const sanctionService = require('../../services/sanction.service');
+const sanctionService = require('../../services/home/sanction.service');
 
 module.exports = {
   async getAll(req, res) {

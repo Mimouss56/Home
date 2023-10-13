@@ -1,4 +1,4 @@
-const optionService = require('../../services/option.service');
+const optionService = require('../../services/home/option.service');
 
 module.exports = {
   getAll: async (req, res) => {

@@ -1,4 +1,4 @@
-const jobService = require('../../services/job.service');
+const jobService = require('../../services/home/job.service');
 
 module.exports = {
   async getAll(req, res) {

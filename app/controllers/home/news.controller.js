@@ -1,4 +1,4 @@
-const newsService = require('../../services/news.service');
+const newsService = require('../../services/home/news.service');
 
 module.exports = {
   async getAll(_, res) {

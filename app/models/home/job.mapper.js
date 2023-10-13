@@ -1,6 +1,6 @@
 const CoreDatamapper = require('../core.mapper');
 
-module.exports = class Techno extends CoreDatamapper {
+module.exports = class Job extends CoreDatamapper {
   tableName = 'job';
 
   userRelated = 'user_job';

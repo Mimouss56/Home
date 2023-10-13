@@ -1,25 +1,37 @@
-const ESAChildService = require("../../services/ESA/child.service");
+const ESAChildService = require('../../services/ESA/child.service');
 
 module.exports = {
   async getAllChild(req, res) {
     try {
-      const child = await ESAChildService.findall();
+      const child = await ESAChildService.getAllData();
       res.status(200).json(child);
     } catch (error) {
       res.status(500).json(error);
     }
   },
   async create(req, res) {
-    try {
-      const child = await ESAChildService.create(req.body);
-      res.status(201).json(child);
-    } catch (error) {
-      res.status(500).json(error);
-    }
+    const {
+      firstName,
+      lastName,
+      classe,
+    } = req.body;
+
+    const inputQuery = {
+      firstName,
+      lastName,
+      classe,
+    };
+    const result = await ESAChildService.create(inputQuery);
+
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      message: 'Nouvelle news créée',
+      data: await ESAChildService.getData(result.id),
+    });
   },
   async getOne(req, res) {
     try {
-      const child = await Child.findById(req.params.id);
+      const child = await ESAChildService.findById(req.params.id);
       res.status(200).json(child);
     } catch (error) {
       res.status(500).json(error);
@@ -27,10 +39,10 @@ module.exports = {
   },
   async delete(req, res) {
     try {
-      const child = await Child.findByIdAndDelete(req.params.id);
+      const child = await ESAChildService.findByIdAndDelete(req.params.id);
       res.status(200).json(child);
     } catch (error) {
       res.status(500).json(error);
     }
-  }
+  },
 };

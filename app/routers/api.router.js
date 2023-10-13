@@ -15,7 +15,11 @@ router.use('/user', require('./home/user.router'));
 
 // A faire dans Swagger
 router.use('/cv', loggedAs, require('./home/cv.router'));
-router.use('/esa', loggedESA, require('./ESA'));
+router.use(
+  '/esa',
+  // loggedESA,
+  require('./ESA'),
+);
 router.use('/option', require('./home/option.router'));
 router.use('/school', require('./home/school.router'));
 router.use('/test', require('./home/test.router'));

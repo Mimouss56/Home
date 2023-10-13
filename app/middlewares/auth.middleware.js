@@ -60,9 +60,8 @@ const isHimself = () => [
   },
 ];
 
-const loggedESA = () => [
-  loggedAs,
-  async (req, res, next) => {
+const loggedESA = (req, res, next) => {
+  loggedAs(req, res, async () => {
     const { user } = req;
     const userInfo = await userService.getData(user.id);
 
@@ -74,8 +73,8 @@ const loggedESA = () => [
       });
     }
     return next();
-  },
-];
+  });
+};
 
 module.exports = {
   isHimself,

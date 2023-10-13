@@ -3,7 +3,7 @@ require('dotenv').config();
 const { tokenBaby } = require('./config.json');
 const app = require('./app');
 const bot = require('./bot');
-const optionService = require('./app/services/option.service');
+const optionService = require('./app/services/home/option.service');
 
 const port = process.env.PORT ?? 3000;
 

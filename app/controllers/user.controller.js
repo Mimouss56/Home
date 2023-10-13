@@ -1,7 +1,7 @@
 const userService = require('../services/user.service');
-const jobService = require('../services/job.service');
-const schoolService = require('../services/school.service');
-const sanctionService = require('../services/sanction.service');
+const jobService = require('../services/home/job.service');
+const schoolService = require('../services/home/school.service');
+const sanctionService = require('../services/home/sanction.service');
 
 module.exports = {
   async getAll(req, res) {
