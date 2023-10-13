@@ -60,8 +60,26 @@ const isHimself = () => [
   },
 ];
 
+const loggedESA = () => [
+  loggedAs,
+  async (req, res, next) => {
+    const { user } = req;
+    const userInfo = await userService.getData(user.id);
+
+    if (userInfo.role.id === 1) return next(); // admin
+
+    if (userInfo.role.id !== 3) {
+      return res.status(401).json({
+        message: 'Pas les droit nécessaire',
+      });
+    }
+    return next();
+  },
+];
+
 module.exports = {
   isHimself,
   checkRole,
   loggedAs,
+  loggedESA,
 };

@@ -10,7 +10,7 @@ function Footer() {
         <span className="col-md-4 d-flex align-items-center justify-content-md-end justify-content-center mb-3 mb-md-0 me-md-auto text-white">
           featuring
           <a href="https://chat.openai.com" className="px-1">
-            ChatGPT
+            <img src="https://img.icons8.com/color/25/chatgpt.png" alt="chatgpt" />
           </a>
         </span>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex">

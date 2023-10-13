@@ -1,10 +1,12 @@
 import { Link, Outlet } from 'react-router-dom';
+import { User } from '../../@types/user';
 
 interface NavItem {
   id: number;
   name: string;
   link: string;
 }
+const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}') as User;
 
 interface MenuProps {
   navContentArray: NavItem[];
@@ -31,6 +33,15 @@ function NavBar({ navContentArray }: MenuProps) {
             </li>
           );
         })
+      }
+      {
+        userInfo?.role?.id === 1 && (
+          <li>
+            <Link to="/test" className="nav-link px-2 link-light">
+              Test
+            </Link>
+          </li>
+        )
       }
       <Outlet />
     </ul>

@@ -10,7 +10,7 @@ import './style.scss';
 import Navbar from '../Navbar';
 import Login from '../Auth/login';
 import Logout from '../Auth/logout';
-import Register from '../Register';
+import Register from '../Auth/register';
 import User from '../User';
 import Sanction from '../Modules/Sanction';
 import Cv from '../Cv';
@@ -21,6 +21,7 @@ import Main from '../Main';
 import Admin from '../Admin';
 import AsideMenuAdmin from '../Admin/AsideMenu';
 import Menu from '../User/AsideMenu';
+import Test from '../Test';
 // User menu
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -64,6 +65,14 @@ function App() {
 
           <Routes>
             <Route path="/" element={<Main />} />
+            <Route
+              path="test"
+              element={(
+                <ProtectedRoute>
+                  <Test />
+                </ProtectedRoute>
+              )}
+            />
             <Route path="cv" element={<Cv />} />
             <Route path="about" element={<Cv />} />
             <Route

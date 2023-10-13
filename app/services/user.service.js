@@ -1,9 +1,6 @@
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const roleService = require('./role.service');
-const jobService = require('./job.service');
-const schoolService = require('./school.service');
-// const sanctionService = require('./sanction.service');
 
 module.exports = {
 
@@ -15,15 +12,18 @@ module.exports = {
         message: 'User not found',
       };
     }
-    const userDetails = {
-      ...userByID,
-      role: await roleService.getData(userByID.id_role),
-      job: await jobService.getAllByUser(userByID.id),
-      school: await schoolService.getAllByUser(userByID.id),
-    };
-    delete userDetails.password;
-    delete userDetails.id_role;
-    return userDetails;
+    const userOptionByID = await user.option(id);
+    // Associez l'utilisateur avec la famille s'il en a une
+    if (userOptionByID.family) {
+      userByID.family = {
+        child: userOptionByID.child,
+      };
+    }
+    userByID.role = await roleService.getData(userOptionByID.id_role);
+
+    delete userByID.password;
+    delete userByID.id_role;
+    return userByID;
   },
 
   async getAll() {

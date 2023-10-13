@@ -29,7 +29,13 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                 >
-                  <img src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg" alt="mdo" className="rounded-circle" width="32" height="32" />
+                  <img
+                    src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg"
+                    alt="mdo"
+                    className="rounded-circle"
+                    width="32"
+                    height="32"
+                  />
                 </Link>
                 <button
                   type="button"

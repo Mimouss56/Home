@@ -1,9 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { user } = require('../models/index.mapper');
-// const jobService = require('./job.service');
-// const schoolService = require('./school.service');
-// const roleService = require('./role.service');
 const userService = require('./user.service');
 
 module.exports = {
@@ -55,6 +52,30 @@ module.exports = {
       // role: await roleService.getData(userExist.id_role),
     };
     return userLogged;
+  },
+
+  async getTokenNetatmo(req, res) {
+    const body = {
+
+      client_id: process.env.NETATMO_CLIENT_ID,
+      client_secret: process.env.NETATMO_CLIENT_SECRET,
+      grant_type: 'password',
+      username: process.env.NETATMO_USERNAME,
+      password: process.env.NETATMO_PASSWORD,
+      scope: process.env.NETATMO_SCOPE,
+    };
+    const reponse = await fetch('https://api.netatmo.com/oauth2/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: JSON.stringify(body),
+
+    });
+    console.log(reponse);
+    const data = await reponse.json();
+    console.log(data);
+    res.json(data);
   },
 
 };
