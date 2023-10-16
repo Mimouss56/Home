@@ -17,7 +17,6 @@ import Login from '../Auth/login';
 import Register from '../Auth/register';
 import Footer from '../Footer';
 // import Setting from '../User/Setting';
-import ProtectedRoute from '../ProtectedRoute';
 import AsideMenuAdmin from '../Admin/AsideMenu';
 import Menu from '../User/AsideMenu';
 import ListeRoute from '../Routes';
@@ -41,9 +40,19 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        theme="dark"
+      />
+
+      <Login />
+      <Register />
+
+      {userSession && (<Menu navContent={[navItemsUser, navItemsMouss]} />)}
+
       <div className="d-flex">
         {/* Menu User */}
-        {userSession && (<Menu navContent={[navItemsUser, navItemsMouss]} />)}
         {/* Aside Admin Menu */}
         {(shouldShowAdminMenu || shouldShowESAMenu) && <AsideMenuAdmin navItems={currentMenu} />}
 
@@ -53,15 +62,6 @@ function App() {
           style={{ marginTop: 64 }}
         >
           <Navbar navContent={navTop} />
-          <ToastContainer
-            position="top-left"
-            autoClose={5000}
-            theme="dark"
-          />
-
-          <Login />
-          <Register />
-
           <ListeRoute />
 
         </main>

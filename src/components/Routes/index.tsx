@@ -9,6 +9,7 @@ import Mouss from './Mouss';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import Setting from '../User/Setting';
+import NotFound from '../notFound';
 
 function ListeRoute() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -31,7 +32,7 @@ function ListeRoute() {
       {isAdmin && (<Route path="admin/*" element={(<RoutesAdmin />)} />)}
 
       {isESA && (<Route path="ESA/*" element={(<RoutesESA />)} />)}
-
+      <Route path="*" element={<NotFound />} />
     </Routes>
 
   );
