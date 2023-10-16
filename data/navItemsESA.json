@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "title": "Cantine",
+    "link": "/ESA/cantine",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Garderie",
+    "link": "/ESA/garderie",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Activité",
+    "link": "/ESA/activity",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Edition",
+    "link": "/ESA/other",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  }
+
+]
