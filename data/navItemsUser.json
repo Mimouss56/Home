@@ -5,26 +5,5 @@
     "link": "/user/setting",
     "icon": "person",
     "component": "Setting"
-  },
-  {
-    "id": 2,
-    "title": "Jobs",
-    "link": "/user/jobs",
-    "icon": "briefcase",
-    "component": "Job"
-  },
-  {
-    "id": 3,
-    "title": "School",
-    "link": "/user/school",
-    "icon": "book",
-    "component": "School"
-  },
-  {
-    "id": 4,
-    "title": "Sanction",
-    "link": "/sanction",
-    "icon": "bandaid",
-    "component": "Sanction"
   }
 ]

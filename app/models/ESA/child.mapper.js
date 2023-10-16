@@ -1,15 +1,15 @@
 const CoreDatamapper = require('../core.mapper');
 
 module.exports = class Child extends CoreDatamapper {
-  tableName = 'esa_child';
+  tableName = 'child';
 
   async getParents(id) {
     const query = {
       text: `
-      SELECT * FROM esa_parent 
+      SELECT * FROM parent 
       WHERE id 
       IN (
-        SELECT id_parent FROM esa_parent_has_child WHERE id_enfant = $1
+        SELECT id_parent FROM parent_has_child WHERE id_enfant = $1
         )
       `,
       values: [id],

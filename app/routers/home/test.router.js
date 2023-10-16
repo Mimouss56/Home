@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const loginService = require('../../services/login.service');
+const testController = require('../../controllers/BBC/test.controller');
 
-router.get('/', loginService.getTokenNetatmo);
+router.get('/', testController.renderTest);
 
 module.exports = router;

@@ -1,31 +1,31 @@
 import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { User as UserInfo } from '../../@types/user';
+// Nav Items
+import navItemsMouss from '../../../data/navItemsMouss.json';
 import menuAdmin from '../../../data/navItemsAdmin.json';
+import menuESA from '../../../data/navItemsESA.json';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navTop from '../../../data/navTop.json';
+//  CSS
 import 'react-toastify/dist/ReactToastify.css';
 import './style.scss';
+// COMPONENTS
 import Navbar from '../Navbar';
 import Login from '../Auth/login';
-import Logout from '../Auth/logout';
 import Register from '../Auth/register';
-import User from '../User';
-import Sanction from '../Modules/Sanction';
-import Cv from '../Cv';
 import Footer from '../Footer';
 // import Setting from '../User/Setting';
 import ProtectedRoute from '../ProtectedRoute';
-import Main from '../Main';
-import Admin from '../Admin';
 import AsideMenuAdmin from '../Admin/AsideMenu';
 import Menu from '../User/AsideMenu';
-import Test from '../Test';
+import ListeRoute from '../Routes';
 // User menu
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
   const isAdmin = (userSession?.role.label === 'admin');
+  const isESA = (userSession?.role.label === 'esa' || userSession?.role.label === 'admin');
 
   const location = useLocation();
   useEffect(() => {
@@ -35,18 +35,17 @@ function App() {
     sessionStorage.removeItem('notifToast');
   }, []);
 
+  const shouldShowAdminMenu = isAdmin && location.pathname.startsWith('/admin');
+  const shouldShowESAMenu = (isAdmin || isESA) && location.pathname.startsWith('/ESA');
+  const currentMenu = shouldShowAdminMenu ? menuAdmin : menuESA;
+
   return (
     <>
-      {userSession && <Menu navContent={[navItemsUser]} />}
       <div className="d-flex">
-        {/* Aside Menu */}
-        {isAdmin && location.pathname.startsWith('/admin') && (
-          <div className="col-2 p-0">
-            <ProtectedRoute>
-              <AsideMenuAdmin navItems={menuAdmin} />
-            </ProtectedRoute>
-          </div>
-        )}
+        {/* Menu User */}
+        {userSession && (<Menu navContent={[navItemsUser, navItemsMouss]} />)}
+        {/* Aside Admin Menu */}
+        {(shouldShowAdminMenu || shouldShowESAMenu) && <AsideMenuAdmin navItems={currentMenu} />}
 
         {/* Main Content */}
         <main
@@ -63,54 +62,8 @@ function App() {
           <Login />
           <Register />
 
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route
-              path="test"
-              element={(
-                <ProtectedRoute>
-                  <Test />
-                </ProtectedRoute>
-              )}
-            />
-            <Route path="cv" element={<Cv />} />
-            <Route path="about" element={<Cv />} />
-            <Route
-              path="logout"
-              element={(
-                <ProtectedRoute>
-                  <Logout />
-                </ProtectedRoute>
-              )}
-            />
-            <Route
-              path="user/*"
-              element={(
-                <ProtectedRoute>
-                  <User />
-                </ProtectedRoute>
-              )}
-            />
-            {(userSession?.role.label === 'admin') ? (
-              <Route
-                path="admin/*"
-                element={(
-                  <ProtectedRoute>
-                    <Admin />
-                  </ProtectedRoute>
-                )}
-              />
-            ) : null}
+          <ListeRoute />
 
-            <Route
-              path="sanction"
-              element={(
-                <ProtectedRoute>
-                  <Sanction />
-                </ProtectedRoute>
-              )}
-            />
-          </Routes>
         </main>
       </div>
 

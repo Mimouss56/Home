@@ -1,4 +1,4 @@
-const client = require('../pg.client');
+const client = require('./pg.client');
 
 const Child = require('./child.mapper');
 const Parent = require('./parent.mapper');

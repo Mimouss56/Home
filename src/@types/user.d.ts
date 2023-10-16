@@ -3,10 +3,11 @@ export interface User {
   email: string
   username: string
   role: Role
-  job: Job[]
-  school: Job
-  sanction: Sanction[]
+  family: boolean
   child: boolean
+  sanction?: Sanction[]
+  job?: Job[]
+  school?: Job[]
   last_visited: string
 }
 

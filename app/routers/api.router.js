@@ -1,5 +1,8 @@
 const express = require('express');
-const { loggedAs, loggedESA } = require('../middlewares/auth.middleware');
+const {
+  loggedAs,
+  // loggedESA,
+} = require('../middlewares/auth.middleware');
 const loginController = require('../controllers/auth.controller');
 
 const router = express.Router();
@@ -9,6 +12,7 @@ router.post('/register', loginController.register);
 
 router.use('/job', require('./home/job.router'));
 router.use('/news', require('./home/news.router'));
+router.use('/role', require('./home/role.router'));
 router.use('/sanction', loggedAs, require('./home/sanction.router'));
 router.use('/skill', require('./home/skill.router'));
 router.use('/user', require('./home/user.router'));

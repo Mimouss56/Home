@@ -7,6 +7,7 @@ import { ICreateSanction, ISanction } from '../../../@types/sanction';
 import ModalAdd from './modalAdd';
 import ModalView from './modalViewDetails';
 import { excerpt } from '../../../utils/main';
+import ProtectedRoute from '../../ProtectedRoute';
 
 dayjs.extend(isoWeek);
 interface ValueTargetForm {
@@ -92,115 +93,117 @@ function Sanction() {
   }, [url]);
 
   return (
-    <article>
-      <div className="d-flex justify-content-between">
-        <h1>Liste des Sanctions</h1>
+    <ProtectedRoute>
+      <article>
+        <div className="d-flex justify-content-between">
+          <h1>Liste des Sanctions</h1>
 
-        {user.role.id === 1 && (
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => setCurrentSanction(null)}
-            data-bs-toggle="modal"
-            data-bs-target="#ModalAddSanction"
-          >
-            Ajout d&apos;une sanction
-          </button>
-        )}
-      </div>
-      <div className="table-responsive">
-        <table className="table table-striped table-sm text-center ">
-          <thead>
-            <tr>
-              <th scope="col">Description</th>
-              <th scope="col">Semaine</th>
-              <th scope="col">Auteur</th>
-              {user.role.id === 1 && (
-                <>
-                  <th scope="col">Enfant</th>
-                  <th scope="col">Actions</th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {sanctionList.map((sanction) => (
-
-              <tr
-                key={sanction.id}
-                className={
-                  (sanction.warn === true) ? 'table-danger' : ''
-                }
-                onClick={() => handleEdit(sanction)}
-                data-bs-toggle="modal"
-                data-bs-target="#modalViewSanction"
-              >
-                <td>
-                  {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : excerpt(sanction.label)}
-
-                </td>
-                <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-                <td>{sanction.author.username}</td>
+          {user.role.id === 1 && (
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => setCurrentSanction(null)}
+              data-bs-toggle="modal"
+              data-bs-target="#ModalAddSanction"
+            >
+              Ajout d&apos;une sanction
+            </button>
+          )}
+        </div>
+        <div className="table-responsive">
+          <table className="table table-striped table-sm text-center ">
+            <thead>
+              <tr>
+                <th scope="col">Description</th>
+                <th scope="col">Semaine</th>
+                <th scope="col">Auteur</th>
                 {user.role.id === 1 && (
                   <>
-                    <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-warning mx-1"
-                        onClick={() => handleEdit(sanction)}
-                        data-bs-toggle="modal"
-                        data-bs-target="#ModalAddSanction"
-                      >
-                        <i className="bi bi-pencil" />
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-danger mx-1"
-                        onClick={() => handleDelete(sanction.id)}
-                      >
-                        <i className="bi bi-trash3" />
-                      </button>
-                    </td>
+                    <th scope="col">Enfant</th>
+                    <th scope="col">Actions</th>
                   </>
                 )}
-
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sanctionList.map((sanction) => (
 
-      </div>
-      {currentSanction && (
-        <div
-          className="modal fade "
-          id="modalViewSanction"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <ModalView sanction={currentSanction as ISanction} />
+                <tr
+                  key={sanction.id}
+                  className={
+                    (sanction.warn === true) ? 'table-danger' : ''
+                  }
+                  onClick={() => handleEdit(sanction)}
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalViewSanction"
+                >
+                  <td>
+                    {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : excerpt(sanction.label)}
+
+                  </td>
+                  <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
+                  <td>{sanction.author.username}</td>
+                  {user.role.id === 1 && (
+                    <>
+                      <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn btn-warning mx-1"
+                          onClick={() => handleEdit(sanction)}
+                          data-bs-toggle="modal"
+                          data-bs-target="#ModalAddSanction"
+                        >
+                          <i className="bi bi-pencil" />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-danger mx-1"
+                          onClick={() => handleDelete(sanction.id)}
+                        >
+                          <i className="bi bi-trash3" />
+                        </button>
+                      </td>
+                    </>
+                  )}
+
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
         </div>
-      )}
-      {/* Bootstrap Modal */}
-      <div className="modal" tabIndex={-1} id="ModalAddSanction">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">{currentSanction ? 'Edit News' : 'Add News'}</h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-              />
+        {currentSanction && (
+          <div
+            className="modal fade "
+            id="modalViewSanction"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <ModalView sanction={currentSanction as ISanction} />
+          </div>
+        )}
+        {/* Bootstrap Modal */}
+        <div className="modal" tabIndex={-1} id="ModalAddSanction">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">{currentSanction ? 'Edit News' : 'Add News'}</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                />
+              </div>
+              <form onSubmit={handleSubmit}>
+                <ModalAdd sanction={currentSanction} />
+              </form>
             </div>
-            <form onSubmit={handleSubmit}>
-              <ModalAdd sanction={currentSanction} />
-            </form>
           </div>
         </div>
-      </div>
 
-    </article>
+      </article>
+    </ProtectedRoute>
 
   );
 }
