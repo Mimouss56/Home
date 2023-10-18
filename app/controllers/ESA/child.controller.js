@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const ESAChildService = require('../../services/ESA/child.service');
 
 module.exports = {
@@ -11,14 +12,14 @@ module.exports = {
   },
   async create(req, res) {
     const {
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       classe,
     } = req.body;
 
     const inputQuery = {
-      firstName,
-      lastName,
+      firstName: first_name,
+      lastName: last_name,
       classe,
     };
     const result = await ESAChildService.create(inputQuery);
@@ -36,6 +37,24 @@ module.exports = {
     } catch (error) {
       res.status(500).json(error);
     }
+  },
+
+  async update(req, res) {
+    const { id } = req.query;
+    const {
+      classe,
+    } = req.body;
+
+    const inputQuery = {
+      classe,
+    };
+    const result = await ESAChildService.update(id, inputQuery);
+
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      message: 'News modifiée',
+      data: await ESAChildService.getData(result.id),
+    });
   },
   async delete(req, res) {
     try {

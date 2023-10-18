@@ -50,4 +50,36 @@ module.exports = {
       };
     }
   },
+
+  async update(id, inputQuery) {
+    const inputData = {
+      class: inputQuery.classe,
+    };
+    try {
+      const childUpdated = await eSAChild.update(id, inputData);
+      return {
+        code: 200,
+        data: childUpdated,
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: error,
+      };
+    }
+  },
+  async findByIdAndDelete(id) {
+    try {
+      const childDeleted = await eSAChild.delete(id);
+      return {
+        code: 200,
+        data: childDeleted,
+      };
+    } catch (error) {
+      return {
+        code: 500,
+        message: error,
+      };
+    }
+  },
 };

@@ -7,7 +7,7 @@ router.get('/', esaController.getAllChild);
 router.post('/', validate(postChild), esaController.create);
 
 router.get('/:id', esaController.getOne);
-// router.put('/:id', esaController.update);
+router.put('/:id', esaController.update);
 router.delete('/:id', esaController.delete);
 
 module.exports = router;

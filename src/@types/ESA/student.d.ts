@@ -2,7 +2,7 @@ export interface IStudent {
   id: number;
   first_name: string;
   last_name: string;
-  class: string;
+  classe: string;
   parents: array<IParent>
 }
 
@@ -17,9 +17,10 @@ export interface IParent {
 }
 
 export interface IcreateStudent {
+  id: number;
   first_name: string;
   last_name: string;
-  class: string;
+  classe: string;
   parents?: array<IcreateParent>
 }
 
