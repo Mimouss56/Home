@@ -4,10 +4,11 @@ import Cv from '../Cv';
 import Logout from '../Auth/logout';
 import Sanction from '../Modules/Sanction';
 import Test from '../Test';
-import { User as UserInfo } from '../../@types/user';
+import { User as UserInfo } from '../../@types/Home/user';
 import Mouss from './Mouss';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
+import RouteDomo from './domotic';
 import Setting from '../User/Setting';
 import NotFound from '../notFound';
 
@@ -29,6 +30,8 @@ function ListeRoute() {
 
       <Route path="user/setting" element={(<Setting />)} />
       <Route path="user/*" element={(<Mouss />)} />
+
+      <Route path="domotic" element={<RouteDomo />} />
       {isAdmin && (<Route path="admin/*" element={(<RoutesAdmin />)} />)}
 
       {isESA && (<Route path="ESA/*" element={(<RoutesESA />)} />)}

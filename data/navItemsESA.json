@@ -3,28 +3,28 @@
     "id": 1,
     "title": "Cantine",
     "link": "/ESA/cantine",
-    "icon": "speedometer2",
+    "icon": "basket",
     "component": "Dashboard"
   },
   {
     "id": 1,
     "title": "Garderie",
     "link": "/ESA/garderie",
-    "icon": "speedometer2",
+    "icon": "book-half",
     "component": "Dashboard"
   },
   {
     "id": 1,
     "title": "Activité",
     "link": "/ESA/activity",
-    "icon": "speedometer2",
+    "icon": "puzzle",
     "component": "Dashboard"
   },
   {
     "id": 1,
-    "title": "Edition",
-    "link": "/ESA/other",
-    "icon": "speedometer2",
+    "title": "Elèves",
+    "link": "/ESA/students",
+    "icon": "person-lines-fill",
     "component": "Dashboard"
   }
 

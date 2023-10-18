@@ -18,3 +18,8 @@ export interface EventAxios {
 export interface BootstrapEvent extends Event {
   relatedTarget?: EventTarget;
 }
+
+export interface ValueTargetForm {
+  value: string;
+  name: string;
+}

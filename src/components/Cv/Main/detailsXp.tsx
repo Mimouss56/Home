@@ -1,4 +1,4 @@
-import { IEmploi } from '../../../@types/emploi';
+import { IEmploi } from '../../../@types/Home/emploi';
 
 function DetailsXp({
   ent,

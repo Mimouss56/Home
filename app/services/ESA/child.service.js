@@ -5,10 +5,7 @@ module.exports = {
     try {
       const childrenbyID = await eSAChild.findByPk(id);
       childrenbyID.parents = await eSAChild.getParents(id);
-      return {
-        code: 200,
-        data: childrenbyID,
-      };
+      return childrenbyID;
     } catch (error) {
       return {
         code: 404,
@@ -17,7 +14,7 @@ module.exports = {
     }
   },
 
-  async getAllData() {
+  async getAll() {
     const dataInfo = await eSAChild.findAll();
     if (!dataInfo || dataInfo.length === 0) {
       return [];

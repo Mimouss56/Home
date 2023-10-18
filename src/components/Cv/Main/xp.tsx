@@ -1,4 +1,4 @@
-import { IEmploi } from '../../../@types/emploi';
+import { IEmploi } from '../../../@types/Home/emploi';
 import DetailsXp from './detailsXp';
 
 function Xp(contents: { content: IEmploi[], titre: string, filter: string }) {

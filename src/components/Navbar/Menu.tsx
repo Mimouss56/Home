@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
-import { User } from '../../@types/user';
+import { User } from '../../@types/Home/user';
 
 interface NavItem {
   id: number;

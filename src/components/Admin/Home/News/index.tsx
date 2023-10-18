@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import NewsForm from './addForm';
-import { ICreateNews, INews } from '../../../../@types/news';
+import { ICreateNews, INews } from '../../../../@types/Home/news';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
 

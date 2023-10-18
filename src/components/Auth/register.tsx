@@ -9,7 +9,7 @@ import {
   EyeTwoTone,
   EyeInvisibleOutlined,
 } from '@ant-design/icons';
-import { RegisterPost } from '../../@types/register';
+import { RegisterPost } from '../../@types/Home/register';
 import axiosInstance from '../../utils/axios';
 
 function Register() {

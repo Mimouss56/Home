@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
-import { Job } from '../../@types/emploi';
+import { Job } from '../../@types/Home/emploi';
 
 interface ModalAddItemProps {
   onAddElement: (data: Job, type: string) => void;

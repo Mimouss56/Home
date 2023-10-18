@@ -3,7 +3,7 @@ const ESAChildService = require('../../services/ESA/child.service');
 module.exports = {
   async getAllChild(req, res) {
     try {
-      const child = await ESAChildService.getAllData();
+      const child = await ESAChildService.getAll();
       res.status(200).json(child);
     } catch (error) {
       res.status(500).json(error);
@@ -31,8 +31,8 @@ module.exports = {
   },
   async getOne(req, res) {
     try {
-      const child = await ESAChildService.findById(req.params.id);
-      res.status(200).json(child);
+      const child = await ESAChildService.getData(req.params.id);
+      res.json(child);
     } catch (error) {
       res.status(500).json(error);
     }

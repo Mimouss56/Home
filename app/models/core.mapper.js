@@ -82,9 +82,9 @@ module.exports = class CoreDatamapper {
         indexPlaceholder += 1;
         values.push(value);
       });
-      const where = `WHERE ${fields} = ${placeholders}`;
+      const whereClause = fields.map((field, index) => `${field} = ${placeholders[index]}`).join(' AND ');
       const preparedQuery = {
-        text: `SELECT * FROM "${this.tableName}" ${where}`,
+        text: `SELECT * FROM "${this.tableName}" WHERE ${whereClause}`,
         values,
       };
       const result = await this.client.query(preparedQuery);

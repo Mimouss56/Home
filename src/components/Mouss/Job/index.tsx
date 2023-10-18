@@ -1,5 +1,5 @@
 import FloatCard from '../../FloatCard';
-import { Job as IJob } from '../../../@types/emploi';
+import { Job as IJob } from '../../../@types/Home/emploi';
 
 interface JobProps {
   jobs: IJob[];

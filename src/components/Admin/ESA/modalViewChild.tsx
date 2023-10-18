@@ -1,35 +1,29 @@
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { ISanction } from '../../../@types/Home/sanction';
+import { IStudent } from '../../../@types/ESA/student';
 
 dayjs.extend(isoWeek);
 
 interface ModalViewDetailsProps {
-  sanction: ISanction;
+  student: IStudent;
 }
 
-function ModalViewDetails({ sanction }: ModalViewDetailsProps) {
-  const bgColor = !sanction.warn ? 'bg-warning' : 'bg-danger';
-
+function ModalViewStudent({ student }: ModalViewDetailsProps) {
   return (
     <div className="modal-dialog modal-dialog-centered ">
       <div
-        className={`modal-content ${sanction.warn ? 'bg-danger' : 'bg-warning'} bg-gradient`}
+        className="modal-content "
       >
         <div className="modal-header">
           <h1 className="modal-title fs-5" id="exampleModalLabel">
-            Détails de la sanction
+            Détails de l&apos;élève
           </h1>
           <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div
-          className={`modal-body ${bgColor} bg-gradient`}
+          className="modal-body"
         >
-          {sanction.warn && <span className="badge text-bg-warning rounded-pill">Important</span>}
-          <p>{sanction.label}</p>
-          <p className="text-end fst-italic m-0">
-            {`${sanction.author.username} le ${new Date(sanction.date.complete).toLocaleDateString()}`}
-          </p>
+          {student.first_name}
         </div>
         <div className="modal-footer d-flex justify-content-around ">
           <button
@@ -45,4 +39,4 @@ function ModalViewDetails({ sanction }: ModalViewDetailsProps) {
   );
 }
 
-export default ModalViewDetails;
+export default ModalViewStudent;

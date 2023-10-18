@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { ICreateNews, ITag } from '../../../../@types/news';
+import { ICreateNews, ITag } from '../../../../@types/Home/news';
 // Mocked
 import { mockTags } from '../../../../../data/mocked';
 

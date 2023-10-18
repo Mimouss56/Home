@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { User as UserInfo } from '../../../@types/user';
+import { User as UserInfo } from '../../../@types/Home/user';
 import { MenuItemsProp } from '../../../@types/menu';
 
 import './style.scss';
@@ -17,6 +17,7 @@ function Menu({ navContent }: MenuProp) {
   const isAdmin = (userSession.role.label === 'admin');
   const isESA = (userSession.role.label === 'esa' || userSession.role.label === 'admin');
   const isMouss = (userSession.username === 'Mouss');
+  const isFamily = userSession.family;
   const [navItemsUser, navItemsMouss] = navContent;
 
   const handleClickLogout = () => {
@@ -70,6 +71,17 @@ function Menu({ navContent }: MenuProp) {
               component: 'Sanction',
             }] as MenuItemsProp[]}
             />
+          )}
+          {isFamily && (
+            <Nav navItems={[{
+              id: 4,
+              title: 'Domotic',
+              link: '/domotic',
+              icon: 'plug',
+              component: 'Sanction',
+            }] as MenuItemsProp[]}
+            />
+
           )}
           {isESA && (
             <Nav navItems={[

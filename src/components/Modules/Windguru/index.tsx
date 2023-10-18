@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { IOption } from '../../../@types/option';
+import { IOption } from '../../../@types/Home/option';
 import { getOption } from '../../../utils/main';
 
 function WindguruWidget() {

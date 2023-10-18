@@ -9,7 +9,7 @@ interface SanctionFormProps {
   sanction: ICreateSanction | null;
 }
 
-function ModalAddSanction({ sanction = null }: SanctionFormProps) {
+function ModalAddChildren({ sanction = null }: SanctionFormProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
   const [currentSanction, setCurrentSanction] = useState<ICreateSanction>(
     {
@@ -119,4 +119,4 @@ function ModalAddSanction({ sanction = null }: SanctionFormProps) {
   );
 }
 
-export default ModalAddSanction;
+export default ModalAddChildren;

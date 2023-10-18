@@ -2,7 +2,7 @@ import { Menu } from 'react-feather';
 import { Link } from 'react-router-dom';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import { User } from '../../@types/user';
+import { User } from '../../@types/Home/user';
 
 interface NavbarProp {
   navContent: MenuProp[];

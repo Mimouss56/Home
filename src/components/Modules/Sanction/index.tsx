@@ -3,17 +3,15 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
-import { ICreateSanction, ISanction } from '../../../@types/sanction';
+import { ICreateSanction, ISanction } from '../../../@types/Home/sanction';
 import ModalAdd from './modalAdd';
 import ModalView from './modalViewDetails';
 import { excerpt } from '../../../utils/main';
 import ProtectedRoute from '../../ProtectedRoute';
+import { ValueTargetForm } from '../../../@types/event';
 
 dayjs.extend(isoWeek);
-interface ValueTargetForm {
-  value: string;
-  name: string;
-}
+
 function Sanction() {
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
   const [currentSanction, setCurrentSanction] = useState(null as ICreateSanction | null);

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { User as UserInfo } from '../../@types/user';
+import { User as UserInfo } from '../../@types/Home/user';
 import Section from '../Mouss/section';
 
 function Mouss() {

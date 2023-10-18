@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../../../utils/axios';
-import { User as IUser, Role } from '../../../../@types/user';
+import { User as IUser, Role } from '../../../../@types/Home/user';
 import { ErrorSanctionProps } from '../../../../@types/error';
 
 function User() {

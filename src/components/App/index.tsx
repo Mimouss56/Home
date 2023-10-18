@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { User as UserInfo } from '../../@types/user';
+import { User as UserInfo } from '../../@types/Home/user';
 // Nav Items
 import navItemsMouss from '../../../data/navItemsMouss.json';
 import menuAdmin from '../../../data/navItemsAdmin.json';
