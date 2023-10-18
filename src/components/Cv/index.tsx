@@ -16,6 +16,7 @@ import './style.scss';
 function Cv() {
   const [searchParams] = useSearchParams();
   const filterJob = searchParams.get('fj') || '';
+
   const [filteredJob, setFilteredJob] = useState(filterJob);
   const [listJob, setListJob] = useState([]);
   const [listSchool, setListSchool] = useState([]);
@@ -41,15 +42,17 @@ function Cv() {
   };
   const fetchDataJobMouss = async () => {
     const response = await axiosInstance.get(`/user/${MoussID}`);
-    setListSchool(response.data.school);
-    setListJob(response.data.job);
+
+    setListSchool(response.data.user.school);
+    setListJob(response.data.user.job);
   };
   useEffect(() => {
-    fetchDataSkills();
     fetchDataJobMouss();
+    fetchDataSkills();
     setFilteredJob(filterJob);
-  }, [filterJob]);
-
+  }, [
+    filterJob,
+  ]);
   return (
     <div className="d-flex flex-column ">
       {

@@ -23,12 +23,12 @@ module.exports = {
     userByID.role = await roleService.getData(userOptionByID.id_role);
 
     if (userOptionByID.child) {
-      userByID.sanction = await sanctionService.getAll(user.id);
+      userByID.sanction = await sanctionService.getAll(userByID.id);
     }
 
     if (userByID.username === 'Mouss') {
-      userByID.job = await jobService.getAllByUser(user.id);
-      userByID.school = await schoolService.getAllByUser(user.id);
+      userByID.job = await jobService.getAllByUser(userByID.id);
+      userByID.school = await schoolService.getAllByUser(userByID.id);
     }
 
     delete userByID.password;

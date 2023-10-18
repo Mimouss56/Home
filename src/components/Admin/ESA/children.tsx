@@ -5,10 +5,11 @@ import ProtectedRoute from '../../ProtectedRoute';
 import { IStudent, IcreateStudent } from '../../../@types/ESA/student';
 import ModalAddChildren from './modalAddChild';
 import { ErrorSanctionProps } from '../../../@types/error';
+import ModalAddParent from './modalViewParent';
 
 function ListStudents() {
   const [studentsList, setStudentsList] = useState<IStudent[]>([]);
-  const [currentStudent, setCurrentStudent] = useState(null as IcreateStudent | null);
+  const [currentStudent, setCurrentStudent] = useState(null as IStudent | null);
 
   const listClass = ['TPS', 'PS', 'MS', 'GS', 'CP', 'CE1', 'CE2', 'CM1', 'CM2'];
 
@@ -21,6 +22,9 @@ function ListStudents() {
     }
   };
 
+  const handleParentAdded = () => {
+    fetchStudents();
+  };
   const handleFormSubmit = async (data: IcreateStudent) => {
     try {
       if (data.id !== 0) {
@@ -106,7 +110,7 @@ function ListStudents() {
                     className="form-select"
                     id="classe"
                     name="classe"
-                    value={student.classe}
+                    value={student.class}
                     onChange={handleChangeClass}
                   >
                     {listClass.map((cls) => <option key={cls} value={cls}>{cls}</option>)}
@@ -120,7 +124,7 @@ function ListStudents() {
                         className="btn btn-success mx-1"
                         onClick={() => handleEdit(student)}
                         data-bs-toggle="modal"
-                        data-bs-target="#ModalAddStudent"
+                        data-bs-target="#ModalAddParent"
                       >
                         <i className="bi bi-person-add" />
                       </button>
@@ -165,6 +169,18 @@ function ListStudents() {
                 />
               </div>
               <ModalAddChildren child={currentStudent} onSubmit={handleFormSubmit} />
+            </div>
+          </div>
+        </div>
+
+        <div className="modal" tabIndex={-1} id="ModalAddParent">
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Ajouter un parent</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" />
+              </div>
+              <ModalAddParent onParentAdded={handleParentAdded} />
             </div>
           </div>
         </div>
