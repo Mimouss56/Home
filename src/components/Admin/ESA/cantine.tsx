@@ -70,7 +70,7 @@ export default function PresenceCantine() {
                 key={student.id}
               >
                 <td>{`${student.last_name} ${student.first_name}`}</td>
-                <td>{student.class}</td>
+                <td>{student.classe}</td>
                 {/* //Prévu */}
                 <td />
                 <td>

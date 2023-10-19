@@ -39,6 +39,6 @@ export interface ICantineStudent {
   id: number;
   first_name: string;
   last_name: string;
-  class: string;
+  classe: string;
   present: boolean;
 }
