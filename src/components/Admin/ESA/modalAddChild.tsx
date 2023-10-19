@@ -14,7 +14,7 @@ function ModalAddChildren({ child = null, onSubmit }: FormProps) {
       id: 0,
       first_name: '',
       last_name: '',
-      class: '',
+      classe: '',
     },
   );
   const listClass = ['TPS', 'PS', 'MS', 'GS', 'CP', 'CE1', 'CE2', 'CM1', 'CM2'];
@@ -33,7 +33,7 @@ function ModalAddChildren({ child = null, onSubmit }: FormProps) {
       id: currentChild.id,
       first_name: currentChild.first_name,
       last_name: currentChild.last_name,
-      class: currentChild.class,
+      classe: currentChild.classe,
     });
   };
   return (
@@ -73,7 +73,7 @@ function ModalAddChildren({ child = null, onSubmit }: FormProps) {
             className="form-select"
             id="classe"
             name="classe"
-            value={currentChild.class}
+            value={currentChild.classe}
             onChange={handleInputChange}
             required
           >

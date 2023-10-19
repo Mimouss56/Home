@@ -13,7 +13,7 @@ const initValueStudent = {
   id: 0,
   first_name: '',
   last_name: '',
-  class: '',
+  classe: '',
   parents: [],
 } as IStudent;
 
@@ -150,8 +150,8 @@ function ListStudents() {
                   <select
                     className="form-select"
                     id={student.id.toString()}
-                    name="class"
-                    value={student.class}
+                    name="classe"
+                    value={student.classe}
                     onChange={handleChangeClass}
                   >
                     {listClass.map((cls) => <option key={cls} value={cls}>{cls}</option>)}

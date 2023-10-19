@@ -50,7 +50,7 @@ module.exports = {
     const inputQuery = {
       firstName: first_name,
       lastName: last_name,
-      class: classe,
+      classe,
     };
     const result = await ESAChildService.update(id, inputQuery);
 

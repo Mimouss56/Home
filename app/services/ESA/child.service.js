@@ -35,7 +35,7 @@ module.exports = {
     const inputData = {
       first_name: inputQuery.firstName,
       last_name: inputQuery.lastName,
-      class: inputQuery.classe,
+      classe: inputQuery.classe,
     };
     try {
       const childCreated = await eSAChild.create(inputData);
@@ -54,7 +54,7 @@ module.exports = {
   async update(id, inputQuery) {
     const childByID = await eSAChild.findByPk(id);
     const inputData = {
-      class: inputQuery.classe || childByID.class,
+      classe: inputQuery.classe || childByID.classe,
       first_name: inputQuery.firstName || childByID.first_name,
       last_name: inputQuery.lastName || childByID.last_name,
     };

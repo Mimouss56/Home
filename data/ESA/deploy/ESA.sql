@@ -21,7 +21,7 @@ CREATE TABLE child (
   id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  class VARCHAR(3) NOT NULL
+  classe VARCHAR(3) NOT NULL
 );
 
 CREATE TABLE parent_has_child (
