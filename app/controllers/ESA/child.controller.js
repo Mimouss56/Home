@@ -40,19 +40,23 @@ module.exports = {
   },
 
   async update(req, res) {
-    const { id } = req.query;
+    const { id } = req.params;
     const {
+      first_name,
+      last_name,
       classe,
     } = req.body;
 
     const inputQuery = {
-      classe,
+      firstName: first_name,
+      lastName: last_name,
+      class: classe,
     };
     const result = await ESAChildService.update(id, inputQuery);
 
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      message: 'News modifiée',
+      message: 'Elève modifiée',
       data: await ESAChildService.getData(result.id),
     });
   },

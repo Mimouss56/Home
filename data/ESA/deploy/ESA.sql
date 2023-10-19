@@ -11,7 +11,7 @@ CREATE TABLE parent (
   id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email valid_email NOT NULL UNIQUE,
+  email valid_email UNIQUE,
   street TEXT,
   zipcode NUMERIC(5,0),
   town VARCHAR(255)
@@ -25,8 +25,8 @@ CREATE TABLE child (
 );
 
 CREATE TABLE parent_has_child (
-  id_parent INT REFERENCES parent(id) ON DELETE CASCADE UNIQUE,
-  id_enfant INT REFERENCES child(id) ON DELETE CASCADE UNIQUE,
+  id_parent INT REFERENCES parent(id) ON DELETE CASCADE,
+  id_enfant INT REFERENCES child(id) ON DELETE CASCADE,
   PRIMARY KEY (id_parent, id_enfant)
 );
 

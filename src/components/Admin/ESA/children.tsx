@@ -1,56 +1,60 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../../utils/axios';
 import ProtectedRoute from '../../ProtectedRoute';
 import { IStudent, IcreateStudent } from '../../../@types/ESA/student';
 import ModalAddChildren from './modalAddChild';
 import { ErrorSanctionProps } from '../../../@types/error';
 import ModalAddParent from './modalViewParent';
+import {
+  fetchStudents, updateStudent, createStudent, deleteStudent, updateStudentClass,
+} from './apiCall';
+
+const initValueStudent = {
+  id: 0,
+  first_name: '',
+  last_name: '',
+  class: '',
+  parents: [],
+} as IStudent;
 
 function ListStudents() {
   const [studentsList, setStudentsList] = useState<IStudent[]>([]);
-  const [currentStudent, setCurrentStudent] = useState(null as IStudent | null);
+  const [currentStudent, setCurrentStudent] = useState(initValueStudent);
 
   const listClass = ['TPS', 'PS', 'MS', 'GS', 'CP', 'CE1', 'CE2', 'CM1', 'CM2'];
 
-  const fetchStudents = async () => {
+  const fetchAllStudents = async () => {
     try {
-      const response = await axiosInstance.get('/esa/child');
-      setStudentsList(response.data);
+      const students = await fetchStudents();
+
+      setStudentsList(students as IcreateStudent[]);
     } catch (error) {
       toast.error('Erreur lors de la récupération des élèves');
     }
   };
-
-  const handleParentAdded = () => {
-    fetchStudents();
+  const handleEdit = (student: IStudent) => {
+    setCurrentStudent(student);
   };
+
   const handleFormSubmit = async (data: IcreateStudent) => {
     try {
       if (data.id !== 0) {
-        // Update student
-        await axiosInstance.put(`/esa/child/${data.id}`, data);
+        await updateStudent(data);
         toast.success('Élève mis à jour avec succès');
       } else {
-        const { id, ...rest } = data;
-        // Create student
-        await axiosInstance.post('/esa/child', rest);
+        await createStudent(data);
         toast.success('Élève ajouté avec succès');
       }
-      fetchStudents();
+      await fetchAllStudents();
     } catch (error) {
       toast.error('Erreur lors de la mise à jour de l\'élève');
     }
   };
 
-  const handleEdit = (student: IStudent) => {
-    setCurrentStudent(student);
-  };
-
   const handleDelete = async (id: number) => {
     try {
-      await axiosInstance.delete(`/esa/child/${id}`);
-      setStudentsList(studentsList.filter((student) => student.id !== id));
+      await deleteStudent(id);
+      setStudentsList((prevStudents) => prevStudents.filter((student) => student.id !== id));
       toast.success('Élève supprimé avec succès');
     } catch (error) {
       toast.error("Erreur lors de la suppression de l'élève");
@@ -58,19 +62,56 @@ function ListStudents() {
   };
 
   const handleChangeClass = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { id, value } = event.target;
     try {
-      await axiosInstance.put(`/esa/child/${event.target.id}`, {
-        classe: event.target.value,
-      });
-      fetchStudents();
+      await updateStudentClass(id, value);
+      fetchAllStudents();
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
 
+  const handleParentAdded = () => {
+    fetchAllStudents();
+  };
+
+  const renderFirstParent = (student: IStudent) => {
+    if (student.parents[0]) {
+      return `${student.parents[0].first_name} ${student.parents[0].last_name}`;
+    }
+    return (
+      <button
+        type="button"
+        className="btn btn-success mx-1"
+        onClick={() => handleEdit(student)}
+        data-bs-toggle="modal"
+        data-bs-target="#ModalAddParent"
+      >
+        <i className="bi bi-person-add" />
+      </button>
+    );
+  };
+  const renderSecondParent = (student: IStudent) => {
+    if (student.parents[0] && !student.parents[1]) {
+      return (
+        <button
+          type="button"
+          className="btn btn-success mx-1"
+          onClick={() => handleEdit(student)}
+          data-bs-toggle="modal"
+          data-bs-target="#ModalAddParent"
+        >
+          <i className="bi bi-person-add" />
+        </button>
+      );
+    } if (student.parents[1]) {
+      return `${student.parents[1].first_name} ${student.parents[1].last_name}`;
+    }
+    return null;
+  };
   useEffect(() => {
-    fetchStudents();
+    fetchAllStudents();
   }, []);
 
   return (
@@ -81,7 +122,7 @@ function ListStudents() {
           <button
             type="button"
             className="btn btn-success"
-            onClick={() => setCurrentStudent(null)}
+            onClick={() => setCurrentStudent(initValueStudent)}
             data-bs-toggle="modal"
             data-bs-target="#ModalAddStudent"
           >
@@ -108,8 +149,8 @@ function ListStudents() {
                 <td>
                   <select
                     className="form-select"
-                    id="classe"
-                    name="classe"
+                    id={student.id.toString()}
+                    name="class"
                     value={student.class}
                     onChange={handleChangeClass}
                   >
@@ -117,28 +158,18 @@ function ListStudents() {
                   </select>
                 </td>
                 <td>
-                  {student.parents[0] ? `${student.parents[0]?.first_name} ${student.parents[0]?.last_name}`
-                    : (
-                      <button
-                        type="button"
-                        className="btn btn-success mx-1"
-                        onClick={() => handleEdit(student)}
-                        data-bs-toggle="modal"
-                        data-bs-target="#ModalAddParent"
-                      >
-                        <i className="bi bi-person-add" />
-                      </button>
-                    )}
-
+                  {renderFirstParent(student)}
                 </td>
-                <td>{student.parents[1] ? `${student.parents[1]?.first_name} ${student.parents[1]?.last_name}` : <i className="bi bi-person-add text-success" />}</td>
+                <td>
+                  {renderSecondParent(student)}
+                </td>
                 <td>
                   <button
                     type="button"
                     className="btn btn-warning mx-1"
                     onClick={() => handleEdit(student)}
                     data-bs-toggle="modal"
-                    data-bs-target="#ModalAddSanction"
+                    data-bs-target="#ModalAddStudent"
                   >
                     <i className="bi bi-pencil" />
                   </button>
@@ -180,7 +211,7 @@ function ListStudents() {
                 <h5 className="modal-title">Ajouter un parent</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" />
               </div>
-              <ModalAddParent onParentAdded={handleParentAdded} />
+              <ModalAddParent onParentAdded={handleParentAdded} childId={currentStudent.id} />
             </div>
           </div>
         </div>

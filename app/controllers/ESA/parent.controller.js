@@ -4,10 +4,7 @@ module.exports = {
   async getAll(req, res) {
     try {
       const parents = await parentService.getAll();
-      return res.status(200).json({
-        code: 200,
-        data: parents,
-      });
+      return res.json(parents);
     } catch (error) {
       return res.status(500).json({
         code: 500,
@@ -53,8 +50,41 @@ module.exports = {
     try {
       const parentCreated = await parentService.create(inputData);
       const data = await parentService.getData(parentCreated.id);
-      return res.status(200).json({
-        code: 200,
+      return res.json({
+        data,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        code: 500,
+        message: error,
+      });
+    }
+  },
+  async update(req, res) {
+    const { id } = req.params;
+    const {
+      firstName,
+      lastName,
+      email,
+      street,
+      town,
+      zipCode,
+      child,
+    } = req.body;
+
+    const inputData = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      street,
+      town,
+      zipcode: zipCode,
+      child,
+    };
+    try {
+      const parentUpdated = await parentService.update(id, inputData);
+      const data = await parentService.getData(parentUpdated.id);
+      return res.json({
         data,
       });
     } catch (error) {

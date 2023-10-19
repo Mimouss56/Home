@@ -1,5 +1,4 @@
 const skillService = require('../../services/home/skill.service');
-const schoolService = require('../../services/home/school.service');
 
 module.exports = {
   async getAll(req, res) {
@@ -13,30 +12,15 @@ module.exports = {
   },
 
   async post(req, res) {
-    const {
-      ent,
-      title,
-      description,
-      debut,
-      fin,
-      ville,
-      departement,
-    } = req.body;
+    const { name } = req.body;
 
     const inputQuery = {
-      ent,
-      title,
-      description,
-      date_started: debut,
-      date_ended: fin,
-      town: ville,
-      postal_code: departement,
+      name,
     };
-    const result = await schoolService.create(inputQuery);
+    const result = await skillService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 201,
-      message: 'Nouvelle formation créée',
+      data: result,
     });
   },
   async put(req, res) {
@@ -44,19 +28,17 @@ module.exports = {
     const { label, color } = req.body;
 
     const inputQuery = { label, color };
-    const result = await schoolService.update(id, inputQuery);
+    const result = await skillService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Role updated',
     });
   },
   async delete(req, res) {
     const { id } = req.params;
-    const result = await schoolService.delete(id);
+    const result = await skillService.delete(id);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Role deleted',
     });
   },

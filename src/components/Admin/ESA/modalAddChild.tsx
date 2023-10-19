@@ -29,7 +29,12 @@ function ModalAddChildren({ child = null, onSubmit }: FormProps) {
   };
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(currentChild);
+    onSubmit({
+      id: currentChild.id,
+      first_name: currentChild.first_name,
+      last_name: currentChild.last_name,
+      class: currentChild.class,
+    });
   };
   return (
     <div className="modal-body">

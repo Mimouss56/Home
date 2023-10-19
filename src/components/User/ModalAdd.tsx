@@ -4,6 +4,8 @@ import {
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { Job } from '../../@types/Home/emploi';
+import SkillInput from './skillInput';
+import { ISkill } from '../../@types/Home/skill';
 
 interface ModalAddItemProps {
   onAddElement: (data: Job, type: string) => void;
@@ -21,15 +23,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     description: '',
     urlImg: '',
   });
-  // const [type, setType] = useState('job');
-  // const [ent, setEnt] = useState('');
-  // const [title, settitle] = useState('');
-  // const [ville, setVille] = useState('');
-  // const [departement, setDepartement] = useState('');
-  // const [dateDebut, setDateDebut] = useState('');
-  // const [dateFin, setDateFin] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [urlImg, setUrlImg] = useState('');
+  const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (
@@ -42,16 +36,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   const handleSave = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { type, ...inputData } = formData;
-    // const inputData = {
-    //   ent,
-    //   title,
-    //   description,
-    //   debut: dateDebut,
-    //   fin: dateFin,
-    //   ville,
-    //   departement,
-    //   // urlImg,
-    // };
+
     try {
       const response = await axiosInstance.post(`/${type}/@me`, inputData);
       toast.success(response.data.message);
@@ -62,18 +47,10 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       const error = err as Error;
       toast.warning(error.message);
     }
-    // axiosInstance.post(`/${type}/@me`, inputData).then((res) => {
-    //   toast.success(
-    //     res.data.message,
-    //   );
-    //   delete res.data.message;
-    //   delete res.data.code;
-    //   onAddElement(res.data, type);
-    // }).catch((err) => {
-    //   toast.warning(err.message);
-    // });
   };
-
+  const handleSkillSelected = (skill: ISkill) => {
+    setSelectedSkills((prevSkills) => [...prevSkills, skill]);
+  };
   useEffect(() => {
     if (modalRef.current) {
       modalRef.current.addEventListener('show.bs.modal', (e) => {
@@ -84,17 +61,6 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       });
     }
   }, []);
-
-  // const modal = document.getElementById('addItem');
-  // if (modal) {
-  //   modal.addEventListener('show.bs.modal', (e) => {
-  //     const button = e.relatedTarget as HTMLButtonElement;
-  //     const titleElement = button.getAttribute('data-bs-title');
-  //     const modalTitle = modal.querySelector('.modal-title') as HTMLHeadingElement;
-  //     modalTitle.textContent = `Ajouter un ${titleElement}`;
-  //     setType(titleElement as string);
-  //   });
-  // }
 
   return (
     <form onSubmit={handleSave}>
@@ -231,6 +197,14 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   value={formData.description}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div className="input-group mb-3">
+                <SkillInput onSkillSelected={handleSkillSelected} />
+                {selectedSkills.map((skill) => (
+                  <span key={skill.id}>
+                    {skill.name}
+                  </span>
+                ))}
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">

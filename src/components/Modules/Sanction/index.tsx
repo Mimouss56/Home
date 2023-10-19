@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
@@ -19,21 +19,35 @@ function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const url = user.role.id === 1 ? '/sanction' : '/sanction/@me';
 
-  const fetchListSanction = async (urlSanction: string) => {
-    const response = await axiosInstance.get(urlSanction);
-    // sort data by date desc
-    response.data.sort(
-      (a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1),
-    );
-    setSanctionList(response.data);
-    const params = new URLSearchParams(window.location.search);
-    const idChild = params.get('child');
-    if (idChild) {
-      setSanctionList(response.data.filter(
-        (sanction: ISanction) => sanction.child.id === Number(idChild),
-      ));
+  const fetchListSanction = useCallback(async () => {
+    try {
+      const response = await axiosInstance.get(url);
+      const updatedData = response.data.map((s: ISanction) => {
+        if (user.child && (dayjs().isoWeek() === s.date.week)) {
+          return { ...s, label: '************' };
+        }
+        return s;
+      });
+
+      updatedData.sort(
+        (a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1),
+      );
+
+      setSanctionList(updatedData);
+
+      const params = new URLSearchParams(window.location.search);
+      const idChild = params.get('child');
+
+      if (idChild) {
+        setSanctionList((list) => list.filter(
+          (sanction: ISanction) => sanction.child.id === Number(idChild),
+        ));
+      }
+    } catch (err) {
+      toast.error('Erreur lors de la récupération des sanctions');
+      console.error('Error fetching sanctions:', err);
     }
-  };
+  }, [url, user.child]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +87,7 @@ function Sanction() {
       }
     }
     setCurrentSanction(null);
-    fetchListSanction(url);
+    fetchListSanction();
   };
 
   const handleEdit = (sanction: ISanction) => {
@@ -87,8 +101,8 @@ function Sanction() {
   };
 
   useEffect(() => {
-    fetchListSanction(url);
-  }, [url]);
+    fetchListSanction();
+  }, [fetchListSanction]);
 
   return (
     <ProtectedRoute>

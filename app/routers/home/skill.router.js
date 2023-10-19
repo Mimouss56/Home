@@ -4,8 +4,8 @@ const router = express.Router();
 const skillController = require('../../controllers/home/skill.controller');
 
 router.route('/')
-  .get(skillController.getAll);
-// .post(skillController.post)
+  .get(skillController.getAll)
+  .post(skillController.post);
 
 router.route('/:id')
   .get(skillController.get);

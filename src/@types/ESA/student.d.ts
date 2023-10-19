@@ -3,17 +3,18 @@ export interface IStudent {
   first_name: string;
   last_name: string;
   class: string;
-  parents: array<IParent>
+  parents?: array<IParent>
 }
 
 export interface IParent {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   street: string;
   zipcode: number;
   town: string;
+  child : array<IStudent.id>
 }
 
 export interface IcreateStudent {
@@ -25,8 +26,8 @@ export interface IcreateStudent {
 }
 
 export interface IcreateParent {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   street: string;
   zipcode: number;

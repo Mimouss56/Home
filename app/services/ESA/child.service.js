@@ -52,8 +52,11 @@ module.exports = {
   },
 
   async update(id, inputQuery) {
+    const childByID = await eSAChild.findByPk(id);
     const inputData = {
-      class: inputQuery.classe,
+      class: inputQuery.classe || childByID.class,
+      first_name: inputQuery.firstName || childByID.first_name,
+      last_name: inputQuery.lastName || childByID.last_name,
     };
     try {
       const childUpdated = await eSAChild.update(id, inputData);
