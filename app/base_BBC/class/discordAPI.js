@@ -1,7 +1,5 @@
-/* eslint-disable no-console */
 /* eslint-disable max-len */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-sequences */
+
 require('dotenv').config();
 
 class DiscordSDK {
@@ -12,8 +10,8 @@ class DiscordSDK {
   apibase;
 
   constructor() {
-    this.apibase = false,
-    this.authtoken = false,
+    this.apibase = false;
+    this.authtoken = false;
     this.authtype = false;
   }
 
