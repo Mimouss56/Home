@@ -3,9 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const apiRouter = require('./api.router');
-
-router.use('/api', apiRouter);
+router.use('/api', require('./api.router'));
 
 const publicPath = path.resolve(__dirname, '../../public');
 router.get('/*', (req, res) => {

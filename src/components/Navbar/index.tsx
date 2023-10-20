@@ -2,7 +2,7 @@ import { Menu } from 'react-feather';
 import { Link } from 'react-router-dom';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import { User } from '../../@types/user';
+import { User } from '../../@types/Home/user';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -29,7 +29,13 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                 >
-                  <img src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg" alt="mdo" className="rounded-circle" width="32" height="32" />
+                  <img
+                    src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg"
+                    alt="mdo"
+                    className="rounded-circle"
+                    width="32"
+                    height="32"
+                  />
                 </Link>
                 <button
                   type="button"

@@ -1,4 +1,4 @@
-import { INews, ITag } from '../src/@types/news';
+import { INews, ITag } from '../src/@types/Home/news';
 
 const mockTags: ITag[] = [
   { id: 1, label: 'Breaking', color: 'red' },

@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { User as UserInfo } from '../../../@types/user';
+import { User as UserInfo } from '../../../@types/Home/user';
 import { MenuItemsProp } from '../../../@types/menu';
 
 import './style.scss';
 import Nav from './Nav';
+import ProtectedRoute from '../../ProtectedRoute';
 
 interface MenuProp {
   navContent: MenuItemsProp[][];
@@ -13,7 +14,11 @@ interface MenuProp {
 
 function Menu({ navContent }: MenuProp) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
-  const [navItemsUser] = navContent;
+  const isAdmin = (userSession.role.label === 'admin');
+  const isESA = (userSession.role.label === 'esa' || userSession.role.label === 'admin');
+  const isMouss = (userSession.username === 'Mouss');
+  const isFamily = userSession.family;
+  const [navItemsUser, navItemsMouss] = navContent;
 
   const handleClickLogout = () => {
     sessionStorage.removeItem('user');
@@ -44,35 +49,75 @@ function Menu({ navContent }: MenuProp) {
   }, []);
 
   return (
-    <aside
-      id="aside"
-      className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg"
-      data-bs-scroll="true"
-      data-bs-backdrop="false"
-      data-bs-dismiss="true"
-    >
-      <ul className="nav nav-pills flex-column mb-auto">
-        <Nav navItems={navItemsUser as MenuItemsProp[]} />
-        {userSession.role.label === 'admin' && (
-          <>
-            <li className="border-top my-3" />
-            <li className="nav-intem">
-              <Link to="/admin" className="nav-link ">
-                <i className="bi bi-setting px-1" />
-                Espace Admin
-              </Link>
-            </li>
-          </>
+    <ProtectedRoute>
+      <aside
+        id="aside"
+        className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg"
+        data-bs-scroll="true"
+        data-bs-backdrop="false"
+        data-bs-dismiss="true"
+      >
+        <ul className="nav nav-pills flex-column mb-auto">
+          <Nav navItems={navItemsUser as MenuItemsProp[]} />
+          {isMouss && navItemsMouss && (
+            <Nav navItems={navItemsMouss as MenuItemsProp[]} />
+          )}
+          {(isAdmin || userSession.child) && (
+            <Nav navItems={[{
+              id: 4,
+              title: 'Sanction',
+              link: '/sanction',
+              icon: 'bandaid',
+              component: 'Sanction',
+            }] as MenuItemsProp[]}
+            />
+          )}
+          {isFamily && (
+            <Nav navItems={[{
+              id: 4,
+              title: 'Domotic',
+              link: '/domotic',
+              icon: 'plug',
+              component: 'Sanction',
+            }] as MenuItemsProp[]}
+            />
 
-        )}
-        <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
-          Déconnexion
-        </button>
+          )}
+          {isESA && (
+            <Nav navItems={[
+              {
+                id: 1,
+                title: 'ESA',
+                link: '/ESA',
+                icon: 'setting',
+                component: 'Admin',
+              },
+            ] as MenuItemsProp[]}
+            />
+          )}
 
-      </ul>
-      <hr />
-      <Outlet />
-    </aside>
+          {isAdmin && (
+            <Nav navItems={[
+              {
+                id: 1,
+                title: 'Espace Admin',
+                link: '/admin',
+                icon: 'setting',
+                component: 'Admin',
+              },
+            ] as MenuItemsProp[]}
+            />
+          )}
+          <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
+            Déconnexion
+          </button>
+
+        </ul>
+        <hr />
+        <Outlet />
+      </aside>
+
+    </ProtectedRoute>
 
   );
 }

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { ISanction } from '../../../@types/sanction';
+import { ISanction } from '../../../@types/Home/sanction';
 
 dayjs.extend(isoWeek);
 

@@ -1,4 +1,4 @@
-import { Job } from './job';
+import { Job } from './Home/job';
 
 export interface AxiosresponseDataJob {
   data: Job[];

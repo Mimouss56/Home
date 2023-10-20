@@ -1,0 +1,31 @@
+[
+  {
+    "id": 1,
+    "title": "Cantine",
+    "link": "/ESA/cantine",
+    "icon": "basket",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Garderie",
+    "link": "/ESA/garderie",
+    "icon": "book-half",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Activité",
+    "link": "/ESA/activity",
+    "icon": "puzzle",
+    "component": "Dashboard"
+  },
+  {
+    "id": 1,
+    "title": "Elèves",
+    "link": "/ESA/students",
+    "icon": "person-lines-fill",
+    "component": "Dashboard"
+  }
+
+]

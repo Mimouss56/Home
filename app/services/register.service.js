@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-const { user } = require('../models/index.mapper');
+const { user, userOption } = require('../models/index.mapper');
+const userService = require('./user.service');
 
 module.exports = {
 
@@ -24,18 +25,31 @@ module.exports = {
         message: 'Password and password confirm must be the same',
       };
     }
-    delete inputData.confirmPassword;
-    const hash = await bcrypt.hash(inputData.password, 10);
+    // on delete le confirmPassword
+    const { confirmPassword, ...dataInput } = inputData;
+
+    const hash = await bcrypt.hash(dataInput.password, 10);
+
+    // On attribut le role d'admin pour le 1er user
+    const countUser = await user.count();
+
     try {
       const data = await user.create({
-        ...inputData,
+        ...dataInput,
         password: hash,
       });
-      return data;
+      await userOption.create({
+        id_user: data.id,
+        id_role: countUser === 1 ? 1 : 2,
+      });
+      return {
+        ...await userService.getData(data.id),
+      };
     } catch (error) {
       return {
         code: 500,
-        message: 'Erreur pendant la création du compte',
+        message: `Erreur pendant la création du compte : ${error}`,
+        error,
       };
     }
   },

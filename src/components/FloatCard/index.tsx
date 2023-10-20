@@ -1,4 +1,4 @@
-import { ICard } from '../../@types/card';
+import { ICard } from '../../@types/Home/card';
 import './style.scss';
 import ModalCard from './Modal';
 

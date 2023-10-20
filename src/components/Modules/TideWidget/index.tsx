@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getOption } from '../../../utils/main';
-import { IOption } from '../../../@types/option';
+import { IOption } from '../../../@types/Home/option';
 
 function TideWidget() {
   const [tideOption, setTideOption] = useState<IOption>(

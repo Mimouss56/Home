@@ -60,12 +60,6 @@ CREATE TABLE "schooling" (
   date_ended VARCHAR(42)
 );
 
-CREATE TABLE option (
-  id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  name text,
-  value text
-);
-
 CREATE TABLE "school_skill" (
   id_schooling INT NOT NULL REFERENCES "schooling"(id) ON DELETE CASCADE,
   id_skill INT NOT NULL REFERENCES "skill"(id) ON DELETE CASCADE,
@@ -94,6 +88,6 @@ CREATE TABLE "user_job" (
   PRIMARY KEY (id_user, id_job)
 );
 
-INSERT INTO "role" (label) VALUES ('admin');
-INSERT INTO "user" (username, email, password, id_role) VALUES ('admin', 'lepriol.matthieu@gmail.com', 'admin', 1);
+INSERT INTO role (label) VALUES ('admin'), ('user');
+
 COMMIT;

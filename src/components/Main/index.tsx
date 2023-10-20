@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Card from '../Card';
 import axiosInstance from '../../utils/axios';
-import { ICardNews } from '../../@types/card';
-import { INews } from '../../@types/news';
+import { ICardNews } from '../../@types/Home/card';
+import { INews } from '../../@types/Home/news';
 import WindguruWidget from '../Modules/Windguru';
 import TideWidget from '../Modules/TideWidget';
 
