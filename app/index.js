@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 const router = require('./routers');
 
-app.set('views', './app/views');
+// app.set('views', './app/views');
 
 app.use(expressSession({
   resave: true,

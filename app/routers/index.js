@@ -1,13 +1,15 @@
-const path = require('path');
 const express = require('express');
+const testController = require('../base_BBC/controllers/test.controller');
 
 const router = express.Router();
 
 router.use('/api', require('./api.router'));
 
-const publicPath = path.resolve(__dirname, '../../public');
+router.get('/test', testController.renderTest);
+
+// const publicPath = path.resolve(__dirname, '../../public');
 router.get('/*', (req, res) => {
-  res.sendFile('index.html', { root: publicPath });
+  res.json('Welcome to the Mouss\'s API');
 });
 
 module.exports = router;
