@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const userService = require('../services/user.service');
+const userService = require('../base_home/services/user.service');
 
 const loggedAs = async (req, res, next) => {
   if (!req.headers.authorization) {

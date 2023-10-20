@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=home
+
+initdb 2023-10-20T09:28:08Z Mi Mouss <mlp22@PC-MOUSS> # Initialisation de base
+insert_value 2023-10-20T09:29:56Z Mi Mouss <mlp22@PC-MOUSS> # Chargement données
