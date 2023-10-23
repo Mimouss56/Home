@@ -27,7 +27,7 @@ function Register() {
       email: values.email,
     };
     try {
-      const res = await axiosInstance.post('/register', dataInput);
+      const res = await axiosInstance.post('/home/register', dataInput);
       sessionStorage.setItem('notifToast', `${res.data.message}, Merci de vous reconnecter !`);
 
       window.location.reload();

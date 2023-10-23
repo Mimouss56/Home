@@ -13,7 +13,7 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      const response = await axiosInstance.get('/skill');
+      const response = await axiosInstance.get('/home/skill');
       setSkills(response.data);
     };
 

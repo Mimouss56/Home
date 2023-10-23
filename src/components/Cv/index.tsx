@@ -37,11 +37,11 @@ function Cv() {
   };
   // Chargement des Skills pour le select
   const fetchDataSkills = async () => {
-    const response = await axiosInstance.get('/skill');
+    const response = await axiosInstance.get('/home/skill');
     setSkills(response.data);
   };
   const fetchDataJobMouss = async () => {
-    const response = await axiosInstance.get(`/user/${MoussID}`);
+    const response = await axiosInstance.get(`/home/user/${MoussID}`);
 
     setListSchool(response.data.user.school);
     setListJob(response.data.user.job);

@@ -9,7 +9,7 @@ export function excerpt(text: string, length = 30) {
 
 export async function getOption(option: string) {
   try {
-    const optionValue = await axiosInstance.get(`/option?name=${option}`);
+    const optionValue = await axiosInstance.get(`/home/option?name=${option}`);
 
     return optionValue.data;
   } catch (err) {
