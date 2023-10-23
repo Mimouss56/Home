@@ -10,7 +10,7 @@ export default function PresenceCantine() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
   const fetchUsers = async (dated: string) => {
-    const response = await axiosInstance.get(`/ESA/cantine?date=${dated}`);
+    const response = await axiosInstance.get(`/esa/cantine?date=${dated}`);
     // order by last_name puis part first_name
     response.data.sort(
       (a: IStudent, b: IStudent) => (a.last_name > b.last_name ? 1 : -1),

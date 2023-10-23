@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
-import { IParent, IStudent } from '../../../@types/ESA/student';
+import { IParent } from '../../../@types/ESA/student';
 
 interface FormProps {
   childId: number;

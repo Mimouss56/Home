@@ -2,7 +2,6 @@ const { eSACantine, eSAChild } = require('../models/index.mapper');
 
 module.exports = {
   async getStudentsByDate(date) {
-    console.log(date);
     try {
       // Récupérer tous les enfants
       const allChildren = await eSAChild.findAll();
