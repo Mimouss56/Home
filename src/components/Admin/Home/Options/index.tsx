@@ -10,7 +10,7 @@ function Options() {
 
   const fetchListOptions = async () => {
     try {
-      const res = await axiosInstance.get('/option');
+      const res = await axiosInstance.get('/home/option');
       setListOptions(res.data);
     } catch (err) {
       const { message } = err as ErrorAxios;
