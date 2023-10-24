@@ -1,10 +1,10 @@
 const http = require('http');
 require('dotenv').config();
-const { tokenBaby, tokenBBC } = require('./config.json');
 const app = require('./app');
 const { bbc, mimouss } = require('./bot');
 
-bbc(tokenBBC);
+bbc();
+mimouss();
 
 const port = process.env.PORT ?? 3000;
 const server = http.createServer(app);

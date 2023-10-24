@@ -1,6 +1,5 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const { randomItem } = require('../../../../utils/random');
-const { quarksRole } = require('../../../config.json');
 
 const bonjourSimple = [
   'Wesh ma gueule',
@@ -28,7 +27,7 @@ module.exports = {
 
   async execute(interaction) {
     // LordMojo
-    const arrayBonjour = (interaction.member.permissions.has(''))
+    const arrayBonjour = (interaction.member.permissions.has(PermissionFlagsBits.Administrator))
       ? bonjourAdmin
       : bonjourSimple;
     await interaction.reply(randomItem(arrayBonjour));

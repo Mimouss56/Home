@@ -1,5 +1,6 @@
 const bbcBot = require('./bots/bbc');
 const mimoussBot = require('./bots/mimouss');
+const { tokenBBC, tokenMimouss } = require('../config.json');
 
 const loginBot = async (bot, token) => {
   const client = await bot.login(token);
@@ -7,11 +8,11 @@ const loginBot = async (bot, token) => {
 };
 
 const bbc = async () => {
-  return loginBot(bbcBot, process.env.TOKEN_BBC);
+  return loginBot(bbcBot, tokenBBC);
 };
 
 const mimouss = async () => {
-  return loginBot(mimoussBot, process.env.TOKEN_MIMOUSS);
+  return loginBot(mimoussBot, tokenMimouss);
 };
 
 module.exports = {
