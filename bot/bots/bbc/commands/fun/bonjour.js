@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { randomItem } = require('../../utils/random');
-const { quarksRole } = require('../../../config.json');
+const { randomItem } = require('../../../../utils/random');
+const { quarksRole } = require('../../../../../config.json');
 
 const bonjourSimple = [
   'Wesh ma gueule',

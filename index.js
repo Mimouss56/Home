@@ -1,13 +1,21 @@
 const http = require('http');
 require('dotenv').config();
-const { tokenBaby } = require('./config.json');
+const { tokenBaby, tokenBBC } = require('./config.json');
 const app = require('./app');
-// const bot = require('./bot');
-// const optionService = require('./app/base_home/services/option.service');
+const { bbc, mimouss } = require('./bot');
+
+bbc(tokenBBC);
 
 const port = process.env.PORT ?? 3000;
-
 const server = http.createServer(app);
+
+server.listen(port, () => {
+  console.log(`Listening on http://localhost:${port}`);
+});
+
+
+
+// const optionService = require('./app/base_home/services/option.service');
 
 // (async () => {
 //   try {
@@ -23,7 +31,3 @@ const server = http.createServer(app);
 // })();
 
 // bot.login(tokenDiscordBot.value);
-
-server.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}`);
-});
