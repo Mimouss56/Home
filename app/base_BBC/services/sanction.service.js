@@ -1,9 +1,9 @@
 const DiscordSDK = require('../class/discordAPI');
 const { tokenBBC: tokenBot } = require('../../../config.json');
+const { sanction } = require('../models/index.mapper');
 
 const discord = new DiscordSDK();
 discord.SetAccessInfo('Bot', tokenBot);
-const { sanction } = require('../models/index.mapper');
 
 const type = {
   1: 'Warn',
@@ -24,39 +24,38 @@ module.exports = {
       user: s.discord_id,
     }));
   },
-  // /**
-  //  *
-  //  * @param {String} discordId ID discord du sanctionné
-  //  * @param {Number} typeId Input de l'ID de la sanction
-  //  * @param {String} reason Les raisons de la sanction
-  //  * @param {Number} authorId L'auteur
-  //  * @returns {Object}
-  //  */
-  // async createSanction(discordId, typeId, reason, authorId) {
-  //   let infoMethod = 'GET';
-  //   const userDiscord = await discord.Api('GET', `/users/${discordId}`);
-  //   const author = await User.findByPk(authorId);
-  //   // Crée une nouvelle sanction dans la base de données
-  //   await Sanction.create({
-  //     discord_id: discordId,
-  //     type: typeId,
-  //     reason,
-  //     author: authorId,
-  //   });
-  //   if (typeId === 2) infoMethod = 'DELETE'; // Kick
-  //   if (typeId === 3) infoMethod = 'PUT'; // BAN
+  /**
+   *
+   * @param {string} discordId ID discord du sanctionné
+   * @param {number} typeId Input de l'ID de la sanction
+   * @param {string} reason Les raisons de la sanction
+   * @param {number} authorId L'auteur
+   * @returns {returnJson}
+   */
+  async createSanction(discordId, typeId, reason, authorId) {
+    let infoMethod = 'GET';
+    const userSanctionnedDiscord = await discord.Api('GET', `/users/${discordId}`);
+    const authorSanctionDiscord = await discord.Api('GET', `/users/${authorId}`);
+    // Crée une nouvelle sanction dans la base de données
+    await sanction.create({
+      discord_id: discordId,
+      type: typeId,
+      reason,
+      author: authorId,
+    });
+    if (typeId === 2) infoMethod = 'DELETE'; // Kick
+    if (typeId === 3) infoMethod = 'PUT'; // BAN
 
-  //   if (infoMethod !== 'GET')
-  //   await discord.Api(infoMethod, `guilds/${process.env.guildId}/bans/${discordId}`);
+    if (infoMethod !== 'GET') { await discord.Api(infoMethod, `guilds/${process.env.guildId}/bans/${discordId}`); }
 
-  //   const returnJson = {
-  //     author: author.username,
-  //     completeName: `${userDiscord.username}#${userDiscord.discriminator}`,
-  //     discordId,
-  //     reason,
-  //     typeName: type[typeId],
-  //   };
+    const returnJson = {
+      author: authorSanctionDiscord.username,
+      completeName: `${userSanctionnedDiscord.username}#${userSanctionnedDiscord.discriminator}`,
+      discordId,
+      reason,
+      typeName: type[typeId],
+    };
 
-  //   return returnJson;
-  // },
+    return returnJson;
+  },
 };
