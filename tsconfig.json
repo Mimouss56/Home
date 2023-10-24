@@ -25,7 +25,8 @@
     "vite.config.js",
     ".eslintrc.cjs",
     "src",
-    "data/mocked.tsx"
+    "data/mocked.tsx",
+    "app/base_BBC"
   ],
   "references": [
     {

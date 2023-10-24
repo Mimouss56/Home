@@ -6,7 +6,7 @@ CREATE TABLE contrib (
   id int PRIMARY KEY,
   username text NOT NULL,
   discord_id bigint NOT NULL,
-  email text NOT NULL,
+  email text,
   is_admin boolean NOT NULL DEFAULT false,
   nom text,
   prenom text,
