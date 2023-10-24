@@ -1,13 +1,23 @@
+const { tokenBBC, tokenMimouss } = require('./config.json');
 const http = require('http');
 require('dotenv').config();
-const { tokenBaby } = require('./config.json');
 const app = require('./app');
-// const bot = require('./bot');
-// const optionService = require('./app/base_home/services/option.service');
+
+const bbcBot = require('./bot/bots/bbc');
+
 
 const port = process.env.PORT ?? 3000;
-
 const server = http.createServer(app);
+
+bbcBot.login(tokenBBC);
+
+server.listen(port, () => {
+  console.log(`Listening on http://localhost:${port}`);
+});
+
+
+
+// const optionService = require('./app/base_home/services/option.service');
 
 // (async () => {
 //   try {
@@ -21,9 +31,3 @@ const server = http.createServer(app);
 //     console.error("Failed to retrieve the Discord bot token:", error);
 //   }
 // })();
-
-// bot.login(tokenDiscordBot.value);
-
-server.listen(port, () => {
-  console.log(`Listening on http://localhost:${port}`);
-});
