@@ -10,7 +10,7 @@ function Main() {
   // fetch data from api
   const [data, setData] = useState([]);
   const fetchData = async () => {
-    const result = await axiosInstance('/news');
+    const result = await axiosInstance('/home/news');
     result.data = result.data.filter((news: INews) => news.draft === false);
 
     setData(result.data);
