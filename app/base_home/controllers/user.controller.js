@@ -50,4 +50,15 @@ module.exports = {
 
     return res.json(data);
   },
+  async delete(req, res) {
+    const { id } = req.params;
+    const data = await userService.delete(id);
+    if (data.code) {
+      return res.status(data.code).json(
+        { message: data.message, error: data.error.toString() },
+      );
+    }
+
+    return res.json(data);
+  },
 };
