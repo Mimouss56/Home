@@ -14,7 +14,7 @@ function Login() {
 
   const handleSubmit = async (values: LoginPost) => {
     try {
-      const res = await axiosInstance.post('/login', values);
+      const res = await axiosInstance.post('/home/login', values);
       const { data, sessionToken, message } = res.data;
 
       sessionStorage.setItem('sessionToken', sessionToken);

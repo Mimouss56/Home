@@ -2,6 +2,7 @@ const DiscordSDK = require('../class/discordAPI');
 
 const discord = new DiscordSDK();
 const Utils = require('../../utils/discord.utils');
+
 const userServices = require('../services/user.service');
 
 const urlAuthorize = 'https://discord.com/api/oauth2/authorize';

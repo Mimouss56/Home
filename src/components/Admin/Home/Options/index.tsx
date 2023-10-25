@@ -10,7 +10,7 @@ function Options() {
 
   const fetchListOptions = async () => {
     try {
-      const res = await axiosInstance.get('/option');
+      const res = await axiosInstance.get('/home/option');
       setListOptions(res.data);
     } catch (err) {
       const { message } = err as ErrorAxios;
@@ -19,7 +19,7 @@ function Options() {
   };
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/option/${event.target.id}`, {
+      const response = await axiosInstance.put(`/home/option/${event.target.id}`, {
         active: event.target.checked,
       });
       setListOptions((prev) => prev.map((newsItem) => {
@@ -46,7 +46,7 @@ function Options() {
       value: value.value,
     };
     try {
-      const result = await axiosInstance.post('/option', inputData);
+      const result = await axiosInstance.post('/home/option', inputData);
 
       toast.info(result.data.message);
       fetchListOptions();
@@ -58,7 +58,7 @@ function Options() {
 
   const handleDelete = async (id: number) => {
     try {
-      const result = await axiosInstance.delete(`/option/${id}`);
+      const result = await axiosInstance.delete(`/home/option/${id}`);
       toast.success(result.data.message);
       fetchListOptions();
     } catch (err) {

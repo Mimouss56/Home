@@ -94,6 +94,26 @@ module.exports = {
     }
   },
 
+  async delete(id) {
+    const userByID = await user.findByPk(id);
+    if (!userByID) {
+      return {
+        code: 404,
+        message: 'User not found',
+      };
+    }
+    try {
+      await user.destroy({ where: { id } });
+      return { message: 'Utilisateur supprimé' };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'Error while deleting user',
+        error,
+      };
+    }
+  },
+
   async checkUserExist(email, username) {
     const userExist = {
       emailExist: await user.findOne({ where: { email } }),

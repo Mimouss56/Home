@@ -13,7 +13,7 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
 
   useEffect(() => {
     const fetchSkills = async () => {
-      const response = await axiosInstance.get('/skill');
+      const response = await axiosInstance.get('/home/skill');
       setSkills(response.data);
     };
 
@@ -36,7 +36,7 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
       name: searchTerm,
     };
 
-    const response = await axiosInstance.post('/skill', newSkill);
+    const response = await axiosInstance.post('/home/skill', newSkill);
     setSkills((prevSkills) => [...prevSkills, response.data]);
     onSkillSelected(response.data);
     setSearchTerm('');
