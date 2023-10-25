@@ -36,7 +36,7 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
       name: searchTerm,
     };
 
-    const response = await axiosInstance.post('/skill', newSkill);
+    const response = await axiosInstance.post('/home/skill', newSkill);
     setSkills((prevSkills) => [...prevSkills, response.data]);
     onSkillSelected(response.data);
     setSearchTerm('');
