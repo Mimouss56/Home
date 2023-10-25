@@ -4,12 +4,14 @@ require('dotenv').config();
 const app = require('./app');
 
 const bbcBot = require('./bot/bots/bbc');
+const mimoussBot = require('./bot/bots/mimouss');
 
 
 const port = process.env.PORT ?? 3000;
 const server = http.createServer(app);
 
 bbcBot.login(tokenBBC);
+mimoussBot.login(tokenMimouss);
 
 server.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
