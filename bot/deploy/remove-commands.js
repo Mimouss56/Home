@@ -1,4 +1,10 @@
 const { removeCommands } = require('./index');
-const { clientIdBBC, tokenBBC, guildIdBBC } = require('../../config.json');
+const { clientID, token, guildID } = require('../../config.json');
+const botName = "bbc";
 
-removeCommands(clientIdBBC, tokenBBC, guildIdBBC);
+removeCommands(
+  clientID[botName.toLocaleUpperCase()],
+  token[botName.toLocaleUpperCase()],
+  guildID[botName.toLocaleUpperCase()],
+  botName
+);

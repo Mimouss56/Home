@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 // router login
-router.use('/bbc', require('../base_BBC/routers'));
-router.use('/esa', require('../base_ESA/routers'));
-router.use('/home', require('../base_home/routers'));
+router.use('/bbc', require('../api/BBC/routers'));
+router.use('/esa', require('../api/ESA/routers'));
+router.use('/home', require('../api/home/routers'));
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { randomItem } = require('../../../../utils/random');
-const { quarksRole } = require('../../../../../config.json');
+const { role } = require('../../../../../config.json');
 
 const bonjourSimple = [
   'Wesh ma gueule',
@@ -28,7 +28,7 @@ module.exports = {
 
   async execute(interaction) {
     // LordMojo
-    const arrayBonjour = (interaction.member.roles.resolve('952328803991031870') || interaction.member.roles.resolve(quarksRole))
+    const arrayBonjour = (interaction.member.roles.resolve('952328803991031870') || interaction.member.roles.resolve(role.quarks))
       ? bonjourAdmin
       : bonjourSimple;
     await interaction.reply(randomItem(arrayBonjour));

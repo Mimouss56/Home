@@ -1,8 +1,8 @@
 const { deployCommands } = require('./index');
-const { clientIdBBC, tokenBBC } = require('../../config.json');
-
+const { clientID, token } = require('../../config.json');
+const botName = "bbc";
 // Déployer les commandes sur le bot BBC
 
 
-deployCommands(clientIdBBC, tokenBBC, "bbc");
+deployCommands(clientID[botName.toLocaleUpperCase()], token[botName.toLocaleUpperCase()], botName);
 

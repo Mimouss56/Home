@@ -22,20 +22,37 @@ function Main() {
 
   return (
 
-    <div className="d-flex flex-wrap my-0">
-      <WindguruWidget />
-      <TideWidget />
-      {data && (
-        data.map((item: ICardNews) => (
-          <Card key={item.id}>
+    <div className="container-fluid">
+      {/* Section de Bienvenue */}
+      <div className="my-5">
+        <h1>Bienvenue sur Mon Site!</h1>
+        <p>Découvrez les dernières actualités, mes outils et bien plus encore.</p>
+      </div>
 
-            {/* eslint-disable-next-line react/no-danger */}
-            <div dangerouslySetInnerHTML={{ __html: item.content }} />
-            {/* { item.content} */}
-          </Card>
-        )))}
+      {/* Widgets Météorologiques */}
+      <div className="d-flex justify-content-center my-5">
+        <WindguruWidget />
+        <TideWidget />
+      </div>
+
+      {/* Section des Nouvelles (News) */}
+      <div className="news-section my-5">
+        <h2>Actualités</h2>
+        <div className="d-flex flex-wrap">
+          {data && data.map((item: ICardNews) => (
+            <Card key={item.id}>
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: item.content }} />
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer ou Section d'Information Additionnelle */}
+      <div className="footer-section my-5">
+        {/* Contenu additionnel ou rappel des liens ici */}
+      </div>
     </div>
-
   );
 }
 

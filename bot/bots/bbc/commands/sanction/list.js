@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const sanctionService = require('../../../../../app/base_BBC/services/sanction.service');
+const dayjs = require('dayjs');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('sanction')
@@ -24,25 +25,38 @@ module.exports = {
       content: 'Aucune sanction pour cet utilisateur',
       ephemeral: true
     });
-    const sanctionField = returnListSanction.sanctions.map((sanction) => ({
-      name: sanction.type,
-      value: sanction.reason,
-    }));
-    const createSanctionDate = returnListSanction.sanctions.map((sanction) => ({
-      name: 'Crée le : ',
-      value: sanction.created_at,
-      inline: true,
-    }));
-    const deleteSanctionDate = returnListSanction.sanctions.map((sanction) => ({
-      name: 'Supprimée le : ',
-      value: sanction.deleted_at,
-      inline: true,
-    }));
+
+    const sanctionField = returnListSanction.flatMap((sanction) => {
+      const authorMember = interaction.guild.members.cache.get(sanction.author);
+      return [
+        {
+          name: `${sanction.type} mis en place par ${authorMember.user.username}`,
+          value: sanction.reason,
+        },
+        {
+          name: 'Crée le : ',
+          value: `${dayjs(sanction.created_at).format('DD/MM/YYYY')}`,
+          inline: true,
+        },
+        {
+          name: 'Supprimée le : ',
+          value: sanction.deleted ? `${dayjs(sanction.deleted).format('DD/MM/YYYY')}` : '---',
+          inline: true,
+        },
+        {
+          name: 'Par : ',
+          value: `${authorMember.user.username}`,
+          inline: true,
+        }
+      ]
+    });
     const embed = new EmbedBuilder()
       .setColor(0xff0000)
-      .setTitle(`Liste des Sanction de ${returnListSanction.user}`)
-      .addFields(sanctionField, createSanctionDate, deleteSanctionDate);
-    interaction.reply({ embeds: [embed], ephemeral: true });
+      .setTitle(`Liste des Sanction de ${user.username}`)
+      .addFields(
+        sanctionField,
+      );
+    return interaction.reply({ embeds: [embed], ephemeral: true });
 
   },
 };

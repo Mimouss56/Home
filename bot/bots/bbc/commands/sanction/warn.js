@@ -30,7 +30,7 @@ module.exports = {
     const author = interaction.member;
 
 
-    const jsonSanction = await sanctionService.createSanction(user.id, 1, reason, author.id);
+    const jsonSanction = await sanctionService.createSanction(user.id, 1, reason, author.id, interaction.guild.id);
     await sendEmbedSanction(interaction, jsonSanction.typeName);
   },
 };

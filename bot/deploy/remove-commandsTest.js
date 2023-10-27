@@ -1,5 +1,6 @@
 const { REST, Routes } = require('discord.js');
 const { clientId, token, guildId } = require('../../config.json');
+const botName = "bbc";
 
 const rest = new REST().setToken(token);
 

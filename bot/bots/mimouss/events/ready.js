@@ -1,5 +1,4 @@
 const { Events, ActivityType } = require('discord.js');
-// const { textActivity } = require('../../../../config.json');
 
 module.exports = {
   name: Events.ClientReady,

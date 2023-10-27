@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { user: User } = require('../base_BBC/models/index.mapper');
+const { user: User } = require('../api/BBC/models/index.mapper');
 const {
   clientIdBBC, redirectUriBBC, scopeBBC, clientSecretBBC,
 } = require('../../config.json');
