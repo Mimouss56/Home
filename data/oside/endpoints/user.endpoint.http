@@ -1,0 +1,38 @@
+@baseUrl = https://localhost:3000/api
+
+
+## Tous les users
+GET {{baseUrl}}/users
+
+## users par ID
+GET {{baseUrl}}/user/1
+
+## Populate user
+POST {{baseUrl}}/user
+
+{
+    "email": "email",
+    "github_login": "name",
+
+}
+
+## Update un user
+
+PUT {{baseUrl}}/user/:id
+
+{
+    "id": 1,
+    "github_login": "name",
+    "role": 1,
+    "first_name": "first_name",
+    "last_name": "last_name",
+}
+
+
+
+## Suppression User
+DELETE {{baseUrl}}/user/:id
+
+{
+    "id": 1,
+}

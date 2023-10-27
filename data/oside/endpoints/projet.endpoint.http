@@ -1,0 +1,44 @@
+
+### Tous les projets
+GET /projets
+Host: localhost:3000/api
+
+## Populate Projet
+POST /projet
+Host: localhost:3000/api
+Content-Type: application/json
+
+    {
+        "ownerId": 1,
+        "title": "Un super projet",
+        "content": "Moi je passe pas mal de temps à la taverne. J’ai jamais entendu parlé de celui-là! Ouais… Ouais je me suis gouré… Vous binez pas… Même nous on a pas tout compris.",
+        "status": "En cours d'équipage",
+    }
+
+### Projet par ID
+GET /projet/11
+Host: localhost:3000/api
+
+
+
+### Update un projet
+
+PUT /projet/:id
+
+{
+    "id": 1,
+    "title": "Blabla",
+    "content": "lorem",
+    "status": "En cours de d'équipage",
+    "member_projet": [ 1, 2, 3],
+    "techno_projet": ["techno","techno","techno","techno"],
+}
+
+
+
+## Suppression Project
+DELETE /project/:id
+{
+    "id" : 1
+}
+

@@ -1,0 +1,24 @@
+:
+ROLE: label, color
+:
+:
+
+POSTE, 0N USER , 11 COMMENT
+POSSEDE, 11 USER, 0N ROLE
+DONNE, 0N USER, 11 AVIS
+AVIS : content
+
+COMMENT : content, flag, vote_up, vote_down
+CREER, 0N USER, 11 PROJET
+USER : code_id, first_name, last_name, github_id, _email, role, vote_up, vote_down
+RECOIT, 0N USER, 1N AVIS
+
+RATTACHE, 0N PROJET, 11 COMMENT
+PROJET : code_id, title, content, status, vote_up, vote_down
+PARTICIPE, 0N USER, 1N PROJET
+MAITRISE, 0N USER, 0N TECHNO
+
+:
+MISE, 1N PROJET, 0N TECHNO
+TECHNO : _label, color
+:
