@@ -3,7 +3,7 @@ function Contact() {
     <section id="contact" className="py-3 text-white">
       <h1 className="name px-3 fw-bold">LE PRIOL Matthieu</h1>
       <p className="px-3">
-        Développeur Application Web et Mobile
+        {'En pleine reconversion, je suis passionné d\'informatique et spécialisé en développement web fullstack JavaScript. Autonome et autodidacte, j\'ai acquis des compétences solides dans ce domaine en suivant ma passion.'}
       </p>
       <h2 id="title_contact" className="p-2 fw-bold fs-5">Contact</h2>
       <div id="contact">
