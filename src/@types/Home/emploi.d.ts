@@ -27,5 +27,5 @@ export interface Job {
   },
   description: string,
   competences? : string[],
-  url_img: string
+  urlImg: string
 }

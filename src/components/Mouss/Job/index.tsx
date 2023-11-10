@@ -15,7 +15,7 @@ function Job({ jobs }: JobProps) {
             ent={job.ent}
             title={job.title}
             desc={job.description}
-            url_img={job.url_img}
+            url_img={job.urlImg}
             date={job.date}
             competences={job.competences || []}
             id={job.id}
