@@ -5,6 +5,15 @@ module.exports = {
   async getAllChild(req, res) {
     try {
       const child = await ESAChildService.getAll();
+      // tri par last_name ASC puis par first_name ASC
+      child.sort((a, b) => {
+        if (a.last_name < b.last_name) return -1;
+        if (a.last_name > b.last_name) return 1;
+        if (a.first_name < b.first_name) return -1;
+        if (a.first_name > b.first_name) return 1;
+        return 0;
+      });
+
       res.status(200).json(child);
     } catch (error) {
       res.status(500).json(error);

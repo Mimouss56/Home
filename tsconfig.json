@@ -26,7 +26,8 @@
     ".eslintrc.cjs",
     "src",
     "data/mocked.tsx",
-    "app/base_BBC"
+    "app/base_BBC",
+    "src/App.tsx"
   ],
   "references": [
     {
