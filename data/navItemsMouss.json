@@ -12,6 +12,12 @@
     "link": "/user/school",
     "icon": "book",
     "component": "School"
+  },
+  {
+    "id": 4,
+    "title": "Kanban",
+    "link": "/user/kanban",
+    "icon": "kanban",
+    "component": "Kanban"
   }
-
 ]
