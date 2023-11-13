@@ -4,7 +4,6 @@ import axiosInstance from '../../../utils/axios';
 export default function ModalAddList({ updateCards }: { updateCards: () => void }) {
   const [content, setContent] = useState('' as string);
   const [listId, setListId] = useState(0 as number);
-  const [position, setPosition] = useState(0 as number);
   const [color, setColor] = useState('' as string);
   const [error, setError] = useState('' as string);
 
@@ -12,13 +11,15 @@ export default function ModalAddList({ updateCards }: { updateCards: () => void 
     const exampleModal = document.getElementById('addCardModal');
     if (exampleModal) {
       exampleModal.addEventListener('show.bs.modal', (event) => {
-        console.log('modal opened');
-
         // Button that triggered the modal
-        const button = event.relatedTarget;
-
+        const button = (event as FocusEvent).relatedTarget;
         // Extract info from data-bs-* attributes
-        setListId(button.getAttribute('data-bs-listid'));
+        if (button) {
+          const listIdAttr = (button as Element).getAttribute('data-bs-listid');
+          if (listIdAttr) {
+            setListId(Number(listIdAttr));
+          }
+        }
       });
     }
   };

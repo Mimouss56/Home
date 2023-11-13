@@ -2,16 +2,6 @@ const cardServices = require('../services/card.services');
 
 const cardController = {
 
-  // async getById(req, res, next) {
-  //   try {
-  //     const result = await Card.findByPk(req.params.id, {
-  //       include: ['list', 'tags'],
-  //     });
-  //     return res.json(result);
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
   async post(req, res) {
     const {
       content, color, listId,
@@ -31,40 +21,36 @@ const cardController = {
       data: await cardServices.getData(result.id),
     });
   },
-  // async update(req, res, next) {
-  //   try {
-  //     const card = await Card.findByPk(req.params.id);
-  //     if (card) {
-  //       const {
-  //         content, position, color, list_id,
-  //       } = req.body;
-  //       if (content) card.content = content;
-  //       if (position) card.position = position;
-  //       if (color) card.color = color;
-  //       if (list_id) card.list_id = list_id;
-  //       await card.save();
-
-  //       res.json(card);
-  //     } else {
-  //       next();
-  //     }
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
-  // async delete(req, res) {
-  //   try {
-  //     const card = await Card.findByPk(req.params.id);
-  //     if (card) {
-  //       await card.destroy(),
-  //         res.json(card);
-  //     } else {
-  //       next();
-  //     }
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // },
+  async update(req, res) {
+    const { id } = req.params;
+    const findByID = await cardServices.getData(id);
+    console.log(findByID);
+    const {
+      content, color, listId, position,
+    } = req.body;
+    const inputQuery = {
+      content: content || findByID.content,
+      color: color || findByID.color,
+      list_id: listId || findByID.list_id,
+      position: position || findByID.position,
+    };
+    const result = await cardServices.update(id, inputQuery);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      code: 200,
+      message: 'Carte updated',
+      card: await cardServices.getData(id),
+    });
+  },
+  async delete(req, res) {
+    const { id } = req.params;
+    const result = await cardServices.delete(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      code: 200,
+      message: 'Sanction deleted',
+    });
+  },
   // async addTag(req, res, next) {
   //   try {
   //     const card = await Card.findByPk(req.params.id);

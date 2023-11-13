@@ -5,10 +5,10 @@ const router = express.Router();
 const listController = require('../controllers/list.controller');
 
 router.get('/', listController.getAll);
-// router.get('/:id', listController.get);
-// router.get('/:id/cards', listController.getCardsInList);
 router.post('/', listController.create);
+router.get('/:id', listController.get);
 router.put('/:id', listController.update);
 router.delete('/:id', listController.delete);
+// router.get('/:id/cards', listController.getCardsInList);
 
 module.exports = router;

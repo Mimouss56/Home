@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
-import { IListTemplate } from '../../../@types/kanban';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { ReactSortable, SortableEvent } from 'react-sortablejs';
+import { ICardTemplate, IListTemplate } from '../../../@types/kanban';
 import Card from './card';
 import ModalAddCard from './addCardModal';
 import axiosInstance from '../../../utils/axios';
@@ -12,15 +14,16 @@ interface ListTemplateProps {
 export default function List({ list, updateList }: ListTemplateProps) {
   const [showInputTitle, setShowInputTitle] = useState(false);
   const [nameList, setNameList] = useState(list.name);
-  const [cards, setCards] = useState(list.cards);
+  const [cards, setCards] = useState<ICardTemplate[]>([]);
 
   const updateCards = async () => {
     try {
       const response = await axiosInstance.get(`/kanban/lists/${list.id}`);
       const { data } = response;
-      setCards(data);
+      setCards(data.cards);
+      updateList();
     } catch (error) {
-      console.error('Error updating lists:', error);
+      toast.error(`Error updating cards: ${error}`);
     }
   };
 
@@ -33,19 +36,45 @@ export default function List({ list, updateList }: ListTemplateProps) {
       setShowInputTitle(false);
       updateList();
     } catch (error) {
-      console.error('Error updating lists:', error);
+      toast.error(`Error updating list: ${error}`);
     }
   };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setNameList(event.target.value);
   };
 
-  const handleDeleteListe = async () => {
+  const handleDeleteList = async () => {
     try {
       await axiosInstance.delete(`/kanban/lists/${list.id}`);
       updateList();
     } catch (error) {
-      console.error('Error updating lists:', error);
+      toast.error(`Error deleting list: ${error}`);
+    }
+  };
+
+  const updateCardPosition = async (evt: SortableEvent) => {
+    const updatedCards = [...cards];
+    console.log(evt.from.id);
+    console.log(evt.to.id);
+
+    const movedCardId = evt.item.id;
+    const movedCard = updatedCards.find((card) => card.id === Number(movedCardId));
+    const movedCardListId = evt.to.id;
+
+    if (movedCard) {
+      movedCard.listId = list.id; // Mettre à jour le listId lors du déplacement de la carte
+
+      try {
+        await axiosInstance.put(`/kanban/cards/${movedCardId}`, {
+          listId: movedCard.listId,
+        });
+
+        // Update state with the new order
+        setCards(updatedCards.sort((a, b) => a.position - b.position));
+      } catch (error) {
+        toast.error(`Error updating cards: ${error}`);
+      }
     }
   };
 
@@ -53,8 +82,12 @@ export default function List({ list, updateList }: ListTemplateProps) {
     setNameList(list.name);
   }, [list.name]);
 
+  useEffect(() => {
+    setCards(list.cards);
+  }, [list.cards]);
+
   return (
-    <div className="m-3 rounded">
+    <div className="m-3 rounded" id={list.id}>
       <div
         className="d-flex justify-content-between"
         style={{
@@ -67,7 +100,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
             className="text-white fs-4 p-2 align-items-center"
             onDoubleClick={() => setShowInputTitle(true)}
           >
-            {list.name}
+            {`${list.name} (${list.id})`}
           </h2>
         )}
         {showInputTitle && (
@@ -90,7 +123,6 @@ export default function List({ list, updateList }: ListTemplateProps) {
                   id="button-addon2"
                 >
                   Valider
-
                 </button>
               </div>
             </div>
@@ -106,24 +138,30 @@ export default function List({ list, updateList }: ListTemplateProps) {
           <button
             type="button"
             className="btn mb-2"
-            onClick={handleDeleteListe}
+            onClick={handleDeleteList}
           >
             <span
               className="fs-3 bi bi-trash-fill text-danger"
             />
           </button>
-
         </div>
       </div>
+
       <div id="content" className="d-flex flex-column border border-top-0 border-2 border-warning-subtle">
-        {cards && cards.map((card) => (
-
-          <Card key={card.id} card={card} />
-        ))}
+        <ReactSortable
+          list={cards}
+          setList={setCards}
+          className="d-flex flex-column"
+          id={list.id.toString()}
+          onEnd={updateCardPosition}
+        >
+          {cards.map((card) => (
+            <Card key={card.id} card={card} updateCards={updateCards} listId={Number(list.id)} />
+          ))}
+        </ReactSortable>
       </div>
+
       <ModalAddCard updateCards={updateCards} />
-
     </div>
-
   );
 }

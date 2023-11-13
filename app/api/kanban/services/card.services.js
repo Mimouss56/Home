@@ -33,4 +33,29 @@ module.exports = {
       };
     }
   },
+  async update(id, inputQuery) {
+    console.log(inputQuery);
+    console.log(id);
+    try {
+      const valueUpdated = await card.update(id, inputQuery);
+      return valueUpdated;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not updated`,
+      };
+    }
+  },
+  async delete(id) {
+    try {
+      const valueDeleted = await card.delete(id);
+      return valueDeleted;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not deleted`,
+      };
+    }
+  },
+
 };

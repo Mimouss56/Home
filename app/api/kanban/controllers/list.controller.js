@@ -6,6 +6,8 @@ const listController = {
   async getAll(req, res) {
     const { id } = req.user;
     const result = await listService.getAll(id);
+    // order by position
+    result.sort((a, b) => a.position - b.position);
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },
@@ -72,7 +74,7 @@ const listController = {
     const result = await listService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      message: 'Emploi updated',
+      message: 'List updated',
     });
   },
   async delete(req, res) {
@@ -81,7 +83,7 @@ const listController = {
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       code: 200,
-      message: 'Sanction deleted',
+      message: 'List deleted',
     });
   },
 };
