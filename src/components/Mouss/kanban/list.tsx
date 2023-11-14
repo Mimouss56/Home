@@ -85,7 +85,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
   }, [list.cards]);
 
   return (
-    <div className="m-3" id={list.id}>
+    <div className="m-3 col-12" id={list.id}>
       <div
         id="header"
         className="d-flex justify-content-between rounded-3 rounded-bottom-0"

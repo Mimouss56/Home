@@ -49,17 +49,15 @@ export default function Kanban() {
       <section>
         <div className="d-flex justify-content-between">
           <h1 className="title">oKanban</h1>
-          <div className="column">
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addListModal"
-            >
-              <i className="bi bi-clipboard-plus p-2" />
-              Ajouter une liste
-            </button>
-          </div>
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addListModal"
+          >
+            <i className="bi bi-clipboard-plus p-2" />
+            Ajouter une liste
+          </button>
         </div>
 
         <div className="d-flex col-12">
