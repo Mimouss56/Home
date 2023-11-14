@@ -85,7 +85,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
   }, [list.cards]);
 
   return (
-    <div className="m-3 col-3" id={list.id}>
+    <div className="m-2 max-vw-20" id={list.id}>
       <div
         id="header"
         className="d-flex justify-content-between rounded-3 rounded-bottom-0"
@@ -155,7 +155,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
         <ReactSortable
           list={cards}
           setList={setCards}
-          className="d-flex flex-column"
+          className="d-flex flex-column flex-wrap"
           id={list.id.toString()}
           onEnd={updateCardPosition}
           group="shared"
