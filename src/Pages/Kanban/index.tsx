@@ -60,18 +60,16 @@ export default function Kanban() {
           </button>
         </div>
 
-        <div className="d-flex col-12">
-          <ReactSortable
-            list={lists}
-            setList={setLists}
-            className="d-flex flex-row"
-            onEnd={updateListPosition}
-          >
-            {lists.map((list) => (
-              <List key={list.id} list={list} updateList={fecthLists} />
-            ))}
-          </ReactSortable>
-        </div>
+        <ReactSortable
+          list={lists}
+          setList={setLists}
+          className="d-flex flex-wrap col-12"
+          onEnd={updateListPosition}
+        >
+          {lists.map((list) => (
+            <List key={list.id} list={list} updateList={fecthLists} />
+          ))}
+        </ReactSortable>
       </section>
       <ModalAddList updateLists={fecthLists} />
     </>
