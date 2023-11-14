@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 
 function Register() {
@@ -27,7 +28,7 @@ function Register() {
       setSuccess(false);
 
       const res = await axiosInstance.post('/home/register', dataInput);
-      sessionStorage.setItem('notifToast', `${res.data.message}, Merci de vous reconnecter !`);
+      toast.info(`${res.data.message}, Merci de vous reconnecter !`);
 
       setSuccess(true);
       setLoading(false);
