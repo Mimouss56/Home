@@ -24,7 +24,6 @@ const cardController = {
   async update(req, res) {
     const { id } = req.params;
     const findByID = await cardServices.getData(id);
-    console.log(findByID);
     const {
       content, color, listId, position,
     } = req.body;

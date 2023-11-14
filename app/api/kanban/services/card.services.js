@@ -34,8 +34,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-    console.log(inputQuery);
-    console.log(id);
     try {
       const valueUpdated = await card.update(id, inputQuery);
       return valueUpdated;

@@ -14,6 +14,7 @@ export interface ICardTemplate {
   position: number;
   tags: [ITagTemplate];
   listId: string;
+  list_id?: string;
 }
 
 export interface ITagTemplate {

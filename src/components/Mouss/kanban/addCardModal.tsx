@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../../../utils/axios';
 
-export default function ModalAddList({ updateCards }: { updateCards: () => void }) {
+interface ModalProps { updateCards: () => void}
+
+export default function ModalAddList({ updateCards }: ModalProps) {
   const [content, setContent] = useState('' as string);
   const [listId, setListId] = useState(0 as number);
   const [color, setColor] = useState('' as string);
   const [error, setError] = useState('' as string);
+  const [editMode, setEditMode] = useState(false);
 
   const handleFindListId = () => {
     const exampleModal = document.getElementById('addCardModal');
@@ -59,6 +62,7 @@ export default function ModalAddList({ updateCards }: { updateCards: () => void 
     handleFindListId,
     [],
   );
+
   return (
     <div className="modal" id="addCardModal">
       <div className="modal-dialog modal-dialog-centered">
@@ -66,7 +70,8 @@ export default function ModalAddList({ updateCards }: { updateCards: () => void 
           <form onSubmit={handleSubmit}>
             <div className="modal-header">
               <h5 className="modal-title">
-                Ajouter une carte
+                {editMode ? 'Modifier la carte' : 'Ajouter une carte'}
+
               </h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>

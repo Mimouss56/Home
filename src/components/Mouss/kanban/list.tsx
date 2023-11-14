@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
-import { ICardTemplate, IListTemplate } from '../../../@types/kanban';
+import { ICardTemplate, IListTemplate } from '../../../@types/Home/kanban';
 import Card from './card';
 import ModalAddCard from './addCardModal';
 import axiosInstance from '../../../utils/axios';
@@ -55,19 +55,17 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
   const updateCardPosition = async (evt: SortableEvent) => {
     const updatedCards = [...cards];
-    console.log(evt.from.id);
-    console.log(evt.to.id);
-
     const movedCardId = evt.item.id;
     const movedCard = updatedCards.find((card) => card.id === Number(movedCardId));
-    const movedCardListId = evt.to.id;
 
     if (movedCard) {
-      movedCard.listId = list.id; // Mettre à jour le listId lors du déplacement de la carte
+      const listIdFrom = evt.from.id;
 
+      const newListId = (Number(movedCard.list_id) === Number(evt.to.id)) ? listIdFrom : evt.to.id;
       try {
         await axiosInstance.put(`/kanban/cards/${movedCardId}`, {
-          listId: movedCard.listId,
+          listId: newListId,
+          position: movedCard.position,
         });
 
         // Update state with the new order
@@ -87,20 +85,20 @@ export default function List({ list, updateList }: ListTemplateProps) {
   }, [list.cards]);
 
   return (
-    <div className="m-3 rounded" id={list.id}>
+    <div className="m-3" id={list.id}>
       <div
-        className="d-flex justify-content-between"
+        id="header"
+        className="d-flex justify-content-between rounded-3 rounded-bottom-0"
         style={{
           backgroundColor: '#FF8500',
         }}
-        id="header"
       >
         {!showInputTitle && (
           <h2
             className="text-white fs-4 p-2 align-items-center"
             onDoubleClick={() => setShowInputTitle(true)}
           >
-            {`${list.name} (${list.id})`}
+            {`${list.name}`}
           </h2>
         )}
         {showInputTitle && (
@@ -128,16 +126,22 @@ export default function List({ list, updateList }: ListTemplateProps) {
             </div>
           </form>
         )}
-        <div>
-          <i
-            className="fs-3 p-1 bi bi-plus-lg text-white"
+        <div className="">
+          <button
             data-bs-toggle="modal"
             data-bs-target="#addCardModal"
             data-bs-listid={list.id}
-          />
+            type="button"
+            className="btn p-0 mb-2"
+          >
+            <i
+              className="fs-3 p-1 bi bi-plus-lg text-white"
+            />
+
+          </button>
           <button
             type="button"
-            className="btn mb-2"
+            className="btn p-0 mb-2"
             onClick={handleDeleteList}
           >
             <span
@@ -147,13 +151,17 @@ export default function List({ list, updateList }: ListTemplateProps) {
         </div>
       </div>
 
-      <div id="content" className="d-flex flex-column border border-top-0 border-2 border-warning-subtle">
+      <div id="content" className="d-flex flex-column border border-top-0 border-2 border-warning-subtle rounded-3 rounded-top-0">
         <ReactSortable
           list={cards}
           setList={setCards}
           className="d-flex flex-column"
           id={list.id.toString()}
           onEnd={updateCardPosition}
+          group="shared"
+          swap
+          animation={200}
+
         >
           {cards.map((card) => (
             <Card key={card.id} card={card} updateCards={updateCards} listId={Number(list.id)} />

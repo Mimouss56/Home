@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { ICardTemplate } from '../../../@types/kanban';
+import { ICardTemplate } from '../../../@types/Home/kanban';
 import axiosInstance from '../../../utils/axios';
 
 interface ICardTemplateProps {
   card: ICardTemplate;
   updateCards: () => void;
-  listId: number; // Ajout de la propriété listId
+  listId: number;
 }
 
-export default function CardTemplate({ card, updateCards, listId }: ICardTemplateProps) {
+export default function CardTemplate({
+  card, updateCards, listId,
+}: ICardTemplateProps) {
   const [showInput, setShowInput] = useState(false);
   const [content, setContent] = useState(card.content);
 
@@ -18,7 +20,7 @@ export default function CardTemplate({ card, updateCards, listId }: ICardTemplat
     try {
       await axiosInstance.put(`/kanban/cards/${card.id}`, {
         content,
-        listId, // Utilisation de la nouvelle listId
+        listId,
       });
       setShowInput(false);
       updateCards();
@@ -50,26 +52,12 @@ export default function CardTemplate({ card, updateCards, listId }: ICardTemplat
         ))}
       </div>
       <div id="content" className="d-flex flex-row justify-content-between">
-        {!showInput && (
-          <p>{card.content}</p>
-        )}
-        {showInput && (
-          <form onSubmit={handleEditSubmit}>
-            <input type="hidden" name="cardId" value={card.id} />
-            <div className="input-group">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Card content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-              <button className="btn btn-success" type="submit">Save</button>
-            </div>
-          </form>
-        )}
+        <p>{card.content}</p>
         <div>
-          <button type="button" onClick={() => setShowInput(!showInput)}>
+          <button
+            type="button"
+            onClick={() => setShowInput(!showInput)}
+          >
             <i className="fs-5 bi bi-pencil-fill px-1 text-success" />
           </button>
           <button type="button" onClick={handleDeleteCard}>
