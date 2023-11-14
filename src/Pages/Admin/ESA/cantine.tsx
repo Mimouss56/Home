@@ -47,11 +47,7 @@ export default function PresenceCantine() {
         <input
           type="date"
           defaultValue={selectedDate}
-          onChange={(e) => {
-            console.log(e.target);
-
-            setSelectedDate(e.target.value);
-          }}
+          onChange={(e) => { setSelectedDate(e.target.value); }}
         />
       </div>
       <article>

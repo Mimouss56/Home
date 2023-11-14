@@ -45,7 +45,7 @@ function Sanction() {
       }
     } catch (err) {
       toast.error('Erreur lors de la récupération des sanctions');
-      console.error('Error fetching sanctions:', err);
+      toast.error(`Error fetching sanctions: ${err}`);
     }
   }, [url, user.child]);
 

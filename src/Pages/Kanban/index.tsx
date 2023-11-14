@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { toast } from 'react-toastify';
-import { IListTemplate } from '../../@types/Home/kanban';
 import axiosInstance from '../../utils/axios';
 import ModalAddList from '../../components/Mouss/kanban/addListModal';
 import List from '../../components/Mouss/kanban/list';
+import { IListTemplate } from '../../@types/Home/kanban';
 
 export default function Kanban() {
   const [lists, setLists] = useState([] as IListTemplate['list'][]);
 
-  const fetchLists = async () => {
+  const fecthLists = async () => {
     try {
       const response = await axiosInstance.get('/kanban/lists');
       const { data } = response;
@@ -33,7 +33,6 @@ export default function Kanban() {
         await axiosInstance.put(`/kanban/lists/${movedListId}`, {
           position: movedList.position,
         });
-        fetchLists();
         setLists(updatedLists.sort((a, b) => a.position - b.position));
       } catch (error) {
         toast.error(`Error updating lists: ${error}`);
@@ -42,10 +41,8 @@ export default function Kanban() {
   };
 
   useEffect(() => {
-    fetchLists();
+    fecthLists();
   }, []);
-
-  // useeffect when move card in new list
 
   return (
     <>
@@ -71,17 +68,14 @@ export default function Kanban() {
             setList={setLists}
             className="d-flex flex-row"
             onEnd={updateListPosition}
-            animation={200}
-            group="shared-group-name"
-            swap
           >
             {lists.map((list) => (
-              <List key={list.id} list={list} updateList={fetchLists} />
+              <List key={list.id} list={list} updateList={fecthLists} />
             ))}
           </ReactSortable>
         </div>
       </section>
-      <ModalAddList updateLists={fetchLists} />
+      <ModalAddList updateLists={fecthLists} />
     </>
   );
 }

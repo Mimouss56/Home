@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 
-interface ModalProps { updateCards: () => void}
+interface ModalProps { updateCards: () => void }
 
 export default function ModalAddList({ updateCards }: ModalProps) {
   const [content, setContent] = useState('' as string);
@@ -43,7 +44,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
       setError(data.message);
       updateCards();
     } catch (err) {
-      console.error('Error adding card:', err);
+      toast.error(`Error adding card: ${err}`);
     }
     // Réinitialiser le champ après la soumission
     setContent('');

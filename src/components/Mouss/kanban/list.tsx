@@ -164,7 +164,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
         >
           {cards.map((card) => (
-            <Card key={card.id} card={card} updateCards={updateCards} listId={Number(list.id)} />
+            <Card key={card.id} card={card} updateCards={updateCards} />
           ))}
         </ReactSortable>
       </div>
