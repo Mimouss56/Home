@@ -20,7 +20,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
     try {
       const response = await axiosInstance.get(`/kanban/lists/${list.id}`);
       const { data } = response;
-      setCards(data.cards);
+      setCards(data.cards.sort((a: ICardTemplate, b: ICardTemplate) => a.position - b.position));
       updateList();
     } catch (error) {
       toast.error(`Error updating cards: ${error}`);
@@ -60,12 +60,13 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
     if (movedCard) {
       const listIdFrom = evt.from.id;
+      movedCard.position = Number(evt.newIndex) + 1;
 
       const newListId = (Number(movedCard.list_id) === Number(evt.to.id)) ? listIdFrom : evt.to.id;
       try {
         await axiosInstance.put(`/kanban/cards/${movedCardId}`, {
           listId: newListId,
-          position: movedCard.position,
+          position: Number(evt.newIndex) + 1,
         });
 
         // Update state with the new order
@@ -81,11 +82,17 @@ export default function List({ list, updateList }: ListTemplateProps) {
   }, [list.name]);
 
   useEffect(() => {
-    setCards(list.cards);
+    setCards(list.cards.sort((a: ICardTemplate, b: ICardTemplate) => a.position - b.position));
   }, [list.cards]);
 
   return (
-    <div className="m-2 max-vw-20" id={list.id}>
+    <div
+      id={list.id}
+      style={{
+        width: '20rem',
+        marginBottom: '1rem',
+      }}
+    >
       <div
         id="header"
         className="d-flex justify-content-between rounded-3 rounded-bottom-0"

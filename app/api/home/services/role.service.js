@@ -1,56 +1,46 @@
 const { role } = require('../models/index.mapper');
 
+const textValue = 'role';
+const generateObject = async (value) => ({
+  id: value.id,
+  label: value.label,
+  color: value.color,
+});
+
 module.exports = {
   async getAll() {
     const roles = await role.findAll();
     if (!roles) {
       return {
         code: 404,
-        message: 'Roles not found',
+        message: `${textValue} not found`,
       };
     }
-    const returnRoles = roles.map((roleInfo) => {
-      const oneRole = {
-        id: roleInfo.id,
-        label: roleInfo.label,
-        color: roleInfo.color,
-      };
-      return oneRole;
-    });
-    return returnRoles;
+    const returnValue = await Promise.all(roles.map(generateObject));
+    return returnValue;
   },
 
   async getData(id) {
     try {
       const roleByID = await role.findByPk(id);
-      if (!roleByID) {
-        return {
-          code: 404,
-          message: 'Role not found',
-        };
-      }
-      const returnValues = {
-        id: roleByID.id,
-        label: roleByID.label,
-        color: roleByID.color,
-      };
-
-      return returnValues;
+      const returnValue = await generateObject(roleByID);
+      return returnValue;
     } catch (error) {
       return {
         code: 404,
-        message: 'Role not found',
+        message: `${textValue} not found`,
       };
     }
   },
   async create(inputQuery) {
     try {
       const roleCreated = await role.create(inputQuery);
-      return roleCreated;
+      const returnValue = await generateObject(roleCreated);
+      return returnValue;
     } catch (error) {
       return {
         code: 500,
-        message: 'Role not created',
+        message: `${textValue} not created`,
       };
     }
   },
@@ -68,7 +58,7 @@ module.exports = {
     } catch (error) {
       return {
         code: 500,
-        message: 'Role not updated',
+        message: `${textValue} not updated`,
       };
     }
   },

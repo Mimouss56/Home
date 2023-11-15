@@ -7,7 +7,7 @@ interface JobProps {
 
 function Job({ jobs }: JobProps) {
   return (
-    <div className="d-flex flex-wrap vw-80 m-auto container">
+    <div className="d-flex flex-wrap container">
       {
         jobs.map((job: IJob) => (
           <FloatCard

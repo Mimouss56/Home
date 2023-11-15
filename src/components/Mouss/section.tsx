@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Job from './Job';
 import ModalAddItem from '../User/ModalAdd';
 
@@ -18,6 +18,9 @@ function Section({ title, initialItems, type }: SectionProps) {
       setItems((prevItems: any[]) => [...prevItems, data]);
     }
   };
+  useEffect(() => {
+    setItems(initialItems);
+  }, [initialItems]);
 
   return (
     <>

@@ -4,6 +4,7 @@ import Badge from './Badge';
 function ModalCard({
   title, desc, competences, id,
 }: ICard) {
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   return (
     <div className="modal fade" id={title.replaceAll(' ', '-')} aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
@@ -22,13 +23,16 @@ function ModalCard({
                 <Badge key={competence} name={competence} />
               ))}
             </div>
-            <button
-              type="button"
-              className="bi bi-gear text-danger btn"
-              data-bs-toggle="modal"
-              data-bs-id={id}
-              data-bs-target="#addItem"
-            />
+            {user && (
+              <button
+                type="button"
+                className="bi bi-gear text-danger btn"
+                data-bs-toggle="modal"
+                data-bs-id={id}
+                data-bs-target="#addItem"
+              />
+
+            )}
 
           </div>
         </div>

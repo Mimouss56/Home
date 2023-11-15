@@ -6,6 +6,7 @@ function Xp(contents: { content: IEmploi[], titre: string }) {
     content,
     titre,
   } = contents;
+  console.log(titre, content);
 
   return (
     <section id="xp" className="p-3">

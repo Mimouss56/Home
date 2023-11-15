@@ -9,6 +9,33 @@ const { sanction, user } = require('../models/index.mapper');
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 
+const generateObject = async (value) => {
+  const author = await user.findByPk(value.author_id);
+  const child = await user.findByPk(value.id_child);
+  const returnValue = {
+    id: value.id,
+    label: value.label,
+    author: {
+      id: author.id,
+      username: author.username,
+      email: author.email,
+      role: author.role,
+    },
+    date: {
+      year: value.created_at.getFullYear(),
+      week: dayjs(value.created_at).isoWeek(),
+      complete: value.created_at,
+    },
+    child: {
+      id: child.id,
+      username: child.username,
+    },
+    warn: value.warn,
+  };
+  returnValue.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
+  return returnValue;
+};
+
 module.exports = {
   async getAll(id_child = false) {
     let data;
@@ -24,41 +51,14 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const findAll = await Promise.all(data.map(async (findOne) => {
-      const findByID = await this.getData(findOne.id);
-      return findByID;
-    }));
-    // trier par date.complete
-    findAll.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
-
-    return findAll;
+    const returnValue = await Promise.all(data.map(generateObject));
+    return returnValue;
   },
 
   async getData(id) {
     try {
       const findByID = await sanction.findByPk(id);
-      const author = await user.findByPk(findByID.author_id);
-      const child = await user.findByPk(findByID.id_child);
-      const returnValue = {
-        id: findByID.id,
-        label: findByID.label,
-        author: {
-          id: author.id,
-          username: author.username,
-          email: author.email,
-          role: author.role,
-        },
-        date: {
-          year: findByID.created_at.getFullYear(),
-          week: dayjs(findByID.created_at).isoWeek(),
-          complete: findByID.created_at,
-        },
-        child: {
-          id: child.id,
-          username: child.username,
-        },
-        warn: findByID.warn,
-      };
+      const returnValue = await generateObject(findByID);
       return returnValue;
     } catch (error) {
       return {
@@ -70,7 +70,8 @@ module.exports = {
   async create(inputQuery) {
     try {
       const valueCreated = await sanction.create(inputQuery);
-      return valueCreated;
+      const returnValue = await generateObject(valueCreated);
+      return returnValue;
     } catch (error) {
       return {
         code: 500,
@@ -81,7 +82,8 @@ module.exports = {
   async update(id, inputQuery) {
     try {
       const valueUpdated = await sanction.update(id, inputQuery);
-      return valueUpdated;
+      const returnValue = await generateObject(valueUpdated);
+      return returnValue;
     } catch (error) {
       return {
         code: 500,

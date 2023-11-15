@@ -1,5 +1,6 @@
 const { option } = require('../models/index.mapper');
 
+const textValue = 'option';
 module.exports = {
   getAll: async () => {
     const options = await option.findAll();
@@ -24,7 +25,7 @@ module.exports = {
     } catch (error) {
       return {
         code: 500,
-        message: 'News not created',
+        message: `${textValue} not created`,
         error,
       };
     }
@@ -32,21 +33,16 @@ module.exports = {
   update: async (id, body) => {
     try {
       const optionByID = await option.findByPk(id);
-      if (!optionByID) {
-        return {
-          code: 404,
-          message: 'Option not found',
-        };
-      }
-      await option.update(id, body);
+
+      await option.update(optionByID.id, body);
       return {
         code: 201,
-        message: 'Option updated',
+        message: `${textValue} updated`,
       };
     } catch (error) {
       return {
         code: 500,
-        message: 'Option not updated',
+        message: `${textValue} not updated`,
         error,
       };
     }
@@ -54,20 +50,15 @@ module.exports = {
   async delete(id) {
     try {
       const newsByID = await option.findByPk(id);
-      if (!newsByID) {
-        return {
-          code: 404,
-          message: 'Option not found',
-        };
-      }
+
       await option.delete(newsByID.id);
       return {
-        message: 'Option deleted',
+        message: `${textValue} deleted`,
       };
     } catch (error) {
       return {
         code: 500,
-        message: 'Option not deleted',
+        message: `${textValue} not deleted`,
         error,
       };
     }

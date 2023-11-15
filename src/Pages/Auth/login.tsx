@@ -80,7 +80,7 @@ function Login() {
               Register
             </button>
             <button
-              type="button"
+              type="submit"
               className="btn btn-primary"
               onClick={handleSubmit}
               disabled={loading}

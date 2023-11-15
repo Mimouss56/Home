@@ -1,4 +1,4 @@
-const { job } = require('../../models/index.mapper');
+const { job } = require('../models/index.mapper');
 
 module.exports = {
   // Get Data

@@ -72,9 +72,7 @@ module.exports = {
       body: JSON.stringify(body),
 
     });
-    console.log(reponse);
     const data = await reponse.json();
-    console.log(data);
     res.json(data);
   },
 

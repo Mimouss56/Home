@@ -63,7 +63,7 @@ export default function Kanban() {
         <ReactSortable
           list={lists}
           setList={setLists}
-          className="d-flex flex-wrap justify-content-between align-content-between "
+          className="d-flex flex-wrap justify-content-between align-content-between"
           onEnd={updateListPosition}
         >
           {lists.map((list) => (

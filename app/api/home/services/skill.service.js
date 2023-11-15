@@ -59,7 +59,6 @@ module.exports = {
     }
   },
   async create(inputQuery) {
-    console.log(inputQuery);
     try {
       const valueCreated = await skill.create(inputQuery);
       return valueCreated;

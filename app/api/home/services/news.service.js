@@ -1,66 +1,57 @@
 const { news, user, role } = require('../models/index.mapper');
 // const userService = require('./user.service');
+const textValue = 'news';
+
+const generateObject = async (value) => {
+  const authorInfo = await user.findByPk(value.id_author);
+  const userRole = await role.findByPk(authorInfo.id_role);
+  authorInfo.role = userRole;
+  delete authorInfo.id_role;
+  delete authorInfo.password;
+
+  return {
+    id: value.id,
+    title: value.title,
+    content: value.content,
+    image: value.image,
+    author: authorInfo,
+    draft: value.draft,
+    created_at: value.created_at,
+    updated_at: value.updated_at,
+  };
+};
 
 module.exports = {
   async getAll() {
-    const dataInfo = await news.findAll();
-
-    if (!dataInfo || dataInfo.length === 0) {
+    const find = await news.findAll();
+    if (!find || find.length === 0) {
       return [];
     }
-
-    // Map over dataInfo and get an array of promises
-    const promises = dataInfo.map(
-      // Use this.getData to get detailed info
-      async (newsInfo) => this.getData(newsInfo.id),
-    );
-
-    // Await all promises to resolve
-    const returnNews = await Promise.all(promises);
-
-    return returnNews;
+    const returnValue = await Promise.all(find.map(generateObject));
+    return returnValue;
   },
 
   async getData(id) {
     try {
       const newsByID = await news.findByPk(id);
-      if (!newsByID) {
-        return {
-          code: 404,
-          message: 'News not found',
-        };
-      }
-      const authorInfo = await user.findByPk(newsByID.id_author);
-      const userRole = await role.findByPk(authorInfo.id_role);
-      authorInfo.role = userRole;
-      delete authorInfo.id_role;
-      delete authorInfo.password;
-      const returnValues = {
-        id: newsByID.id,
-        title: newsByID.title,
-        content: newsByID.content,
-        image: newsByID.image,
-        author: authorInfo,
-        draft: newsByID.draft,
-        created_at: newsByID.created_at,
-        updated_at: newsByID.updated_at,
-      };
-      return returnValues;
+      const returnValue = await generateObject(newsByID);
+      return returnValue;
     } catch (error) {
       return {
         code: 404,
-        message: 'News not found',
+        message: `${textValue} not found`,
       };
     }
   },
   async create(inputQuery) {
     try {
       const newsCreated = await news.create(inputQuery);
-      return newsCreated;
+      const returnValue = await generateObject(newsCreated);
+      return returnValue;
     } catch (error) {
       return {
         code: 500,
-        message: 'News not created',
+        message: `${textValue} not created`,
       };
     }
   },
@@ -68,21 +59,12 @@ module.exports = {
   async update(id, inputQuery) {
     try {
       const newsByID = await news.findByPk(id);
-      if (!newsByID) {
-        return {
-          code: 404,
-          message: 'News not found',
-        };
-      }
-      await news.update(newsByID.id, inputQuery);
-      return {
-        code: 201,
-        message: 'News updated',
-      };
+      const valueUpdated = await news.update(newsByID.id, inputQuery);
+      return valueUpdated;
     } catch (error) {
       return {
         code: 500,
-        message: 'News not updated',
+        message: `${textValue} not updated`,
       };
     }
   },
@@ -115,12 +97,6 @@ module.exports = {
   async delete(id) {
     try {
       const newsByID = await news.findByPk(id);
-      if (!newsByID) {
-        return {
-          code: 404,
-          message: 'News not found',
-        };
-      }
       await news.delete(newsByID.id);
       return {
         message: 'News deleted',
@@ -128,7 +104,7 @@ module.exports = {
     } catch (error) {
       return {
         code: 500,
-        message: 'News not deleted',
+        message: `${textValue} not deleted`,
       };
     }
   },

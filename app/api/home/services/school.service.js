@@ -3,6 +3,26 @@ const skillService = require('./skill.service');
 
 const textValue = 'school';
 
+const generateObject = async (value) => {
+  const schoolSkill = await skillService.getAllSkillschool(value.id);
+  return {
+    id: value.id,
+    ent: value.ent,
+    description: value.niveau,
+    title: value.title,
+    date: {
+      debut: value.date_started,
+      fin: value.date_ended,
+    },
+    lieu: {
+      ville: value.town,
+      departement: Number(value.postal_code),
+    },
+    competences: schoolSkill,
+    urlImg: value.url_img,
+  };
+};
+
 module.exports = {
   async getAll() {
     const find = await school.findAll();
@@ -12,23 +32,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = find.map((value) => {
-      const one = {
-        id: value.id,
-        ent: value.ent,
-        description: value.niveau,
-        title: value.title,
-        date: {
-          debut: value.date_started,
-          fin: value.date_ended,
-        },
-        lieu: {
-          ville: value.town,
-          departement: value.postal_code,
-        },
-      };
-      return one;
-    });
+    const returnValue = await Promise.all(find.map(generateObject));
     return returnValue;
   },
 
@@ -40,47 +44,14 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = find.map(async (value) => {
-      const schoolSkill = await skillService.getAllSkillschool(value.id);
-      const one = {
-        id: value.id,
-        ent: value.ent,
-        description: value.niveau,
-        title: value.title,
-        date: {
-          debut: value.date_started,
-          fin: value.date_ended,
-        },
-        lieu: {
-          ville: value.town,
-          departement: Number(value.postal_code),
-        },
-        competences: schoolSkill,
-      };
-      return one;
-    });
-    const data = await Promise.all(returnValue);
-    return data;
+    const returnValue = await Promise.all(find.map(generateObject));
+    return returnValue;
   },
 
   async getData(id) {
     try {
       const findByID = await school.findByPk(id);
-      const returnValue = {
-        id: findByID.id,
-        ent: findByID.ent,
-        description: findByID.niveau,
-        title: findByID.title,
-        date: {
-          debut: findByID.date_started,
-          fin: findByID.date_ended,
-        },
-        lieu: {
-          ville: findByID.town,
-          departement: findByID.postal_code,
-        },
-      };
-
+      const returnValue = await generateObject(findByID);
       return returnValue;
     } catch (error) {
       return {
@@ -91,26 +62,13 @@ module.exports = {
   },
   async create(inputQuery) {
     try {
-      const userId = inputQuery.id_user;
-      delete inputQuery.id_user;
-      const value = await school.create(inputQuery);
+      const { id_user: userId, ...schoolData } = inputQuery;
+
+      const value = await school.create(schoolData);
       // await school.createCompetence(valueCreated.id, inputQuery.competences);
       await school.addSchoolUser(value.id, userId);
-      return {
-        id: value.id,
-        title: value.title,
-        date: {
-          debut: value.date_started,
-          fin: value.date_ended,
-        },
-        lieu: {
-          ville: value.town,
-          departement: Number(value.postal_code),
-        },
-        ent: value.ent,
-        niveau: value.niveau,
-        competences: value.competences,
-      };
+      const returnValue = await generateObject(value);
+      return returnValue;
     } catch (error) {
       return {
         code: 500,
@@ -131,8 +89,10 @@ module.exports = {
   },
   async delete(id) {
     try {
-      const valueDeleted = await school.delete(id);
-      return valueDeleted;
+      await school.delete(id);
+      return {
+        message: `${textValue} deleted`,
+      };
     } catch (error) {
       return {
         code: 500,

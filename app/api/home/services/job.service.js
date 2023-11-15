@@ -3,7 +3,7 @@ const skillService = require('./skill.service');
 
 const textValue = 'job';
 
-const generateJobObject = async (value) => {
+const generateObject = async (value) => {
   const jobSkill = await skillService.getAllSkillJob(value.id);
   return {
     id: value.id,
@@ -32,8 +32,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-
-    const returnValue = await Promise.all(find.map(generateJobObject));
+    const returnValue = await Promise.all(find.map(generateObject));
     return returnValue;
   },
 
@@ -46,14 +45,14 @@ module.exports = {
       };
     }
 
-    const returnValue = await Promise.all(find.map(generateJobObject));
+    const returnValue = await Promise.all(find.map(generateObject));
     return returnValue;
   },
 
   async getData(id) {
     try {
       const findByID = await job.findByPk(id);
-      const returnValue = await generateJobObject(findByID);
+      const returnValue = await generateObject(findByID);
       return returnValue;
     } catch (error) {
       return {
@@ -65,12 +64,10 @@ module.exports = {
 
   async create(inputQuery) {
     try {
-      const userId = inputQuery.id_user;
-      // eslint-disable-next-line camelcase
-      const { id_user, ...rest } = inputQuery;
-      const value = await job.create(rest);
+      const { id_user: userId, ...jobData } = inputQuery;
+      const value = await job.create(jobData);
       await job.addJobUser(value.id, userId);
-      const returnValue = await generateJobObject(value);
+      const returnValue = await generateObject(value);
       return returnValue;
     } catch (error) {
       return {
