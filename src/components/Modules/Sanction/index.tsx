@@ -7,47 +7,101 @@ import { ICreateSanction, ISanction } from '../../../@types/Home/sanction';
 import ModalAdd from './modalAdd';
 import ModalView from './modalViewDetails';
 import { excerpt } from '../../../utils/main';
-import ProtectedRoute from '../../ProtectedRoute';
 import { ValueTargetForm } from '../../../@types/event';
 
 dayjs.extend(isoWeek);
 
 function Sanction() {
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
+  const [filterSanctionList, setFilterSanctionList] = useState<ISanction[]>([]);
   const [currentSanction, setCurrentSanction] = useState(null as ICreateSanction | null);
+  const [showInputChild, setShowInputChild] = useState<boolean>(false);
+  const [listChild, setListChild] = useState([] as { id: number; username: string }[]);
+  const [showInputWeek, setShowInputWeek] = useState<boolean>(false);
+  const [listWeek, setListWeek] = useState([] as number[]);
 
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-  const url = user.role.id === 1 ? '/home/sanction' : '/home/sanction/@me';
 
-  const fetchListSanction = useCallback(async () => {
-    try {
-      const response = await axiosInstance.get(url);
-      const updatedData = response.data.map((s: ISanction) => {
-        if (user.child && (dayjs().isoWeek() === s.date.week)) {
-          return { ...s, label: '************' };
-        }
-        return s;
-      });
-
-      updatedData.sort(
-        (a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1),
-      );
-
-      setSanctionList(updatedData);
-
-      const params = new URLSearchParams(window.location.search);
-      const idChild = params.get('child');
-
-      if (idChild) {
-        setSanctionList((list) => list.filter(
-          (sanction: ISanction) => sanction.child.id === Number(idChild),
-        ));
+  function appyFilterChildren(value = '') {
+    sanctionList.map((s: ISanction) => {
+      if (user.child && dayjs().isoWeek() === s.date.week) {
+        return { ...s, label: '************' };
       }
-    } catch (err) {
-      toast.error('Erreur lors de la récupération des sanctions');
-      toast.error(`Error fetching sanctions: ${err}`);
+      return s;
+    });
+
+    if (!value) {
+      setFilterSanctionList(sanctionList);
+      return;
     }
-  }, [url, user.child]);
+    const result = sanctionList.filter((sanction) => sanction.child.id === Number(value));
+    setFilterSanctionList(result);
+    setShowInputChild(false);
+  }
+
+  function appyFilterWeek(value = '') {
+    sanctionList.map((s: ISanction) => {
+      if (user.child && dayjs().isoWeek() === s.date.week) {
+        return { ...s, label: '************' };
+      }
+      return s;
+    });
+
+    if (!value) {
+      setFilterSanctionList(sanctionList);
+      return;
+    }
+    const result = sanctionList.filter((sanction) => sanction.date.week === Number(value));
+    setFilterSanctionList(result);
+    setShowInputWeek(false);
+  }
+
+  const fecthLists = useCallback(async (roleID: number) => {
+    try {
+      const response = await axiosInstance.get('/home/sanction');
+      const { data } = response;
+      data
+        .sort((a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1));
+
+      const arrayChild = [] as { id: number; username: string }[];
+      data.forEach((sanction: ISanction) => {
+        const { id, username } = sanction.child;
+        if (!arrayChild.find((child) => child.id === id)) {
+          arrayChild.push({ id: Number(id), username });
+        }
+        return arrayChild;
+      });
+      setListChild(arrayChild);
+
+      const arrayWeek = [] as number[];
+
+      data.forEach((sanction: ISanction) => {
+        const { week } = sanction.date;
+
+        if (!arrayWeek.find((weekValue) => Number(weekValue) === week)) {
+          arrayWeek.push(week);
+        }
+
+        return arrayWeek;
+      });
+      setListWeek(arrayWeek);
+
+      if (roleID !== 1) {
+        const result = data.map((s: ISanction) => {
+          if (user.child && dayjs().isoWeek() === s.date.week) {
+            return { ...s, label: '************' };
+          }
+          return s;
+        });
+        setFilterSanctionList(result);
+        return;
+      }
+      setSanctionList(data);
+      setFilterSanctionList(data);
+    } catch (error) {
+      toast.error(`Error fetching lists: ${error}`);
+    }
+  }, [user.child]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,11 +141,7 @@ function Sanction() {
       }
     }
     setCurrentSanction(null);
-    fetchListSanction();
-  };
-
-  const handleEdit = (sanction: ISanction) => {
-    setCurrentSanction(sanction);
+    fecthLists(user.role.id);
   };
 
   const handleDelete = async (id: number) => {
@@ -101,91 +151,154 @@ function Sanction() {
   };
 
   useEffect(() => {
-    fetchListSanction();
-  }, [fetchListSanction]);
+    fecthLists(user.role.id);
+  }, [fecthLists, user.role.id]);
 
   return (
-    <ProtectedRoute>
-      <article>
-        <div className="d-flex justify-content-between">
-          <h1>Liste des Sanctions</h1>
+    <article>
+      <div className="d-flex justify-content-between">
+        <h1>Liste des Sanctions</h1>
 
-          {user.role.id === 1 && (
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => setCurrentSanction(null)}
-              data-bs-toggle="modal"
-              data-bs-target="#ModalAddSanction"
-            >
-              Ajout d&apos;une sanction
-            </button>
-          )}
-        </div>
-        <div className="table-responsive">
-          <table className="table table-striped table-sm text-center ">
-            <thead>
-              <tr>
-                <th scope="col">Description</th>
-                <th scope="col">Semaine</th>
-                <th scope="col">Auteur</th>
-                {user.role.id === 1 && (
+        {user.role.id === 1 && (
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => setCurrentSanction(null)}
+            data-bs-toggle="modal"
+            data-bs-target="#ModalAddSanction"
+          >
+            Ajout d&apos;une sanction
+          </button>
+        )}
+      </div>
+      <div className="table-responsive">
+        <table className="table table-striped table-sm text-center ">
+          <thead>
+            <tr>
+              <th scope="col">Description</th>
+              <th scope="col">
+                {showInputWeek && (
+                  <select
+                    name="week"
+                    id="week"
+                    className="form-select w-auto m-0 pl-4"
+                    onChange={(e) => appyFilterWeek(e.target.value)}
+                  >
+                    <option value="">Tout</option>
+                    {listWeek && listWeek.map((week) => (
+                      <option
+                        key={week}
+                        value={week}
+                      >
+                        {week}
+
+                      </option>
+                    ))}
+                  </select>
+                )}
+                {!showInputWeek && (
                   <>
-                    <th scope="col">Enfant</th>
-                    <th scope="col">Actions</th>
+                    <button
+                      type="button"
+                      className="btn bi bi-funnel-fill p-0"
+                      onClick={() => setShowInputWeek(true)}
+                    />
+                    Week
                   </>
                 )}
+
+              </th>
+              <th scope="col">Auteur</th>
+              {user.role.id === 1 && (
+                <>
+                  <th scope="col">
+                    {showInputChild && (
+                      <select
+                        name="child"
+                        id="child"
+                        className="form-select w-auto"
+                        onChange={(e) => appyFilterChildren(e.target.value)}
+                      >
+                        <option value="">Tout</option>
+                        {listChild && listChild.map((children) => (
+                          <option
+                            key={children.id}
+                            value={children.id}
+                          >
+                            {children.username}
+
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                    {!showInputChild && (
+                      <>
+                        <button
+                          type="button"
+                          className="btn bi bi-funnel-fill p-0"
+                          onClick={() => setShowInputChild(true)}
+                        />
+                        Enfant
+                      </>
+                    )}
+
+                  </th>
+                  <th scope="col">Actions</th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {filterSanctionList.map((sanction) => (
+
+              <tr
+                key={sanction.id}
+                className={
+                  (sanction.warn === true) ? 'table-danger' : ''
+                }
+                onClick={() => setCurrentSanction(sanction)}
+                data-bs-toggle="modal"
+                data-bs-target="#modalViewSanction"
+                data-bs-sanction-id={sanction.id}
+              >
+                <td>
+                  {excerpt(sanction.label)}
+
+                </td>
+                <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
+                <td>{sanction.author.username}</td>
+                {user.role.id === 1 && (
+                  <>
+                    <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-warning mx-1"
+                        onClick={() => setCurrentSanction(sanction)}
+                        data-bs-toggle="modal"
+                        data-bs-target="#ModalAddSanction"
+                      >
+                        <i className="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger mx-1"
+                        onClick={() => handleDelete(sanction.id)}
+                      >
+                        <i className="bi bi-trash3" />
+                      </button>
+                    </td>
+                  </>
+                )}
+
               </tr>
-            </thead>
-            <tbody>
-              {sanctionList.map((sanction) => (
+            ))}
+          </tbody>
+        </table>
 
-                <tr
-                  key={sanction.id}
-                  className={
-                    (sanction.warn === true) ? 'table-danger' : ''
-                  }
-                  onClick={() => handleEdit(sanction)}
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalViewSanction"
-                >
-                  <td>
-                    {(user.role.id !== 1 && (dayjs().isoWeek() === sanction.date.week)) ? '************' : excerpt(sanction.label)}
-
-                  </td>
-                  <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-                  <td>{sanction.author.username}</td>
-                  {user.role.id === 1 && (
-                    <>
-                      <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-warning mx-1"
-                          onClick={() => handleEdit(sanction)}
-                          data-bs-toggle="modal"
-                          data-bs-target="#ModalAddSanction"
-                        >
-                          <i className="bi bi-pencil" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger mx-1"
-                          onClick={() => handleDelete(sanction.id)}
-                        >
-                          <i className="bi bi-trash3" />
-                        </button>
-                      </td>
-                    </>
-                  )}
-
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-        </div>
-        {currentSanction && (
+      </div>
+      {
+        currentSanction && (
           <div
             className="modal fade "
             id="modalViewSanction"
@@ -194,30 +307,119 @@ function Sanction() {
           >
             <ModalView sanction={currentSanction as ISanction} />
           </div>
-        )}
-        {/* Bootstrap Modal */}
-        <div className="modal" tabIndex={-1} id="ModalAddSanction">
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">{currentSanction ? 'Edit News' : 'Add News'}</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                />
-              </div>
-              <form onSubmit={handleSubmit}>
-                <ModalAdd sanction={currentSanction} />
-              </form>
+        )
+      }
+      {/* Bootstrap Modal */}
+      <div className="modal" tabIndex={-1} id="ModalAddSanction">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">{currentSanction ? 'Edit News' : 'Add News'}</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              />
             </div>
+            <form onSubmit={handleSubmit}>
+              <ModalAdd sanction={currentSanction} />
+            </form>
           </div>
         </div>
+      </div>
 
-      </article>
-    </ProtectedRoute>
+    </article>
 
   );
 }
 
 export default Sanction;
+
+// const groupByChildren = (sanctions: ISanction[]) => {
+//   const arrayChild = {} as { [key: number]: string };
+//   sanctions.forEach((sanction) => {
+//     const { id, username } = sanction.child;
+//     if (!arrayChild[id]) {
+//       arrayChild[id] = username;
+//     }
+//     return arrayChild;
+//   });
+//   console.log(arrayChild);
+
+//   // setListChild(arrayChild);
+// };
+
+// const fetchListSanction = async () => {
+//   try {
+//     const response = await axiosInstance.get('/home/sanction');
+//     response.data
+//       .map((s: ISanction) => {
+//         if (user.child && dayjs().isoWeek() === s.date.week) {
+//           return { ...s, label: '************' };
+//         }
+//         return s;
+//       })
+//       .sort((a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1));
+
+//     setSanctionList(response.data);
+//   } catch (err) {
+//     toast.error('Erreur lors de la récupération des sanctions');
+//   }
+// };
+
+// const handleSubmit = async (e: React.FormEvent) => {
+//   e.preventDefault();
+//   const { content, childId, warn } = e.target as typeof e.target & {
+//     content: ValueTargetForm;
+//     childId: ValueTargetForm;
+//     warn: { checked: boolean };
+//   };
+
+//   const inputData = {
+//     warn: warn.checked,
+//     id_child: Number(childId.value),
+//     label: content.value,
+//   };
+//   if (currentSanction) {
+//     try {
+//       const newSanction = { ...currentSanction, ...inputData } as ISanction;
+//       const result = await axiosInstance.put(`/home/sanction/${currentSanction.id}`, inputData);
+//       const index = sanctionList.findIndex((news) => news.id === currentSanction.id);
+//       sanctionList[index] = newSanction;
+//       // setSanctionList(sanctionList);
+//       toast.info(result.data.message);
+//     } catch (err) {
+//       const { response } = err as { response: { data: { message: string } } };
+
+//       toast.warning(response.data.message);
+//     }
+//   } else {
+//     try {
+//       const result = await axiosInstance.post('/home/sanction', inputData);
+
+//       setSanctionList((prev) => [...prev, result.data.data]);
+//       toast.success(result.data.message);
+//     } catch (err) {
+//       const { response } = err as { response: { data: { message: string } } };
+//       toast.warning(response.data.message);
+//     }
+//   }
+//   setCurrentSanction(null);
+//   fetchListSanction();
+// };
+
+// const handleDelete = async (id: number) => {
+//   const result = await axiosInstance.delete(`/home/sanction/${id}`);
+//   setSanctionList(sanctionList.filter((sanction) => sanction.id !== id));
+//   toast.success(result.data.message);
+// };
+
+// // fetchListSanction();
+// useEffect(() => {
+//   fetchListSanction();
+// }, []);
+
+// function appyFilterChildren(value: string): void {
+//   const result = sanctionList.filter((sanction) => sanction.child.id === Number(value));
+//   setFilterSanctionList(result);
+// }

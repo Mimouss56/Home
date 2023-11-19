@@ -9,9 +9,9 @@ import Mouss from './Mouss';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
-import Setting from '../components/User/Setting';
 import NotFound from '../Pages/404';
 import Portfolio from '../Pages/Portfolio';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 function ListeRoute() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -25,10 +25,9 @@ function ListeRoute() {
       <Route path="about" element={<Cv />} />
 
       {/* // ProtectedRoute */}
-      <Route path="logout" element={(<Logout />)} />
-      <Route path="sanction" element={(<Sanction />)} />
+      <Route path="logout" element={(<ProtectedRoute><Logout /></ProtectedRoute>)} />
+      <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />
 
-      <Route path="user/setting" element={(<Setting />)} />
       <Route path="user/*" element={(<Mouss />)} />
       <Route path="domotic" element={<RouteDomo />} />
 

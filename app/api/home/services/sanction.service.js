@@ -32,7 +32,6 @@ const generateObject = async (value) => {
     },
     warn: value.warn,
   };
-  returnValue.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
   return returnValue;
 };
 
@@ -52,6 +51,7 @@ module.exports = {
       };
     }
     const returnValue = await Promise.all(data.map(generateObject));
+    returnValue.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
     return returnValue;
   },
 
