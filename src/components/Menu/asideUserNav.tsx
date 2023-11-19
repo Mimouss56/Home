@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { MenuItemsProp } from '../../../@types/menu';
+import { MenuItemsProp } from '../../@types/menu';
 
 interface NavProps {
   navItems: MenuItemsProp[];

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { User as UserInfo } from '../../../@types/Home/user';
-import { MenuItemsProp } from '../../../@types/menu';
+import { User as UserInfo } from '../../@types/Home/user';
+import { MenuItemsProp } from '../../@types/menu';
 
 import './style.scss';
-import Nav from './Nav';
-import ProtectedRoute from '../../ProtectedRoute';
+import Nav from '../../components/Menu/asideUserNav';
+import ProtectedRoute from '../../components/ProtectedRoute';
 
 interface MenuProp {
   navContent: MenuItemsProp[][];
@@ -72,7 +72,7 @@ function Menu({ navContent }: MenuProp) {
             }] as MenuItemsProp[]}
             />
           )}
-          {isFamily && (
+          {/* {isFamily && (
             <Nav navItems={[{
               id: 4,
               title: 'Domotic',
@@ -82,7 +82,7 @@ function Menu({ navContent }: MenuProp) {
             }] as MenuItemsProp[]}
             />
 
-          )}
+          )} */}
           {isESA && (
             <Nav navItems={[
               {

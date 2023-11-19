@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Main from '../Pages/Main';
 import Cv from '../Pages/CV';
 import Logout from '../Pages/Auth/logout';
-import Sanction from '../components/Modules/Sanction';
+import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
 import { User as UserInfo } from '../@types/Home/user';
 import Mouss from './Mouss';

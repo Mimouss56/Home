@@ -17,7 +17,7 @@ import Register from './Pages/Auth/register';
 import Footer from './layout/Footer';
 // import Setting from '../User/Setting';
 import AsideMenuAdmin from './layout/Admin/aside.menu';
-import Menu from './components/User/AsideMenu';
+import Menu from './layout/User/aside.user';
 import ListeRoute from './Routes';
 // User menu
 function App() {

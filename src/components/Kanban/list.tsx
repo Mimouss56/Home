@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
-import { ICardTemplate, IListTemplate } from '../../../@types/Home/kanban';
+import { ICardTemplate, IListTemplate } from '../../@types/Home/kanban';
 import Card from './card';
-import ModalAddCard from '../../Modal/formCardKanban';
-import axiosInstance from '../../../utils/axios';
+import ModalAddCard from '../Modal/formCardKanban';
+import axiosInstance from '../../utils/axios';
 
 interface ListTemplateProps {
   list: IListTemplate['list'];

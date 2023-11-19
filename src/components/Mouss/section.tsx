@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Job from './Job';
+import Job from '../Job';
 import ModalAddItem from '../Modal/formJob';
 
 interface SectionProps {

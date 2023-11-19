@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
-import { ICardTemplate } from '../../../@types/Home/kanban';
-import axiosInstance from '../../../utils/axios';
+import { ICardTemplate } from '../../@types/Home/kanban';
+import axiosInstance from '../../utils/axios';
 
 interface ICardTemplateProps {
   card: ICardTemplate;

@@ -3,7 +3,7 @@ import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import ModalAddList from '../../components/Modal/formListKanban';
-import List from '../../components/Mouss/kanban/list';
+import List from '../../components/Kanban/list';
 import { IListTemplate } from '../../@types/Home/kanban';
 
 export default function Kanban() {

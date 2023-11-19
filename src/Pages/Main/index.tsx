@@ -3,8 +3,8 @@ import Card from '../../components/Card';
 import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/Home/card';
 import { INews } from '../../@types/Home/news';
-import WindguruWidget from '../../components/Modules/Windguru';
-import TideWidget from '../../components/Modules/TideWidget';
+import WindguruWidget from '../Modules/Windguru';
+import TideWidget from '../Modules/TideWidget';
 
 function Main() {
   // fetch data from api

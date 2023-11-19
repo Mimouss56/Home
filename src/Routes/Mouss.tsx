@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Section from '../components/Mouss/section';
 import Kanban from '../Pages/Kanban';
 import axiosInstance from '../utils/axios';
-import Setting from '../components/User/Setting';
+import Setting from '../Pages/Dashboard';
 import NotFound from '../Pages/404';
 
 function Mouss() {
