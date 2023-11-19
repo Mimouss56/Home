@@ -4,7 +4,7 @@ import {
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { Job } from '../../@types/Home/emploi';
-import SkillInput from './skillInput';
+import SkillInput from '../User/skillInput';
 import { ISkill } from '../../@types/Home/skill';
 
 interface ModalAddItemProps {

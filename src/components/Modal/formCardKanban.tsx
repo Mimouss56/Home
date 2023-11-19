@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 interface ModalProps { updateCards: () => void }
 

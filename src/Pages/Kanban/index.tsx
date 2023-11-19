@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
-import ModalAddList from '../../components/Mouss/kanban/addListModal';
+import ModalAddList from '../../components/Modal/formListKanban';
 import List from '../../components/Mouss/kanban/list';
 import { IListTemplate } from '../../@types/Home/kanban';
 

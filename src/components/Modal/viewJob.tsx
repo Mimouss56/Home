@@ -1,7 +1,7 @@
 import { ICard } from '../../@types/Home/card';
-import Badge from './Badge';
+import Badge from '../FloatCard/Badge';
 
-function ModalCard({
+function viewJob({
   title, desc, competences, id,
 }: ICard) {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
@@ -41,4 +41,4 @@ function ModalCard({
   );
 }
 
-export default ModalCard;
+export default viewJob;

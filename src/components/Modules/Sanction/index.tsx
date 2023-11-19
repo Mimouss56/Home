@@ -4,8 +4,8 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 import { ICreateSanction, ISanction } from '../../../@types/Home/sanction';
-import ModalAdd from './modalAdd';
-import ModalView from './modalViewDetails';
+import ModalAdd from '../../Modal/formSanction';
+import ModalView from '../../Modal/viewSanction';
 import { excerpt } from '../../../utils/main';
 import { ValueTargetForm } from '../../../@types/event';
 

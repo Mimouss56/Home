@@ -1,6 +1,6 @@
 import { ICard } from '../../@types/Home/card';
 import './style.scss';
-import ModalCard from './Modal';
+import ModalCard from '../Modal/viewJob';
 
 function FloatCard({
   url_img, title, desc, date, competences, ent, id,
