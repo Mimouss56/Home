@@ -1,25 +1,16 @@
 const options = {
   info: {
-    version: '1.0.0',
-    title: 'Mimouss Home API',
-    description: "Détails de l'API de Mimouss",
-  },
-
-  servers: [
-    {
-      url: 'https://www.mimouss.fr/api',
-      description: 'Production server',
-      // variables: {
-      //   port: {
-      //     enum: [process.env.PORT, 3000],
-      //     default: process.env.PORT
-      //   },
-      //   basePath: {
-      //     default: 'api',
-      //   },
-      // },
+    version: '2.0.0',
+    title: 'Home API',
+    description: "Détails de l'API de Home",
+    contact: {
+      name: 'Matthieu Le Priol',
+      url: 'https://www.mimouss.fr',
+      email: 'lepriol.matthieu@gmail.com',
     },
-  ],
+
+  },
+  baseDir: __dirname,
   security: {
     BearerAuth: {
       type: 'http',
@@ -27,24 +18,24 @@ const options = {
       bearerFormat: 'JWT',
     },
   },
-
-  // Base directory which we use to locate your JSDOC files
-  baseDir: __dirname,
-  // URL where SwaggerUI will be rendered
-  swaggerUIPath: '/swagger-ui',
-  // Expose OpenAPI UI
+  explorer: true,
   exposeSwaggerUI: true,
-  // Expose Open API JSON Docs documentation in `apiDocsPath` path.
-  exposeApiDocs: true,
-  // Open API JSON Docs endpoint.
-  apiDocsPath: '/swagger/docs',
+  swaggerUIPath: '/swagger-ui',
+  exposeApiDocs: false,
+  swaggerUiOptions: {
+    customSiteTitle: 'Swagger UI Mimouss API',
+    swaggerUrls: [
+      {
+        url: 'https://www.mimouss.fr/api/home',
+        name: 'Home',
+      },
+      // {
+      //   url: 'https://www.mimouss.fr/api/oside',
+      //   name: 'Oside',
+      // },
+    ],
+    primaryName: 'Home',
+  },
 };
 
-if (process.env.NODE_ENV === 'dev') {
-  const devoption = {
-    url: `http://localhost:${process.env.PORT}/api`,
-    description: 'Local server',
-  };
-  options.servers.push(devoption);
-}
 module.exports = options;

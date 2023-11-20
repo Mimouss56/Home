@@ -3,6 +3,9 @@ const express = require('express');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 const expressSession = require('express-session');
 const options = require('./swagger/option');
+const optionsHome = require('./swagger/home.swagger');
+// const optionsOside = require('./swagger/oside.swagger');
+
 require('dotenv').config();
 
 const app = express();
@@ -32,15 +35,14 @@ app.use((req, res, next) => {
     next();
   }
 });
-
-// Swagger
-expressJSDocSwagger(app)(options);
-
 // Decodage des request.body
 app.use(express.json());
 
 // Chargement des fichiers 'Médias'
 app.use(express.static(path.join(__dirname, '../public')));
+
+// Swagger
+expressJSDocSwagger(app)(options, optionsHome);
 
 // Chargement Router
 app.use(router);
