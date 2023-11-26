@@ -1,16 +1,21 @@
-import { IEmploi } from '../../../@types/Home/emploi';
+import { StyleSheet, Text, View } from '@react-pdf/renderer';
+import { IEmploi } from '../../../../@types/Home/emploi';
 import DetailsXp from './detailsXp';
+import { titleSection } from '../../Styles/title';
 
 function Xp(contents: { content: IEmploi[], titre: string }) {
   const {
     content,
     titre,
   } = contents;
-  console.log(titre, content);
+
+  const styles = StyleSheet.create({
+    titleSection: titleSection as object,
+  });
 
   return (
-    <section id="xp" className="p-3">
-      <h2 id="title_info" className="py-1">{titre}</h2>
+    <View id="xp">
+      <Text id="title_info" style={styles.titleSection}>{titre}</Text>
       {
         content.map((emploi: IEmploi) => (
           <DetailsXp
@@ -24,7 +29,7 @@ function Xp(contents: { content: IEmploi[], titre: string }) {
           />
         ))
       }
-    </section>
+    </View>
   );
 }
 

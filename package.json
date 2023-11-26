@@ -54,7 +54,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
-    "react-pdf": "^7.5.1",
     "react-router-dom": "^6.14.1",
     "react-sortablejs": "^6.1.4",
     "react-toastify": "^9.1.3",

@@ -12,7 +12,7 @@ function Card({ children }: CardProps) {
       style={{ width: '100%' }}
     >
       <div className="card-body">
-        <p className="card-text">{children}</p>
+        <div className="card-text">{children}</div>
       </div>
     </div>
 

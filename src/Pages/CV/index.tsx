@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+import ReactPDF, { PDFViewer } from '@react-pdf/renderer';
+
 import { MoussID } from '../../../config.json';
 import axiosInstance from '../../utils/axios';
 
-import HeaderCv from './Header/header';
-import Hobbies from './Info/hobbies';
-import Contact from './Info/contact';
-import Skills from './Info/skills';
-import Lang from './Info/lang';
-import Xp from './Main/xp';
-import Dev from './Main/dev';
 import Selected from './Select';
 import { IEmploi } from '../../@types/Home/emploi';
-import './style.scss';
+import ExportPDF from '../../components/Cv/PDF/template';
 
-function Cv() {
+function ViewCVPage() {
   const [searchParams] = useSearchParams();
 
   const [listJob, setListJob] = useState([]);
@@ -23,6 +19,10 @@ function Cv() {
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
 
   const exportPDF = () => {
+    // <PDFViewer>
+    //   <ExportPDF listJob={listJob} listSchool={listSchool} />
+    // </PDFViewer>;
+    ReactPDF.render(<ExportPDF listJob={listJob} listSchool={listSchool} />, `CV-${Date.now()}`);
   };
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSkill(e.target.value);
@@ -59,45 +59,16 @@ function Cv() {
 
   return (
     <div className="d-flex flex-column ">
-      <button type="button" onClick={exportPDF}>Export to PDF</button>
       {
         !searchParams.get('fj') && (
           <Selected skills={skills} onHandleSelect={(handleChange)} />
         )
       }
-      <div className="d-flex flex-row mb-5">
-        <div
-          id="left"
-          className="col-9 border-1 border"
-          style={{
-            backgroundColor: '#ffffff',
-            borderStartStartRadius: '45px',
-            borderEndStartRadius: '45px',
-          }}
-        >
-          <HeaderCv />
-          <Dev />
-          <Xp content={listJob} titre="Autres Expériences" />
-          <Xp content={listSchool} titre="Formations" />
-        </div>
-        <div
-          id="right"
-          className="col-3 border-1 border "
-          style={{
-            backgroundColor: '#ce6b01',
-            borderStartEndRadius: '45px',
-            borderEndEndRadius: '45px',
-          }}
-        >
-          <Contact />
-          <Skills />
-          <Lang />
-          <Hobbies />
-        </div>
-
-      </div>
+      <PDFViewer style={{ height: '100vh' }}>
+        <ExportPDF listJob={listJob} listSchool={listSchool} />
+      </PDFViewer>
     </div>
   );
 }
 
-export default Cv;
+export default ViewCVPage;
