@@ -28,7 +28,15 @@ function FloatCard({
           </div>
         </div>
       </article>
-      <ModalCard title={title} date={date} desc={desc} competences={competences} url_img="" ent={ent} id={id} />
+      <ModalCard
+        title={title}
+        date={date}
+        desc={desc}
+        competences={competences}
+        url_img={url_img}
+        ent={ent}
+        id={id}
+      />
     </>
   );
 }

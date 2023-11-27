@@ -23,7 +23,7 @@ function viewJob({
                 <Badge key={competence} name={competence} />
               ))}
             </div>
-            {user && (
+            {user && user.username === 'Mouss' && (
               <button
                 type="button"
                 className="bi bi-gear text-danger btn"

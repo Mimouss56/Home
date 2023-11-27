@@ -31,7 +31,7 @@ export const FontRoboto = {
 
 };
 export const dateSection = {
-  width: '20%',
+  width: '10%',
   textAlign: 'center',
   fontFamily: 'Roboto',
   fontStyle: 'light italic',

@@ -26,7 +26,9 @@ function Contact() {
       </Text>
       <Text style={styles.styleTitle}>Contact</Text>
       <View style={styles.styleList}>
-        <Link src="mailto:lepriol.matthieu@gmail.com"><Text style={styles.styleLink}>lepriol.matthieu@gmail.com</Text></Link>
+        <Link src="mailto:lepriol.matthieu@gmail.com">
+          <Text style={styles.styleLink}>lepriol.matthieu@gmail.com</Text>
+        </Link>
         <Link src="tel:0649389905" style={styles.styleLink}>06.49.38.99.05</Link>
         <Text style={styles.styleLink}>Belz, Morbihan, France</Text>
 

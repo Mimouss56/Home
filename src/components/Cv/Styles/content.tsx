@@ -1,5 +1,5 @@
 export const contentView = {
-  width: '80%',
+  width: '90%',
   display: 'flex',
   flexDirection: 'column',
   marginBotton: '5px',
@@ -31,10 +31,6 @@ export const styleContent = {
 export const UrlRight = {
   color: '#ffffff',
   textDecoration: 'none',
-  hover: {
-    color: '#FF9119',
-    textDecoration: 'none',
-  },
 };
 
 export const imgStyle = {
@@ -68,7 +64,17 @@ export const flexImg = {
   margin: '0 8px',
 };
 export const styleList = {
-  listStyle: 'none',
   padding: '0',
   margin: '16px',
+};
+
+export const viewContentDev = {
+  borderBottom: '1px solid #ccc',
+  paddingBottom: '5px',
+  marginBottom: '5px',
+};
+
+export const UrlLeft = {
+  textAlign: 'right',
+  fontStyle: 'light italic',
 };
