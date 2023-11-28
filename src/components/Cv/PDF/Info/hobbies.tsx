@@ -16,7 +16,7 @@ function Hobbies() {
       <Text style={styles.styleTitle}>Loisirs</Text>
       <View style={styles.styleList}>
         <Text>License Zelda de Nintendo</Text>
-        <Text>Série Médicale US</Text>
+        <Text>Séries Médicales US</Text>
         <Text>French Touch</Text>
       </View>
     </View>

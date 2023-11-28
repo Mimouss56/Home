@@ -6,7 +6,7 @@ function viewJob({
 }: ICard) {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   return (
-    <div className="modal fade" id={title.replaceAll(' ', '-')} aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal fade" id={id.toString()} aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">

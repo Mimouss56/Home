@@ -41,7 +41,6 @@ export const dateSection = {
 
 export const Glob = {
   display: 'flex',
-  margin: '10px',
   flexDirection: 'row',
   fontSize: '10px',
   fontFamily: 'Roboto',
@@ -55,17 +54,11 @@ export const flexGlobal = {
   margin: '5px',
 };
 export const Left = {
-  border: '1px solid #ccc',
   backgroundColor: '#ffffff',
-  borderTopLeftRadius: '15px',
-  borderBottomLeftRadius: '15px',
   width: '70%',
   padding: '10px',
 };
 export const Right = {
-  // border: '1px solid #ce6b01',
   backgroundColor: '#ce6b01',
-  borderBottomRightRadius: '15px',
-  borderTopRightRadius: '15px',
   width: '30%',
 };

@@ -24,7 +24,13 @@ function Selected({ skills, onHandleSelect }: ISelected) {
           >
             <option value={0}>Choisir Compétence Emploi</option>
             {skills.map((skill) => (
-              <option key={skill.id} value={skill.name}>{skill.name}</option>
+              <option
+                key={skill.id}
+                value={skill.name}
+              >
+                {skill.name}
+
+              </option>
             ))}
 
           </select>

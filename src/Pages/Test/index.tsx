@@ -1,23 +1,39 @@
-import ProtectedRoute from '../../components/ProtectedRoute';
+import { useEffect, useState } from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
+import ExportPDF from '../../components/Cv/PDF/template';
+import { MoussID } from '../../../config.json';
+import axiosInstance from '../../utils/axios';
+import { IEmploi } from '../../@types/Home/emploi';
 
 function Test() {
-  return (
-    <ProtectedRoute>
-      {/* // Button open Firtst Modal */}
-      <a
-        type="button"
-        className="btn btn-primary"
-        href={`
-          https://api.netatmo.com/oauth2/authorize?
-            client_id=6435230837bb19c2b50dd6ce
-            &redirect_uri=[YOUR_REDIRECT_URI]
-            &scope=[SCOPE_SPACE_SEPARATED]
-            &state=[SOME_ARBITRARY_BUT_UNIQUE_STRING]`}
-      >
-        Open first modal
-      </a>
+  const [listJob, setListJob] = useState([]);
+  const [listSchool, setListSchool] = useState([]);
 
-    </ProtectedRoute>
+  // Chargement des jobs de Mouss
+  const fetchDataJobMouss = async () => {
+    const response = await axiosInstance.get(`/home/user/${MoussID}`);
+    const filterJob = response.data.user.job.filter(
+      (job: IEmploi) => job.competences.includes('Maintenance'),
+    );
+    setListJob(filterJob);
+    setListSchool(response.data.user.school);
+  };
+
+  useEffect(() => {
+    fetchDataJobMouss();
+  }, []);
+
+  return (
+    <div className="d-flex flex-column ">
+      <PDFViewer style={{
+        width: '100%',
+        height: '100vh',
+
+      }}
+      >
+        <ExportPDF listJob={listJob} listSchool={listSchool} />
+      </PDFViewer>
+    </div>
   );
 }
 

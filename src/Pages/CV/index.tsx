@@ -30,7 +30,12 @@ function ViewCVPage() {
     const response = await axiosInstance.get(`/home/user/${MoussID}`);
     setListJob(response.data.user.job);
     setFilteredJob(response.data.user.job);
-    setListSchool(response.data.user.school);
+    const schoolList = response.data.user.school;
+    // trier par date decroissantes
+    schoolList.sort(
+      (a: IEmploi, b: IEmploi) => new Date(b.date.fin).getDate() - new Date(a.date.fin).getDate(),
+    );
+    setListSchool(schoolList);
   };
 
   // Gestion du select
@@ -76,7 +81,10 @@ function ViewCVPage() {
           ))}
         </PDFDownloadLink>
       )}
+      <h2 className="mt-5">Expériences</h2>
       <Job jobs={filteredJob} />
+      <h2 className="mt-5">Formations</h2>
+      <Job jobs={listSchool} />
 
     </div>
   );
