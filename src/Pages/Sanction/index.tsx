@@ -186,13 +186,7 @@ function Sanction() {
                   >
                     <option value="">Tout</option>
                     {listWeek && listWeek.map((week) => (
-                      <option
-                        key={week}
-                        value={week}
-                      >
-                        {week}
-
-                      </option>
+                      <option key={week} value={week}>{week}</option>
                     ))}
                   </select>
                 )}
@@ -334,92 +328,3 @@ function Sanction() {
 }
 
 export default Sanction;
-
-// const groupByChildren = (sanctions: ISanction[]) => {
-//   const arrayChild = {} as { [key: number]: string };
-//   sanctions.forEach((sanction) => {
-//     const { id, username } = sanction.child;
-//     if (!arrayChild[id]) {
-//       arrayChild[id] = username;
-//     }
-//     return arrayChild;
-//   });
-//   console.log(arrayChild);
-
-//   // setListChild(arrayChild);
-// };
-
-// const fetchListSanction = async () => {
-//   try {
-//     const response = await axiosInstance.get('/home/sanction');
-//     response.data
-//       .map((s: ISanction) => {
-//         if (user.child && dayjs().isoWeek() === s.date.week) {
-//           return { ...s, label: '************' };
-//         }
-//         return s;
-//       })
-//       .sort((a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1));
-
-//     setSanctionList(response.data);
-//   } catch (err) {
-//     toast.error('Erreur lors de la récupération des sanctions');
-//   }
-// };
-
-// const handleSubmit = async (e: React.FormEvent) => {
-//   e.preventDefault();
-//   const { content, childId, warn } = e.target as typeof e.target & {
-//     content: ValueTargetForm;
-//     childId: ValueTargetForm;
-//     warn: { checked: boolean };
-//   };
-
-//   const inputData = {
-//     warn: warn.checked,
-//     id_child: Number(childId.value),
-//     label: content.value,
-//   };
-//   if (currentSanction) {
-//     try {
-//       const newSanction = { ...currentSanction, ...inputData } as ISanction;
-//       const result = await axiosInstance.put(`/home/sanction/${currentSanction.id}`, inputData);
-//       const index = sanctionList.findIndex((news) => news.id === currentSanction.id);
-//       sanctionList[index] = newSanction;
-//       // setSanctionList(sanctionList);
-//       toast.info(result.data.message);
-//     } catch (err) {
-//       const { response } = err as { response: { data: { message: string } } };
-
-//       toast.warning(response.data.message);
-//     }
-//   } else {
-//     try {
-//       const result = await axiosInstance.post('/home/sanction', inputData);
-
-//       setSanctionList((prev) => [...prev, result.data.data]);
-//       toast.success(result.data.message);
-//     } catch (err) {
-//       const { response } = err as { response: { data: { message: string } } };
-//       toast.warning(response.data.message);
-//     }
-//   }
-//   setCurrentSanction(null);
-//   fetchListSanction();
-// };
-
-// const handleDelete = async (id: number) => {
-//   const result = await axiosInstance.delete(`/home/sanction/${id}`);
-//   setSanctionList(sanctionList.filter((sanction) => sanction.id !== id));
-//   toast.success(result.data.message);
-// };
-
-// // fetchListSanction();
-// useEffect(() => {
-//   fetchListSanction();
-// }, []);
-
-// function appyFilterChildren(value: string): void {
-//   const result = sanctionList.filter((sanction) => sanction.child.id === Number(value));
-//   setFilterSanctionList(result);
-// }

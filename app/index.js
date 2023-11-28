@@ -3,7 +3,7 @@ const express = require('express');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 const expressSession = require('express-session');
 const options = require('./swagger/option');
-const optionsHome = require('./swagger/home.swagger');
+// const optionsHome = require('./swagger/home.swagger');
 // const optionsOside = require('./swagger/oside.swagger');
 
 require('dotenv').config();
@@ -41,8 +41,22 @@ app.use(express.json());
 // Chargement des fichiers 'Médias'
 app.use(express.static(path.join(__dirname, '../public')));
 
+// app.use((req, res, next) => {
+//   // const expressSwagger = expressJSDocSwagger(app);
+//   const { query } = req;
+//   const primaryName = query['urls.primaryName'];
+//   // console.log(primaryName);
+//   let newOptions;
+//   if (primaryName === 'Oside') {
+//     newOptions = { ...options, ...optionsOside };
+//   } else if (primaryName === 'Home') {
+//     newOptions = { ...options, ...optionsHome };
+//   }
+//   // expressSwagger(newOptions);
+//   next();
+// });
 // Swagger
-expressJSDocSwagger(app)(options, optionsHome);
+expressJSDocSwagger(app)(options);
 
 // Chargement Router
 app.use(router);

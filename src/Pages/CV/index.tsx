@@ -10,6 +10,7 @@ import Selected from './Select';
 import { IEmploi } from '../../@types/Home/emploi';
 import ExportPDF from '../../components/Cv/PDF/template';
 import Job from '../../components/Job';
+import ModalAddItem from '../../components/Modal/formJob';
 
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
@@ -85,6 +86,7 @@ function ViewCVPage() {
       <Job jobs={filteredJob} />
       <h2 className="mt-5">Formations</h2>
       <Job jobs={listSchool} />
+      <ModalAddItem onAddElement={() => console.log('test')} />
 
     </div>
   );

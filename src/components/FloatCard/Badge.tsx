@@ -7,12 +7,12 @@ function Badge({ name }: BadgeProps) {
   return (
     <span className="badge d-flex align-items-center m-1 pe-2 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-pill">
       {name}
-      <span className="vr mx-2" />
+      {/* <span className="vr mx-2" />
       <a
         href="#"
       >
         <i className="bi bi-x-circle-fill text-dark" />
-      </a>
+      </a> */}
     </span>
   );
 }

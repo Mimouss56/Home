@@ -1,5 +1,5 @@
 import {
-  FormEvent, useEffect, useRef, useState,
+  FormEvent, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
@@ -24,7 +24,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     urlImg: '',
   });
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [IdJob, setIdJob] = useState<number>(0);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -51,16 +51,43 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   const handleSkillSelected = (skill: ISkill) => {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
-  useEffect(() => {
-    if (modalRef.current) {
-      modalRef.current.addEventListener('show.bs.modal', (e) => {
-        const event = e as MouseEvent;
-        const relatedTarget = event.relatedTarget as HTMLElement;
-        const selectValue = relatedTarget.getAttribute('data-bs-select');
-        setFormData((prev) => ({ ...prev, type: selectValue || 'job' }));
+  const fetchJobData = async (id: number) => {
+    try {
+      const response = await axiosInstance.get(`/home/job/${id}`);
+      const jobData = response.data;
+
+      setFormData({
+        type: jobData.type,
+        ent: jobData.ent || '',
+        title: jobData.title || '',
+        ville: jobData.lieu.ville || '',
+        departement: jobData.lieu.departement || '',
+        debut: jobData.date.debut || '',
+        fin: jobData.date.fin || '',
+        description: jobData.description || '',
+        urlImg: jobData.urlImg || '',
       });
+
+      // Assurez-vous de charger les compétences sélectionnées si nécessaire
+      setSelectedSkills(jobData.skills || []);
+    } catch (error) {
+      toast.error('Erreur lors de la récupération des données du job à éditer');
     }
-  }, []);
+  };
+
+  const addItemModal = document.getElementById('addItem');
+
+  if (addItemModal) {
+    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+      // Button that triggered the modal
+      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+      const button = relatedTarget as HTMLButtonElement;
+      // Extract info from data-bs-* attributes
+      const id = button.getAttribute('data-bs-id') as string;
+      setIdJob(parseInt(id, 10));
+      fetchJobData(parseInt(id, 10));
+    });
+  }
 
   return (
     <form onSubmit={handleSave}>
@@ -71,12 +98,13 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
+              {IdJob}
               <div className="input-group">
                 <span className="input-group-text" id="basic-addon1">Ajouter un </span>
                 <select
                   className="form-select input-group-select"
-                  aria-label="Default select example"
-                  defaultValue={formData.type}
+                  aria-label="select Type"
+                  value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                   required
                 >

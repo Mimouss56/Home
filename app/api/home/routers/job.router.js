@@ -17,6 +17,8 @@ router.route('/@me')
 // .delete(isLogged(objectID, 'params'), jobController.deleteJobUser);
 
 router.route('/:id')
+  .get(loggedAs, jobController.get)
+
   .put(isLogged(postJob), validate(objectID, 'params'), jobController.put)
   .delete(isAdminPost(objectID, 'params'), jobController.delete);
 
