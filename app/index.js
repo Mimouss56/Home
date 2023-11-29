@@ -7,6 +7,7 @@ const options = require('./swagger/option');
 // const optionsOside = require('./swagger/oside.swagger');
 
 require('dotenv').config();
+
 const app = express();
 const router = require('./routers');
 
@@ -34,31 +35,31 @@ app.use((req, res, next) => {
     next();
   }
 
-// Decodage des request.body
-app.use(express.json());
+  // Decodage des request.body
+  app.use(express.json());
 
-// Chargement des fichiers 'Médias'
-app.use(express.static(path.join(__dirname, '../public')));
+  // Chargement des fichiers 'Médias'
+  app.use(express.static(path.join(__dirname, '../public')));
 
-// app.use((req, res, next) => {
-//   // const expressSwagger = expressJSDocSwagger(app);
-//   const { query } = req;
-//   const primaryName = query['urls.primaryName'];
-//   // console.log(primaryName);
-//   let newOptions;
-//   if (primaryName === 'Oside') {
-//     newOptions = { ...options, ...optionsOside };
-//   } else if (primaryName === 'Home') {
-//     newOptions = { ...options, ...optionsHome };
-//   }
-//   // expressSwagger(newOptions);
-//   next();
-// });
-// Swagger
-expressJSDocSwagger(app)(options);
+  // app.use((req, res, next) => {
+  //   // const expressSwagger = expressJSDocSwagger(app);
+  //   const { query } = req;
+  //   const primaryName = query['urls.primaryName'];
+  //   // console.log(primaryName);
+  //   let newOptions;
+  //   if (primaryName === 'Oside') {
+  //     newOptions = { ...options, ...optionsOside };
+  //   } else if (primaryName === 'Home') {
+  //     newOptions = { ...options, ...optionsHome };
+  //   }
+  //   // expressSwagger(newOptions);
+  //   next();
+  // });
+  // Swagger
+  expressJSDocSwagger(app)(options);
 
-// Chargement Router
-app.use(router);
-
+  // Chargement Router
+  app.use(router);
+});
 // Lancement serveur
 module.exports = app;

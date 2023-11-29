@@ -36,7 +36,7 @@ module.exports = class CoreDatamapper {
       });
       const where = `WHERE ${fields} = ${placeholders}`;
       const sql = `SELECT * FROM "${this.tableName}" ${where}`;
-
+      const result = await this.client.query(sql, values);
       return result.rows;
     }
 
@@ -90,7 +90,6 @@ module.exports = class CoreDatamapper {
         values,
       };
       const result = await this.client.query(preparedQuery);
-
 
       return result.rows[0];
     }
