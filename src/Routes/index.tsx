@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Main from '../Pages/Main';
-import Cv from '../Pages/CV';
+import ViewCVPage from '../Pages/CV';
 import Logout from '../Pages/Auth/logout';
 import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
@@ -10,7 +10,6 @@ import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
 import NotFound from '../Pages/404';
-import Portfolio from '../Pages/Portfolio';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function ListeRoute() {
@@ -21,8 +20,8 @@ function ListeRoute() {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="cv" element={<Cv />} />
-      <Route path="about" element={<Cv />} />
+      <Route path="cv" element={<ViewCVPage />} />
+      <Route path="about" element={<ViewCVPage />} />
 
       {/* // ProtectedRoute */}
       <Route path="logout" element={(<ProtectedRoute><Logout /></ProtectedRoute>)} />

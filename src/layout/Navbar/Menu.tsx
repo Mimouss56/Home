@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link, Outlet } from 'react-router-dom';
 import { User } from '../../@types/Home/user';
 
