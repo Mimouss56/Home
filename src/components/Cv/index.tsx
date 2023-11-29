@@ -46,6 +46,7 @@ export default function Cv({ listJob, listSchool }: Props) {
         <Xp content={listSchool} titre="Formations" />
       </div>
       <div style={styleRight}>
+
         <Contact />
         <Skills />
         <Lang />

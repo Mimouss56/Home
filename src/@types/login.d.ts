@@ -13,4 +13,5 @@ export interface LoginResponse {
 export interface LoginPost {
   email: string
   password: string
+
 }

@@ -36,7 +36,7 @@ module.exports = class CoreDatamapper {
       });
       const where = `WHERE ${fields} = ${placeholders}`;
       const sql = `SELECT * FROM "${this.tableName}" ${where}`;
-      const result = await this.client.query(sql, values);
+
       return result.rows;
     }
 
@@ -83,12 +83,14 @@ module.exports = class CoreDatamapper {
         indexPlaceholder += 1;
         values.push(value);
       });
+
       const whereClause = fields.map((field, index) => `${field} = ${placeholders[index]}`).join(' AND ');
       const preparedQuery = {
         text: `SELECT * FROM "${this.tableName}" WHERE ${whereClause}`,
         values,
       };
       const result = await this.client.query(preparedQuery);
+
 
       return result.rows[0];
     }
@@ -150,7 +152,6 @@ module.exports = class CoreDatamapper {
 
     const updateColumnExists = reqUpdateColumn.rows.length > 0;
     const updateColumn = updateColumnExists ? 'updated_at = now()' : '';
-
     Object.entries(inputData).forEach(([prop, value]) => {
       fieldsAndPlaceholders.push(`"${prop}" = $${indexPlaceholder}`);
       indexPlaceholder += 1;
@@ -173,7 +174,6 @@ module.exports = class CoreDatamapper {
 
     const result = await this.client.query(preparedQuery);
     const row = result.rows[0];
-
     return row;
   }
 

@@ -27,3 +27,4 @@ MONTRE, 0N NEWS, 0N TAG
 NEWS : id_news, title, description, tag, creat_at, updated_at
 :
 :
+
