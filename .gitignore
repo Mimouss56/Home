@@ -129,10 +129,12 @@ public
 .yarn/install-state.gz
 .pnp.*
 
-/maison
 /node_modules
 
 .vscode
 .env
 .editorconfig
 config.json
+tsconfig.json
+tsconfig.node.json
+
