@@ -1,0 +1,32 @@
+### Tous les technos
+GET http://localhost:3000/api/technos
+
+### techno par ID
+GET http://localhost:3000/api/techno/1
+
+### Populate techno
+POST http://localhost:3000/api/techno
+Content-Type: application/json
+
+{
+	"techno": "name",
+	"color": "F0F"
+}
+
+### Update une techno
+
+PUT http://localhost:3000/api/techno/:id
+Content-Type: application/json
+
+{
+    "id": 1,
+    "techno": "name",
+    "color": "80808"
+}
+
+### Suppression techno
+DELETE http://localhost:3000/api/techno/:id
+
+{
+    "id": 1,
+}

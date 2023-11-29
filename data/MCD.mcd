@@ -1,24 +1,30 @@
-:
-FORMATION : id_formation, ent, title, niveau, town, postal_code, date_started, date_ended
+COMPETENCE: id_competence, name
 APPARTIENT, 0N FORMATION, 0N COMPETENCE
 :
-
-:
-FORME, 0N USER, 0N FORMATION
-COMPETENCE: id_competence, name
 :
 
-DETIENT, 11 USER, 11 ROLE
-USER : id_user, username, email, password
 POSSEDE, 0N EMPLOI, 0N COMPETENCE
-:
-
-ROLE: id_role, name, color
-TRAVAIL, 0N USER, 0N EMPLOI
-EMPLOI : id_emploi, ent, title, desc, town, postal_code, date_started, date_ended
-:
-
-:
-:
+FORMATION : id_formation, ent, title, niveau, town, postal_code, date_started, date_ended
 :
 OPTION : id_option, name, value
+
+EMPLOI : id_emploi, ent, title, desc, town, postal_code, date_started, date_ended
+FORME, 0N USER, 0N FORMATION
+ROLE: id_role, name, color
+:
+
+TRAVAIL, 0N USER, 0N EMPLOI
+USER : id_user, username, email, password
+DETIENT, 11 USER, 11 ROLE
+:
+
+TAG: id_tag, label, color
+REDIGE, 1N USER, 11 NEWS : en tant qu'auteur
+:
+:
+
+MONTRE, 0N NEWS, 0N TAG
+NEWS : id_news, title, description, tag, creat_at, updated_at
+:
+:
+

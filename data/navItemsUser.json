@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "title": "Profil",
+    "link": "/user/setting",
+    "icon": "person",
+    "component": "Setting"
+  }
+]

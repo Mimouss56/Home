@@ -1,0 +1,25 @@
+@baseUrl = https://localhost:3000/api
+
+### Ajout un role
+POST {{baseUrl}}/role/:id
+
+{
+    "label": "name",
+    "color": "F0F",
+}
+
+### Update un role
+PUT {{baseUrl}}/role/:id
+
+{
+    "id": 1,
+    "label": "name",
+    "color": "F0F",
+}
+
+### Suppression Project
+DELETE {{baseUrl}}/project/:id
+
+{
+    "id": 1,
+}

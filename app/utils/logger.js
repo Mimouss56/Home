@@ -1,1 +1,2 @@
-module.exports = console
+module.exports = console;
+

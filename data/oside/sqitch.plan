@@ -1,0 +1,9 @@
+%syntax-version=1.0.0
+%project=oside
+
+initdb 2023-05-03T14:30:52Z Mouss <lepriol.matthieu@gmail.com> # Initialisation de la DB
+view_techno_projet 2023-05-08T12:54:08Z Mouss <lepriol.matthieu@gmail.com> # Create View TechnoProjet whith id and label
+user 2023-05-10T08:24:43Z Mouss <lepriol.matthieu@gmail.com> # Creation et jonction des Users
+seeding 2023-05-12T07:15:30Z Mouss <lepriol.matthieu@gmail.com> # Seeding Values Test Projet Techno user
+github_login 2023-05-24T19:09:58Z Mouss <lepriol.matthieu@gmail.com> # github_login
+comment 2023-05-25T15:06:06Z Mouss <lepriol.matthieu@gmail.com> # Table des commentaires

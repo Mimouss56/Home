@@ -1,25 +1,17 @@
-const express = require('express');
-const router = express.Router();
 const path = require('path');
+const express = require('express');
+const testController = require('../api/BBC/controllers/test.controller');
 
-const apiRouter = require('./api.router');
-const loginController = require('../controllers/login.controller');
+const router = express.Router();
+
+router.use('/api', require('./api.router'));
+
+router.get('/test', testController.renderTest);
 
 const publicPath = path.resolve(__dirname, '../../public');
 router.get('/*', (req, res) => {
-  res.sendFile('index.html', { root: publicPath });
+  res.sendFile(path.join(publicPath, 'index.html'));
+  // res.json('Welcome to the Mouss\'s API');
 });
 
-router.use('/api', apiRouter);
-// router login
-router.get('/login', loginController.login);
-router.post('/register', loginController.register);
-
-// si autre route, on renvoie l'index.html
-// on definie le lieu du fichier index.html
-
-// on renvoie le fichier index.html
-
-
-
-module.exports = router
+module.exports = router;

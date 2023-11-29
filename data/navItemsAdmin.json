@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Dashboard",
+    "link": "/admin",
+    "icon": "speedometer2",
+    "component": "Dashboard"
+  },
+  {
+    "id": 2,
+    "title": "Users",
+    "link": "/admin/users",
+    "icon": "people",
+    "component": "Users"
+  },
+  {
+    "id": 3,
+    "title": "News",
+    "link": "/admin/news",
+    "icon": "newspaper",
+    "component": "News"
+  },
+  {
+    "id": 4,
+    "title": "Options",
+    "link": "/admin/options",
+    "icon": "sliders",
+    "component": "Options"
+  }
+]
