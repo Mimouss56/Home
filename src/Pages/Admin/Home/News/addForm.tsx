@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { ICreateNews, ITag } from '../../../../@types/Home/news';
 // Mocked
-import { mockTags } from '../../../../../data/mocked';
-
 interface NewsFormProps {
   news: ICreateNews | null;
 }
@@ -16,11 +14,6 @@ function ModalAddNews({ news = null }: NewsFormProps) {
   );
   const [availableTags, setAvailableTags] = useState<ITag[]>([]);
   const [showSelect, setShowSelect] = useState(false);
-
-  useEffect(() => {
-    if (news) setCurrentNews(news);
-    setAvailableTags(mockTags);
-  }, [news]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

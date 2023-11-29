@@ -64,7 +64,7 @@ function ViewCVPage() {
   }, []);
 
   return (
-    <div className="d-flex flex-column ">
+    <div className="d-flex flex-column container-fluid">
       {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
       {selectedSkill && (
         <PDFDownloadLink
