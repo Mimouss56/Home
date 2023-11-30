@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Main from '../Pages/Main';
 import ViewCVPage from '../Pages/CV';
-import Logout from '../Pages/Auth/logout';
 import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
 import { User as UserInfo } from '../@types/Home/user';
@@ -24,7 +23,6 @@ function ListeRoute() {
       <Route path="about" element={<ViewCVPage />} />
 
       {/* // ProtectedRoute */}
-      <Route path="logout" element={(<ProtectedRoute><Logout /></ProtectedRoute>)} />
       <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />
 
       <Route path="user/*" element={(<Mouss />)} />
