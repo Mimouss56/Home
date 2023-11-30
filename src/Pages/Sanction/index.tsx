@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
-import { ICreateSanction, ISanction } from '../../@types/Home/sanction';
 import ModalAdd from '../../components/Modal/formSanction';
 import ModalView from '../../components/Modal/viewSanction';
 import { excerpt } from '../../utils/main';
 import { ValueTargetForm } from '../../@types/event';
+import { ICreateSanction, ISanction } from '../../@types/Home/sanction';
 
 dayjs.extend(isoWeek);
 
@@ -22,82 +22,51 @@ function Sanction() {
 
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
-  function appyFilterChildren(value = '') {
-    sanctionList.map((s: ISanction) => {
-      if (user.child && dayjs().isoWeek() === s.date.week) {
-        return { ...s, label: '************' };
+  const makeListChild = (allSanction: ISanction[]) => {
+    const arrayChild = [] as { id: number; username: string }[];
+    allSanction.forEach((sanction: ISanction) => {
+      const { id, username } = sanction.child;
+      if (!arrayChild.find((child) => child.id === id)) {
+        arrayChild.push({ id: Number(id), username });
       }
-      return s;
+      return arrayChild;
     });
+    setListChild(arrayChild);
+  };
 
-    if (!value) {
-      setFilterSanctionList(sanctionList);
-      return;
-    }
-    const result = sanctionList.filter((sanction) => sanction.child.id === Number(value));
-    setFilterSanctionList(result);
-    setShowInputChild(false);
-  }
+  const makeListWeek = (allSanction: ISanction[]) => {
+    const arrayWeek = [] as number[];
 
-  function appyFilterWeek(value = '') {
-    sanctionList.map((s: ISanction) => {
-      if (user.child && dayjs().isoWeek() === s.date.week) {
-        return { ...s, label: '************' };
+    allSanction.forEach((sanction: ISanction) => {
+      const { week } = sanction.date;
+
+      if (!arrayWeek.find((weekValue) => Number(weekValue) === week)) {
+        arrayWeek.push(week);
       }
-      return s;
+      return arrayWeek;
     });
+    setListWeek(arrayWeek);
+  };
 
-    if (!value) {
-      setFilterSanctionList(sanctionList);
-      return;
-    }
-    const result = sanctionList.filter((sanction) => sanction.date.week === Number(value));
-    setFilterSanctionList(result);
-    setShowInputWeek(false);
-  }
-
-  const fecthLists = useCallback(async (roleID: number) => {
+  const fetchLists = useCallback(async () => {
     try {
       const response = await axiosInstance.get('/home/sanction');
       const { data } = response;
-      data
-        .sort((a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1));
-
-      const arrayChild = [] as { id: number; username: string }[];
-      data.forEach((sanction: ISanction) => {
-        const { id, username } = sanction.child;
-        if (!arrayChild.find((child) => child.id === id)) {
-          arrayChild.push({ id: Number(id), username });
-        }
-        return arrayChild;
-      });
-      setListChild(arrayChild);
-
-      const arrayWeek = [] as number[];
-
-      data.forEach((sanction: ISanction) => {
-        const { week } = sanction.date;
-
-        if (!arrayWeek.find((weekValue) => Number(weekValue) === week)) {
-          arrayWeek.push(week);
-        }
-
-        return arrayWeek;
-      });
-      setListWeek(arrayWeek);
-
-      if (roleID !== 1) {
-        const result = data.map((s: ISanction) => {
+      makeListChild(data);
+      makeListWeek(data);
+      const result = data
+        .sort((a: ISanction, b: ISanction) => (a.date.complete < b.date.complete ? 1 : -1))
+        .map((s: ISanction) => {
           if (user.child && dayjs().isoWeek() === s.date.week) {
             return { ...s, label: '************' };
           }
           return s;
         });
-        setFilterSanctionList(result);
-        return;
-      }
-      setSanctionList(data);
-      setFilterSanctionList(data);
+      makeListChild(result);
+      makeListWeek(result);
+
+      setSanctionList(result);
+      setFilterSanctionList(result);
     } catch (error) {
       toast.error(`Error fetching lists: ${error}`);
     }
@@ -141,7 +110,7 @@ function Sanction() {
       }
     }
     setCurrentSanction(null);
-    fecthLists(user.role.id);
+    fetchLists();
   };
 
   const handleDelete = async (id: number) => {
@@ -151,9 +120,27 @@ function Sanction() {
   };
 
   useEffect(() => {
-    fecthLists(user.role.id);
-  }, [fecthLists, user.role.id]);
+    fetchLists();
+  }, [fetchLists]);
 
+  const appyFilter = (value: string, type: string): void => {
+    if (type === 'week') {
+      setShowInputWeek(false);
+      setFilterSanctionList(
+        sanctionList.filter((sanction) => sanction.date.week === Number(value)),
+      );
+      return;
+    }
+
+    if (type === 'child') {
+      setShowInputChild(false);
+      setFilterSanctionList(
+        sanctionList.filter((sanction) => sanction.child.id === Number(value)),
+      );
+      return;
+    }
+    setFilterSanctionList(sanctionList);
+  };
   return (
     <article>
       <div className="d-flex justify-content-between">
@@ -182,9 +169,14 @@ function Sanction() {
                     name="week"
                     id="week"
                     className="form-select w-auto m-0 pl-4"
-                    onChange={(e) => appyFilterWeek(e.target.value)}
+                    onChange={
+                      (e) => {
+                        const target = e.target as HTMLSelectElement;
+                        appyFilter(target.value, 'week');
+                      }
+                    }
                   >
-                    <option value="">Tout</option>
+                    <option value="all">Tout</option>
                     {listWeek && listWeek.map((week) => (
                       <option key={week} value={week}>{week}</option>
                     ))}
@@ -211,9 +203,10 @@ function Sanction() {
                         name="child"
                         id="child"
                         className="form-select w-auto"
-                        onChange={(e) => appyFilterChildren(e.target.value)}
+                        onChange={(e) => appyFilter(e.target.value, 'child')}
+                        defaultValue="all"
                       >
-                        <option value="">Tout</option>
+                        <option value="all">Tout</option>
                         {listChild && listChild.map((children) => (
                           <option
                             key={children.id}
