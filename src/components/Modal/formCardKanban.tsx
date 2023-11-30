@@ -17,6 +17,9 @@ export default function ModalAddList({ updateCards }: ModalProps) {
       exampleModal.addEventListener('show.bs.modal', (event) => {
         // Button that triggered the modal
         const button = (event as FocusEvent).relatedTarget;
+        const isEdit = (button as Element).getAttribute('data-bs-edit');
+        console.log(isEdit);
+
         // Extract info from data-bs-* attributes
         if (button) {
           const listIdAttr = (button as Element).getAttribute('data-bs-listid');
