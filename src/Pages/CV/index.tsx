@@ -11,6 +11,7 @@ import { IEmploi } from '../../@types/Home/emploi';
 import ExportPDF from '../../components/Cv/PDF/template';
 import Job from '../../components/Job';
 import ModalAddItem from '../../components/Modal/formJob';
+import { titleSection } from '../../components/Cv/Styles/title';
 
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
@@ -64,7 +65,7 @@ function ViewCVPage() {
   }, []);
 
   return (
-    <div className="d-flex flex-column container-fluid">
+    <div className="d-flex flex-column container-fluid align-items-center ">
       {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
       {selectedSkill && (
         <PDFDownloadLink
@@ -82,7 +83,11 @@ function ViewCVPage() {
           ))}
         </PDFDownloadLink>
       )}
-      <h2 className="mt-5">Expériences</h2>
+      <h2
+        className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2"
+      >
+        Expériences
+      </h2>
       <Job jobs={filteredJob} />
       <h2 className="mt-5">Formations</h2>
       <Job jobs={listSchool} />
