@@ -12,8 +12,8 @@ import navTop from '../data/navTop.json';
 import 'react-toastify/dist/ReactToastify.css';
 // COMPONENTS
 import Navbar from './layout/Navbar';
-import Login from './Pages/Auth/login';
-import Register from './Pages/Auth/register';
+import Login from './components/Modal/Auth/login';
+import Register from './components/Modal/Auth/register';
 import Footer from './layout/Footer';
 // import Setting from '../User/Setting';
 import AsideMenuAdmin from './layout/Admin/aside.menu';
@@ -27,6 +27,7 @@ function App() {
 
   const location = useLocation();
   useEffect(() => {
+    // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
     }
