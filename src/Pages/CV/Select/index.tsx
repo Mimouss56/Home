@@ -11,9 +11,16 @@ interface ISkill {
 function Selected({ skills, onHandleSelect }: ISelected) {
   return (
     <form>
-      <div className="mb-3">
-        <div className="input-group">
-          <span className="input-group-text" id="job-skill">Job Compétence</span>
+      <div className="mb-3 d-flex flex-column justify-content-center align-items-center ">
+        <div className="alert alert-warning alert-dismissible fade show form-text fs-6" role="alert">
+          <strong>Attention ! </strong>
+          Vous n&apos;avez pas choisi de compétence à afficher.
+          Veuillez choisir une compétence dans la liste déroulante ci-dessous.
+          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
+        </div>
+
+        <div className="input-group fs-6" style={{ width: '300px' }}>
+          <span className="input-group-text" id="job-skill">Compétence</span>
           <select
             id="jobSkill"
             className="form-select form-control"
@@ -22,7 +29,7 @@ function Selected({ skills, onHandleSelect }: ISelected) {
             defaultValue={0}
             onChange={(e) => onHandleSelect(e)}
           >
-            <option value={0}>Choisir Compétence Emploi</option>
+            <option value={0}>Choix Compétence</option>
             {skills.map((skill) => (
               <option
                 key={skill.id}
@@ -35,15 +42,7 @@ function Selected({ skills, onHandleSelect }: ISelected) {
 
           </select>
         </div>
-        <div className="alert alert-warning alert-dismissible fade show form-text" role="alert">
-          <strong>Attention ! </strong>
-          Vous n&apos;avez pas choisi de compétence à afficher.
-          Veuillez choisir une compétence dans la liste déroulante ci-dessous.
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
-        </div>
       </div>
-
-      <div className="mb-3" />
     </form>
   );
 }

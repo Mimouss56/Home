@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
@@ -81,7 +82,7 @@ function User() {
           {users.map((user: IUser) => (
             <tr key={user.id}>
               <td>{user.username}</td>
-              <td className="d-none d-md-block">{user.email}</td>
+              <td className="d-none d-md-table-cell">{user.email}</td>
               <td>
                 <select
                   className="form-select"
@@ -138,7 +139,7 @@ function User() {
                 }
 
               </td>
-              <td className="d-none d-md-block">{dayjs(user.last_visited).format('DD/MM/YYYY HH:mm:ss')}</td>
+              <td className="d-none d-md-table-cell">{dayjs(user.last_visited).format('DD/MM/YYYY HH:mm:ss')}</td>
             </tr>
           ))}
         </tbody>

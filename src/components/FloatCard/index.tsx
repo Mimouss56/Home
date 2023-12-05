@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import './style.scss';
 

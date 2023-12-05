@@ -1,11 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 import Main from '../Pages/Main';
 import ViewCVPage from '../Pages/CV';
-import Logout from '../Pages/Auth/logout';
 import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
 import { User as UserInfo } from '../@types/Home/user';
-import Mouss from './Mouss';
+import Dashboard from './Dashboard';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
@@ -24,10 +23,9 @@ function ListeRoute() {
       <Route path="about" element={<ViewCVPage />} />
 
       {/* // ProtectedRoute */}
-      <Route path="logout" element={(<ProtectedRoute><Logout /></ProtectedRoute>)} />
       <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />
 
-      <Route path="user/*" element={(<Mouss />)} />
+      <Route path="user/*" element={(<ProtectedRoute><Dashboard /></ProtectedRoute>)} />
       <Route path="domotic" element={<RouteDomo />} />
 
       {isAdmin && (<Route path="admin/*" element={(<RoutesAdmin />)} />)}

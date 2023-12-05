@@ -17,7 +17,7 @@ function NavBar({ navContentArray }: MenuProps) {
   return (
     <ul className="nav col-lg-auto me-lg-auto mb-2 mb-md-0 flex-grow-1">
       <li>
-        <Link to="/" className="nav-link px-2 link-light">
+        <Link to="/" className="nav-link px-2 link-light fw-bold">
           Accueil
         </Link>
       </li>
@@ -28,7 +28,7 @@ function NavBar({ navContentArray }: MenuProps) {
           const textActive = isActive ? 'text-secondary' : 'text-white';
           return (
             <li key={item.id}>
-              <Link to={item.link} className={`nav-link px-2 ${textActive}`}>
+              <Link to={item.link} className={`nav-link px-2 link-light fw-bold ${textActive}`}>
                 {item.name}
               </Link>
             </li>
@@ -40,7 +40,10 @@ function NavBar({ navContentArray }: MenuProps) {
           <li>
             <Link
               to="/test"
-              className={`nav-link px-2 ${window.location.pathname.toLowerCase() === '/test' ? 'text-secondary' : 'text-white'}`}
+              className={`
+              nav-link px-2 fw-bold
+              ${window.location.pathname.toLowerCase() === '/test' ? 'text-secondary' : 'text-white'}
+              `}
             >
               Test
             </Link>

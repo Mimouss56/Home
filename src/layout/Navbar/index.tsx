@@ -18,7 +18,7 @@ function Navbar({ navContent }: NavbarProp) {
       <nav
         className="d-flex flex-wrap align-items-center justify-content-between p-2 fixed-top vw-100"
         style={{
-          backgroundColor: '#FF4119',
+          backgroundColor: '#da5903',
         }}
       >
         <NavBar navContentArray={navContent} />
@@ -57,7 +57,7 @@ function Navbar({ navContent }: NavbarProp) {
             : (
               <button
                 type="button"
-                className="btn text-light"
+                className="btn text-light fw-bold"
                 data-bs-toggle="modal"
                 data-bs-target="#modalLogin"
                 data-bs-dismiss="modal"

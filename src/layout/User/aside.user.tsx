@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
+import { toast } from 'react-toastify';
 import { User as UserInfo } from '../../@types/Home/user';
 import { MenuItemsProp } from '../../@types/menu';
 
@@ -23,9 +24,7 @@ function Menu({ navContent }: MenuProp) {
   const handleClickLogout = () => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('sessionToken');
-
-    sessionStorage.setItem('notifToast', 'Vous êtes déconnecté');
-    // redirect to home
+    sessionStorage.setItem('notifToast', 'Vous êtes déconnecté !');
     window.location.replace('/');
   };
 

@@ -82,8 +82,9 @@ function Register() {
               />
               <button
                 type="button"
-                className={`input-group-text bi bi-eye${showPassword ? '-slash' : ''}`}
-                onClick={() => setShowPassword(!showPassword)}
+                className={`input-group-text bi bi-eye${!showPassword ? '-slash' : ''}`}
+                onMouseEnter={() => setShowPassword(showPassword)}
+                onMouseLeave={() => setShowPassword(!showPassword)}
               />
               {error && <span className="help-block">{errorMessage}</span>}
             </div>
@@ -98,8 +99,9 @@ function Register() {
               />
               <button
                 type="button"
-                className={`input-group-text bi bi-eye${showConfirmPassword ? '-slash' : ''}`}
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className={`input-group-text bi bi-eye${!showConfirmPassword ? '-slash' : ''}`}
+                onMouseEnter={() => setShowConfirmPassword(!showConfirmPassword)}
+                onMouseLeave={() => setShowConfirmPassword(showConfirmPassword)}
               />
               {error && <span className="help-block">{errorMessage}</span>}
             </div>

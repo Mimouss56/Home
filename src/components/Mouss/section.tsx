@@ -1,26 +1,30 @@
 import { useEffect, useState } from 'react';
-import Job from '../Job';
+import JobList from '../Job';
 import ModalAddItem from '../Modal/formJob';
+import axiosInstance from '../../utils/axios';
+import { Job } from '../../@types/Home/emploi';
 
 interface SectionProps {
   title: string;
-  initialItems: any[]; // Remplacez any par le type approprié
   type: string;
 }
 
-function Section({ title, initialItems, type }: SectionProps) {
-  const [items, setItems] = useState(initialItems);
+function Section({ title, type }: SectionProps) {
+  const [items, setItems] = useState<Job[]>([]);
 
-  const handleAddElement = (data: any) => { // Remplacez any par le type approprié
-    if (type === 'job') {
-      setItems((prevItems: any[]) => [...prevItems, data]);
-    } else {
-      setItems((prevItems: any[]) => [...prevItems, data]);
-    }
+  const fetchInfo = async (typeInfo: string) => {
+    const response = await axiosInstance.get(`/home/${typeInfo}/@me`);
+    const { data } = response;
+    setItems(data);
   };
+
+  const handleAddElement = (data: Job) => { // Remplacez any par le type approprié
+    setItems((prevItems: Job[]) => [...prevItems, data]);
+  };
+
   useEffect(() => {
-    setItems(initialItems);
-  }, [initialItems]);
+    fetchInfo(type);
+  }, [type]);
 
   return (
     <>
@@ -34,7 +38,7 @@ function Section({ title, initialItems, type }: SectionProps) {
       >
         Ajout d&apos;un item
       </button>
-      <Job jobs={items} />
+      <JobList jobs={items} />
       <ModalAddItem onAddElement={handleAddElement} />
     </>
   );
