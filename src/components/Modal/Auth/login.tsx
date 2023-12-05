@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axios';
+import axiosInstance from '../../../utils/axios';
+// import style
+import '../style.scss';
 
 function Login() {
   const [username, setUsername] = useState('');

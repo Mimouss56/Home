@@ -8,41 +8,63 @@ import TideWidget from '../Modules/TideWidget';
 
 function Main() {
   // fetch data from api
-  const [listNews, setlistNews] = useState([]);
+  const [listNews, setListNews] = useState([]);
   const fetchData = async () => {
     const result = await axiosInstance('/home/news');
     result.data = result.data.filter((news: INews) => news.draft === false);
-
-    setlistNews(result.data);
+    setListNews(result.data);
   };
   useEffect(() => {
     fetchData();
   }, []);
-  //
 
   return (
-
     <div className="d-flex">
       <div className="col-9">
-        <div className="d-flex flex-wrap border">
-          <div className="d-flex justify-content-center my-5">
-            <div className="news-section my-5">
-              <h2>Actualités</h2>
-              <div className="d-flex flex-wrap">
-                {listNews && listNews.map((item: ICardNews) => (
-                  <Card key={item.id}>
-                    {/* eslint-disable-next-line react/no-danger */}
-                    <div dangerouslySetInnerHTML={{ __html: item.content }} />
-                  </Card>
-                ))}
-              </div>
-            </div>
+        {/* Section Héros/Bannière */}
+        <section className="hero-section">
+          <h1>Bienvenue sur Mimouss Home</h1>
+          <p>Explorons ensemble les dernières actualités et bien plus encore.</p>
+        </section>
+
+        {/* Section Actualités */}
+        <section className="news-section my-5">
+          <h2>Actualités</h2>
+          <div className="d-flex flex-wrap">
+            {listNews && listNews.map((item: ICardNews) => (
+              <Card key={item.id}>
+                {/* eslint-disable-next-line react/no-danger */}
+                <div dangerouslySetInnerHTML={{ __html: item.content }} />
+              </Card>
+            ))}
           </div>
-        </div>
-        <div className="col-3 d-flex flex-column border">
+        </section>
+
+        {/* Section Portfolio/Projets */}
+        <section className="portfolio-section my-5">
+          <h2>Portfolio</h2>
+          {/* Ajoute ici des composants ou des liens vers tes projets */}
+        </section>
+
+        {/* Section Compétences */}
+        <section className="skills-section my-5">
+          <h2>Mes Compétences</h2>
+          {/* Ajoute ici des balises ou des icônes représentant tes compétences */}
+        </section>
+      </div>
+
+      <div className="col-3 d-flex flex-column border">
+        {/* Section Widget Météo */}
+        <section className="widget-section my-5">
+          <h2>Prévisions Météo</h2>
           <WindguruWidget />
+        </section>
+
+        {/* Section Widget Marées */}
+        <section className="widget-section my-5">
+          <h2>Marées</h2>
           <TideWidget />
-        </div>
+        </section>
       </div>
     </div>
   );
