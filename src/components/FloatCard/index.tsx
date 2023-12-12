@@ -20,6 +20,7 @@ function FloatCard({
   return (
     <article className="card m-2 border-0">
       <div className="face face1">
+        <div className="bonnet" />
         <div className="content">
           <img src={url_img} alt={ent} />
         </div>

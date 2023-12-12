@@ -11,6 +11,7 @@ function Card({ children }: CardProps) {
       className="card m-auto shadow-sm p-3 mb-2 bg-white rounded"
       style={{ width: '100%' }}
     >
+      <div className="bonnet" />
       <div className="card-body">
         <div className="card-text">{children}</div>
       </div>

@@ -19,6 +19,11 @@ import Footer from './layout/Footer';
 import AsideMenuAdmin from './layout/Admin/aside.menu';
 import Menu from './layout/User/aside.user';
 import ListeRoute from './Routes';
+
+// si le mois actuelle est 12 alors on import le style de noel
+if (new Date().getMonth() === 11) {
+  import('./scss/christmasTheme.scss');
+}
 // User menu
 function App() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -37,9 +42,15 @@ function App() {
   const shouldShowAdminMenu = isAdmin && location.pathname.startsWith('/admin');
   const shouldShowESAMenu = (isAdmin || isESA) && location.pathname.startsWith('/ESA');
   const currentMenu = shouldShowAdminMenu ? menuAdmin : menuESA;
-
   return (
     <>
+
+      {new Date().getMonth() === 11 && (
+        [...Array(250)].map((index) => (
+          <div key={index} className="snow" />
+        ))
+      )}
+
       <ToastContainer
         position="top-left"
         autoClose={5000}

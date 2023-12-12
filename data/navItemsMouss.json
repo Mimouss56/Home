@@ -5,6 +5,12 @@
     "link": "/user/jobs",
     "icon": "briefcase",
     "component": "Job"
+  },  {
+    "id": 5,
+    "title": "Render CV",
+    "link": "/user/rendercv",
+    "icon": "briefcase",
+    "component": "CV"
   },
   {
     "id": 3,

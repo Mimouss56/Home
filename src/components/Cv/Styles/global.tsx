@@ -45,6 +45,8 @@ export const Glob = {
   fontSize: '10px',
   fontFamily: 'Roboto',
   fontStyle: 'regular',
+  margin: 0,
+  padding: 0,
 };
 export const flexGlobal = {
   display: 'flex',
@@ -61,4 +63,5 @@ export const Left = {
 export const Right = {
   backgroundColor: '#ce6b01',
   width: '30%',
+  height: '100vh',
 };
