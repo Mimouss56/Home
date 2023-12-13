@@ -66,6 +66,8 @@ function ViewCVPage() {
 
   return (
     <div className="d-flex flex-column container-fluid align-items-center ">
+      <ModalAddItem onAddElement={() => console.log('test')} />
+
       {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
       {selectedSkill && (
         <PDFDownloadLink
@@ -93,11 +95,8 @@ function ViewCVPage() {
         className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2"
       >
         Formations
-
       </h2>
       <Job jobs={listSchool} />
-      <ModalAddItem onAddElement={() => console.log('test')} />
-
     </div>
   );
 }

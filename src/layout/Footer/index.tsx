@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer>
-      <div className="fixed-bottom d-flex flex-wrap justify-content-around align-items-center py-3 border-top bg-dark px-2">
+      <div className="fixed-bottom d-flex flex-wrap justify-content-around align-items-center py-3 border-top bg-dark vw-100 px-5">
         <div className="col-md-4 d-flex align-items-center">
           <span className="mb-3 mb-md-0 text-white ">
             © 2023 author : Mouss

@@ -4,7 +4,8 @@
   @return $random_range;
 }
 
-$today : 250;
+$today : 50;
+
 .snow {
   $total: calc($today*100);
   position: absolute;
@@ -19,7 +20,7 @@ $today : 250;
     $random-x-end: $random-x + $random-offset;
     $random-x-end-yoyo: $random-x + calc($random-offset / 2);
     $random-yoyo-time: calc(random_range(30000, 80000) / 100000);
-    $random-yoyo-y: $random-yoyo-time * 100vh;
+    $random-yoyo-y: $random-yoyo-time * 100%;
     $random-scale: random(10000) * 0.0001;
     $fall-duration: random_range(10, 30) * 1s;
     $fall-delay: random(30) * -1s;
