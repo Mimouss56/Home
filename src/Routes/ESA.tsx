@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import NotFound from '../Pages/404';
+import NotFound from '../Pages/Error/404';
 import Construct from '../Pages/UnderContruct';
 import PresenceCantine from '../Pages/Admin/ESA/cantine';
 import ListStudents from '../Pages/Admin/ESA/children';

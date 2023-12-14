@@ -8,7 +8,6 @@ import Dashboard from './Dashboard';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
-import NotFound from '../Pages/404';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 function ListeRoute() {
@@ -31,7 +30,6 @@ function ListeRoute() {
       {isAdmin && (<Route path="admin/*" element={(<RoutesAdmin />)} />)}
       {isAdmin && (<Route path="test" element={(<Test />)} />)}
       {isESA && (<Route path="ESA/*" element={(<RoutesESA />)} />)}
-      <Route path="*" element={<NotFound />} />
     </Routes>
 
   );

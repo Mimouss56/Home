@@ -7,7 +7,7 @@ interface JobProps {
 
 function Job({ jobs }: JobProps) {
   return (
-    <div className="d-flex flex-wrap container-fill justify-content-between">
+    <div className="d-flex flex-wrap justify-content-evenly">
       {
         jobs.map((job: IJob) => (
           <FloatCard

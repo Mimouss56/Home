@@ -4,13 +4,11 @@
   @return $random_range;
 }
 
-$today : 50;
-
 .snow {
-  $total: calc($today*100);
+  $total: 150;
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   background: white;
   border-radius: 50%;
 

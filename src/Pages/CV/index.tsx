@@ -65,39 +65,33 @@ function ViewCVPage() {
   }, []);
 
   return (
-    <div className="d-flex flex-column container-fluid align-items-center ">
+    <>
       <ModalAddItem onAddElement={() => console.log('test')} />
+      <div className="d-flex flex-column align-items-center ">
 
-      {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
-      {selectedSkill && (
-        <PDFDownloadLink
-          className="btn btn-primary"
-          document={<ExportPDF listJob={filteredJob} listSchool={listSchool} />}
-          fileName="Cv-LE_PRIOL_Matthieu.pdf"
-        >
-          {({ loading }) => (loading ? (
-            <>
-              <span className="spinner-border spinner-border-sm" aria-hidden="true" />
-              <span role="status">Loading...</span>
-            </>
-          ) : (
-            'Télécharger le CV'
-          ))}
-        </PDFDownloadLink>
-      )}
-      <h2
-        className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2"
-      >
-        Expériences
-      </h2>
-      <Job jobs={filteredJob} />
-      <h2
-        className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2"
-      >
-        Formations
-      </h2>
-      <Job jobs={listSchool} />
-    </div>
+        {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
+        {selectedSkill && (
+          <PDFDownloadLink
+            className="btn btn-primary"
+            document={<ExportPDF listJob={filteredJob} listSchool={listSchool} />}
+            fileName="Cv-LE_PRIOL_Matthieu.pdf"
+          >
+            {({ loading }) => (loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+                <span role="status">Loading...</span>
+              </>
+            ) : (
+              'Télécharger le CV'
+            ))}
+          </PDFDownloadLink>
+        )}
+        <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Expériences</h2>
+        <Job jobs={filteredJob} />
+        <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Formations</h2>
+        <Job jobs={listSchool} />
+      </div>
+    </>
   );
 }
 

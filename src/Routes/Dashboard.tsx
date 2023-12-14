@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Section from '../components/Mouss/section';
 import Kanban from '../Pages/Kanban';
 import Setting from '../Pages/Dashboard';
-import NotFound from '../Pages/404';
+import NotFound from '../Pages/Error/404';
 import RenderCv from '../Pages/CV/rendercv';
 
 function Dashboard() {

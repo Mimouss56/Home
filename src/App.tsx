@@ -46,7 +46,7 @@ function App() {
     <>
 
       {new Date().getMonth() === 11 && (
-        [...Array(50)].map((index) => (
+        [...Array(150)].map((index) => (
           <div key={index} className="snow" />
         ))
       )}
