@@ -15,5 +15,5 @@ document.addEventListener('DOMContentLoaded', () => {
         digit3Container.classList.add('bounce');
       }, 800);
     }, 800);
-  }, 2000);
+  }, 0);
 });

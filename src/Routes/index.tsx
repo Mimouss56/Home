@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Main from '../Pages/Main';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
@@ -9,6 +9,7 @@ import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
 import ProtectedRoute from '../components/ProtectedRoute';
+import NotFound from '../Pages/Error/404';
 
 function ListeRoute() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -17,6 +18,7 @@ function ListeRoute() {
 
   return (
     <Routes>
+
       <Route path="/" element={<Main />} />
       <Route path="cv" element={<ViewCVPage />} />
       <Route path="about" element={<ViewCVPage />} />
@@ -30,6 +32,8 @@ function ListeRoute() {
       {isAdmin && (<Route path="admin/*" element={(<RoutesAdmin />)} />)}
       {isAdmin && (<Route path="test" element={(<Test />)} />)}
       {isESA && (<Route path="ESA/*" element={(<RoutesESA />)} />)}
+      <Route path="*" element={<NotFound />} />
+
     </Routes>
 
   );

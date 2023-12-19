@@ -1,5 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
-import NotFound from '../Pages/Error/404';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Construct from '../Pages/UnderContruct';
 import PresenceCantine from '../Pages/Admin/ESA/cantine';
 import ListStudents from '../Pages/Admin/ESA/children';
@@ -14,7 +13,7 @@ function RoutesESA() {
         <Route path="garderie" element={<Construct />} />
         <Route path="activity" element={<Construct />} />
         <Route path="students" element={<ListStudents />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="../Pages/Error/404.html" />} />
       </Routes>
     </section>
   );

@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import User from '../Pages/Admin/Home/Users';
 import News from '../Pages/Admin/Home/News';
-import NotFound from '../Pages/Error/404';
 import Options from '../Pages/Admin/Home/Options';
+import NotFound from '../Pages/Error/404';
 
 function RoutesAdmin() {
   return (

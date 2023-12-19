@@ -1,8 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Section from '../components/Mouss/section';
 import Kanban from '../Pages/Kanban';
 import Setting from '../Pages/Dashboard';
-import NotFound from '../Pages/Error/404';
 import RenderCv from '../Pages/CV/rendercv';
 
 function Dashboard() {
@@ -13,7 +12,7 @@ function Dashboard() {
       <Route path="school" element={<Section title="Formation" type="school" />} />
       <Route path="kanban" element={<Kanban />} />
       <Route path="rendercv" element={<RenderCv />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<Navigate to="../Pages/Error/404.html" />} />
 
     </Routes>
   );

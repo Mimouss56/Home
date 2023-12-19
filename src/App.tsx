@@ -44,18 +44,16 @@ function App() {
   const currentMenu = shouldShowAdminMenu ? menuAdmin : menuESA;
   return (
     <>
-
-      {new Date().getMonth() === 11 && (
-        [...Array(150)].map((index) => (
-          <div key={index} className="snow" />
-        ))
-      )}
-
       <ToastContainer
         position="top-left"
         autoClose={5000}
         theme="dark"
       />
+      {new Date().getMonth() === 11 && (
+        [...Array(150)].map((index) => (
+          <div key={index} className="snow" />
+        ))
+      )}
 
       <Login />
       <Register />
