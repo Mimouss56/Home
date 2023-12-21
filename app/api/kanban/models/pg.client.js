@@ -12,7 +12,7 @@ const client = new Client({
 
 try {
   client.connect();
-  logger.log('✅ CONNECTE A LA DB KANBAN');
+  if (process.env.NODE_ENV === 'dev') logger.log('✅ CONNECTÉ À LA DB KANBAN');
 } catch (error) {
   logger.log('❌ ERREUR DE CONNECTION A LA DB', error);
 }

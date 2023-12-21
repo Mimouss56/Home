@@ -6,6 +6,6 @@ module.exports = {
   once: true,
   execute(client) {
     client.user.setActivity(textActivity, { type: ActivityType.Playing });
-    console.log(`Ready! Logged in as ${client.user.tag}`);
+    if (process.env.NODE_ENV === 'dev') console.log(`Ready! Logged in as ${client.user.tag}`);
   },
 };

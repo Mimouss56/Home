@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect()
   .then(() => {
-    logger.log('✅ CONNECTÉ À LA DB ESA');
+    if (process.env.NODE_ENV === 'dev') logger.log('✅ CONNECTÉ À LA DB ESA');
   })
   .catch((error) => {
     logger.log('❌ ERREUR DE CONNEXION À LA DB ESA', error);
