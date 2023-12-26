@@ -3,8 +3,6 @@ const express = require('express');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 const expressSession = require('express-session');
 const options = require('./swagger/option');
-// const optionsHome = require('./swagger/home.swagger');
-// const optionsOside = require('./swagger/oside.swagger');
 
 require('dotenv').config();
 
@@ -37,6 +35,7 @@ app.use((req, res, next) => {
 
   // Decodage des request.body
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
   // Chargement des fichiers 'Médias'
   app.use(express.static(path.join(__dirname, '../public')));

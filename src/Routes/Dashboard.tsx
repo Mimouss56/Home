@@ -3,6 +3,8 @@ import Section from '../components/Mouss/section';
 import Kanban from '../Pages/Kanban';
 import Setting from '../Pages/Dashboard';
 import RenderCv from '../Pages/CV/rendercv';
+import NotFound from '../Pages/Error/404';
+import Portfolio from '../Pages/Portfolio';
 
 function Dashboard() {
   return (
@@ -12,7 +14,8 @@ function Dashboard() {
       <Route path="school" element={<Section title="Formation" type="school" />} />
       <Route path="kanban" element={<Kanban />} />
       <Route path="rendercv" element={<RenderCv />} />
-      <Route path="*" element={<Navigate to="../Pages/Error/404.html" />} />
+      <Route path="portfolio" element={<Portfolio />} />
+      <Route path="*" element={<NotFound />} />
 
     </Routes>
   );

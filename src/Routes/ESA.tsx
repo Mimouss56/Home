@@ -3,6 +3,7 @@ import Construct from '../Pages/UnderContruct';
 import PresenceCantine from '../Pages/Admin/ESA/cantine';
 import ListStudents from '../Pages/Admin/ESA/children';
 import ESA from '../Pages/Admin/ESA';
+import NotFound from '../Pages/Error/404';
 
 function RoutesESA() {
   return (
@@ -13,7 +14,7 @@ function RoutesESA() {
         <Route path="garderie" element={<Construct />} />
         <Route path="activity" element={<Construct />} />
         <Route path="students" element={<ListStudents />} />
-        <Route path="*" element={<Navigate to="../Pages/Error/404.html" />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </section>
   );

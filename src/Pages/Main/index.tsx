@@ -5,28 +5,86 @@ import { ICardNews } from '../../@types/Home/card';
 import { INews } from '../../@types/Home/news';
 import WindguruWidget from '../Modules/Windguru';
 import TideWidget from '../Modules/TideWidget';
+import ICardPortfolio from '../../@types/portfolio';
 
 function Main() {
   // fetch data from api
   const [listNews, setListNews] = useState([]);
+  const [listPortfolio, setListPortfolio] = useState([]);
+
   const fetchData = async () => {
     const result = await axiosInstance('/home/news');
     result.data = result.data.filter((news: INews) => news.draft === false);
+    result.data.sort(
+      (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
+    );
     setListNews(result.data);
+    const resultPortfolio = await axiosInstance('/home/portfolio');
+    setListPortfolio(resultPortfolio.data);
   };
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
-    <div className="d-flex">
-      <div className="col-9">
+    <div className="d-flex w-75 mx-auto">
+      <div className="w-75 mx-5">
         {/* Section Héros/Bannière */}
         <section className="hero-section">
           <h1>Bienvenue sur Mimouss Home</h1>
-          <p>Explorons ensemble les dernières actualités et bien plus encore.</p>
+          <p>
+            {`
+            Fort d'une formation intensive de 6 mois chez O'clock,
+            axée sur le développement fullstack JS avec une spécialisation en API et DATA, j'ai acquis des compétences approfondies dans le domaine. 
+            Mon parcours éclectique, ponctué d'expériences variées, reflète ma passion pour la technologie et ma capacité à m'adapter rapidement.
+            Aujourd'hui, je suis prêt à relever de nouveaux défis et à apporter ma créativité dans le monde du développement logiciel.`}
+
+          </p>
+        </section>
+        {/* Section Portfolio/Projets */}
+        <section className="portfolio-section my-5">
+          <h2>Portfolio</h2>
+          {/* Ajoute ici des composants ou des liens vers tes projets */}
+          <div className="d-flex flex-wrap justify-content-evenly">
+
+            {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
+              <article
+                className="card m-2 border-0"
+                key={item.id}
+              >
+                <a href={item.urlSite || '#'} target="_blank" rel="noreferrer" className="text-decoration-none text-reset">
+                  <div className="face face1">
+                    <div className="bonnet" />
+                    <div className="content">
+                      {item.urlImg && (
+                        <img src={`../../images/${item.urlImg}`} alt={item.nameSite} />
+                      )}
+                    </div>
+                  </div>
+                  <div className="face face2">
+                    <div className="card-body">
+                      <h5 className="card-title">
+                        <p className="text-decoration-none">
+                          {item.description}
+                        </p>
+                      </h5>
+                    </div>
+
+                  </div>
+                </a>
+              </article>
+            ))}
+
+          </div>
+
         </section>
 
+        {/* Section Compétences */}
+        {/* <section className="skills-section my-5">
+          <h2>Mes Compétences</h2>
+        </section> */}
+      </div>
+      <div className="w-25">
         {/* Section Actualités */}
         <section className="news-section my-5">
           <h2>Actualités</h2>
@@ -40,31 +98,6 @@ function Main() {
           </div>
         </section>
 
-        {/* Section Portfolio/Projets */}
-        <section className="portfolio-section my-5">
-          <h2>Portfolio</h2>
-          {/* Ajoute ici des composants ou des liens vers tes projets */}
-        </section>
-
-        {/* Section Compétences */}
-        <section className="skills-section my-5">
-          <h2>Mes Compétences</h2>
-          {/* Ajoute ici des balises ou des icônes représentant tes compétences */}
-        </section>
-      </div>
-
-      <div className="col-3 d-flex flex-column border">
-        {/* Section Widget Météo */}
-        <section className="widget-section my-5">
-          <h2>Prévisions Météo</h2>
-          <WindguruWidget />
-        </section>
-
-        {/* Section Widget Marées */}
-        <section className="widget-section my-5">
-          <h2>Marées</h2>
-          <TideWidget />
-        </section>
       </div>
     </div>
   );

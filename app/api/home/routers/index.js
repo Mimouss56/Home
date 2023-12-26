@@ -8,6 +8,9 @@ router.post('/register', loginController.register);
 router.use('/job', require('./job.router'));
 router.use('/news', require('./news.router'));
 router.use('/role', require('./role.router'));
+router.use('/portfolio', require('./portfolio.router'));
+router.use('/upload', require('./upload.router'));
+
 router.use('/sanction', loggedAs, require('./sanction.router'));
 router.use('/skill', require('./skill.router'));
 router.use('/user', require('./user.router'));

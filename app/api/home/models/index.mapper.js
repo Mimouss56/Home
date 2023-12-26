@@ -9,6 +9,7 @@ const Skill = require('./skill.mapper');
 const News = require('./news.mapper');
 const Option = require('./option.mapper');
 const UserOption = require('./userOption.mapper');
+const Portfolio = require('./portfolio.mapper');
 
 module.exports = {
   job: new Job(client),
@@ -20,4 +21,5 @@ module.exports = {
   skill: new Skill(client),
   news: new News(client),
   option: new Option(client),
+  portfolio: new Portfolio(client),
 };

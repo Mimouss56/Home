@@ -8,10 +8,8 @@ interface CardProps {
 function Card({ children }: CardProps) {
   return (
     <div
-      className="card m-auto shadow-sm p-3 mb-2 bg-white rounded"
-      style={{ width: '100%' }}
+      className="card shadow-sm p-1 bg-white rounded w-100 mb-2"
     >
-      <div className="bonnet" />
       <div className="card-body">
         <div className="card-text">{children}</div>
       </div>

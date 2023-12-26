@@ -7,21 +7,21 @@
     "component": "Dashboard"
   },
   {
-    "id": 1,
+    "id": 2,
     "title": "Garderie",
     "link": "/ESA/garderie",
     "icon": "book-half",
     "component": "Dashboard"
   },
   {
-    "id": 1,
+    "id": 3,
     "title": "Activité",
     "link": "/ESA/activity",
     "icon": "puzzle",
     "component": "Dashboard"
   },
   {
-    "id": 1,
+    "id": 4,
     "title": "Elèves",
     "link": "/ESA/students",
     "icon": "person-lines-fill",

@@ -84,28 +84,6 @@ body.modal-open {
   /* Empêche le défilement lorsque la modal est ouverte */
 }
 
-@media print {
-
-  header,
-  footer,
-  aside,
-  nav {
-    display: none;
-  }
-
-  main {
-    width: 100%;
-    margin: 0;
-  }
-
-  #title_contact {
-    background-color: #eba422 !important;
-    margin-bottom: 0;
-    color: white !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-}
 
 @media screen and (max-width: 768px) {
   .navbar-brand {
