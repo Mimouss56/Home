@@ -6,7 +6,7 @@ type FileUploaderProps = {
 };
 
 function FileUploader({ submit, img = '' }: FileUploaderProps) {
-  const [file, setFile] = useState<File | undefined>();
+  const [, setFile] = useState<File | undefined>();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const element = e.target as HTMLInputElement;

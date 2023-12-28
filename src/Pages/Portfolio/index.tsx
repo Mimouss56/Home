@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { url } from 'inspector';
 import ICardPortfolio from '../../@types/portfolio';
 import axiosInstance from '../../utils/axios';
 import ModalAddFolio from '../../components/Modal/formPortfolio';
