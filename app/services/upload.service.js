@@ -10,13 +10,13 @@ module.exports = {
     const day = date.getDate();
     const appDir = path.dirname(require.main.filename);
 
-    const movedPath = `${appDir}\\app\\public\\images\\${year}\\${month}\\${day}`;
+    const movedPath = `${appDir}/app/public/images/${year}/${month}/${day}`;
     // on créee le dossier images s'il n'existe pas en fonction de la date du jour
     if (!fs.existsSync(movedPath)) {
       fs.mkdirSync(movedPath, { recursive: true });
     }
     // on déplace le fichier dans le dossier images
-    fs.rename(inputQuery.path, `${movedPath}\\${inputQuery.originalname.replace(/ /g, '_')}`, (err) => {
+    fs.rename(inputQuery.path, `${movedPath}/${inputQuery.originalname.replace(/ /g, '_')}`, (err) => {
       if (err) throw err;
       return {
         code: 501,
