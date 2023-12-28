@@ -18,8 +18,6 @@ function FloatCard({
     }
   }, [urlImg]);
 
-  console.log(urlImgState);
-
   return (
     <article className="card m-2 border-0">
       <div className="face face1">

@@ -39,7 +39,7 @@ function Portfolio() {
               <div className="bonnet" />
               <div className="content">
                 {item.urlImg && (
-                  <img src={`../../images/${item.urlImg}`} alt={item.nameSite} />
+                  <img src={`https://www.mimouss.fr/images/${item.urlImg}`} alt={item.nameSite} />
                 )}
               </div>
               {user && user.username === 'Mouss' && (

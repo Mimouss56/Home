@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { url } from 'inspector';
 import axiosInstance from '../../utils/axios';
 import ICardPortfolio from '../../@types/portfolio';
 import FileUploader from '../fileUploader';
@@ -111,6 +112,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
     try {
       const response = await axiosInstance.delete(`/home/portfolio/${id}`);
       toast.success(response.data.message);
+      onAddElement(response.data);
     } catch (err) {
       const error = err as Error;
       toast.warning(error.message || 'Une erreur s\'est produite lors de la suppression.');
@@ -141,6 +143,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
           <div className="modal-content">
             <div className="modal-header">
               <h2>Ajouter un élément</h2>
+
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
             <div className="modal-body">
@@ -175,20 +178,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">
-                  https://
-                </span>
-                <input
-                  className="form-control"
-                  placeholder="Url de l'image"
-                  aria-label="Url de l'image"
-                  aria-describedby="basic-addon1"
-                  name="urlImg"
-                  value={formData?.urlImg || ''}
-                />
-              </div>
-              <FileUploader submit={handleFileSelect} />
+              <FileUploader submit={handleFileSelect} img={formData.urlImg} />
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   https://
@@ -198,8 +188,9 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   placeholder="Url du site"
                   aria-label="Url du site"
                   aria-describedby="basic-addon1"
-                  name="url"
-                  value={formData?.urlSite || ''}
+                  name="urlSite"
+                  value={formData.urlSite}
+                  onChange={handleInputChange}
                 />
               </div>
 
