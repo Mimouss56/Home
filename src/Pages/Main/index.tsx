@@ -26,6 +26,8 @@ function Main() {
     fetchData();
   }, []);
 
+  console.log(listPortfolio);
+
   return (
     <div className="d-flex w-75 mx-auto">
       <div className="w-75 mx-5">
