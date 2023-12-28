@@ -10,7 +10,7 @@ module.exports = {
     const day = date.getDate();
     const appDir = path.dirname(require.main.filename);
 
-    const movedPath = `${appDir}\\src\\images\\${year}\\${month}\\${day}`;
+    const movedPath = `${appDir}\\src\\assets\\images\\${year}\\${month}\\${day}`;
     // on créee le dossier images s'il n'existe pas en fonction de la date du jour
     if (!fs.existsSync(movedPath)) {
       fs.mkdirSync(movedPath, { recursive: true });
