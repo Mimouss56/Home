@@ -16,14 +16,14 @@ module.exports = {
       fs.mkdirSync(movedPath, { recursive: true });
     }
     // on déplace le fichier dans le dossier images
-    fs.rename(inputQuery.path, `${movedPath}\\${inputQuery.originalname}`, (err) => {
+    fs.rename(inputQuery.path, `${movedPath}\\${inputQuery.originalname.replace(/ /g, '_')}`, (err) => {
       if (err) throw err;
       return {
         code: 501,
         message: 'file not moved',
       };
     });
-    const returnPath = `${year}/${month}/${day}/${inputQuery.originalname}`;
+    const returnPath = `${year}/${month}/${day}/${inputQuery.originalname.replace(/ /g, '_')}`;
     // on retourne le chemin du fichier
     return returnPath;
   },

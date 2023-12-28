@@ -12,13 +12,13 @@ function Job({ jobs }: JobProps) {
         jobs.map((job: IJob) => (
           <FloatCard
             key={job.id}
-            ent={job.ent}
+            id={job.id}
             title={job.title}
             desc={job.description}
-            url_img={job.urlImg}
+            urlImg={job.urlImg}
+            alt={job.ent}
             date={job.date}
             competences={job.competences || []}
-            id={job.id}
           />
         ))
       }

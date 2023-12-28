@@ -1,34 +1,26 @@
-import dayjs from 'dayjs';
-import { ICard } from '../../@types/Home/card';
 import './style.scss';
-
-dayjs().format();
+import { useEffect, useState } from 'react';
+import { ICard } from '../../@types/Home/card';
+import { textFormatDuration } from '../../utils/main';
 
 function FloatCard({
-  url_img, title, desc, date, competences, ent, id,
+  urlImg, title, desc, date, competences, alt, id,
 }: ICard) {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
-  const textFormatDuration = (dateObject: { debut: string, fin: string }) => {
-    const test = dayjs(dateObject.fin).diff(dayjs(dateObject.debut), 'month', true);
-    const years = Math.floor(test / 12);
-    const months = Math.floor(test % 12);
-    const duration = test > 12 ? `${years} ans et ${months} mois` : `${months} mois`;
-    return duration;
-  };
+  // on check si l'url de l'image est local ou externe
+  const [urlImgState, setUrlImgState] = useState('');
+  useEffect(() => {
+    if (urlImg && urlImg.includes('http')) {
+      setUrlImgState(urlImg);
+    } else if (urlImg) {
+      setUrlImgState(`https://www.mimouss.fr/images/${urlImg}`);
+    }
+  }, [urlImg]);
 
   return (
     <article className="card m-2 border-0">
       <div className="face face1">
-        <div className="bonnet" />
-        <div className="content">
-          <img src={url_img} alt={ent} />
-        </div>
-        <div className="d-flex flex-wrap justify-content-evenly fixed-bottom">
-          {competences.map((competence: string) => (
-            <span key={competence} className="badge text-bg-light rounded-pill m-1">{competence}</span>
-          ))}
-        </div>
         {user && user.username === 'Mouss' && (
           <button
             type="button"
@@ -38,19 +30,35 @@ function FloatCard({
             data-bs-id={id}
             data-bs-edit="true"
           />
-
         )}
-
+        <div className="bonnet" />
+        <div className="content">
+          <img src={urlImgState} alt={alt} />
+        </div>
+        {competences && (
+          <div className="d-flex flex-wrap justify-content-evenly fixed-bottom">
+            {competences.map((competence: string) => (
+              <span key={competence} className="badge text-bg-light rounded-pill m-1">{competence}</span>
+            ))}
+          </div>
+        )}
       </div>
       <div className="face face2">
         <div className="card-body">
-          <h5 className="card-title">
-            <p>{title}</p>
-          </h5>
-          <div className="card-text">
-            <p>{textFormatDuration(date)}</p>
-            <p>{desc}</p>
-          </div>
+          {title && (
+            <h5 className="card-title">
+              <p>{title}</p>
+            </h5>
+          )}
+          {date && (
+            <div className="card-text">
+              {date && (
+                <p>{textFormatDuration(date)}</p>
+              )}
+            </div>
+          )}
+          <p>{desc}</p>
+
         </div>
 
       </div>

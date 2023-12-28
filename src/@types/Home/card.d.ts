@@ -2,15 +2,16 @@ import { Author } from './user';
 
 export interface ICard {
   id: number;
-  ent: string;
-  title: string;
+  title?: string | undefined;
   desc: string;
-  url_img: string;
-  date : {
+  urlSite? : string | undefined;
+  urlImg: string;
+  alt: string;
+  date ?: {
     debut : string;
     fin : string;
-  }
-  competences : string[];
+  } | undefined;
+  competences ?: string[] | undefined;
 }
 
 export interface ICardNews {

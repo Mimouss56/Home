@@ -6,6 +6,7 @@ import { INews } from '../../@types/Home/news';
 import WindguruWidget from '../Modules/Windguru';
 import TideWidget from '../Modules/TideWidget';
 import ICardPortfolio from '../../@types/portfolio';
+import FloatCard from '../../components/FloatCard';
 
 function Main() {
   // fetch data from api
@@ -25,8 +26,6 @@ function Main() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log(listPortfolio);
 
   return (
     <div className="d-flex w-75 mx-auto">
@@ -50,31 +49,14 @@ function Main() {
           <div className="d-flex flex-wrap justify-content-evenly">
 
             {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
-              <article
-                className="card m-2 border-0"
+              <FloatCard
                 key={item.id}
-              >
-                <a href={item.urlSite || '#'} target="_blank" rel="noreferrer" className="text-decoration-none text-reset">
-                  <div className="face face1">
-                    <div className="bonnet" />
-                    <div className="content">
-                      {item.urlImg && (
-                        <img src={`/assets/images/${item.urlImg}`} alt={item.nameSite} />
-                      )}
-                    </div>
-                  </div>
-                  <div className="face face2">
-                    <div className="card-body">
-                      <h5 className="card-title">
-                        <p className="text-decoration-none">
-                          {item.description}
-                        </p>
-                      </h5>
-                    </div>
-
-                  </div>
-                </a>
-              </article>
+                urlImg={item.urlImg}
+                desc={item.description}
+                alt={item.nameSite}
+                id={item.id}
+                urlSite={item.urlSite}
+              />
             ))}
 
           </div>

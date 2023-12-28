@@ -2,6 +2,6 @@ export default interface ICardPortfolio {
   id: number;
   nameSite: string;
   description: string;
-  urlImg: string | null;
+  urlImg: string;
   urlSite: string;
 }

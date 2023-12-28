@@ -3,62 +3,54 @@ const express = require('express');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 const expressSession = require('express-session');
 const options = require('./swagger/option');
-
 require('dotenv').config();
 
 const app = express();
 const router = require('./routers');
 
-// app.set('views', './app/views');
+// Middleware pour la gestion de sessions
+app.use(
+  expressSession({
+    resave: true,
+    saveUninitialized: true,
+    secret: process.env.CLIENT_SECRET,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60, // Une heure
+    },
+  }),
+);
 
-app.use(expressSession({
-  resave: true,
-  saveUninitialized: true,
-  secret: process.env.CLIENT_SECRET,
-  cookie: {
-    secure: false,
-    maxAge: (1000 * 60 * 60), // ça fait une heure
-  },
-}));
-// CORS
+// Middleware pour permettre les requêtes CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  // response to preflight request
+
+  // Réponse à une requête preflight
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
   } else {
     next();
   }
-
-  // Decodage des request.body
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  // Chargement des fichiers 'Médias'
-  app.use(express.static(path.join(__dirname, '../public')));
-
-  // app.use((req, res, next) => {
-  //   // const expressSwagger = expressJSDocSwagger(app);
-  //   const { query } = req;
-  //   const primaryName = query['urls.primaryName'];
-  //   // console.log(primaryName);
-  //   let newOptions;
-  //   if (primaryName === 'Oside') {
-  //     newOptions = { ...options, ...optionsOside };
-  //   } else if (primaryName === 'Home') {
-  //     newOptions = { ...options, ...optionsHome };
-  //   }
-  //   // expressSwagger(newOptions);
-  //   next();
-  // });
-  // Swagger
-  expressJSDocSwagger(app)(options);
-
-  // Chargement Router
-  app.use(router);
 });
-// Lancement serveur
+
+// Middleware pour le décodage des requêtes body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// // Middleware pour servir des fichiers statiques depuis le répertoire public
+const publicPath = path.join(__dirname, 'public');
+app.use(express.static(publicPath));
+
+// Middleware pour servir des fichiers statiques depuis le répertoire public du niveau supérieur
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Middleware pour Swagger
+expressJSDocSwagger(app)(options);
+
+// Middleware Router
+app.use(router);
+
 module.exports = app;

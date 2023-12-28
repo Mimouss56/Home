@@ -7,7 +7,6 @@ const router = express.Router();
 router.use('/api', require('./api.router'));
 
 router.get('/test', testController.renderTest);
-
 const publicPath = path.resolve(__dirname, '../../public');
 router.get('/*', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
