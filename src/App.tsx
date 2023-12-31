@@ -64,7 +64,7 @@ function App() {
 
         {/* Main Content */}
         <main
-          className={`col ${isAdmin ? 'col-10' : 'col-12'} p-3 w-100 mb-5`}
+          className={`col ${isAdmin ? 'col-10' : 'col-12'} p-3 w-100 mb-5 `}
           style={{ marginTop: 64 }}
         >
           {/* Aside Admin Menu */}

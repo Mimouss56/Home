@@ -12,6 +12,7 @@ export interface ICard {
     fin : string;
   } | undefined;
   competences ?: string[] | undefined;
+  target: string;
 }
 
 export interface ICardNews {

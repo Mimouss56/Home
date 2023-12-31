@@ -4,7 +4,7 @@ import { ICard } from '../../@types/Home/card';
 import { textFormatDuration } from '../../utils/main';
 
 function FloatCard({
-  urlImg, title, desc, date, competences, alt, id,
+  urlImg, title, desc, date, competences, alt, id, target,
 }: ICard) {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
@@ -17,7 +17,6 @@ function FloatCard({
       setUrlImgState(`https://www.mimouss.fr/images/${urlImg}`);
     }
   }, [urlImg]);
-
   return (
     <article className="card m-2 border-0">
       <div className="face face1">
@@ -26,7 +25,7 @@ function FloatCard({
             type="button"
             className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
             data-bs-toggle="modal"
-            data-bs-target="#addItem"
+            data-bs-target={target}
             data-bs-id={id}
             data-bs-edit="true"
           />

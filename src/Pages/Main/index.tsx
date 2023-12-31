@@ -28,8 +28,8 @@ function Main() {
   }, []);
 
   return (
-    <div className="d-flex w-75 mx-auto">
-      <div className="w-75 mx-5">
+    <div className="d-flex flex-column mx-xs-0 flex-lg-row">
+      <div className="w-lg-75 w-sm-100 mx-lg-5 mx-xs-0">
         {/* Section Héros/Bannière */}
         <section className="hero-section">
           <h1>Bienvenue sur Mimouss Home</h1>
@@ -56,6 +56,7 @@ function Main() {
                 alt={item.nameSite}
                 id={item.id}
                 urlSite={item.urlSite}
+                target="#addPortfolio"
               />
             ))}
 
@@ -68,7 +69,7 @@ function Main() {
           <h2>Mes Compétences</h2>
         </section> */}
       </div>
-      <div className="w-25">
+      <div className="w-lg-25">
         {/* Section Actualités */}
         <section className="news-section my-5">
           <h2>Actualités</h2>

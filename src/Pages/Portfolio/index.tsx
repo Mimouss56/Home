@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ICardPortfolio from '../../@types/portfolio';
 import axiosInstance from '../../utils/axios';
 import ModalAddFolio from '../../components/Modal/formPortfolio';
+import FloatCard from '../../components/FloatCard';
 
 function Portfolio() {
   const [listPortfolio, setListPortfolio] = useState([]);
@@ -29,6 +30,17 @@ function Portfolio() {
       </button>
       <ModalAddFolio onAddElement={fetchData} />
       <section className="d-flex w-100 flex-wrap flex-row justify-content-evenly ">
+        {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
+          <FloatCard
+            key={item.id}
+            urlImg={item.urlImg}
+            desc={item.description}
+            alt={item.nameSite}
+            id={item.id}
+            urlSite={item.urlSite}
+            target="#addPortfolio"
+          />
+        ))}
         {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
           <article
             className="card m-2 border-0"
