@@ -3,9 +3,8 @@ const registerService = require('../services/register.service');
 
 module.exports = {
   async login(req, res) {
-    let data;
     const { email, password } = req.body;
-    data = await loginService.login(email, password);
+    const data = await loginService.login(email, password);
 
     if (data.code) return res.status(data.code).json(data.message);
     return res.json(data);
@@ -25,4 +24,4 @@ module.exports = {
     if (data.code) return res.status(data.code).json(data.message);
     return res.json(data);
   },
-}
+};

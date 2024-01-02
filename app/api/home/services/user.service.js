@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
+const { upload } = require('../../../models/index.mapper');
 const roleService = require('./role.service');
 const jobService = require('./job.service');
 const schoolService = require('./school.service');
@@ -30,6 +31,7 @@ module.exports = {
       userByID.job = await jobService.getAllByUser(userByID.id);
       userByID.school = await schoolService.getAllByUser(userByID.id);
     }
+    userByID.avatar = await upload.findByPk(userByID.avatar);
 
     delete userByID.password;
     delete userByID.id_role;

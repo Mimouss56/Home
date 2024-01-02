@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import useImageUpload from '../../hook/utils/useImageUpload';
 
 type FileUploaderProps = {
   submit: (file: File | undefined) => void;
@@ -6,16 +6,13 @@ type FileUploaderProps = {
 };
 
 function FileUploader({ submit, img = '' }: FileUploaderProps) {
-  const [, setFile] = useState<File | undefined>();
+  const {
+    imageFile, handleUpload,
+  } = useImageUpload();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = e.target as HTMLInputElement;
-    const files = element.files as FileList;
-    const selectedFile = files ? files[0] : undefined;
-    setFile(selectedFile);
-
-    // Appeler la fonction submit pour transmettre le fichier à l'extérieur
-    submit(selectedFile);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const urlImage = await handleUpload(e);
+    submit(urlImage);
   };
   const styleRound: React.CSSProperties = {
     position: 'absolute',
@@ -38,6 +35,8 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
     opacity: '0',
     transform: 'scale(2)',
   };
+
+  console.log('imageFile', imageFile);
 
   return (
     <div className="position-relative align-content-center d-flex justify-content-center mb-3">
