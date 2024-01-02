@@ -73,25 +73,22 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { id, ...inputData } = formData;
 
-    if (!imageFile) {
-      toast.warning('Veuillez sélectionner une image.');
-      return;
-    }
-
-    try {
+    if (imageFile) {
       const imageUrl = await handleUpload(imageFile);
 
       if (!imageUrl) {
         return;
       }
+      inputData.urlImg = imageUrl;
+    }
 
-      const { id, ...inputData } = formData;
+    try {
       const endpoint = id !== 0 ? `/home/portfolio/${formData.id}` : '/home/portfolio';
       const method = id !== 0 ? axiosInstance.put : axiosInstance.post;
 
       // Intégrer l'URL de l'image dans l'inputData
-      inputData.urlImg = imageUrl;
 
       const response = await method(endpoint, inputData);
 

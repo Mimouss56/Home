@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Main from '../Pages/Main';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';

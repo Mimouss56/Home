@@ -3,10 +3,9 @@ import Card from '../../components/Card';
 import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/Home/card';
 import { INews } from '../../@types/Home/news';
-import WindguruWidget from '../Modules/Windguru';
-import TideWidget from '../Modules/TideWidget';
 import ICardPortfolio from '../../@types/portfolio';
 import FloatCard from '../../components/FloatCard';
+import ModalAddFolio from '../../components/Modal/formPortfolio';
 
 function Main() {
   // fetch data from api
@@ -47,6 +46,7 @@ function Main() {
           <h2>Portfolio</h2>
           {/* Ajoute ici des composants ou des liens vers tes projets */}
           <div className="d-flex flex-wrap justify-content-evenly">
+            <ModalAddFolio onAddElement={fetchData} />
 
             {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
               <FloatCard
@@ -56,7 +56,7 @@ function Main() {
                 alt={item.nameSite}
                 id={item.id}
                 urlSite={item.urlSite}
-                target="#addPortfolio"
+                target="addPortfolio"
               />
             ))}
 

@@ -19,6 +19,7 @@ function Portfolio() {
 
   return (
     <div>
+      <ModalAddFolio onAddElement={fetchData} />
       <h1>Portfolio</h1>
       <button
         type="button"
@@ -28,7 +29,6 @@ function Portfolio() {
       >
         Ajout d&apos;un item
       </button>
-      <ModalAddFolio onAddElement={fetchData} />
       <section className="d-flex w-100 flex-wrap flex-row justify-content-evenly ">
         {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
           <FloatCard
@@ -38,7 +38,7 @@ function Portfolio() {
             alt={item.nameSite}
             id={item.id}
             urlSite={item.urlSite}
-            target="#addPortfolio"
+            target="addPortfolio"
           />
         ))}
         {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (

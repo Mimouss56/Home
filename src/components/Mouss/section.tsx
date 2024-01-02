@@ -35,6 +35,7 @@ function Section({ title, type }: SectionProps) {
         data-bs-toggle="modal"
         data-bs-target="#addItem"
         data-bs-type={type}
+        data-bs-id={0}
       >
         Ajout d&apos;un item
       </button>

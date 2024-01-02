@@ -25,7 +25,7 @@ function FloatCard({
             type="button"
             className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
             data-bs-toggle="modal"
-            data-bs-target={target}
+            data-bs-target={`#${target}`}
             data-bs-id={id}
             data-bs-edit="true"
           />

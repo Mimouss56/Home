@@ -1,5 +1,5 @@
 import {
-  FormEvent, useState,
+  FormEvent, useEffect, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
@@ -11,20 +11,23 @@ interface ModalAddItemProps {
   onAddElement: (data: Job, type: string) => void;
 }
 
+const initFormData = {
+  type: 'job',
+  ent: '',
+  title: '',
+  ville: '',
+  departement: '',
+  debut: '',
+  fin: '',
+  description: '',
+  urlImg: '',
+  id: 0,
+};
+
 function ModalAddItem({ onAddElement }: ModalAddItemProps) {
-  const [formData, setFormData] = useState({
-    type: 'job',
-    ent: '',
-    title: '',
-    ville: '',
-    departement: '',
-    debut: '',
-    fin: '',
-    description: '',
-    urlImg: '',
-  });
+  const [formData, setFormData] = useState(initFormData);
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
-  const [IdJob, setIdJob] = useState<number>(0);
+  // const [IdJob, setIdJob] = useState<number>(0);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -48,10 +51,16 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       toast.warning(error.message);
     }
   };
+
   const handleSkillSelected = (skill: ISkill) => {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
+
   const fetchJobData = async (id: number) => {
+    if (id === 0) {
+      setFormData(initFormData);
+      return;
+    }
     try {
       const response = await axiosInstance.get(`/home/job/${id}`);
       const jobData = response.data;
@@ -66,6 +75,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         fin: jobData.date.fin || '',
         description: jobData.description || '',
         urlImg: jobData.urlImg || '',
+        id,
       });
 
       // Assurez-vous de charger les compétences sélectionnées si nécessaire
@@ -75,20 +85,20 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     }
   };
 
-  const addItemModal = document.getElementById('addItem');
+  useEffect(() => {
+    const addItemModal = document.getElementById('addItem');
 
-  if (addItemModal) {
-    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-      // Button that triggered the modal
-      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-      const button = relatedTarget as HTMLButtonElement;
-      // Extract info from data-bs-* attributes
-      const id = button.getAttribute('data-bs-id') as string;
-      setIdJob(parseInt(id, 10));
-      fetchJobData(parseInt(id, 10));
-    });
-  }
-
+    if (addItemModal) {
+      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+        // Button that triggered the modal
+        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+        const button = relatedTarget as HTMLButtonElement;
+        // Extract info from data-bs-* attributes
+        const id = button.getAttribute('data-bs-id') as string;
+        fetchJobData(parseInt(id, 10));
+      });
+    }
+  }, []);
   return (
     <form onSubmit={handleSave}>
       <div
@@ -98,7 +108,6 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              {IdJob}
               <div className="input-group">
                 <span className="input-group-text" id="basic-addon1">Ajouter un </span>
                 <select

@@ -9,9 +9,9 @@ import axiosInstance from '../../utils/axios';
 import Selected from './Select';
 import { IEmploi } from '../../@types/Home/emploi';
 import ExportPDF from '../../components/Cv/PDF/template';
-import Job from '../../components/Job';
 import ModalAddItem from '../../components/Modal/formJob';
 import { titleSection } from '../../components/Cv/Styles/title';
+import Job from '../../components/Job';
 
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
@@ -87,9 +87,9 @@ function ViewCVPage() {
           </PDFDownloadLink>
         )}
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Expériences</h2>
-        <Job jobs={filteredJob} />
+        <Job jobs={filteredJob} target="#addItem" />
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Formations</h2>
-        <Job jobs={listSchool} />
+        <Job jobs={listSchool} target="#addItem" />
       </div>
     </>
   );

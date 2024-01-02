@@ -19,6 +19,7 @@ function Job({ jobs }: JobProps) {
             alt={job.ent}
             date={job.date}
             competences={job.competences || []}
+            target="addItem"
           />
         ))
       }
