@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useImageUpload from '../../hook/utils/useImageUpload';
 
 type FileUploaderProps = {
@@ -10,6 +11,8 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
     imageFile, handleUpload,
   } = useImageUpload();
 
+  const [isHover, setIsHover] = useState(false);
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const urlImage = await handleUpload(e);
     submit(urlImage);
@@ -19,12 +22,13 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
     bottom: '0',
     width: '200px',
     height: '50px',
-    backgroundColor: '#00B4FF',
+    backgroundColor: isHover ? '#00B4FF' : 'rgb(255, 255, 255, 0.2)',
     opacity: 0.8,
     overflow: 'hidden',
     lineHeight: '50px',
     textAlign: 'center',
     cursor: 'pointer',
+    transition: 'all 0.8s ease',
   };
   const styleInput: React.CSSProperties = {
     position: 'absolute',
@@ -36,14 +40,16 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
     transform: 'scale(2)',
   };
 
-  console.log('imageFile', imageFile);
-
   return (
     <div className="position-relative align-content-center d-flex justify-content-center mb-3">
       {img && (
         <>
           <img src={`https://www.mimouss.fr/images/${img}`} alt={img} width={200} className="" />
-          <div style={styleRound}>
+          <div
+            style={styleRound}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
             <input
               type="file"
               name="file"

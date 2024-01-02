@@ -12,6 +12,7 @@ interface NavbarProp {
 function Navbar({ navContent }: NavbarProp) {
   const sessionToken = sessionStorage.getItem('sessionToken') as string;
   const userInfo = JSON.parse(sessionStorage.getItem('user') as string) as User;
+  const avatar = `https://www.mimouss.fr/images/${userInfo?.avatar.path}` || 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg';
 
   return (
     <header>
@@ -36,8 +37,8 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-target="#aside"
                 >
                   <img
-                    src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg"
-                    alt="mdo"
+                    src={avatar}
+                    alt="avatar"
                     className="rounded-circle"
                     width="32"
                     height="32"

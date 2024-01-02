@@ -9,12 +9,18 @@ export interface User {
   job?: Job[]
   school?: Job[]
   last_visited: string
+  avatar: Avatar
 }
 
 export interface Role {
   id: number
   label: string
   color?: string
+}
+export interface Avatar {
+  id: number
+  name: string
+  path: string
 }
 
 export interface Author {

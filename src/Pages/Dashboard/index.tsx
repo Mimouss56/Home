@@ -73,7 +73,7 @@ export default function UserSettingsPage() {
           <div className="card border-white">
             <div className="card-body">
               <h4 className="card-title text-white">Informations personnelles</h4>
-              <FileUploader submit={() => handleUpload} img={user.avatar || ''} />
+              <FileUploader submit={() => handleUpload} img={user.avatar.path || ''} />
 
               <ul className="list-group list-group-flush">
                 <li className="list-group-item border-bottom border-white">
