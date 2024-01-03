@@ -60,32 +60,47 @@ module.exports = {
     delete inputData.password;
     delete inputData.passwordConfirm;
     const userByID = await user.findByPk(id);
-    // // Check if email not already exist in database
-    // const emailExist = await user.findOne({ where: { email: inputData.email } });
-    // if (emailExist && emailExist.id !== userByID.id) {
-    //   return { code: 409, message: 'Email already exist' };
-    // }
-    // // check if password exist in object
-    // if (inputQuery.password !== undefined) {
-    //   // check if password and passwordConfirm are the same
-    //   if (inputQuery.password && inputQuery.password !== inputQuery.passwordConfirm) {
-    //     return ({
-    //       code: 409,
-    //       message: 'Le mot de passe et la confirmation doivent être identique',
-    //     });
-    //   }
+    // Check if email not already exist in database
 
-    //   // check if password and old password are the same
-    //   if (bcrypt.compareSync(inputQuery.password, userByID.password)) {
-    //     return ({
-    //       code: 409,
-    //       message: 'Le nouveau mot de passe doit être différent de l\'ancien',
-    //     });
-    //   }
-    //   inputData.password = bcrypt.hash(inputQuery.password, 10);
-    // }
+    const emailExist = await user.findOne({ where: { email: inputData.email } });
+    if (emailExist && emailExist.id !== userByID.id) {
+      return { code: 409, message: 'Email already exist' };
+    }
+    // check if password exist in object
+    if (inputQuery.password !== undefined) {
+      // check if password and passwordConfirm are the same
+      if (inputQuery.password && inputQuery.password !== inputQuery.passwordConfirm) {
+        return ({
+          code: 409,
+          message: 'Le mot de passe et la confirmation doivent être identique',
+        });
+      }
+
+      // check if password and old password are the same
+      if (bcrypt.compareSync(inputQuery.password, userByID.password)) {
+        return ({
+          code: 409,
+          message: 'Le nouveau mot de passe doit être différent de l\'ancien',
+        });
+      }
+      inputData.password = bcrypt.hash(inputQuery.password, 10);
+    }
+
+    const inputOption = {
+      id_role: inputData.id_role,
+      child: inputData.child,
+      family: inputData.family,
+    };
+    const inputUser = {
+      last_name: inputData.last_name,
+      first_name: inputData.first_name,
+      email: inputData.email,
+      // password: inputData.password,
+    };
+
     try {
-      await user.updateOption(userByID.id, inputData);
+      await user.updateOption(userByID.id, inputOption);
+      await user.update(userByID.id, inputUser);
       return { message: 'Données mises à jour' };
     } catch (error) {
       return {

@@ -40,10 +40,6 @@ export default function List({ list, updateList }: ListTemplateProps) {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setNameList(event.target.value);
-  };
-
   const handleDeleteList = async () => {
     try {
       await axiosInstance.delete(`/kanban/lists/${list.id}`);
@@ -118,7 +114,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
                   className="form-control"
                   placeholder="Nom de la liste"
                   value={nameList}
-                  onChange={handleChange}
+                  onChange={(e) => setNameList(e.target.value)}
                   name="name"
                   size={nameList.length}
                 />

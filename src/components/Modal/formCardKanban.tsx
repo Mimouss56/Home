@@ -18,7 +18,6 @@ export default function ModalAddList({ updateCards }: ModalProps) {
         // Button that triggered the modal
         const button = (event as FocusEvent).relatedTarget;
         const isEdit = (button as Element).getAttribute('data-bs-edit');
-        console.log(isEdit);
 
         // Extract info from data-bs-* attributes
         if (button) {
@@ -54,14 +53,6 @@ export default function ModalAddList({ updateCards }: ModalProps) {
     // updateCards();
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setContent(event.target.value);
-  };
-
-  const handleChangeColor = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setColor(event.target.value);
-  };
-
   useEffect(
     handleFindListId,
     [],
@@ -89,7 +80,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
                     aria-label="Contenu de la carte"
                     aria-describedby="content-card"
                     value={content}
-                    onChange={handleChange}
+                    onChange={(event) => setContent(event.target.value)}
                     name="name-list"
                   />
                   {error && <div className="invalid-feedback">{error}</div>}
@@ -102,7 +93,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
                     value={color}
                     aria-label="couleur de la carte"
                     aria-describedby="color-card"
-                    onChange={handleChangeColor}
+                    onChange={(event) => setColor(event.target.value)}
                     name="name-list"
                     size={1}
                   />

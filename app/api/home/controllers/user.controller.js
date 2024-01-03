@@ -33,18 +33,25 @@ module.exports = {
   async put(req, res) {
     const { id } = req.params;
     const userInfo = await userService.getData(id);
-    const { role } = req.body;
+    const {
+      role, last_name: lastName, first_name: firstName, email, password, passwordConfirm,
+    } = req.body;
     const updatedFamily = Object.prototype.hasOwnProperty.call(req.body, 'family') ? req.body.family : userInfo.family;
     const updatedChild = Object.prototype.hasOwnProperty.call(req.body, 'child') ? req.body.child : userInfo.child;
     const inputData = {
       id_role: Number(role) || Number(userInfo.role.id),
       family: updatedFamily,
       child: updatedChild,
+      last_name: lastName || userInfo.lastName,
+      first_name: firstName || userInfo.firstName,
+      email: email || userInfo.email,
+      password,
+      passwordConfirm,
     };
     const data = await userService.update(id, inputData);
     if (data.code) {
       return res.status(data.code).json(
-        { message: data.message, error: data.error.toString() },
+        { message: data.message, error: data.error },
       );
     }
 

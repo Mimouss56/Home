@@ -22,11 +22,7 @@ function Register() {
     };
 
     try {
-      setLoading(true);
       setError(false);
-      setErrorMessage('');
-      setSuccess(false);
-
       const res = await axiosInstance.post('/home/register', dataInput);
       toast.info(`${res.data.message}, Merci de vous reconnecter !`);
 
@@ -124,10 +120,11 @@ function Register() {
               Login
             </button>
             <button
-              type="button"
+              type="submit"
               className="btn btn-primary"
-              onClick={handleSubmit}
+              // onClick={handleSubmit}
               disabled={loading}
+              onSubmit={(e) => handleSubmit}
             >
               Sign in
             </button>

@@ -1,94 +1,161 @@
 import {
-  useEffect, useMemo, useState,
+  useEffect, useState,
 } from 'react';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 import FileUploader from '../../components/fileUploader';
 import useImageUpload from '../../hook/utils/useImageUpload';
+import useCheckPassword from '../../hook/utils/usePasswordCheck';
+import axiosInstance from '../../utils/axios';
+import { ErrorAxios } from '../../@types/error';
+
+interface IDataInput {
+  last_name: string;
+  first_name: string;
+  email: string;
+  password?: string;
+  passwordConfirm?: string;
+}
 
 export default function UserSettingsPage() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [editName, setEditName] = useState(false);
+  const [editEmail, setEditEmail] = useState(false);
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
   const {
     imageFile, setImageFile, handleUpload, resetImageUpload,
   } = useImageUpload();
 
+  const {
+    password, confirmPassword, setPassword, setConfirmPassword, checkPassword, error, errorMessage,
+  } = useCheckPassword();
+
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-  const regex = useMemo(() => /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/, []);
 
-  const checkPassword = () => {
-    if (password !== confirmPassword) {
-      setError(true);
-      setErrorMessage('Les mots de passe ne correspondent pas');
-      // regex pour vérifier la complexité du mot de passe
-    } else {
-      if (!regex.test(password)) {
-        setError(true);
-        setErrorMessage('Minimum 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial');
-        return;
-      }
-
-      setError(false);
-      setErrorMessage('');
-    }
-  };
-
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    const dataInput: IDataInput = {
+      last_name: lastName || user.last_name,
+      first_name: firstName || user.first_name,
+      email: email || user.email,
+    };
+    // injecter password et passwordConfirm si ils sont remplis
+    if (password && confirmPassword && password === confirmPassword) {
+      dataInput.password = password;
+      dataInput.passwordConfirm = confirmPassword;
+    }
+    // on update les infos du user par la route /user/:id
+    try {
+      const response = await axiosInstance.put(`/home/user/${user.id}`, dataInput);
+      toast.info(response.data.message);
+      // on mets à, jour le user dans le sessionStorage
+      const newUser = {
+        ...user,
+        ...dataInput,
+      };
+      sessionStorage.setItem('user', JSON.stringify(newUser));
+    } catch (err) {
+      const errorAxios = err as AxiosError;
+      const errorData = errorAxios.response?.data as ErrorAxios;
+      toast.warning(errorData?.message || 'Une erreur s\'est produite lors de l\'upload de l\'image.');
+    }
+
+    setEditName(false);
+    setEditEmail(false);
     resetImageUpload();
-    checkPassword();
-    // Logique de soumission du formulaire
-    // Vous pouvez envoyer les données mises à jour au backend ici
   };
 
   useEffect(() => {
-    if (password !== confirmPassword) {
-      setError(true);
-      setErrorMessage('Les mots de passe ne correspondent pas');
-      // regex pour vérifier la complexité du mot de passe
-    } else {
-      if (!regex.test(password)) {
-        setError(true);
-        setErrorMessage('Minimum 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial');
-        return;
-      }
+    checkPassword();
 
-      setError(false);
-      setErrorMessage('');
-    }
     if (user.avatar !== imageFile) {
       setImageFile(imageFile);
     }
-  }, [confirmPassword, password, regex, user.avatar, imageFile, setImageFile]);
-
-  console.log('user.avatar', user.avatar);
+  }, [checkPassword, user.avatar, imageFile, setImageFile]);
 
   return (
-    <form>
-      <h2 className="mb-4 text-white">Paramètres utilisateur</h2>
+    <form onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-md-6 mb-3">
           <div className="card border-white">
             <div className="card-body">
-              <h4 className="card-title text-white">Informations personnelles</h4>
+              <h4 className="card-title text-white">
+                Informations Général de
+                {' '}
+                {user.username}
+              </h4>
               <FileUploader submit={() => handleUpload} img={user.avatar.path || ''} />
 
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item border-bottom border-white">
-                  <i className="bi bi-person me-2 text-white" />
-                  {`Nom: ${user.last_name}`}
-                </li>
-                <li className="list-group-item border-bottom border-white">
-                  <i className="bi bi-person me-2 text-white" />
-                  {`Prénom: ${user.first_name}`}
-                </li>
-                <li className="list-group-item border-bottom border-white">
-                  <i className="bi bi-envelope me-2 text-white" />
-                  {`Email: ${user.email}`}
-                </li>
-              </ul>
+              <div className="input-group mb-3">
+                <span className="input-group-text" id="Nom">Nom</span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder={user.last_name}
+                  aria-label="last_name"
+                  aria-describedby="Nom"
+                  value={lastName}
+                  disabled={!editName}
+                  onChange={(e) => setLastName(e.target.value)}
+
+                />
+                <button
+                  type="button"
+                  className={`input-group-text text-bg-${editName ? 'success' : 'warning'}`}
+                  onClick={() => setEditName(!editName)}
+                >
+                  <i className={`bi bi-${editName ? 'check' : 'pencil'}`} />
+                </button>
+
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text" id="Prénom">Prénom</span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder={user.first_name}
+                  aria-label="first_name"
+                  aria-describedby="Prénom"
+                  value={firstName}
+                  disabled={!editName}
+                  onChange={(e) => setFirstName(e.target.value)}
+
+                />
+                <button
+                  type="button"
+                  className={`input-group-text text-bg-${editName ? 'success' : 'warning'}`}
+                  onClick={() => setEditName(!editName)}
+                >
+                  <i className={`bi bi-${editName ? 'check' : 'pencil'}`} />
+                </button>
+              </div>
+              <div className="input-group mb-3">
+                <span className="input-group-text" id="Email">Email</span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder={user.email}
+                  aria-label="Email"
+                  aria-describedby="Email"
+                  value={email}
+                  disabled={!editEmail}
+                  onChange={(e) => setEmail(e.target.value)}
+
+                />
+                <button
+                  type="button"
+                  className={`input-group-text text-bg-${editEmail ? 'success' : 'warning'}`}
+                  onClick={() => setEditEmail(!editEmail)}
+                >
+                  <i className={`bi bi-${editEmail ? 'check' : 'pencil'}`} />
+                </button>
+              </div>
+
               <div className="mt-3">
                 <span className="badge bg-primary me-2">
                   {user.role.label}
@@ -145,7 +212,10 @@ export default function UserSettingsPage() {
             </div>
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary"
+        >
           Enregistrer les modifications
         </button>
       </div>

@@ -6,7 +6,6 @@ import { ErrorAxios } from '../../@types/error';
 
 const useImageUpload = () => {
   const [imageFile, setImageFile] = useState<File | null>();
-  const [formData, setFormData] = useState({ urlImg: '' });
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const element = e.target as HTMLInputElement;
@@ -21,17 +20,14 @@ const useImageUpload = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        const imageUrl = response.data;
-        setFormData((prev) => ({ ...prev, urlImg: imageUrl }));
-
-        return imageUrl;
+        const imageData = response.data;
+        setImageFile(imageData);
       } catch (err) {
         const error = err as AxiosError;
         const errorData = error.response?.data as ErrorAxios;
         toast.warning(errorData?.message || 'Une erreur s\'est produite lors de l\'upload de l\'image.');
       }
     }
-    return null;
   };
 
   const resetImageUpload = () => {
