@@ -104,13 +104,15 @@ export default function UserSettingsPage() {
                   onChange={(e) => setLastName(e.target.value)}
 
                 />
-                <button
-                  type="button"
-                  className={`input-group-text text-bg-${editName ? 'success' : 'warning'}`}
-                  onClick={() => setEditName(!editName)}
-                >
-                  <i className={`bi bi-${editName ? 'check' : 'pencil'}`} />
-                </button>
+                {!editName && (
+                  <button
+                    type="button"
+                    className="input-group-text text-bg-warning"
+                    onClick={() => setEditName(!editName)}
+                  >
+                    <i className="bi bi-pencil" />
+                  </button>
+                )}
 
               </div>
               <div className="input-group mb-3">
@@ -126,13 +128,15 @@ export default function UserSettingsPage() {
                   onChange={(e) => setFirstName(e.target.value)}
 
                 />
-                <button
-                  type="button"
-                  className={`input-group-text text-bg-${editName ? 'success' : 'warning'}`}
-                  onClick={() => setEditName(!editName)}
-                >
-                  <i className={`bi bi-${editName ? 'check' : 'pencil'}`} />
-                </button>
+                {!editName && (
+                  <button
+                    type="button"
+                    className="input-group-text text-bg-warning"
+                    onClick={() => setEditName(!editName)}
+                  >
+                    <i className="bi bi-pencil" />
+                  </button>
+                )}
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text" id="Email">Email</span>
@@ -147,13 +151,16 @@ export default function UserSettingsPage() {
                   onChange={(e) => setEmail(e.target.value)}
 
                 />
-                <button
-                  type="button"
-                  className={`input-group-text text-bg-${editEmail ? 'success' : 'warning'}`}
-                  onClick={() => setEditEmail(!editEmail)}
-                >
-                  <i className={`bi bi-${editEmail ? 'check' : 'pencil'}`} />
-                </button>
+                {!editEmail && (
+                  <button
+                    type="button"
+                    className="input-group-text text-bg-warning"
+                    onClick={() => setEditEmail(!editEmail)}
+                  >
+                    <i className="bi bi-pencil" />
+                  </button>
+                )}
+
               </div>
 
               <div className="mt-3">
