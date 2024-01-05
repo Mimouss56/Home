@@ -35,67 +35,71 @@ function Login() {
   };
 
   return (
-    <div className="modal fade" id="modalLogin" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div
-        className={`modal-dialog modal-dialog-centered ${error ? 'shake' : ''}`}
-      >
-        <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">Connexion</h1>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-          </div>
-          <div className="modal-body">
-            <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text bi bi-person" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {error && <span className="help-block">{errorMessage}</span>}
+    <form
+      onSubmit={handleSubmit}
+    >
+      <div className="modal fade" id="modalLogin" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div
+          className={`modal-dialog modal-dialog-centered ${error ? 'shake' : ''}`}
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">Connexion</h1>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
-            <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text bi bi-key" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                className="form-control"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+            <div className="modal-body">
+              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+                <i className="input-group-text bi bi-person" />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {error && <span className="help-block">{errorMessage}</span>}
+              </div>
+              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+                <i className="input-group-text bi bi-key" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  className="form-control"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className={`input-group-text bi bi-eye${showPassword ? '-slash' : ''}`}
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+
+                {error && <span className="help-block">{errorMessage}</span>}
+              </div>
+            </div>
+            <div className="modal-footer d-flex justify-content-around">
               <button
                 type="button"
-                className={`input-group-text bi bi-eye${showPassword ? '-slash' : ''}`}
-                onClick={() => setShowPassword(!showPassword)}
-              />
-
-              {error && <span className="help-block">{errorMessage}</span>}
+                className="btn btn-secondary"
+                data-bs-target="#modalregister"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+              >
+                S&apos;enregistrer
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+                onClick={handleSubmit}
+              >
+                Se connecter
+              </button>
             </div>
-          </div>
-          <div className="modal-footer d-flex justify-content-around">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-target="#modalregister"
-              data-bs-toggle="modal"
-              data-bs-dismiss="modal"
-            >
-              Register
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-              disabled={loading}
-            >
-              Log in
-            </button>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
 

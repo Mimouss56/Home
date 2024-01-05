@@ -63,7 +63,7 @@ function Navbar({ navContent }: NavbarProp) {
                 data-bs-target="#modalLogin"
                 data-bs-dismiss="modal"
               >
-                Login
+                Connexion
               </button>
 
             )

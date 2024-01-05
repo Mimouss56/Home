@@ -6,7 +6,6 @@ import FloatCard from '../../components/FloatCard';
 
 function Portfolio() {
   const [listPortfolio, setListPortfolio] = useState([]);
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
   const fetchData = async () => {
     const result = await axiosInstance.get('/home/portfolio');
