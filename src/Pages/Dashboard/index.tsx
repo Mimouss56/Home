@@ -27,16 +27,24 @@ export default function UserSettingsPage() {
   const [lastName, setLastName] = useState('');
 
   const {
-    imageFile, setImageFile, handleUpload, resetImageUpload,
+    imageFile,
+    setImageFile,
+    resetImageUpload,
   } = useImageUpload();
 
   const {
-    password, confirmPassword, setPassword, setConfirmPassword, checkPassword, error, errorMessage,
+    password,
+    confirmPassword,
+    setPassword,
+    setConfirmPassword,
+    checkPassword,
+    error,
+    errorMessage,
   } = useCheckPassword();
 
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const dataInput: IDataInput = {
@@ -44,16 +52,21 @@ export default function UserSettingsPage() {
       first_name: firstName || user.first_name,
       email: email || user.email,
     };
-    // injecter password et passwordConfirm si ils sont remplis
+
+    // Injecter password et passwordConfirm si ils sont remplis
     if (password && confirmPassword && password === confirmPassword) {
       dataInput.password = password;
       dataInput.passwordConfirm = confirmPassword;
     }
-    // on update les infos du user par la route /user/:id
+
+    // On met à jour les infos du user par la route /user/:id
     try {
-      const response = await axiosInstance.put(`/home/user/${user.id}`, dataInput);
+      const response = await axiosInstance.put(
+        `/home/user/${user.id}`,
+        dataInput,
+      );
       toast.info(response.data.message);
-      // on mets à, jour le user dans le sessionStorage
+      // On met à jour le user dans le sessionStorage
       const newUser = {
         ...user,
         ...dataInput,
@@ -62,7 +75,10 @@ export default function UserSettingsPage() {
     } catch (err) {
       const errorAxios = err as AxiosError;
       const errorData = errorAxios.response?.data as ErrorAxios;
-      toast.warning(errorData?.message || 'Une erreur s\'est produite lors de l\'upload de l\'image.');
+      toast.warning(
+        errorData?.message
+        || "Une erreur s'est produite lors de l'upload de l'image.",
+      );
     }
 
     setEditName(false);
@@ -73,7 +89,7 @@ export default function UserSettingsPage() {
   useEffect(() => {
     checkPassword();
 
-    if (user.avatar !== imageFile) {
+    if (user.avatar !== imageFile?.path) {
       setImageFile(imageFile);
     }
   }, [checkPassword, user.avatar, imageFile, setImageFile]);
@@ -85,14 +101,16 @@ export default function UserSettingsPage() {
           <div className="card border-white">
             <div className="card-body">
               <h4 className="card-title text-white">
-                Informations Général de
+                Informations Générales de
                 {' '}
                 {user.username}
               </h4>
-              <FileUploader submit={() => handleUpload} img={user.avatar.path || ''} />
+              <FileUploader submit={setImageFile} img={user.avatar?.path || ''} />
 
               <div className="input-group mb-3">
-                <span className="input-group-text" id="Nom">Nom</span>
+                <span className="input-group-text" id="Nom">
+                  Nom
+                </span>
                 <input
                   type="text"
                   className="form-control"
@@ -102,7 +120,6 @@ export default function UserSettingsPage() {
                   value={lastName}
                   disabled={!editName}
                   onChange={(e) => setLastName(e.target.value)}
-
                 />
                 {!editName && (
                   <button
@@ -113,10 +130,11 @@ export default function UserSettingsPage() {
                     <i className="bi bi-pencil" />
                   </button>
                 )}
-
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text" id="Prénom">Prénom</span>
+                <span className="input-group-text" id="Prénom">
+                  Prénom
+                </span>
                 <input
                   type="text"
                   className="form-control"
@@ -126,7 +144,6 @@ export default function UserSettingsPage() {
                   value={firstName}
                   disabled={!editName}
                   onChange={(e) => setFirstName(e.target.value)}
-
                 />
                 {!editName && (
                   <button
@@ -139,7 +156,9 @@ export default function UserSettingsPage() {
                 )}
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text" id="Email">Email</span>
+                <span className="input-group-text" id="Email">
+                  Email
+                </span>
                 <input
                   type="text"
                   className="form-control"
@@ -149,7 +168,6 @@ export default function UserSettingsPage() {
                   value={email}
                   disabled={!editEmail}
                   onChange={(e) => setEmail(e.target.value)}
-
                 />
                 {!editEmail && (
                   <button
@@ -160,7 +178,6 @@ export default function UserSettingsPage() {
                     <i className="bi bi-pencil" />
                   </button>
                 )}
-
               </div>
 
               <div className="mt-3">
@@ -173,9 +190,7 @@ export default function UserSettingsPage() {
                   </span>
                 )}
                 {user.child && (
-                  <span className="badge bg-warning me-2">
-                    Enfant
-                  </span>
+                  <span className="badge bg-warning me-2">Enfant</span>
                 )}
               </div>
             </div>
@@ -184,8 +199,12 @@ export default function UserSettingsPage() {
         <div className="col-md-6 mb-3">
           <div className="card border-primary">
             <div className="card-body">
-              <h4 className="card-title mt-4 text-primary">Modifier le mot de passe</h4>
-              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+              <h4 className="card-title mt-4 text-primary">
+                Modifier le mot de passe
+              </h4>
+              <div
+                className={`input-group mb-3 ${error ? 'has-error' : ''}`}
+              >
                 <i className="input-group-text bi bi-key" />
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -200,7 +219,9 @@ export default function UserSettingsPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 />
               </div>
-              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+              <div
+                className={`input-group mb-3 ${error ? 'has-error' : ''}`}
+              >
                 <i className="input-group-text bi bi-key" />
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
@@ -215,39 +236,18 @@ export default function UserSettingsPage() {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 />
               </div>
-              {error && <span className="form-text text-bg-danger badge text-white ">{errorMessage}</span>}
+              {error && (
+                <span className="form-text text-bg-danger badge text-white ">
+                  {errorMessage}
+                </span>
+              )}
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          className="btn btn-primary"
-        >
+        <button type="submit" className="btn btn-primary">
           Enregistrer les modifications
         </button>
       </div>
     </form>
   );
 }
-
-/*
-<figure
-  className="figure position-relative d-flex justify-content-center align-items-center"
->
-  <img
-    src="https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg"
-    alt="user"
-    className="figure-img img-fluid rounded-circle w-25"
-  />
-  <figcaption className="figure-caption position-absolute bottom-0 bg-opacity-25 bg-dark">
-    Change
-  </figcaption>
-</figure>
-<input
-  type="file"
-  accept="image/*"
-  style={{ display: 'none' }}
-  ref={fileInputRef}
-  onChange={handleFileChange}
-/>
-*/
