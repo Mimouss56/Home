@@ -1,5 +1,6 @@
 const { job } = require('../models/index.mapper');
-const textValue = "job"
+
+const textValue = 'job';
 
 module.exports = {
   async getAll() {
@@ -23,7 +24,7 @@ module.exports = {
           departement: value.postal_code,
         },
         ent: value.ent,
-        description: value.description
+        description: value.description,
       };
       return one;
     });
@@ -45,7 +46,7 @@ module.exports = {
           departement: findByID.postal_code,
         },
         ent: findByID.ent,
-        description: findByID.description
+        description: findByID.description,
       };
 
       return returnValue;
@@ -68,7 +69,6 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-
     try {
       const valueUpdated = await job.update(id, inputQuery);
       return valueUpdated;

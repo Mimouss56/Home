@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Login from './components/Modal/Auth/login';
 import Register from './components/Modal/Auth/register';
 import Footer from './layout/Footer';
-import Feedback from './Pages/Feedback';
+import Feedback from './components/Feedback';
 import Snow from './components/Snowflakes';
 import Main from './components/Main';
 import NavAside from './components/NavAside';

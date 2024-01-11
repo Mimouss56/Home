@@ -10,7 +10,7 @@ import RoutesESA from './ESA';
 import RouteDomo from './domotic';
 import ProtectedRoute from '../components/ProtectedRoute';
 import NotFound from '../Pages/Error/404';
-import Feedback from '../Pages/Feedback';
+import Feedback from '../components/Feedback';
 
 function ListeRoute() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;

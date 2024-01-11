@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const digit2Container = document.getElementById('digit2-container');
   const digit3Container = document.getElementById('digit3-container');
 
+  if (!errorCode || !digit1Container || !digit2Container || !digit3Container) {
+    return;
+  }
   errorCode.classList.add('fall');
 
   setTimeout(() => {

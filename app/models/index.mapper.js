@@ -6,6 +6,7 @@ const User = require('./user.mapper');
 const School = require('./school.mapper');
 const Upload = require('./upload.mapper');
 const Site = require('./site.mapper');
+const FeedBack = require('./feedback.mapper');
 
 module.exports = {
   job: new Job(client),
@@ -14,4 +15,5 @@ module.exports = {
   school: new School(client),
   upload: new Upload(client),
   site: new Site(client),
+  feedback: new FeedBack(client),
 };
