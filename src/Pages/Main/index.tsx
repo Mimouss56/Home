@@ -49,15 +49,32 @@ function Main() {
             <ModalAddFolio onAddElement={fetchData} />
 
             {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
-              <FloatCard
-                key={item.id}
-                urlImg={item.urlImg}
-                desc={item.description}
-                alt={item.nameSite}
-                id={item.id}
-                urlSite={item.urlSite}
-                target="addPortfolio"
-              />
+              <div key={item.id}>
+                {item.urlSite ? (
+                  <a href={item.urlSite} target="_blank" rel="noopener noreferrer" className="link-opacity-10">
+                    <FloatCard
+                      urlImg={item.urlImg}
+                      desc={item.description}
+                      alt={item.nameSite}
+                      id={item.id}
+                      urlSite={item.urlSite}
+                      target="addPortfolio"
+                    />
+                  </a>
+                ) : (
+                  <div className="pe-none">
+                    <FloatCard
+                      urlImg={item.urlImg}
+                      desc={item.description}
+                      alt={item.nameSite}
+                      id={item.id}
+                      urlSite={item.urlSite}
+                      target="addPortfolio"
+                    />
+
+                  </div>
+                )}
+              </div>
             ))}
 
           </div>

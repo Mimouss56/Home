@@ -48,36 +48,36 @@ module.exports = {
     return userLogged;
   },
   // Callback Github Login (Front)
-  async loginWithGitHub(code) {
-    const userGithub = await githubService.oauthToGithub(code);
-    const userExist = await user.findOne({ where: { github_id: userGithub.id } });
-    // Si l'utilisateur n'existe pas
-    if (!userExist) {
-      return {
-        code: 403,
-        message: 'Aucun compte n\'est associé à ce compte Github',
-      };
-    }
-    // Création d'un token
-    const token = jwt.sign({
-      id: userExist.id,
-    }, process.env.JWT_SECRET, {
-      expiresIn: 24 * 60 * 60, // 24 hours
-    });
-    // Mettre à jour la date de la dernière connexion
-    await user.update(userExist.id, {
-      username: userGithub.login,
-      github_id: userGithub.id,
-      github_login: userGithub.login,
-      last_visited: new Date(),
-      delete_at: null,
-    });
-    // Return user && token
-    const userLogged = {
-      id: userExist.id,
-      sessionToken: token,
-      message: `Connecté sous ${userGithub.login} !`,
-    };
-    return userLogged;
-  },
+  // async loginWithGitHub(code) {
+  //   const userGithub = await githubService.oauthToGithub(code);
+  //   const userExist = await user.findOne({ where: { github_id: userGithub.id } });
+  //   // Si l'utilisateur n'existe pas
+  //   if (!userExist) {
+  //     return {
+  //       code: 403,
+  //       message: 'Aucun compte n\'est associé à ce compte Github',
+  //     };
+  //   }
+  //   // Création d'un token
+  //   const token = jwt.sign({
+  //     id: userExist.id,
+  //   }, process.env.JWT_SECRET, {
+  //     expiresIn: 24 * 60 * 60, // 24 hours
+  //   });
+  //   // Mettre à jour la date de la dernière connexion
+  //   await user.update(userExist.id, {
+  //     username: userGithub.login,
+  //     github_id: userGithub.id,
+  //     github_login: userGithub.login,
+  //     last_visited: new Date(),
+  //     delete_at: null,
+  //   });
+  //   // Return user && token
+  //   const userLogged = {
+  //     id: userExist.id,
+  //     sessionToken: token,
+  //     message: `Connecté sous ${userGithub.login} !`,
+  //   };
+  //   return userLogged;
+  // },
 };

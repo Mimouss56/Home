@@ -26,5 +26,19 @@
     "link": "/admin/options",
     "icon": "sliders",
     "component": "Options"
+  },
+  {
+    "id": 4,
+    "title": "Sites",
+    "link": "/admin/sites",
+    "icon": "sliders",
+    "component": "Sites"
+  },
+  {
+    "id": 5,
+    "title": "FeedBack",
+    "link": "/admin/feedback",
+    "icon": "newspaper",
+    "component": "ListFeedBack"
   }
 ]

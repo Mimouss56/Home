@@ -1,33 +1,38 @@
 import { useState } from 'react';
+import { url } from 'inspector';
+import useImageUpload from '../../hook/utils/useImageUpload'; // Assurez-vous que le chemin est correct
+import { Avatar } from '../../@types/Home/user';
 
 type FileUploaderProps = {
-  submit: (file: File | undefined) => void;
+  submit: (file: Avatar) => void;
   img: string | undefined;
 };
 
-function FileUploader({ submit, img = '' }: FileUploaderProps) {
-  const [, setFile] = useState<File | undefined>();
+export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
+  const { handleUpload, imageFile, setImageFile } = useImageUpload();
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const element = e.target as HTMLInputElement;
-    const files = element.files as FileList;
-    const selectedFile = files ? files[0] : undefined;
-    setFile(selectedFile);
+  const [isHover, setIsHover] = useState(false);
 
-    // Appeler la fonction submit pour transmettre le fichier à l'extérieur
-    submit(selectedFile);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const urlImage = await handleUpload(e); // Gère l'upload de l'image
+    if (urlImage) {
+      setImageFile(urlImage);
+      submit(urlImage);
+    }
+    return null;
   };
   const styleRound: React.CSSProperties = {
     position: 'absolute',
     bottom: '0',
     width: '200px',
     height: '50px',
-    backgroundColor: '#00B4FF',
+    backgroundColor: isHover ? '#00B4FF' : 'rgb(255, 255, 255, 0.2)',
     opacity: 0.8,
     overflow: 'hidden',
     lineHeight: '50px',
     textAlign: 'center',
     cursor: 'pointer',
+    transition: 'all 0.8s ease',
   };
   const styleInput: React.CSSProperties = {
     position: 'absolute',
@@ -44,7 +49,11 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
       {img && (
         <>
           <img src={`https://www.mimouss.fr/images/${img}`} alt={img} width={200} className="" />
-          <div style={styleRound}>
+          <div
+            style={styleRound}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+          >
             <input
               type="file"
               name="file"
@@ -67,14 +76,11 @@ function FileUploader({ submit, img = '' }: FileUploaderProps) {
             onChange={handleFileChange}
             accept="image/*"
           />
-          {img && (
-            <img src={img} alt="img" />
+          {imageFile && (
+            <img src={imageFile.path} alt="Uploaded" />
           )}
         </div>
       )}
-
     </div>
   );
 }
-
-export default FileUploader;

@@ -55,10 +55,6 @@ function ViewCVPage() {
     setSelectedSkill(selectedValue);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    applyFilter(e.target.value);
-  };
-
   useEffect(() => {
     fetchDataJobMouss();
     fetchDataSkills();
@@ -69,7 +65,8 @@ function ViewCVPage() {
       <ModalAddItem onAddElement={() => console.log('test')} />
       <div className="d-flex flex-column align-items-center ">
 
-        {!selectedSkill && <Selected skills={skills} onHandleSelect={handleChange} />}
+        {!selectedSkill
+          && <Selected skills={skills} onHandleSelect={(e) => applyFilter(e.target.value)} />}
         {selectedSkill && (
           <PDFDownloadLink
             className="btn btn-primary"
@@ -87,9 +84,9 @@ function ViewCVPage() {
           </PDFDownloadLink>
         )}
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Expériences</h2>
-        <Job jobs={filteredJob} target="#addItem" />
+        <Job jobs={filteredJob} />
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Formations</h2>
-        <Job jobs={listSchool} target="#addItem" />
+        <Job jobs={listSchool} />
       </div>
     </>
   );
