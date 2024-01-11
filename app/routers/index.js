@@ -5,6 +5,7 @@ const testController = require('../api/BBC/controllers/test.controller');
 const router = express.Router();
 
 router.use('/api', require('./api.router'));
+router.use('/status', require('./status.router'));
 
 router.get('/test', testController.renderTest);
 const publicPath = path.resolve(__dirname, '../../public');

@@ -10,6 +10,7 @@ import RoutesESA from './ESA';
 import RouteDomo from './domotic';
 import ProtectedRoute from '../components/ProtectedRoute';
 import NotFound from '../Pages/Error/404';
+import Feedback from '../Pages/Feedback';
 
 function ListeRoute() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
@@ -22,6 +23,7 @@ function ListeRoute() {
       <Route path="/" element={<Main />} />
       <Route path="cv" element={<ViewCVPage />} />
       <Route path="about" element={<ViewCVPage />} />
+      <Route path="feedback" element={<Feedback />} />
 
       {/* // ProtectedRoute */}
       <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />

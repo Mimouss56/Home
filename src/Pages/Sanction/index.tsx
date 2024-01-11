@@ -110,7 +110,7 @@ function Sanction() {
       }
     }
     setCurrentSanction(null);
-    fetchLists();
+    // fetchLists();
   };
 
   const handleDelete = async (id: number) => {
