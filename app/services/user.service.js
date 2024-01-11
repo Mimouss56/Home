@@ -80,7 +80,7 @@ module.exports = {
     }
   },
 
-  async checkUserExist(email, username ) {
+  async checkUserExist(email, username) {
     const userExist = {
       emailExist: await user.findOne({ where: { email } }),
       usernameExist: await user.findOne({ where: { username } }),

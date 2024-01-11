@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { toast } from 'react-toastify';
 import { User as UserInfo } from '../../@types/Home/user';
 import { MenuItemsProp } from '../../@types/menu';
 

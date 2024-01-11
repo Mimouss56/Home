@@ -19,7 +19,7 @@ module.exports = {
       debut,
       fin,
       ville,
-      departement
+      departement,
     } = req.body;
 
     const inputQuery = {
@@ -29,7 +29,7 @@ module.exports = {
       date_started: debut,
       date_ended: fin,
       town: ville,
-      postal_code: departement
+      postal_code: departement,
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

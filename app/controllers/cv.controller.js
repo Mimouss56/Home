@@ -1,7 +1,6 @@
 module.exports = {
   renderCv: (req, res) => {
-    
-    const data = {      
+    const data = {
       title: 'CV',
     };
     res.json(data);
@@ -32,5 +31,4 @@ module.exports = {
     res.json(projectsJson);
   },
 
-}
-
+};

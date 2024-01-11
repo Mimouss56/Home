@@ -20,6 +20,8 @@ function Login() {
 
       const res = await axiosInstance.post('/home/login', { username, password });
       const { data, sessionToken, message } = res.data;
+      const dataNotif = await axiosInstance.get('http://localhost:3001/feedback');
+      sessionStorage.setItem('dataNotif', JSON.stringify(dataNotif.data));
 
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(data));
