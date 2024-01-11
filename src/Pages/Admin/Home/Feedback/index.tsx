@@ -9,7 +9,7 @@ function ListFeedBack() {
   const [feedbackList, setFeedbackList] = useState<IFeedback[]>([]);
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/feedback');
+      const response = await axios.get('https://www.mimouss.fr/feedback');
       setFeedbackList(response.data);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -18,7 +18,7 @@ function ListFeedBack() {
   };
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axios.put(`http://localhost:3001/feedback/${event.target.id}`, {
+      const response = await axios.put(`https://www.mimouss.fr/feedback/${event.target.id}`, {
         draft: event.target.checked,
       });
       setFeedbackList((prev) => prev.map((newsItem) => {
