@@ -3,6 +3,16 @@ const { feedback } = require('../models/index.mapper');
 const textValue = 'feedback';
 
 module.exports = {
+  async getAll() {
+    const data = await feedback.findAll();
+    if (!data) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    return data;
+  },
 
   async getData(id) {
     try {
@@ -15,17 +25,6 @@ module.exports = {
       };
     }
   },
-  async getAll() {
-    const data = await feedback.findAll();
-    if (!data) {
-      return {
-        code: 404,
-        message: `${textValue} not found`,
-      };
-    }
-    return data;
-  },
-
   async create(inputQuery) {
     try {
       const result = await feedback.create(inputQuery);

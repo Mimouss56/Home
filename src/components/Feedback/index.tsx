@@ -49,7 +49,10 @@ function Feedback() {
   // on récupe les component de la page actuelle au click sur le bouton feedback
   return (
     <>
-      <div className=" position-fixed " style={{ top: '75%' }}>
+      <div
+        className="position-fixed"
+        style={{ top: '75%' }}
+      >
         <button
           type="button"
           data-bs-toggle="modal"

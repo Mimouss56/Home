@@ -7,9 +7,11 @@ import { ErrorSanctionProps } from '../../../../@types/error';
 
 function ListFeedBack() {
   const [feedbackList, setFeedbackList] = useState<IFeedback[]>([]);
+
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://www.mimouss.fr/feedback');
+      const response = await axios.get('https://www.mimouss.fr/feedback/');
+
       setFeedbackList(response.data);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -27,6 +29,8 @@ function ListFeedBack() {
         }
         return newsItem;
       }));
+      // on reinjecte dans sessionsStorage les notif a jour
+      sessionStorage.setItem('dataNotif', JSON.stringify(feedbackList));
       toast.success(`🦄 ${response.data.message} !`);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -54,7 +58,7 @@ function ListFeedBack() {
               </tr>
             </thead>
             <tbody>
-              {feedbackList.map((feedback: IFeedback) => (
+              {feedbackList && feedbackList.map((feedback: IFeedback) => (
                 <tr key={feedback.id}>
                   <td>{feedback.name}</td>
                   <td>{feedback.email}</td>

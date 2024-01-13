@@ -62,17 +62,14 @@ function Main() {
                     />
                   </a>
                 ) : (
-                  <div className="pe-none">
-                    <FloatCard
-                      urlImg={item.urlImg}
-                      desc={item.description}
-                      alt={item.nameSite}
-                      id={item.id}
-                      urlSite={item.urlSite}
-                      target="addPortfolio"
-                    />
-
-                  </div>
+                  <FloatCard
+                    urlImg={item.urlImg}
+                    desc={item.description}
+                    alt={item.nameSite}
+                    id={item.id}
+                    urlSite={item.urlSite}
+                    target="addPortfolio"
+                  />
                 )}
               </div>
             ))}
