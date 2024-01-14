@@ -31,7 +31,7 @@ function Feedback() {
     event.preventDefault();
     // on envoie le feedback au serveur
     try {
-      const response = await axios.post('http://localhost:3001/feedback', feedback);
+      const response = await axios.post('https://www.mmimouss.fr/feedback', feedback);
       toast.success(response.data.message);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
