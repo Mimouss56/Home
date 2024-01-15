@@ -50,14 +50,14 @@ function Feedback() {
   return (
     <>
       <div
-        className="position-fixed"
+        className="position-fixed bg-info-subtle "
         style={{ top: '75%' }}
       >
         <button
           type="button"
           data-bs-toggle="modal"
           data-bs-target="#feedbackModal"
-          className="btn btn-primary rounded-start-0 opacity-50 text-light z-1 "
+          className="btn btn-primary rounded-start-0 text-light z-n1 "
         >
           Feedback
         </button>

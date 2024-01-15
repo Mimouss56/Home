@@ -22,9 +22,10 @@ module.exports = {
   async put(req, res) {
     const { id } = req.params;
     const data = await feedbackService.getData(id);
-    const { draft } = req.body;
+    const { draft, read } = req.body;
     const inputQuery = {
-      draft: draft || !data.draft,
+      draft: draft !== data.draft,
+      read: read !== data.read,
     };
     const result = await feedbackService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
