@@ -6,7 +6,7 @@ const { Client } = pg;
 const client = new Client({
   user: process.env.PG_USER_ESA,
   database: process.env.PG_DATABASE_ESA,
-  host: '192.168.1.210',
+  host: process.env.PG_HOST,
   password: process.env.PG_PASSWORD_ESA,
 });
 

@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { user } = require('../models/index.mapper');
 const userService = require('./user.service');
+const feedbackService = require('../../../services/feedback.service');
+const sanctionService = require('./sanction.service');
 
 module.exports = {
 
@@ -35,16 +37,18 @@ module.exports = {
       last_visited: new Date(),
       delete_at: null,
     });
+    const dataNotif = {
+      feedback: await feedbackService.getAll(),
+      sanction: await sanctionService.getAll(userExist.id),
+    };
 
-    // const jobUser = await jobService.getAllByUser(userExist.id);
-    // const schoolUser = await schoolService.getAllByUser(userExist.id);
-
-    // Return user && token
+    // Return user && token && dataNotif
     const userLogged = {
       sessionToken: token,
       message: `Connecté sous ${userExist.username} !`,
       data: {
         ...await userService.getData(userExist.id),
+        dataNotif,
       },
       // id: userExist.id,
       // username: userExist.username,

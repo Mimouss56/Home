@@ -17,21 +17,23 @@ module.exports = {
         message: 'User not found',
       };
     }
-
+    // Ingo Général User
     const userOptionByID = await user.option(id);
     userByID.family = userOptionByID.family;
     userByID.child = userOptionByID.child;
     userByID.role = await roleService.getData(userOptionByID.id_role);
+    userByID.avatar = await upload.findByPk(userByID.avatar);
 
+    // Sanction User if child
     if (userOptionByID.child) {
       userByID.sanction = await sanctionService.getAll(userByID.id);
     }
+    // Job & School User if Mouss
 
     if (userByID.username === 'Mouss') {
       userByID.job = await jobService.getAllByUser(userByID.id);
       userByID.school = await schoolService.getAllByUser(userByID.id);
     }
-    userByID.avatar = await upload.findByPk(userByID.avatar);
 
     delete userByID.password;
     delete userByID.id_role;
