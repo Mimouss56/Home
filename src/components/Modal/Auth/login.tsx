@@ -90,7 +90,6 @@ function Login() {
               <button
                 type="submit"
                 className="btn btn-primary"
-                disabled={loading}
                 onClick={handleSubmit}
               >
                 Se connecter
