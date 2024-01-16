@@ -1,42 +1,43 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent) => {
+    // on ferme la modal
+    const modal = document.getElementById('feedbackModal');
+    const backdrop = document.querySelector('.modal-backdrop');
+    backdrop?.remove();
+    modal?.classList.remove('show');
     try {
-      setLoading(true);
       setError(false);
       setErrorMessage('');
 
-      const res = await axiosInstance.post('/home/login', { username, password });
+      const res = await axiosInstance.post('/api/home/login', { username, password });
       const { data, sessionToken, message } = res.data;
-      const dataNotif = await axiosInstance.get('https://www.mimouss.fr/feedback');
+      const dataNotif = await axiosInstance.get('/feedback');
       sessionStorage.setItem('dataNotif', JSON.stringify(dataNotif.data));
 
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(data));
       sessionStorage.setItem('notifToast', message);
-      setLoading(false);
-      window.location.reload();
+      // window.location.reload();
     } catch (err) {
       const { response } = err as { response: { data: string } };
       setError(true);
       toast.error(response.data);
-      setLoading(false);
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => handleSubmit(e)}
     >
       <div className="modal fade" id="modalLogin" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div
@@ -90,7 +91,6 @@ function Login() {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={handleSubmit}
               >
                 Se connecter
               </button>

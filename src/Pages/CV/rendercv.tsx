@@ -11,7 +11,7 @@ function RenderCv() {
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
-    const response = await axiosInstance.get(`/home/user/${MoussID}`);
+    const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     const filterJob = response.data.user.job.filter(
       (job: IEmploi) => job.competences.includes('Maintenance'),
     );

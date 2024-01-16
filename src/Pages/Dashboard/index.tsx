@@ -62,7 +62,7 @@ export default function UserSettingsPage() {
     // On met à jour les infos du user par la route /user/:id
     try {
       const response = await axiosInstance.put(
-        `/home/user/${user.id}`,
+        `/api/home/user/${user.id}`,
         dataInput,
       );
       toast.info(response.data.message);

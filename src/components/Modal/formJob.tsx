@@ -41,7 +41,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     const { type, ...inputData } = formData;
 
     try {
-      const response = await axiosInstance.post(`/home/${type}/@me`, inputData);
+      const response = await axiosInstance.post(`/api/home/${type}/@me`, inputData);
       toast.success(response.data.message);
       delete response.data.message;
       delete response.data.code;
@@ -62,7 +62,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       return;
     }
     try {
-      const response = await axiosInstance.get(`/home/job/${id}`);
+      const response = await axiosInstance.get(`/api/home/job/${id}`);
       const jobData = response.data;
 
       setFormData({

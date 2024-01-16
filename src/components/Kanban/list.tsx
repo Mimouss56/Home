@@ -18,7 +18,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
   const updateCards = async () => {
     try {
-      const response = await axiosInstance.get(`/kanban/lists/${list.id}`);
+      const response = await axiosInstance.get(`/api/kanban/lists/${list.id}`);
       const { data } = response;
       setCards(data.cards.sort((a: ICardTemplate, b: ICardTemplate) => a.position - b.position));
       updateList();
@@ -30,7 +30,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
   const handleEditSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await axiosInstance.put(`/kanban/lists/${list.id}`, {
+      await axiosInstance.put(`/api/kanban/lists/${list.id}`, {
         name: nameList,
       });
       setShowInputTitle(false);
@@ -42,7 +42,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
   const handleDeleteList = async () => {
     try {
-      await axiosInstance.delete(`/kanban/lists/${list.id}`);
+      await axiosInstance.delete(`/api/kanban/lists/${list.id}`);
       updateList();
     } catch (error) {
       toast.error(`Error deleting list: ${error}`);
@@ -60,7 +60,7 @@ export default function List({ list, updateList }: ListTemplateProps) {
 
       const newListId = (Number(movedCard.list_id) === Number(evt.to.id)) ? listIdFrom : evt.to.id;
       try {
-        await axiosInstance.put(`/kanban/cards/${movedCardId}`, {
+        await axiosInstance.put(`/api/kanban/cards/${movedCardId}`, {
           listId: newListId,
           position: Number(evt.newIndex) + 1,
         });

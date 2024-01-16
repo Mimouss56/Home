@@ -13,7 +13,7 @@ function Section({ title, type }: SectionProps) {
   const [items, setItems] = useState<Job[]>([]);
 
   const fetchInfo = async (typeInfo: string) => {
-    const response = await axiosInstance.get(`/home/${typeInfo}/@me`);
+    const response = await axiosInstance.get(`/api/home/${typeInfo}/@me`);
     const { data } = response;
     setItems(data);
   };

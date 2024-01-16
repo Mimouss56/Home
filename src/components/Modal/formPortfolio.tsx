@@ -28,7 +28,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
       return;
     }
     try {
-      const response = await axiosInstance.get(`/home/portfolio/${id}`);
+      const response = await axiosInstance.get(`/api/home/portfolio/${id}`);
       const jobData = response.data;
 
       setFormData({
@@ -48,7 +48,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
       const formUpload = new FormData();
       formUpload.append('image', fileUploaded);
 
-      const response = await axiosInstance.post('/home/upload', formUpload, {
+      const response = await axiosInstance.post('/api/home/upload', formUpload, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -85,7 +85,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
     }
 
     try {
-      const endpoint = id !== 0 ? `/home/portfolio/${formData.id}` : '/home/portfolio';
+      const endpoint = id !== 0 ? `/api/home/portfolio/${formData.id}` : '/api/home/portfolio';
       const method = id !== 0 ? axiosInstance.put : axiosInstance.post;
 
       // Intégrer l'URL de l'image dans l'inputData
@@ -106,7 +106,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await axiosInstance.delete(`/home/portfolio/${id}`);
+      const response = await axiosInstance.delete(`/api/home/portfolio/${id}`);
       toast.success(response.data.message);
       onAddElement(response.data);
     } catch (err) {

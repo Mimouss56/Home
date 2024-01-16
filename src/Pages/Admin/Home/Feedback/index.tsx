@@ -4,13 +4,14 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import IFeedback from '../../../../@types/Home/feedback';
 import { ErrorSanctionProps } from '../../../../@types/error';
+import axiosInstance from '../../../../utils/axios';
 
 function ListFeedBack() {
   const [feedbackList, setFeedbackList] = useState<IFeedback[]>([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://www.mimouss.fr/feedback/');
+      const response = await axiosInstance.get('/feedback/');
 
       setFeedbackList(response.data);
     } catch (error) {
@@ -20,7 +21,7 @@ function ListFeedBack() {
   };
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axios.put(`https://www.mimouss.fr/feedback/${event.target.id}`, {
+      const response = await axiosInstance.put(`/feedback/${event.target.id}`, {
         draft: event.target.checked,
       });
       setFeedbackList((prev) => prev.map((newsItem) => {

@@ -10,7 +10,7 @@ function NewsList() {
 
   const fetchListNews = async () => {
     try {
-      const response = await axiosInstance.get('/home/news');
+      const response = await axiosInstance.get('/api/home/news');
       // on trie les news par date de création et on recupére seulement les news avec un draft false
       response.data.sort(
         (a: INews, b: INews) => (a.created_at < b.created_at ? -1 : 1),
@@ -24,7 +24,7 @@ function NewsList() {
 
   const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/home/news/${event.target.id}`, {
+      const response = await axiosInstance.put(`/api/home/news/${event.target.id}`, {
         draft: event.target.checked,
       });
       setNewsList((prev) => prev.map((newsItem) => {
@@ -43,7 +43,7 @@ function NewsList() {
 
   const handleDelete = async (id: number) => {
     try {
-      const result = await axiosInstance.delete(`/home/news/${id}`);
+      const result = await axiosInstance.delete(`/api/home/news/${id}`);
       setNewsList(newsList.filter((news) => news.id !== id));
       toast.success(result.data.message);
     } catch (error) {

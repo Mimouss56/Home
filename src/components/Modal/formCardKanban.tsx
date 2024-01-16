@@ -37,7 +37,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
       return;
     }
     try {
-      const response = await axiosInstance.post('/kanban/cards', {
+      const response = await axiosInstance.post('/api/kanban/cards', {
         content,
         color,
         listId,

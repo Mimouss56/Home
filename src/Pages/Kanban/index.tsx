@@ -11,7 +11,7 @@ export default function Kanban() {
 
   const fecthLists = async () => {
     try {
-      const response = await axiosInstance.get('/kanban/lists');
+      const response = await axiosInstance.get('/api/kanban/lists');
       const { data } = response;
       data.sort((a: IListTemplate['list'], b: IListTemplate['list']) => a.position - b.position);
       setLists(data);
@@ -30,7 +30,7 @@ export default function Kanban() {
       movedList.position = Number(evt.newIndex) + 1;
       // Mettre à jour l'état
       try {
-        await axiosInstance.put(`/kanban/lists/${movedListId}`, {
+        await axiosInstance.put(`/api/kanban/lists/${movedListId}`, {
           position: movedList.position,
         });
         setLists(updatedLists.sort((a, b) => a.position - b.position));

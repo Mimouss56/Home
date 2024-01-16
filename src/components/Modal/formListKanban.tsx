@@ -15,7 +15,7 @@ export default function ModalAddList({ updateLists }: { updateLists: () => void 
       setError('Le nom de la liste ne peut pas être vide.');
       return;
     }
-    await axiosInstance.post('/kanban/lists', {
+    await axiosInstance.post('/api/kanban/lists', {
       name: content,
     });
     updateLists();

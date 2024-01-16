@@ -4,6 +4,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { ErrorAxios, ErrorSanctionProps } from '../../../../@types/error';
 import ISites from '../../../../@types/Home/sites';
+import axiosInstance from '../../../../utils/axios';
 
 function Sites() {
   const [listSites, setListSites] = useState<ISites[]>([]);
@@ -15,7 +16,7 @@ function Sites() {
 
   const fetchListSites = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/status/site');
+      const res = await axiosInstance.get('/status/site');
       setListSites(res.data);
     } catch (err) {
       const { message } = err as ErrorAxios;
@@ -25,7 +26,7 @@ function Sites() {
 
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axios.put(`http://localhost:3001/status/site/${event.target.id}`, {
+      const response = await axiosInstance.put(`/status/site/${event.target.id}`, {
         [event.target.name]: event.target.checked,
       });
       setListSites((prev) => prev.map((newsItem) => {
@@ -44,7 +45,7 @@ function Sites() {
 
   const handleDelete = async (id: number) => {
     try {
-      const result = await axios.delete(`http://localhost:3001/status/site/${id}`);
+      const result = await axiosInstance.delete(`/status/site/${id}`);
       toast.success(result.data.message);
       setListSites((prev) => prev.filter((site) => site.id !== id));
     } catch (err) {
@@ -55,7 +56,7 @@ function Sites() {
   const handleAdd = async () => {
     SetShowAddList(false);
     try {
-      const result = await axios.post('http://localhost:3001/status/site', {
+      const result = await axiosInstance.post('/status/site', {
         name: setNameSite,
         url: setUrlSite,
         maintenance: setMaintenanceSite,

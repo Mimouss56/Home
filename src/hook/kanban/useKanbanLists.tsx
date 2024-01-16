@@ -9,7 +9,7 @@ const useKanbanLists = () => {
 
   const fetchLists = async () => {
     try {
-      const response = await axiosInstance.get('/kanban/lists');
+      const response = await axiosInstance.get('/api/kanban/lists');
       const { data } = response;
       data.sort((a: IListTemplate['list'], b: IListTemplate['list']) => a.position - b.position);
       setLists(data);
@@ -27,7 +27,7 @@ const useKanbanLists = () => {
       movedList.position = Number(evt.newIndex) + 1;
 
       try {
-        await axiosInstance.put(`/kanban/lists/${movedListId}`, {
+        await axiosInstance.put(`/api/kanban/lists/${movedListId}`, {
           position: movedList.position,
         });
 

@@ -33,7 +33,7 @@ const useAddListForm = (updateLists: () => void): AddListForm => {
     setLoading(true);
 
     try {
-      await axiosInstance.post('/kanban/lists', {
+      await axiosInstance.post('/api/kanban/lists', {
         name: formData.content,
       });
       updateLists();

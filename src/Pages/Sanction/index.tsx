@@ -50,7 +50,7 @@ function Sanction() {
 
   const fetchLists = useCallback(async () => {
     try {
-      const response = await axiosInstance.get('/home/sanction');
+      const response = await axiosInstance.get('/api/home/sanction');
       const { data } = response;
       makeListChild(data);
       makeListWeek(data);
@@ -88,7 +88,7 @@ function Sanction() {
     if (currentSanction) {
       try {
         const newSanction = { ...currentSanction, ...inputData } as ISanction;
-        const result = await axiosInstance.put(`/home/sanction/${currentSanction.id}`, inputData);
+        const result = await axiosInstance.put(`/api/home/sanction/${currentSanction.id}`, inputData);
         const index = sanctionList.findIndex((news) => news.id === currentSanction.id);
         sanctionList[index] = newSanction;
         // setSanctionList(sanctionList);
@@ -100,7 +100,7 @@ function Sanction() {
       }
     } else {
       try {
-        const result = await axiosInstance.post('/home/sanction', inputData);
+        const result = await axiosInstance.post('/api/home/sanction', inputData);
 
         setSanctionList((prev) => [...prev, result.data.data]);
         toast.success(result.data.message);
@@ -114,7 +114,7 @@ function Sanction() {
   };
 
   const handleDelete = async (id: number) => {
-    const result = await axiosInstance.delete(`/home/sanction/${id}`);
+    const result = await axiosInstance.delete(`/api/home/sanction/${id}`);
     setSanctionList(sanctionList.filter((sanction) => sanction.id !== id));
     toast.success(result.data.message);
   };

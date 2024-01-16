@@ -3,6 +3,7 @@ import './style.scss';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { ErrorSanctionProps } from '../../@types/error';
+import axiosInstance from '../../utils/axios';
 
 interface Inotif {
   id: number;
@@ -19,7 +20,7 @@ function Notifications() {
 
   const handleReadNotif = (id: number) => {
     try {
-      axios.put(`https://www.mimouss.fr/feedback/${id}`, { read: true });
+      axiosInstance.put(`/feedback/${id}`, { read: true });
       const newNotif = [...listNotif];
       setListNotif(newNotif);
       setNbNotif(newNotif.filter((n: Inotif) => !n.read).length);

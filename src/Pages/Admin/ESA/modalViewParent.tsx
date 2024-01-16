@@ -20,7 +20,7 @@ function ModalAddParent({ childId, onParentAdded }: FormProps) {
 
   useEffect(() => {
     const fetchParents = async () => {
-      const response = await axiosInstance.get('/esa/parent');
+      const response = await axiosInstance.get('/api/esa/parent');
       setAllParents(response.data);
     };
     fetchParents();

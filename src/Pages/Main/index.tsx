@@ -13,13 +13,13 @@ function Main() {
   const [listPortfolio, setListPortfolio] = useState([]);
 
   const fetchData = async () => {
-    const result = await axiosInstance('/home/news');
+    const result = await axiosInstance('/api/home/news');
     result.data = result.data.filter((news: INews) => news.draft === false);
     result.data.sort(
       (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
     );
     setListNews(result.data);
-    const resultPortfolio = await axiosInstance('/home/portfolio');
+    const resultPortfolio = await axiosInstance('/api/home/portfolio');
     setListPortfolio(resultPortfolio.data);
   };
   useEffect(() => {

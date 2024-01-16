@@ -8,7 +8,7 @@ function Portfolio() {
   const [listPortfolio, setListPortfolio] = useState([]);
 
   const fetchData = async () => {
-    const result = await axiosInstance.get('/home/portfolio');
+    const result = await axiosInstance.get('/api/home/portfolio');
     setListPortfolio(result.data);
   };
 

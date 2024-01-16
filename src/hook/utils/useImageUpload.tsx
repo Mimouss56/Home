@@ -17,7 +17,7 @@ const useImageUpload = () => {
         const formUpload = new FormData();
         formUpload.append('image', selectedFile);
 
-        const response = await axiosInstance.post('/home/upload', formUpload, {
+        const response = await axiosInstance.post('/api/home/upload', formUpload, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 

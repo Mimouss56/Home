@@ -23,13 +23,13 @@ function ViewCVPage() {
 
   // Chargement des Skills pour le select
   const fetchDataSkills = async () => {
-    const response = await axiosInstance.get('/home/skill');
+    const response = await axiosInstance.get('/api/home/skill');
     setSkills(response.data);
   };
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
-    const response = await axiosInstance.get(`/home/user/${MoussID}`);
+    const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     setListJob(response.data.user.job);
     setFilteredJob(response.data.user.job);
     const schoolList = response.data.user.school;

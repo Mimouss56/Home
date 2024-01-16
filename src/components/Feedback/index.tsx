@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../../@types/error';
 import IFeedback from '../../@types/Home/feedback';
+import axiosInstance from '../../utils/axios';
 
 const initData = {
   name: '',
@@ -31,7 +32,7 @@ function Feedback() {
     event.preventDefault();
     // on envoie le feedback au serveur
     try {
-      const response = await axios.post('https://www.mimouss.fr/feedback', feedback);
+      const response = await axiosInstance.post('/feedback', feedback);
       toast.success(response.data.message);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;

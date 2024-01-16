@@ -12,18 +12,18 @@ function User() {
   const [listRole, setListRole] = useState([]);
 
   const fetchListRole = async () => {
-    const response = await axiosInstance.get('/home/role');
+    const response = await axiosInstance.get('/api/home/role');
     setListRole(response.data);
   };
 
   const fetchUsers = async () => {
-    const response = await axiosInstance.get('/home/user');
+    const response = await axiosInstance.get('/api/home/user');
     setUsers(response.data);
   };
 
   const handleChangeRole = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     try {
-      await axiosInstance.put(`/user/${event.target.id}`, {
+      await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         role: event.target.value,
       });
       fetchUsers();
@@ -35,7 +35,7 @@ function User() {
 
   const handleSwitchChild = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/home/user/${event.target.id}`, {
+      const response = await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         child: event.target.checked,
       });
       fetchUsers();
@@ -48,7 +48,7 @@ function User() {
 
   const handleSwitchFamily = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/home/user/${event.target.id}`, {
+      const response = await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         family: event.target.checked,
       });
       fetchUsers();

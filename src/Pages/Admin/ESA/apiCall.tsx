@@ -8,20 +8,20 @@ export const fetchStudents = async (): Promise<IcreateStudent[]> => {
 
 export const updateStudent = async (data: IcreateStudent) => {
   const { id, ...rest } = data; // id n'est pas nécessaire pour un PUT
-  await axiosInstance.put(`/esa/child/${id}`, rest);
+  await axiosInstance.put(`/api/esa/child/${id}`, rest);
 };
 
 export const createStudent = async (data: IcreateStudent) => {
   const { id, ...rest } = data; // id n'est pas nécessaire pour un POST
-  await axiosInstance.post('/esa/child', rest);
+  await axiosInstance.post('/api/esa/child', rest);
 };
 
 export const deleteStudent = async (id: number) => {
-  await axiosInstance.delete(`/esa/child/${id}`);
+  await axiosInstance.delete(`/api/esa/child/${id}`);
 };
 
 export const updateStudentClass = async (id: string, classe: string) => {
-  await axiosInstance.put(`/esa/child/${id}`, {
+  await axiosInstance.put(`/api/esa/child/${id}`, {
     classe,
   });
 };

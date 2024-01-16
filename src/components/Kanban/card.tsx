@@ -12,7 +12,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
   const [showInput, setShowInput] = useState(false);
   const handleDeleteCard = async () => {
     try {
-      await axiosInstance.delete(`/kanban/cards/${card.id}`);
+      await axiosInstance.delete(`/api/kanban/cards/${card.id}`);
       updateCards();
     } catch (error) {
       toast.error(`Error deleting card: ${error}`);

@@ -22,7 +22,7 @@ function Register() {
 
     try {
       setError(false);
-      const res = await axiosInstance.post('/home/register', dataInput);
+      const res = await axiosInstance.post('/api/home/register', dataInput);
       toast.info(`${res.data.message}, Merci de vous reconnecter !`);
 
       setLoading(false);

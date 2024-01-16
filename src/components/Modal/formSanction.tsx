@@ -18,7 +18,7 @@ function ModalAddSanction({ sanction = null }: SanctionFormProps) {
   );
 
   const fetchChildren = async () => {
-    const response = await axiosInstance.get('/home/user');
+    const response = await axiosInstance.get('/api/home/user');
     const { data } = response;
     const childrenListData = data.filter((oneChild: IUser) => oneChild.child === true);
     setChildrenList(childrenListData);

@@ -46,7 +46,7 @@ function ModalAddNews({ onSubmit }: NewsFormProps) {
     };
     if (currentNews) {
       try {
-        const result = await axiosInstance.put(`/home/news/${currentNews.id}`, inputData);
+        const result = await axiosInstance.put(`/api/home/news/${currentNews.id}`, inputData);
         toast.success(result.data.message);
       } catch (error) {
         const { response } = error as ErrorSanctionProps;
@@ -54,7 +54,7 @@ function ModalAddNews({ onSubmit }: NewsFormProps) {
       }
     } else {
       try {
-        const result = await axiosInstance.post('/home/news', inputData);
+        const result = await axiosInstance.post('/api/home/news', inputData);
         toast.success(result.data.message);
       } catch (error) {
         const { response } = error as ErrorSanctionProps;
