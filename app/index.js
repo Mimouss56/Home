@@ -41,8 +41,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware pour servir des fichiers statiques depuis le répertoire app/public/images
-const publicImagesPath = path.join(__dirname, 'public');
-app.use('/images', express.static(path.join(publicImagesPath, 'images')));
+app.use('/images', express.static(path.join(__dirname, '../app/public/images')));
+
 // Middleware pour servir des fichiers statiques depuis le répertoire public du niveau supérieur
 app.use(express.static(path.join(__dirname, '../public')));
 // Middleware pour Swagger

@@ -14,7 +14,9 @@ function FloatCard({
     if (urlImg && urlImg.includes('http')) {
       setUrlImgState(urlImg);
     } else if (urlImg) {
-      setUrlImgState(`https://www.mimouss.fr/images/${urlImg}`);
+      console.log(`http://localhost:3001/images/${urlImg}`);
+
+      setUrlImgState(`http://localhost:3001/images/${urlImg}`);
     }
   }, [urlImg]);
   return (

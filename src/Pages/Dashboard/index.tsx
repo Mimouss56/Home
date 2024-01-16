@@ -8,6 +8,7 @@ import useImageUpload from '../../hook/utils/useImageUpload';
 import useCheckPassword from '../../hook/utils/usePasswordCheck';
 import axiosInstance from '../../utils/axios';
 import { ErrorAxios } from '../../@types/error';
+import { Avatar } from '../../@types/Home/user';
 
 interface IDataInput {
   last_name: string;
@@ -25,10 +26,9 @@ export default function UserSettingsPage() {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [imageFile, setImageFile] = useState<Avatar | null>(null);
 
   const {
-    imageFile,
-    setImageFile,
     resetImageUpload,
   } = useImageUpload();
 

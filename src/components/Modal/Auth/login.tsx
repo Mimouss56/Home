@@ -10,11 +10,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
-    // on ferme la modal
-    const modal = document.getElementById('feedbackModal');
-    const backdrop = document.querySelector('.modal-backdrop');
-    backdrop?.remove();
-    modal?.classList.remove('show');
+    e.preventDefault();
     try {
       setError(false);
       setErrorMessage('');
@@ -27,6 +23,13 @@ function Login() {
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(data));
       sessionStorage.setItem('notifToast', message);
+      document.dispatchEvent(new Event('newLogin'));
+      // on ferme la modal
+      const modal = document.getElementById('modalLogin');
+      const backdrop = document.querySelector('.modal-backdrop');
+      backdrop?.remove();
+      modal?.classList.remove('show');
+      toast.success(`🦄 ${message} !`);
       // window.location.reload();
     } catch (err) {
       const { response } = err as { response: { data: string } };

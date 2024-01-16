@@ -47,41 +47,44 @@ function ListFeedBack() {
       <div className="row">
         <div className="col-12">
           <h1 className="text-center">Liste des feedback</h1>
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Message</th>
-                <th scope="col">Path</th>
-                <th scope="col">Date</th>
-                <th scope="col">Traité</th>
-              </tr>
-            </thead>
-            <tbody>
-              {feedbackList && feedbackList.map((feedback: IFeedback) => (
-                <tr key={feedback.id}>
-                  <td>{feedback.name}</td>
-                  <td>{feedback.email}</td>
-                  <td>{feedback.message}</td>
-                  <td>{feedback.path}</td>
-                  <td>{dayjs(feedback.created_at).format('DD/MM/YYYY')}</td>
-                  <td>
-                    <div className="form-check form-switch ">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        defaultChecked={feedback.draft}
-                        id={feedback.id.toString()}
-                        onChange={handleSwitch}
-                      />
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Message</th>
+                  <th scope="col">Path</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Traité</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {feedbackList && feedbackList.map((feedback: IFeedback) => (
+                  <tr key={feedback.id}>
+                    <td>{feedback.name}</td>
+                    <td>{feedback.email}</td>
+                    <td>{feedback.message}</td>
+                    <td>{feedback.path}</td>
+                    <td>{dayjs(feedback.created_at).format('DD/MM/YYYY')}</td>
+                    <td>
+                      <div className="form-check form-switch ">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          role="switch"
+                          defaultChecked={feedback.draft}
+                          id={feedback.id.toString()}
+                          onChange={handleSwitch}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+          </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,6 @@ import Footer from './layout/Footer';
 import Feedback from './components/Feedback';
 import Snow from './components/Snowflakes';
 import Main from './components/Main';
-import NavAside from './components/NavAside';
 import Notifications from './components/Notification';
 
 // si le mois actuelle est 12 alors on import le style de noel
@@ -38,7 +37,6 @@ function App() {
 
       <Login />
       <Register />
-      <NavAside />
 
       <Main />
       <Notifications />

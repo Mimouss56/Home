@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './style.scss';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { ErrorSanctionProps } from '../../@types/error';
 import axiosInstance from '../../utils/axios';
 

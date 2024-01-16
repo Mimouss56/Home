@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { url } from 'inspector';
 import useImageUpload from '../../hook/utils/useImageUpload'; // Assurez-vous que le chemin est correct
 import { Avatar } from '../../@types/Home/user';
 
@@ -9,12 +8,14 @@ type FileUploaderProps = {
 };
 
 export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
-  const { handleUpload, imageFile, setImageFile } = useImageUpload();
-
+  const { handleUpload } = useImageUpload();
+  const [imageFile, setImageFile] = useState<Avatar | null>(null);
   const [isHover, setIsHover] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const urlImage = await handleUpload(e); // Gère l'upload de l'image
+    console.log(urlImage);
+
     if (urlImage) {
       setImageFile(urlImage);
       submit(urlImage);
@@ -77,7 +78,7 @@ export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
             accept="image/*"
           />
           {imageFile && (
-            <img src={imageFile.path} alt="Uploaded" />
+            <img src={`http://localhost:3001/images/${imageFile.path}`} alt="Uploaded" />
           )}
         </div>
       )}

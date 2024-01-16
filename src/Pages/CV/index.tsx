@@ -10,7 +10,6 @@ import Selected from './Select';
 import { IEmploi } from '../../@types/Home/emploi';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/formJob';
-import { titleSection } from '../../components/Cv/Styles/title';
 import Job from '../../components/Job';
 
 function ViewCVPage() {
