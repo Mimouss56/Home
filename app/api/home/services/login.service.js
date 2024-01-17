@@ -15,6 +15,7 @@ module.exports = {
         message: 'Email or password is incorrect',
       };
     }
+    const userInfo = await userService.getData(userExist.id);
     const passwordMatch = await bcrypt.compare(password, userExist.password);
     if (!passwordMatch) {
       return {
@@ -38,9 +39,10 @@ module.exports = {
       delete_at: null,
     });
     const dataNotif = {
-      feedback: await feedbackService.getAll(),
       sanction: await sanctionService.getAll(userExist.id),
     };
+
+    dataNotif.feedback = (userInfo.role.id === 1) ? await feedbackService.getAll() : [];
 
     // Return user && token && dataNotif
     const userLogged = {

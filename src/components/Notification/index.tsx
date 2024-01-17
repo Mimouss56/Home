@@ -3,49 +3,42 @@ import './style.scss';
 import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../../@types/error';
 import axiosInstance from '../../utils/axios';
-
-interface Inotif {
-  id: number;
-  name: string;
-  message: string;
-  draft: boolean;
-  read: boolean;
-}
+import { INotif } from '../../@types/notifToast';
 
 function Notifications() {
   const [nbNotif, setNbNotif] = useState(0);
-  const [listNotif, setListNotif] = useState([]);
+  const [listNotif, setListNotif] = useState<INotif[]>([]);
   const [showNotif, setShowNotif] = useState(false);
 
   const handleReadNotif = (id: number) => {
     try {
       axiosInstance.put(`/feedback/${id}`, { read: true });
-      const newNotif = [...listNotif];
-      setListNotif(newNotif);
-      setNbNotif(newNotif.filter((n: Inotif) => !n.read).length);
-      sessionStorage.setItem('dataNotif', JSON.stringify(newNotif));
+      const newListNotif = listNotif.filter((notif) => notif.id !== id);
+      setListNotif(newListNotif);
+      setNbNotif(newListNotif.length);
+      sessionStorage.setItem('dataNotif', JSON.stringify(newListNotif));
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-    const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]');
-    if (dataNotif && user && user.family) {
+    const updateNotifications = () => {
+      const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
       setListNotif(dataNotif);
-      setNbNotif(dataNotif.filter((notif: Inotif) => !notif.read).length);
-    }
+      setNbNotif(dataNotif.length);
+    };
+    // Mettre à jour les notifications lorsqu'il y a un nouvel événement de connexion
+    document.addEventListener('newLogin', () => updateNotifications());
+    updateNotifications();
   }, []);
-
-  if (!listNotif.length || nbNotif === 0) return null;
 
   return (
     <div className="position-fixed" style={{ bottom: '15%', right: '25px' }}>
       <div className="position-relative">
         {showNotif && (
           <div className="position-absolute" style={{ bottom: '100%', right: '0' }}>
-            {listNotif.map((notif: Inotif, index: number) => (
+            {listNotif.map((notif: INotif, index: number) => (
               <div
                 key={notif.id}
                 className="card card-body bg-light mt-2"
@@ -68,20 +61,23 @@ function Notifications() {
             ))}
           </div>
         )}
+        {nbNotif !== 0 && (
+          <div className="shake badge bg-warning border border-warning-subtle text-warning-emphasis rounded-circle">
+            <button
+              type="button"
+              className="btn btn-inline-warning position-relative"
+              onClick={() => setShowNotif(!showNotif)}
+            >
+              <i className="bi bi-bell" />
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {nbNotif}
+                <span className="visually-hidden">unread messages</span>
+              </span>
+            </button>
+          </div>
 
-        <div className="shake badge bg-warning border border-warning-subtle text-warning-emphasis rounded-circle">
-          <button
-            type="button"
-            className="btn btn-inline-warning position-relative"
-            onClick={() => setShowNotif(!showNotif)}
-          >
-            <i className="bi bi-bell" />
-            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {nbNotif}
-              <span className="visually-hidden">unread messages</span>
-            </span>
-          </button>
-        </div>
+        )}
+
       </div>
     </div>
   );

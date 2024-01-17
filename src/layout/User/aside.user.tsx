@@ -23,6 +23,7 @@ function Menu({ navContent }: MenuProp) {
   const handleClickLogout = () => {
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('sessionToken');
+    sessionStorage.removeItem('dataNotif');
     sessionStorage.setItem('notifToast', 'Vous êtes déconnecté !');
     window.location.replace('/');
   };

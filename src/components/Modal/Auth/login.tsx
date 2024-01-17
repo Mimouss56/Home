@@ -1,6 +1,10 @@
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
+import { ISanction } from '../../../@types/Home/sanction';
+import { INotif } from '../../../@types/notifToast';
+
+interface IDataNotif { feedback: INotif[], sanction: ISanction[] }
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -9,6 +13,27 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  const dataNotifFct = (dataNotif: IDataNotif) => {
+    const arrayUnread = [
+      ...dataNotif.feedback
+        .filter((notif: INotif) => !notif.read)
+        .map((feedback: INotif) => ({
+          id: feedback.id,
+          message: feedback.message,
+          name: 'FeedBack',
+          read: feedback.read,
+        })),
+      ...dataNotif.sanction
+        .filter((sanction: ISanction) => !sanction.read)
+        .map((sanction: ISanction) => ({
+          id: sanction.id,
+          message: 'Vous avez une sanction non lue',
+          name: 'Sanction',
+          read: sanction.read,
+        })),
+    ];
+    sessionStorage.setItem('dataNotif', JSON.stringify(arrayUnread));
+  };
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
@@ -19,7 +44,8 @@ function Login() {
       const { data, sessionToken, message } = res.data;
       const { dataNotif, ...user } = data;
       // stockage des données dans le sessionStorage
-      sessionStorage.setItem('dataNotif', JSON.stringify(data.dataNotif));
+
+      dataNotifFct(dataNotif);
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(user));
       sessionStorage.setItem('notifToast', message);

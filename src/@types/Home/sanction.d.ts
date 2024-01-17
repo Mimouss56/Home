@@ -13,6 +13,7 @@ export interface ISanction {
     username: string;
   }
   warn : boolean;
+  read: boolean;
 }
 export interface ICreateSanction {
   id?: number | null;
