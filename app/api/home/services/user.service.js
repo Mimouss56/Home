@@ -97,6 +97,7 @@ module.exports = {
       last_name: inputData.last_name,
       first_name: inputData.first_name,
       email: inputData.email,
+      avatar: inputData.avatar,
       // password: inputData.password,
     };
 

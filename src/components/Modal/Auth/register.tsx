@@ -12,7 +12,8 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
     const dataInput = {
       username,
       password,
@@ -23,19 +24,24 @@ function Register() {
     try {
       setError(false);
       const res = await axiosInstance.post('/api/home/register', dataInput);
+      // on ferme la modal
+      const modal = document.getElementById('modalregister');
+      const backdrop = document.querySelector('.modal-backdrop');
+      backdrop?.remove();
+      modal?.classList.remove('show');
+
       toast.info(`${res.data.message}, Merci de vous reconnecter !`);
 
       setLoading(false);
     } catch (err) {
       const { response } = err as { response: { data: string } };
       setError(true);
-      setErrorMessage(response.data);
-      setLoading(false);
+      toast.error(response.data);
     }
   };
 
   return (
-    <form action="">
+    <form onSubmit={handleSubmit}>
       <div className="modal fade" id="modalregister" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
@@ -114,7 +120,6 @@ function Register() {
               <button
                 type="submit"
                 className="btn btn-primary"
-                onClick={handleSubmit}
                 disabled={loading}
               >
                 S&apos;enregistrer

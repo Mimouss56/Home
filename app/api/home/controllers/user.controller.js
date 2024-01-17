@@ -34,7 +34,7 @@ module.exports = {
     const { id } = req.params;
     const userInfo = await userService.getData(id);
     const {
-      role, last_name: lastName, first_name: firstName, email, password, passwordConfirm,
+      role, last_name: lastName, first_name: firstName, email, password, passwordConfirm, avatar,
     } = req.body;
     const updatedFamily = Object.prototype.hasOwnProperty.call(req.body, 'family') ? req.body.family : userInfo.family;
     const updatedChild = Object.prototype.hasOwnProperty.call(req.body, 'child') ? req.body.child : userInfo.child;
@@ -47,6 +47,7 @@ module.exports = {
       email: email || userInfo.email,
       password,
       passwordConfirm,
+      avatar: avatar || userInfo.avatar,
     };
     const data = await userService.update(id, inputData);
     if (data.code) {

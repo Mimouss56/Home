@@ -17,13 +17,14 @@ function Navbar({ navContent }: NavbarProp) {
   const [avatar, setAvatar] = useState('');
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
+  const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
   const updateUserInfo = () => {
     const storedUserInfo = sessionStorage.getItem('user');
     if (storedUserInfo) {
       const user = JSON.parse(storedUserInfo) as User;
       setUserInfo(user);
-      setAvatar(user?.avatar ? `https://www.mimouss.fr/images/${user.avatar.path}` : 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg');
+      setAvatar(user.avatar ? `${user.avatar.path}` : 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg');
     } else {
       setUserInfo(null);
     }
@@ -79,7 +80,7 @@ function Navbar({ navContent }: NavbarProp) {
                     data-bs-target="#aside"
                   >
                     <img
-                      src={avatar}
+                      src={`${url}/images/${avatar}`}
                       alt="avatar"
                       className="rounded-circle"
                       width="32"

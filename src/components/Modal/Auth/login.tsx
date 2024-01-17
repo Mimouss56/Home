@@ -17,11 +17,11 @@ function Login() {
 
       const res = await axiosInstance.post('/api/home/login', { username, password });
       const { data, sessionToken, message } = res.data;
-      const dataNotif = await axiosInstance.get('/feedback');
-      sessionStorage.setItem('dataNotif', JSON.stringify(dataNotif.data));
-
+      const { dataNotif, ...user } = data;
+      // stockage des données dans le sessionStorage
+      sessionStorage.setItem('dataNotif', JSON.stringify(data.dataNotif));
       sessionStorage.setItem('sessionToken', sessionToken);
-      sessionStorage.setItem('user', JSON.stringify(data));
+      sessionStorage.setItem('user', JSON.stringify(user));
       sessionStorage.setItem('notifToast', message);
       document.dispatchEvent(new Event('newLogin'));
       // on ferme la modal
@@ -29,8 +29,9 @@ function Login() {
       const backdrop = document.querySelector('.modal-backdrop');
       backdrop?.remove();
       modal?.classList.remove('show');
+
+      // on affiche le toast
       toast.success(`🦄 ${message} !`);
-      // window.location.reload();
     } catch (err) {
       const { response } = err as { response: { data: string } };
       setError(true);

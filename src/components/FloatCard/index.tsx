@@ -14,8 +14,6 @@ function FloatCard({
     if (urlImg && urlImg.includes('http')) {
       setUrlImgState(urlImg);
     } else if (urlImg) {
-      console.log(`http://localhost:3001/images/${urlImg}`);
-
       setUrlImgState(`http://localhost:3001/images/${urlImg}`);
     }
   }, [urlImg]);

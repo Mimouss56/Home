@@ -44,6 +44,28 @@ export default function UserSettingsPage() {
 
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
+  const handleChangeFile = (file: Avatar) => {
+    setImageFile(file);
+
+    try {
+      axiosInstance.put(`/api/home/user/${user.id}`, { avatar: file.id });
+      const newUser = {
+        ...user,
+        avatar: file,
+      };
+
+      sessionStorage.setItem('user', JSON.stringify(newUser));
+    } catch (err) {
+      const errorAxios = err as AxiosError;
+      const errorData = errorAxios.response?.data as ErrorAxios;
+      toast.warning(
+        errorData?.message
+        || "Une erreur s'est produite lors de l'upload de l'image.",
+      );
+    }
+    // on modifie le sessionStorage pour mettre à jour l'image
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -105,7 +127,7 @@ export default function UserSettingsPage() {
                 {' '}
                 {user.username}
               </h4>
-              <FileUploader submit={setImageFile} img={user.avatar?.path || ''} />
+              <FileUploader submit={handleChangeFile} img={user.avatar?.path || ''} />
 
               <div className="input-group mb-3">
                 <span className="input-group-text" id="Nom">

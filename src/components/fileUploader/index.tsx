@@ -11,13 +11,11 @@ export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
   const { handleUpload } = useImageUpload();
   const [imageFile, setImageFile] = useState<Avatar | null>(null);
   const [isHover, setIsHover] = useState(false);
+  const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const urlImage = await handleUpload(e); // Gère l'upload de l'image
-    console.log(urlImage);
-
     if (urlImage) {
-      setImageFile(urlImage);
       submit(urlImage);
     }
     return null;
@@ -49,7 +47,7 @@ export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
     <div className="position-relative align-content-center d-flex justify-content-center mb-3">
       {img && (
         <>
-          <img src={`https://www.mimouss.fr/images/${img}`} alt={img} width={200} className="" />
+          <img src={`${url}/images/${img}`} alt={img} width={200} className="img-fluid img-thumbnail border-1 border" />
           <div
             style={styleRound}
             onMouseEnter={() => setIsHover(true)}
@@ -78,7 +76,7 @@ export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
             accept="image/*"
           />
           {imageFile && (
-            <img src={`http://localhost:3001/images/${imageFile.path}`} alt="Uploaded" />
+            <img src={`${url}/images/${imageFile.path}`} alt="Uploaded" />
           )}
         </div>
       )}
