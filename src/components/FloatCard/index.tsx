@@ -2,6 +2,7 @@ import './style.scss';
 import { useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import { textFormatDuration } from '../../utils/main';
+import { baseUrl } from '../../../config.json';
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target,
@@ -14,7 +15,7 @@ function FloatCard({
     if (urlImg && urlImg.includes('http')) {
       setUrlImgState(urlImg);
     } else if (urlImg) {
-      setUrlImgState(`http://localhost:3001/images/${urlImg}`);
+      setUrlImgState(`${baseUrl}/images/${urlImg}`);
     }
   }, [urlImg]);
   return (
