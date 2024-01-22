@@ -22,6 +22,7 @@ function Login() {
           message: feedback.message,
           name: 'FeedBack',
           read: feedback.read,
+          type: 'feedback',
         })),
       ...dataNotif.sanction
         .filter((sanction: ISanction) => !sanction.read)
@@ -30,6 +31,7 @@ function Login() {
           message: 'Vous avez une sanction non lue',
           name: 'Sanction',
           read: sanction.read,
+          type: 'sanction',
         })),
     ];
     sessionStorage.setItem('dataNotif', JSON.stringify(arrayUnread));

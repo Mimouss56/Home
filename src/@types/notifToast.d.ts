@@ -8,4 +8,5 @@ export interface INotif {
   name: string;
   message: string;
   read: boolean;
+  type: 'feedback' | 'sanction';
 }

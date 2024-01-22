@@ -10,9 +10,9 @@ function Notifications() {
   const [listNotif, setListNotif] = useState<INotif[]>([]);
   const [showNotif, setShowNotif] = useState(false);
 
-  const handleReadNotif = (id: number) => {
+  const handleReadNotif = (id: number, type: string) => {
     try {
-      axiosInstance.put(`/feedback/${id}`, { read: true });
+      axiosInstance.put(`/${type}/${id}`, { read: true });
       const newListNotif = listNotif.filter((notif) => notif.id !== id);
       setListNotif(newListNotif);
       setNbNotif(newListNotif.length);
@@ -52,7 +52,7 @@ function Notifications() {
                   <button
                     type="button"
                     className="btn bi bi-envelope-open text-success"
-                    onClick={() => handleReadNotif(notif.id)}
+                    onClick={() => handleReadNotif(notif.id, notif.type)}
                   />
 
                 </h5>
