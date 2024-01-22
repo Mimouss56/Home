@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
 import { toast } from 'react-toastify';
-import { ICreateNews, INews, ITag } from '../../@types/Home/news';
-import { ValueTargetForm } from '../../@types/event';
+import { Editor } from '@tinymce/tinymce-react';
+import { ICreateNews } from '../../@types/Home/news';
 import axiosInstance from '../../utils/axios';
-import { ErrorSanctionProps } from '../../@types/error';
 import { ICardNews } from '../../@types/Home/card';
 // Mocked
 interface NewsFormProps {
@@ -18,8 +16,24 @@ const initFormData = {
   draft: false,
 };
 
+const initEditorConfig = {
+  height: 500,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste code help wordcount',
+  ],
+  toolbar: 'undo redo | formatselect | '
+    + 'bold italic backcolor | alignleft aligncenter '
+    + 'alignright alignjustify | bullist numlist outdent indent | '
+    + 'removeformat | help',
+  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+};
+
 function ModalAddNews({ onAddElement }: NewsFormProps) {
   const [formData, setFormData] = useState<ICreateNews>(initFormData);
+  const [editorContent, setEditorContent] = useState<string>('');
 
   const fetchData = async (id: number) => {
     if (id === 0) {
@@ -27,8 +41,9 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
       return;
     }
     try {
-      const response = await axiosInstance(`/home/news/${id}`);
+      const response = await axiosInstance(`/api/home/news/${id}`);
       const data = await response.data;
+
       setFormData(data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des données des News à éditer');
@@ -37,13 +52,16 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { id, ...inputData } = formData;
+    const { id } = formData;
+    const inputData = {
+      title: formData.title,
+      content: editorContent,
+      draft: formData.draft,
+    };
+
     try {
       const endpoint = id !== 0 ? `/api/home/news/${formData.id}` : '/api/home/news';
       const method = id !== 0 ? axiosInstance.put : axiosInstance.post;
-
-      // Intégrer l'URL de l'image dans l'inputData
-
       const response = await method(endpoint, inputData);
 
       toast.success(response.data.message);
@@ -111,39 +129,13 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
             </div>
             <div className="mb-3">
               <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">
-                  Contenu
-                </span>
-                <textarea
-                  className="form-control"
-                  placeholder="content"
-                  aria-label="content"
-                  aria-describedby="basic-addon1"
-                  name="content"
-                  value={formData.content}
-                  onChange={handleChange}
+                <Editor
+                  init={initEditorConfig}
+                  initialValue={formData.content}
+                  textareaName="content"
+                  onEditorChange={(content) => setEditorContent(content)}
                 />
               </div>
-              {/* <Editor
-                value={formData.content}
-                init={{
-                  height: 500,
-                  menubar: false,
-                  plugins: [
-                    'advlist autolink lists link image charmap print preview anchor',
-                    'searchreplace visualblocks code fullscreen',
-                    'insertdatetime media table paste code help wordcount',
-                  ],
-                  toolbar: 'undo redo | formatselect | '
-                    + 'bold italic backcolor | alignleft aligncenter '
-                    + 'alignright alignjustify | bullist numlist outdent indent | '
-                    + 'removeformat | help',
-                  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                }}
-                onChange={handleChange}
-                id="content"
-                name="content"
-              /> */}
             </div>
 
             <div className="modal-footer d-flex justify-content-between">

@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const news = Joi.object({
-  title: Joi.string(),
+  title: Joi.string().required(),
   content: Joi.string().required(),
+  draft: Joi.boolean(),
   image: Joi.string().optional(),
   tags: Joi.array().items(Joi.number()).optional(),
-  draft: Joi.boolean(),
 
 });
 

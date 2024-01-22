@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Card from '../../components/Card';
 import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/Home/card';
@@ -6,6 +7,7 @@ import { INews } from '../../@types/Home/news';
 import ICardPortfolio from '../../@types/portfolio';
 import FloatCard from '../../components/FloatCard';
 import ModalAddFolio from '../../components/Modal/formPortfolio';
+import { ErrorSanctionProps } from '../../@types/error';
 
 function Main() {
   // fetch data from api
@@ -13,14 +15,30 @@ function Main() {
   const [listPortfolio, setListPortfolio] = useState([]);
 
   const fetchData = async () => {
-    const result = await axiosInstance('/api/home/news');
-    result.data = result.data.filter((news: INews) => news.draft === false);
-    result.data.sort(
-      (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
-    );
-    setListNews(result.data);
-    const resultPortfolio = await axiosInstance('/api/home/portfolio');
-    setListPortfolio(resultPortfolio.data);
+    try {
+      const result = await axiosInstance('/api/home/news');
+      result.data = result.data.filter((news: INews) => news.draft === false);
+      result.data.sort(
+        (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
+      );
+      setListNews(result.data);
+    } catch (error) {
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+    }
+    // const result = await axiosInstance('/api/home/news');
+    // result.data = result.data.filter((news: INews) => news.draft === false);
+    // result.data.sort(
+    //   (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
+    // );
+    // setListNews(result.data);
+    try {
+      const resultPortfolio = await axiosInstance('/api/home/portfolio');
+      setListPortfolio(resultPortfolio.data);
+    } catch (error) {
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
+    }
   };
   useEffect(() => {
     fetchData();
