@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import ICardPortfolio from '../../@types/portfolio';
 import axiosInstance from '../../utils/axios';
 import ModalAddFolio from '../../components/Modal/formPortfolio';
 import FloatCard from '../../components/FloatCard';
+import { ErrorSanctionProps } from '../../@types/error';
 
 function Portfolio() {
   const [listPortfolio, setListPortfolio] = useState([]);
@@ -12,7 +14,8 @@ function Portfolio() {
       const result = await axiosInstance.get('/api/home/portfolio');
       setListPortfolio(result.data);
     } catch (error) {
-      console.log(error);
+      const { response } = error as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
 

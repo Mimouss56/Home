@@ -57,83 +57,84 @@ function NewsList() {
   }, []);
 
   return (
-    <article>
-      <div className="d-flex justify-content-between">
-        <h1>Liste des News</h1>
-
-        <button
-          type="button"
-          className="btn btn-primary mb-3"
-          data-bs-toggle="modal"
-          data-bs-target="#addModalNews"
-        >
-          Add News
-        </button>
-      </div>
-
-      {/* Table to display news */}
-      <div className="table-responsive">
-        <table className="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th scope="col">Brouillon</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {newsList.map((news) => (
-              <tr key={news.id}>
-                <td>{news.id}</td>
-                <td>{news.title}</td>
-                <td>{news.author.username}</td>
-                <td>{new Date(news.created_at).toLocaleDateString()}</td>
-                <td>{news.updated_at ? new Date(news.updated_at).toLocaleDateString() : '-'}</td>
-                <td>
-                  <div className="form-check form-switch ">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      defaultChecked={news.draft}
-                      id={news.id.toString()}
-                      onChange={handleSwitchNews}
-                    />
-                  </div>
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-warning mx-1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addModalNews"
-                    data-bs-id={news.id}
-                  >
-                    <i className="bi bi-pencil" />
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger mx-1"
-                    onClick={() => handleDelete(news.id)}
-                  >
-                    <i className="bi bi-trash3" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-      </div>
-
+    <>
       {/* Bootstrap Modal */}
-      <ModalAddNews onSubmit={fetchListNews} />
+      <ModalAddNews onAddElement={fetchListNews} />
+      <article>
+        <div className="d-flex justify-content-between">
+          <h1>Liste des News</h1>
 
-    </article>
+          <button
+            type="button"
+            className="btn btn-primary mb-3"
+            data-bs-toggle="modal"
+            data-bs-target="#addModalNews"
+          >
+            Add News
+          </button>
+        </div>
+
+        {/* Table to display news */}
+        <div className="table-responsive">
+          <table className="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th scope="col">Brouillon</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {newsList.map((news) => (
+                <tr key={news.id}>
+                  <td>{news.id}</td>
+                  <td>{news.title}</td>
+                  <td>{news.author.username}</td>
+                  <td>{new Date(news.created_at).toLocaleDateString()}</td>
+                  <td>{news.updated_at ? new Date(news.updated_at).toLocaleDateString() : '-'}</td>
+                  <td>
+                    <div className="form-check form-switch ">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        defaultChecked={news.draft}
+                        id={news.id.toString()}
+                        onChange={handleSwitchNews}
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-warning mx-1"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addModalNews"
+                      data-bs-id={news.id}
+                    >
+                      <i className="bi bi-pencil" />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger mx-1"
+                      onClick={() => handleDelete(news.id)}
+                    >
+                      <i className="bi bi-trash3" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+        </div>
+
+      </article>
+    </>
   );
 }
 
