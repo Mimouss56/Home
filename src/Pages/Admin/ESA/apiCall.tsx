@@ -2,7 +2,7 @@ import axiosInstance from '../../../utils/axios';
 import { IcreateStudent } from '../../../@types/ESA/student';
 
 export const fetchStudents = async (): Promise<IcreateStudent[]> => {
-  const response = await axiosInstance.get('/esa/child');
+  const response = await axiosInstance.get('/api/esa/child');
   return response.data;
 };
 
