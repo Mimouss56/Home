@@ -48,8 +48,6 @@ function ModalViewDetails() {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
-        console.log(idModal);
-
         fetchData(Number(idModal));
       });
     }
