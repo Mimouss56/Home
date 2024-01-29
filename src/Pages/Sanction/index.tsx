@@ -6,11 +6,12 @@ import axiosInstance from '../../utils/axios';
 import { excerpt } from '../../utils/main';
 import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/formSanction';
+import ModalViewDetails from '../../components/Modal/viewSanction';
 
 dayjs.extend(isoWeek);
-const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
 function Sanction() {
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
   const fetchData = async () => {
     const result = await axiosInstance.get('/api/home/sanction');
@@ -33,6 +34,7 @@ function Sanction() {
 
   return (
     <>
+      <ModalViewDetails />
       <ModalAddSanction />
       <article>
         <div className="d-flex justify-content-between">
@@ -43,6 +45,7 @@ function Sanction() {
               className="btn btn-danger"
               data-bs-toggle="modal"
               data-bs-target="#ModalAddSanction"
+              data-bs-id="0"
             >
               Ajout d&apos;une sanction
             </button>
@@ -70,7 +73,7 @@ function Sanction() {
                   className={sanction.warn ? 'table-danger' : ''}
                   data-bs-toggle="modal"
                   data-bs-target="#modalViewSanction"
-                  data-bs-sanction-id={sanction.id}
+                  data-bs-id={sanction.id}
                 >
                   <td>{excerpt(sanction.label)}</td>
                   <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
@@ -84,6 +87,7 @@ function Sanction() {
                           className="btn btn-warning mx-1"
                           data-bs-toggle="modal"
                           data-bs-target="#ModalAddSanction"
+                          data-bs-id={sanction.id}
                         >
                           <i className="bi bi-pencil" />
                         </button>

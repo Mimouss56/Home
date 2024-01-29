@@ -53,7 +53,9 @@ function ModalAddSanction() {
       addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
-        fetchData(Number(button.getAttribute('data-bs-id') || '0'));
+        const idModal = button.getAttribute('data-bs-id');
+
+        fetchData(Number(idModal));
       });
     }
   }, []);
@@ -94,7 +96,7 @@ function ModalAddSanction() {
           <div className="modal-content">
             <div className="modal-header">
               <h2>
-                {formData.id !== 0 ? 'Ajouter' : 'Editer'}
+                {formData.id === 0 ? 'Ajouter' : 'Editer'}
                 {' '}
                 la sanction
               </h2>
@@ -125,9 +127,9 @@ function ModalAddSanction() {
                     aria-label="choix de l'enfant"
                     name="childId"
                     onChange={handleSelect}
-                    value={formData.child.id || 0}
+                    value={formData.child.id}
                   >
-                    <option selected>Choose...</option>
+                    <option>Choose...</option>
                     {childrenList.map((childInfo) => (
                       <option
                         key={childInfo.id}

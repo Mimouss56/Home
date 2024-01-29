@@ -24,8 +24,6 @@ function Navbar({ navContent }: NavbarProp) {
     if (storedUserInfo) {
       const user = JSON.parse(storedUserInfo) as User;
       setUserInfo(user);
-      console.log(user.avatar);
-
       setAvatar(user.avatar ? `${baseUrl}/images/${user.avatar.path}` : 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg');
     } else {
       setUserInfo(null);
