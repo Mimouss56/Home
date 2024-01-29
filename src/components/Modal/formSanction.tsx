@@ -6,6 +6,9 @@ import { ISanction } from '../../@types/Home/sanction';
 import { User as IUser } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
 
+interface ModalAddItemProps {
+  onAddElement: (data: ISanction) => void;
+}
 const initFormData = {
   id: 0,
   label: '',
@@ -15,7 +18,7 @@ const initFormData = {
   },
   warn: false,
 };
-function ModalAddSanction() {
+function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
   const [formData, setFormData] = useState(initFormData);
 
@@ -78,11 +81,19 @@ function ModalAddSanction() {
   };
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    const inputData = {
+      label: formData.label,
+      id_child: formData.child.id,
+      warn: formData.warn,
+    };
+
     e.preventDefault();
     try {
-      const response = await axiosInstance.post('/api/home/sanction', formData);
-      const { data } = response;
-      setFormData(data);
+      const response = await axiosInstance.post('/api/home/sanction', inputData);
+      const { message, code, ...cleanedData } = response.data;
+
+      onAddElement(cleanedData);
+      toast.success(message);
     } catch (err) {
       const error = err as Error;
       toast.warning(error.message || 'Une erreur s\'est produite lors de la sauvegarde.');

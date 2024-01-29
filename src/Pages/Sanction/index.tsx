@@ -14,8 +14,12 @@ function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
   const fetchData = async () => {
-    const result = await axiosInstance.get('/api/home/sanction');
-    setSanctionList(result.data);
+    try {
+      const result = await axiosInstance.get('/api/home/sanction');
+      setSanctionList(result.data);
+    } catch (error) {
+      toast.error(`Error fetching sanction: ${error}`);
+    }
   };
 
   const handleDelete = async (id: number) => {
@@ -35,7 +39,7 @@ function Sanction() {
   return (
     <>
       <ModalViewDetails />
-      <ModalAddSanction />
+      <ModalAddSanction onAddElement={fetchData} />
       <article>
         <div className="d-flex justify-content-between">
           <h1>Liste des Sanctions</h1>

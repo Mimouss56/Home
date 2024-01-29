@@ -1,6 +1,3 @@
-// creation d'un formulaire de feedback au format modal de boostrap
-
-import axios from 'axios';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -15,6 +12,7 @@ const initData = {
   path: '',
   draft: false,
 } as IFeedback;
+
 function Feedback() {
   const location = useLocation();
   const { pathname } = location;
@@ -52,13 +50,13 @@ function Feedback() {
     <>
       <div
         className="position-fixed bg-info-subtle "
-        style={{ top: '75%' }}
+        style={{ top: '75%', zIndex: 1000 }}
       >
         <button
           type="button"
           data-bs-toggle="modal"
           data-bs-target="#feedbackModal"
-          className="btn btn-primary rounded-start-0 text-light z-n1 "
+          className="btn btn-primary rounded-start-0 text-light z-0 "
         >
           Feedback
         </button>
