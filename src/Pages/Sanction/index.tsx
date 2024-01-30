@@ -70,6 +70,7 @@ function Sanction() {
           <table className="table table-striped table-sm text-center">
             <thead>
               <tr>
+                <th />
                 <th scope="col">Description</th>
                 <th scope="col">Week</th>
                 <th scope="col">Auteur</th>
@@ -90,32 +91,40 @@ function Sanction() {
                   data-bs-target="#modalViewSanction"
                   data-bs-id={sanction.id}
                 >
+                  <td>
+                    {
+                      !sanction.read && user.role.id !== 1 && (
+                        <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
+                    }
+                  </td>
                   <td>{excerpt(sanction.label)}</td>
                   <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
                   <td>{sanction.author.username}</td>
-                  {user.role.id === 1 && (
-                    <>
-                      <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="btn btn-warning mx-1"
-                          data-bs-toggle="modal"
-                          data-bs-target="#ModalAddSanction"
-                          data-bs-id={sanction.id}
-                        >
-                          <i className="bi bi-pencil" />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-danger mx-1"
-                          onClick={() => handleDelete(sanction.id)}
-                        >
-                          <i className="bi bi-trash3" />
-                        </button>
-                      </td>
-                    </>
-                  )}
+                  {
+                    user.role.id === 1 && (
+                      <>
+                        <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className="btn btn-warning mx-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#ModalAddSanction"
+                            data-bs-id={sanction.id}
+                          >
+                            <i className="bi bi-pencil" />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn btn-danger mx-1"
+                            onClick={() => handleDelete(sanction.id)}
+                          >
+                            <i className="bi bi-trash3" />
+                          </button>
+                        </td>
+                      </>
+                    )
+                  }
                 </tr>
               ))}
             </tbody>

@@ -12,7 +12,7 @@ function Notifications() {
 
   const handleReadNotif = (id: number, type: string) => {
     try {
-      axiosInstance.put(`/${type}/${id}`, { read: true });
+      axiosInstance.put(`/api/home/${type}/${id}/read`, { read: true });
       const newListNotif = listNotif.filter((notif) => notif.id !== id);
       setListNotif(newListNotif);
       setNbNotif(newListNotif.length);

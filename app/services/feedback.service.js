@@ -64,4 +64,17 @@ module.exports = {
       };
     }
   },
+
+  async read(id) {
+    const getInfo = await feedback.getData(id);
+    try {
+      const result = await feedback.update(getInfo.id, { read: true });
+      return result;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not updated`,
+      };
+    }
+  },
 };

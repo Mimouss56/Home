@@ -31,6 +31,7 @@ const generateObject = async (value) => {
       username: child.username,
     },
     warn: value.warn,
+    read: value.read,
   };
   return returnValue;
 };
@@ -99,6 +100,18 @@ module.exports = {
       return {
         code: 500,
         message: `${textValue} not deleted`,
+      };
+    }
+  },
+
+  async read(id) {
+    try {
+      const valueRead = await sanction.update(id, { read: true });
+      return valueRead;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not read`,
       };
     }
   },

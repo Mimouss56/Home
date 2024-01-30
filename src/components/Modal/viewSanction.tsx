@@ -7,6 +7,7 @@ import 'dayjs/locale/fr';
 
 import { ISanction } from '../../@types/Home/sanction';
 import axiosInstance from '../../utils/axios';
+import { INotif } from '../../@types/notifToast';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -37,11 +38,17 @@ function ModalViewDetails() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
   const fetchData = async (id: number, idRole: number) => {
+    const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
     try {
       const { data } = await axiosInstance.get(`/api/home/sanction/${id}`);
       if (idRole !== 1 && data.date.week >= dayjs().isoWeek()) {
         data.label = '**********';
       }
+      // update dataNotif in sessionStorage
+      await axiosInstance.put(`/api/home/sanction/${data.id}/read`, { read: true });
+      const newListNotif = dataNotif.filter((notif) => notif.id !== id);
+      sessionStorage.setItem('dataNotif', JSON.stringify(newListNotif));
+
       setSanction(data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des données de la sanction à éditer');

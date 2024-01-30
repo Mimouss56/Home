@@ -42,17 +42,16 @@ module.exports = {
   async put(req, res) {
     const { id } = req.params;
     const {
-      label, id_child, warn,
+      label, id_child, warn, read,
     } = req.body;
     const { id: author_id } = req.user;
 
     const inputQuery = {
-      author_id, label, id_child, warn,
+      author_id, label, id_child, warn, read,
     };
     const result = await sanctionService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
-      code: 200,
       message: 'Sanction updated',
       sanction: await sanctionService.getData(id),
     });
@@ -65,6 +64,13 @@ module.exports = {
       code: 200,
       message: 'Sanction deleted',
     });
+  },
+
+  async read(req, res) {
+    const { id } = req.params;
+    const result = await sanctionService.read(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json(result);
   },
 
 };

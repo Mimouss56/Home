@@ -38,4 +38,10 @@ module.exports = {
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },
+  async read(req, res) {
+    const { id } = req.params;
+    const result = await feedbackService.read(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json(result);
+  },
 };

@@ -4,6 +4,7 @@ const sanction = Joi.object({
   label: Joi.string().required(),
   id_child: Joi.number().integer().required(),
   warn: Joi.boolean().required(),
+  read: Joi.boolean().optional(),
 });
 
 const objectID = Joi.object({

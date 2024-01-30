@@ -18,4 +18,7 @@ router.route('/:id')
   .put(validate(objectID, 'params'), isAdminPost(sanction), sanctionController.put)
   .delete(isAdminPost(objectID, 'params'), sanctionController.delete);
 
+router.route('/:id/read')
+  .put(validate(objectID, 'params'), sanctionController.read);
+
 module.exports = router;
