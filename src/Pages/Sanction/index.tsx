@@ -13,10 +13,18 @@ dayjs.extend(isoWeek);
 function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
-  const fetchData = async () => {
+
+  const fetchData = async (idRole: number) => {
     try {
-      const result = await axiosInstance.get('/api/home/sanction');
-      setSanctionList(result.data);
+      const { data } = await axiosInstance.get('/api/home/sanction');
+      const updatedData = data.map((sanction: ISanction) => {
+        if (idRole !== 1 && sanction.date.week >= dayjs().isoWeek()) {
+          return { ...sanction, label: '**********' };
+        }
+        return sanction;
+      });
+
+      setSanctionList(updatedData);
     } catch (error) {
       toast.error(`Error fetching sanction: ${error}`);
     }
@@ -31,15 +39,18 @@ function Sanction() {
       toast.error(`Error deleting sanction: ${error}`);
     }
   };
+  const handleAddElement = () => {
+    fetchData(user.role.id);
+  };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(user.role.id);
+  }, [user.role.id]);
 
   return (
     <>
       <ModalViewDetails />
-      <ModalAddSanction onAddElement={fetchData} />
+      <ModalAddSanction onAddElement={handleAddElement} />
       <article>
         <div className="d-flex justify-content-between">
           <h1>Liste des Sanctions</h1>

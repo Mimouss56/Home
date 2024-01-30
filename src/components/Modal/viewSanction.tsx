@@ -2,10 +2,14 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import 'dayjs/locale/fr';
+
 import { ISanction } from '../../@types/Home/sanction';
 import axiosInstance from '../../utils/axios';
 
 dayjs.extend(isoWeek);
+dayjs.extend(localizedFormat);
 
 const initFormData = {
   id: 0,
@@ -30,11 +34,15 @@ const initFormData = {
 
 function ModalViewDetails() {
   const [sanction, setSanction] = useState<ISanction>(initFormData);
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
-  const fetchData = async (id: number) => {
+  const fetchData = async (id: number, idRole: number) => {
     try {
-      const response = await axiosInstance.get(`/api/home/sanction/${id}`);
-      setSanction(response.data);
+      const { data } = await axiosInstance.get(`/api/home/sanction/${id}`);
+      if (idRole !== 1 && data.date.week >= dayjs().isoWeek()) {
+        data.label = '**********';
+      }
+      setSanction(data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des données de la sanction à éditer');
     }
@@ -48,10 +56,10 @@ function ModalViewDetails() {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
-        fetchData(Number(idModal));
+        fetchData(Number(idModal), user.role.id);
       });
     }
-  }, []);
+  }, [user.role.id]);
 
   return (
     <div className="modal fade" id="modalViewSanction">
@@ -71,7 +79,10 @@ function ModalViewDetails() {
             {sanction.warn && <span className="badge text-bg-warning rounded-pill">Important</span>}
             <p>{sanction.label}</p>
             <p className="text-end fst-italic m-0">
-              {`${sanction.author.username} le ${new Date(sanction.date.complete).toLocaleDateString()}`}
+              {`Par : ${sanction.author.username}`}
+            </p>
+            <p className="text-end fst-italic m-0">
+              {`le ${dayjs(sanction.date.complete).locale('fr').format('LLLL')}`}
             </p>
           </div>
           <div className="modal-footer d-flex justify-content-around ">
