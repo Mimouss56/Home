@@ -18,7 +18,10 @@ function Sanction() {
     try {
       const { data } = await axiosInstance.get('/api/home/sanction');
       const updatedData = data.map((sanction: ISanction) => {
-        if (idRole !== 1 && sanction.date.week >= dayjs().isoWeek()) {
+        if (
+          idRole !== 1
+          && sanction.date.week >= dayjs().isoWeek()
+          && sanction.date.year >= dayjs().year()) {
           return { ...sanction, label: '**********' };
         }
         return sanction;
