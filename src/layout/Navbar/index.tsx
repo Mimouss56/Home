@@ -80,7 +80,7 @@ function Navbar({ navContent }: NavbarProp) {
                     data-bs-target="#aside"
                   >
                     <img
-                      src={`${avatar}`}
+                      src={avatar}
                       alt="avatar"
                       className="rounded-circle"
                       width="32"
