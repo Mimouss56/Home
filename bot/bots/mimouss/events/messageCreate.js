@@ -12,7 +12,7 @@ module.exports = {
     if (regexQuoi.test(message.content) && !author.bot) { // si le message correspond à la regex
       message.reply(`Hey tu sais quoi !?!?! <@${author.id}>`); // envoyer une réponse
       setTimeout(() => {
-        message.channel.send('QUOICOUBEH ! ! !, (on me souffle à l\'oreille que normalement c\'est Cou A Cou B)');
+        message.channel.send('QUOICOUBEH ! ! !');
       }, 3 * 1000);
     }
     if (regexCeSoir.test(message.content) && !author.bot) { // si le message correspond à la regex
