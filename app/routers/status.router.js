@@ -1,7 +1,8 @@
 const express = require('express');
-const statusController = require('../controllers/status.controller');
 
 const router = express.Router();
+const statusController = require('../controllers/status.controller');
+
 router.route('/site/:id')
   .get(statusController.get)
   .put(statusController.put)

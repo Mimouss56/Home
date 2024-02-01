@@ -48,3 +48,10 @@
  * @return 500 - Erreur serveur
  * @return 401 - Non autorisé
 */
+/**
+ * DateSanction
+ * @typedef {object} DateSanction
+ * @property {number} year - Année de la sanction
+ * @property {number} week - Semaine de la sanction
+ * @property {string} complete - Date complète de la sanction
+ */

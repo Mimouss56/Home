@@ -1,8 +1,10 @@
 const path = require('path');
 const express = require('express');
-const expressJSDocSwagger = require('express-jsdoc-swagger');
 const expressSession = require('express-session');
-const options = require('./swagger/option');
+
+const expressJSDocSwagger = require('express-jsdoc-swagger');
+// const options = require('./swagger/option');
+const optionsHome = require('./swagger/home.swagger');
 require('dotenv').config();
 
 const app = express();
@@ -22,31 +24,19 @@ app.use(
 );
 
 // Middleware pour permettre les requêtes CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-
-  // Réponse à une requête preflight
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+app.use(require('./middlewares/cors.middleware'));
 
 // Middleware pour le décodage des requêtes body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 // Middleware pour servir des fichiers statiques depuis le répertoire app/public/images
 app.use('/images', express.static(path.join(__dirname, '../app/public/images')));
-
 // Middleware pour servir des fichiers statiques depuis le répertoire public du niveau supérieur
 app.use(express.static(path.join(__dirname, '../public')));
+
 // Middleware pour Swagger
-expressJSDocSwagger(app)(options);
+// expressJSDocSwagger(app)(options);
+expressJSDocSwagger(app)(optionsHome);
 
 // Middleware Router
 app.use(router);

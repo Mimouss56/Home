@@ -1,6 +1,17 @@
 const { role } = require('../models/index.mapper');
 
 const textValue = 'role';
+
+/**
+ * @typedef {object} Role - Role object
+ * @property {string} id - Role id
+ * @property {string} label - Role label
+ * @property {string} color - Role color
+
+ *
+ * @param {object} value
+ * @returns
+ */
 const generateObject = async (value) => ({
   id: value.id,
   label: value.label,

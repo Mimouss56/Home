@@ -1,20 +1,48 @@
-const { news, user, role } = require('../models/index.mapper');
-// const userService = require('./user.service');
+const { news } = require('../models/index.mapper');
+const userService = require('./user.service');
+
 const textValue = 'news';
 
+/**
+ * @typedef {object} News - Description de la news
+ * @property {integer} id - L'ID de la news
+ * @property {string} title - Le titre de la news
+ * @property {string} content - Le contenu de la news
+ * @property {Author} author - L'auteur de la news
+ * @property {boolean} draft - La news est-elle un brouillon ?
+ * @property {string} created_at - Date de création
+ * @property {string} updated_at - Date de modification
+ * @param {object} value
+ * @returns
+ */
+
+/**
+ * Author
+ * @typedef {object} Author
+ * @property {integer} id - L'ID de l'auteur
+ * @property {string} username - Le nom d'utilisateur de l'auteur
+ * @property {string} email - L'email de l'auteur
+ * @property {string} last_name - Le nom de famille de l'auteur
+ * @property {string} first_name - Le prénom de l'auteur
+ * @property {Avatar} avatar - L'avatar de l'auteur
+ */
 const generateObject = async (value) => {
-  const authorInfo = await user.findByPk(value.id_author);
-  const userRole = await role.findByPk(authorInfo.id_role);
-  authorInfo.role = userRole;
-  delete authorInfo.id_role;
-  delete authorInfo.password;
+  const authorInfo = await userService.getData(value.id_author);
+  const author = {
+    id: authorInfo.id,
+    username: authorInfo.username,
+    email: authorInfo.email,
+    last_name: authorInfo.last_name,
+    first_name: authorInfo.first_name,
+    avatar: authorInfo.avatar,
+  };
 
   return {
     id: value.id,
     title: value.title,
     content: value.content,
     image: value.image,
-    author: authorInfo,
+    author,
     draft: value.draft,
     created_at: value.created_at,
     updated_at: value.updated_at,

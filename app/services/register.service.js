@@ -24,12 +24,12 @@ module.exports = {
         message: 'Password and password confirm must be the same',
       };
     }
-    delete inputData.passwordConfirm;
+    const { passwordConfirm, ...restInput } = inputData;
 
-    const hash = await bcrypt.hash(inputData.password, 10);
+    const hash = await bcrypt.hash(restInput.password, 10);
     try {
       const data = await user.create({
-        ...inputData,
+        ...restInput,
         password: hash,
       });
       return data;

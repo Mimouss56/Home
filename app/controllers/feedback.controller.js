@@ -19,25 +19,13 @@ module.exports = {
     return res.json(result);
   },
 
-  async put(req, res) {
+  async draft(req, res) {
     const { id } = req.params;
-    const data = await feedbackService.getData(id);
-    const { draft, read } = req.body;
-    const inputQuery = {
-      draft: draft !== data.draft,
-      read: read !== data.read,
-    };
-    const result = await feedbackService.update(id, inputQuery);
+    const result = await feedbackService.draft(id);
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },
 
-  async delete(req, res) {
-    const { id } = req.params;
-    const result = await feedbackService.delete(id);
-    if (result.code) return res.status(result.code).json(result);
-    return res.json(result);
-  },
   async read(req, res) {
     const { id } = req.params;
     const result = await feedbackService.read(id);

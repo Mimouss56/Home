@@ -20,8 +20,8 @@ const options = {
   },
   explorer: true,
   exposeSwaggerUI: true,
-  swaggerUIPath: '/swagger-ui',
   exposeApiDocs: false,
+  swaggerUIPath: '/swagger-ui',
   swaggerUiOptions: {
     customSiteTitle: 'Swagger UI Mimouss API',
     swaggerUrls: [
@@ -29,13 +29,14 @@ const options = {
         url: 'https://www.mimouss.fr/api/home',
         name: 'Home',
       },
-      // {
-      //   url: 'https://www.mimouss.fr/api/oside',
-      //   name: 'Oside',
-      // },
+      {
+        url: 'https://www.mimouss.fr/api/oside',
+        name: 'Oside',
+      },
     ],
     primaryName: 'Home',
   },
+  multiple: true,
 };
 
 module.exports = options;

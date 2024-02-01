@@ -36,13 +36,6 @@ module.exports = {
 
     return commentDetails;
   },
-  /**
-   * @typedef {object} postComment
-   * @property {string} content.required - content
-   *
-   * @param {postComment} data
-   * @return {objet} content
-   */
   async post(data) {
     const newComment = await comment.create(data);
     if (!newComment) {

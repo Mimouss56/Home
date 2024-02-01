@@ -3,15 +3,39 @@ const skillService = require('./skill.service');
 
 const textValue = 'job';
 
+/**
+ * @typedef {object} Job - Description de l'emploi
+ * @property {integer} id - L'ID de l'emploi
+ * @property {string} title - Le titre de l'emploi
+ * @property {DateJob} date - Les dates de l'emploi
+ * @property {Lieu} lieu - Le lieu de l'emploi
+ * @property {string} ent - L'entreprise de l'emploi
+ * @property {string} description - La description de l'emploi
+ * @property {string[]} competences - Les compétences de l'emploi
+ * @property {string} urlImg - L'URL de l'image de l'emploi
+ */
+
 const generateObject = async (value) => {
   const jobSkill = await skillService.getAllSkillJob(value.id);
   return {
     id: value.id,
     title: value.title,
+    /**
+ * DateJob
+ * @typedef {object} DateJob
+ * @property {string} debut - Date de début
+ * @property {string} fin - Date de fin
+ */
     date: {
       debut: value.date_started,
       fin: value.date_ended,
     },
+    /**
+ * Lieu
+ * @typedef {object} Lieu
+ * @property {string} ville - Ville
+ * @property {number} departement - Département
+ */
     lieu: {
       ville: value.town,
       departement: Number(value.postal_code),

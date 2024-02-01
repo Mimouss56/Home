@@ -7,6 +7,51 @@ const jobService = require('./job.service');
 const schoolService = require('./school.service');
 const sanctionService = require('./sanction.service');
 
+/**
+ * Avatar
+ * @typedef {object} Avatar
+ * @property {integer} id - L'ID de l'avatar
+ * @property {string} name - Le nom de l'avatar
+ * @property {string} path - Le chemin de l'avatar
+ */
+
+/**
+ * @typedef {object} User - Utilisateur
+ * @property {integer} id - L'ID de l'utilisateur
+ * @property {string} username - Le nom d'utilisateur
+ * @property {string} email - L'email de l'utilisateur
+ * @property {string} last_name - Le nom de famille de l'utilisateur
+ * @property {string} first_name - Le prénom de l'utilisateur
+ * @property {string} password - Le mot de passe de l'utilisateur
+ * @property {Avatar} avatar - L'avatar de l'utilisateur
+ * @property {string} createdAt - La date de création de l'utilisateur
+ * @property {string} updatedAt - La date de modification de l'utilisateur
+ * @property {string} deleteAt - La date de suppression de l'utilisateur
+ * @property {Role} role - Le rôle de l'utilisateur
+ * @property {array<Job>} job - Les jobs de l'utilisateur
+ * @property {array<School>} school - Les écoles de l'utilisateur
+ * @property {array<Sanction>} sanction - Les sanctions de l'utilisateur
+ * @property {boolean} family - De la famille ?
+ * @property {boolean} child - Un enfant ?
+
+ * @param {object} data
+ * @param {object} dataOption
+ * @returns
+ */
+const generateByDefault = async (data, dataOption) => ({
+  id: data.id,
+  username: data.username,
+  email: data.email,
+  last_name: data.last_name,
+  first_name: data.first_name,
+  role: await roleService.getData(data.id_role),
+  avatar: await upload.findByPk(data.avatar),
+  family: dataOption.family,
+  child: dataOption.child,
+  sanction: dataOption.child ? await sanctionService.getAll(data.id) : null,
+  job: data.username === 'Mouss' ? await jobService.getAllByUser(data.id) : null,
+  school: data.username === 'Mouss' ? await schoolService.getAllByUser(data.id) : null,
+});
 module.exports = {
 
   async getData(id) {
@@ -19,25 +64,8 @@ module.exports = {
     }
     // Ingo Général User
     const userOptionByID = await user.option(id);
-    userByID.family = userOptionByID.family;
-    userByID.child = userOptionByID.child;
-    userByID.role = await roleService.getData(userOptionByID.id_role);
-    userByID.avatar = await upload.findByPk(userByID.avatar);
-
-    // Sanction User if child
-    if (userOptionByID.child) {
-      userByID.sanction = await sanctionService.getAll(userByID.id);
-    }
-    // Job & School User if Mouss
-
-    if (userByID.username === 'Mouss') {
-      userByID.job = await jobService.getAllByUser(userByID.id);
-      userByID.school = await schoolService.getAllByUser(userByID.id);
-    }
-
-    delete userByID.password;
-    delete userByID.id_role;
-    return userByID;
+    const returnUser = await generateByDefault(userByID, userOptionByID);
+    return returnUser;
   },
 
   async getAll() {

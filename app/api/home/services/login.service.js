@@ -7,6 +7,21 @@ const sanctionService = require('./sanction.service');
 
 module.exports = {
 
+  /**
+* Logged
+* @typedef {object} Logged - Utilisateur connecté
+* @property {string} sessionToken - Token de connexion
+* @property {string} message - Message de connexion
+* @property {User} data - Données de l'utilisateur
+* @property {array<Feedback>} dataNotif - Les notifications pour l'utilisateur
+
+* @param {string} username
+* @param {string} password
+* @return {Logged} 200
+* @return 400 - Invalid username/password supplied
+* @return 401 - Unauthorized
+* @return 500 - Unexpected error
+  */
   async login(username, password) {
     const userExist = await user.findOne({ where: { username } });
     if (!userExist) {
