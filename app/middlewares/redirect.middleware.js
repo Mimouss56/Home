@@ -1,7 +1,7 @@
 const path = require('path');
 
 const renderIndex = (req, res, next) => {
-  const publicPath = path.resolve(__dirname, '../public');
+  const publicPath = path.resolve(__dirname, './public');
   // Modification ici pour prendre en compte les sous-dossiers
   if (req.originalUrl.startsWith('/images')) {
     next();
