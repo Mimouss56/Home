@@ -5,7 +5,7 @@ const loginController = require('../controllers/auth.controller');
 const { loginSchema } = require('../schemas/auth.schema');
 
 /**
- * POST /login
+ * POST /api/home/login
  * @summary Login to the application
  * @tags Auth
  * @param {Login} request.body.required - Login object
@@ -17,7 +17,7 @@ const { loginSchema } = require('../schemas/auth.schema');
 router.post('/login', validate(loginSchema), loginController.login);
 
 /**
- * POST /register
+ * POST /api/home/register
  * @summary Register to the application
  * @tags Auth
  * @param {Register} request.body.required - Register object
@@ -31,12 +31,12 @@ router.post('/register', loginController.register);
 
 router.use('/job', require('./job.router'));
 router.use('/news', require('./news.router'));
+router.use('/portfolio', require('./portfolio.router'));
 router.use('/role', require('./role.router'));
+router.use('/sanction', loggedAs, require('./sanction.router'));
 
 // A faire dans Swagger
-router.use('/portfolio', require('./portfolio.router'));
 
-router.use('/sanction', loggedAs, require('./sanction.router'));
 router.use('/school', require('./school.router'));
 router.use('/skill', require('./skill.router'));
 router.use('/test', require('../../../routers/test.router'));

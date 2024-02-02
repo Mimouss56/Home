@@ -9,6 +9,27 @@ const { sanction, user } = require('../models/index.mapper');
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 
+/**
+ * @typedef {object} Child
+ * @property {integer} id - Child id
+ * @property {string} username - Child username
+ */
+
+/**
+ * @typedef {object} Sanction
+ * @property {integer} id - Sanction ID
+ * @property {string} label.required - Sanction label
+ * @property {Author} author - Author
+ * @property {object} date - Date
+ * @property {integer} date.year - Year
+ * @property {integer} date.week - Week
+ * @property {string} date.complete - Complete date
+ * @property {Child} child - Child
+ * @property {boolean} warn.required - Warn
+ * @property {boolean} read - Read
+ * @param {object} value
+ * @returns
+ */
 const generateObject = async (value) => {
   const author = await user.findByPk(value.author_id);
   const child = await user.findByPk(value.id_child);
@@ -38,19 +59,10 @@ const generateObject = async (value) => {
 
 module.exports = {
   async getAll(id_child = false) {
-    let data;
-    if (id_child) {
-      data = await sanction.findAll({ where: { id_child } });
-    } else {
-      data = await sanction.findAll();
-    }
-    // const data = await sanction.findAll({where});
-    if (!data) {
-      return {
-        code: 404,
-        message: `${textValue} not found`,
-      };
-    }
+    const data = id_child
+      ? await sanction.findAll({ where: { id_child } })
+      : await sanction.findAll();
+    if (!data) return [];
     const returnValue = await Promise.all(data.map(generateObject));
     returnValue.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
     return returnValue;

@@ -1,26 +1,46 @@
 const { portfolio } = require('../models/index.mapper');
 
+/**
+ * @typedef {object} Portfolio - Description du portfolio
+ * @property {integer} id - L'ID du portfolio
+ * @property {string} nameSite - Le nom du site
+ * @property {string} description - La description du site
+ * @property {string} urlImg - L'url de l'image
+ * @property {string} urlSite - L'url du site
+ * @param {object} values
+ * @returns
+ */
+const generateValues = (values) => ({
+  id: values.id,
+  nameSite: values.namenameSite,
+  description: values.description,
+  urlImg: values.urlImg,
+  urlSite: values.urlSite,
+});
 module.exports = {
   getAll: async () => {
     try {
-      const options = await portfolio.findAll();
-      return options;
+      const data = await portfolio.findAll();
+      const returnData = await Promise.all(data.map(generateValues(data)));
+      return returnData;
     } catch (error) {
       throw new Error(error);
     }
   },
   getOne: async (id) => {
     try {
-      const option = await portfolio.findByPk(id);
-      return option;
+      const data = await portfolio.findByPk(id);
+      const returnData = await generateValues(data);
+      return returnData;
     } catch (error) {
       throw new Error(error);
     }
   },
   create: async (body) => {
     try {
-      const option = await portfolio.create(body);
-      return option;
+      const data = await portfolio.create(body);
+      const returnData = await generateValues(data);
+      return returnData;
     } catch (error) {
       throw new Error(error);
     }
