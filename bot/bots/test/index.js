@@ -29,7 +29,7 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Collection();
-const foldersPath = path.join(__dirname, `./${process.env.DIR_COMMAND}`);
+const foldersPath = path.join(__dirname, `./commands`);
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {

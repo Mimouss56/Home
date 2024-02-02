@@ -44,14 +44,15 @@ const generateByDefault = async (data, dataOption) => ({
   email: data.email,
   last_name: data.last_name,
   first_name: data.first_name,
-  role: await roleService.getData(data.id_role),
+  role: await roleService.getData(dataOption.id_role),
   avatar: await upload.findByPk(data.avatar),
   family: dataOption.family,
   child: dataOption.child,
-  sanction: dataOption.child ? await sanctionService.getAll(data.id) : null,
-  job: data.username === 'Mouss' ? await jobService.getAllByUser(data.id) : null,
-  school: data.username === 'Mouss' ? await schoolService.getAllByUser(data.id) : null,
+  sanction: await sanctionService.getAll(data.id),
+  job: await jobService.getAllByUser(data.id),
+  school: await schoolService.getAllByUser(data.id),
 });
+
 module.exports = {
 
   async getData(id) {

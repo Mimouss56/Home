@@ -1,17 +1,16 @@
-const { REST, Routes } = require('discord.js');
-const { clientId, token, guildId } = require('../../config.json');
-const botName = "bbc";
+const { removeCommands } = require('./index');
+const { clientID, token, guildID } = require('../../config.json');
+const botName = "TEST";
 
-const rest = new REST().setToken(token);
-
-// DELETE ALL FUNCTION
-
-// for global commands
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })
-  .then(() => console.log('Successfully deleted all guild commands.'))
-  .catch(console.error);
-
-// for global commands
-rest.put(Routes.applicationCommands(clientId), { body: [] })
-  .then(() => console.log('Successfully deleted all application commands.'))
-  .catch(console.error);
+console.log(
+  'clientId: ', clientID[botName.toLocaleUpperCase()],
+  'token: ', token[botName.toLocaleUpperCase()],
+  'guildId:', guildID[botName.toLocaleUpperCase()],
+  'botname:', botName
+);
+removeCommands(
+  clientID[botName.toLocaleUpperCase()],
+  token[botName.toLocaleUpperCase()],
+  guildID[botName.toLocaleUpperCase()],
+  botName
+);
