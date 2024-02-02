@@ -56,7 +56,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
 
-  const fetchJobData = async (id: number, type:string) => {
+  const fetchJobData = async (id: number, type: string) => {
     if (id === 0) {
       setFormData(initFormData);
       return;
@@ -66,7 +66,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       const jobData = response.data;
 
       setFormData({
-        type: jobData.type,
+        type,
+        id,
         ent: jobData.ent || '',
         title: jobData.title || '',
         ville: jobData.lieu.ville || '',
@@ -75,7 +76,6 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         fin: jobData.date.fin || '',
         description: jobData.description || '',
         urlImg: jobData.urlImg || '',
-        id,
       });
 
       // Assurez-vous de charger les compétences sélectionnées si nécessaire

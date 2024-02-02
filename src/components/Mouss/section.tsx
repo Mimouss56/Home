@@ -39,7 +39,7 @@ function Section({ title, type }: SectionProps) {
       >
         Ajout d&apos;un item
       </button>
-      <JobList jobs={items} />
+      <JobList jobs={items} typeData={type} />
       <ModalAddItem onAddElement={handleAddElement} />
     </>
   );
