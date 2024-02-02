@@ -2,6 +2,18 @@ const { skill } = require('../models/index.mapper');
 
 const textValue = 'skill';
 
+/**
+ * @typedef {object} Skill - Description de la compétence
+ * @property {integer} id - L'ID de la compétence
+ * @property {string} name - Le nom de la compétence
+
+ * @param {object} value
+ * @returns
+ */
+const generateObject = (value) => ({
+  id: value.id,
+  name: value.name,
+});
 module.exports = {
   async getAll() {
     const find = await skill.findAll();
@@ -11,13 +23,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = find.map((value) => {
-      const one = {
-        id: value.id,
-        name: value.name,
-      };
-      return one;
-    });
+    const returnValue = await Promise.all(find.map(generateObject));
     return returnValue;
   },
 
@@ -42,22 +48,6 @@ module.exports = {
     return find.map((value) => value.name);
   },
 
-  async getData(id) {
-    try {
-      const value = await skill.findByPk(id);
-      const returnValue = {
-        id: value.id,
-        name: value.name,
-      };
-
-      return returnValue;
-    } catch (error) {
-      return {
-        code: 404,
-        message: `${textValue} not found`,
-      };
-    }
-  },
   async create(inputQuery) {
     try {
       const valueCreated = await skill.create(inputQuery);
@@ -69,26 +59,5 @@ module.exports = {
       };
     }
   },
-  async update(id, inputQuery) {
-    try {
-      const valueUpdated = await skill.update(id, inputQuery);
-      return valueUpdated;
-    } catch (error) {
-      return {
-        code: 500,
-        message: `${textValue} not updated`,
-      };
-    }
-  },
-  async delete(id) {
-    try {
-      const valueDeleted = await skill.delete(id);
-      return valueDeleted;
-    } catch (error) {
-      return {
-        code: 500,
-        message: `${textValue} not deleted`,
-      };
-    }
-  },
+
 };

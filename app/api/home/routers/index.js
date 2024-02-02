@@ -34,11 +34,11 @@ router.use('/news', require('./news.router'));
 router.use('/portfolio', require('./portfolio.router'));
 router.use('/role', require('./role.router'));
 router.use('/sanction', loggedAs, require('./sanction.router'));
+router.use('/school', require('./school.router'));
+router.use('/skill', require('./skill.router'));
 
 // A faire dans Swagger
 
-router.use('/school', require('./school.router'));
-router.use('/skill', require('./skill.router'));
 router.use('/test', require('../../../routers/test.router'));
 router.use('/upload', require('./upload.router'));
 router.use('/user', require('./user.router'));
