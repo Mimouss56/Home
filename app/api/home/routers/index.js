@@ -31,6 +31,7 @@ router.post('/register', loginController.register);
 
 router.use('/job', require('./job.router'));
 router.use('/news', require('./news.router'));
+router.use('/option', require('./option.router'));
 router.use('/portfolio', require('./portfolio.router'));
 router.use('/role', require('./role.router'));
 router.use('/sanction', loggedAs, require('./sanction.router'));
