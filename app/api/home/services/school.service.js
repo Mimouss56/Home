@@ -3,6 +3,10 @@ const skillService = require('./skill.service');
 
 const textValue = 'school';
 
+/**
+ * @param {Job} value - Description de l'école
+ * @returns
+ */
 const generateObject = async (value) => {
   const schoolSkill = await skillService.getAllSkillschool(value.id);
   return {

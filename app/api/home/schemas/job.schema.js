@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 /**
- * @typedef JobPost
+ * @typedef {object} JobPost - Job object
  * @property {string} ent.required - Nom de l'entreprise
  * @property {string} title.required - Titre de l'emploi
  * @property {string} description.required - Description de l'emploi
@@ -22,18 +22,6 @@ const postJob = Joi.object({
   departement: Joi.number().required(),
   urlImg: Joi.string().required(),
 });
-
-const postSchool = Joi.object({
-  ent: Joi.string().required(),
-  title: Joi.string().required(),
-  description: Joi.string().required(),
-  debut: Joi.date().required(),
-  fin: Joi.date().required(),
-  ville: Joi.string().required(),
-  departement: Joi.number().required(),
-  urlImg: Joi.string().required(),
-});
 module.exports = {
   postJob,
-  postSchool,
 };
