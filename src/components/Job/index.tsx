@@ -7,8 +7,6 @@ interface JobProps {
 }
 
 function Job({ jobs, typeData }: JobProps) {
-  console.log('Job Card', typeData);
-
   return (
     <div className="d-flex flex-wrap justify-content-evenly">
       {
