@@ -3,9 +3,10 @@ import { Job as IJob } from '../../@types/Home/emploi';
 
 interface JobProps {
   jobs: IJob[];
+  type: string
 }
 
-function Job({ jobs }: JobProps) {
+function Job({ jobs, type }: JobProps) {
   return (
     <div className="d-flex flex-wrap justify-content-evenly">
       {
@@ -20,6 +21,7 @@ function Job({ jobs }: JobProps) {
             date={job.date}
             competences={job.competences || []}
             target="addItem"
+            type={type}
           />
         ))
       }

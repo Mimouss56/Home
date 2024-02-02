@@ -83,9 +83,9 @@ function ViewCVPage() {
           </PDFDownloadLink>
         )}
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Expériences</h2>
-        <Job jobs={filteredJob} />
+        <Job jobs={filteredJob} type="jobs" />
         <h2 className="mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">Formations</h2>
-        <Job jobs={listSchool} />
+        <Job jobs={listSchool} type="school" />
       </div>
     </>
   );

@@ -56,13 +56,13 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
 
-  const fetchJobData = async (id: number) => {
+  const fetchJobData = async (id: number, type:string) => {
     if (id === 0) {
       setFormData(initFormData);
       return;
     }
     try {
-      const response = await axiosInstance.get(`/api/home/job/${id}`);
+      const response = await axiosInstance.get(`/api/home/${type}/${id}`);
       const jobData = response.data;
 
       setFormData({
@@ -95,7 +95,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         const button = relatedTarget as HTMLButtonElement;
         // Extract info from data-bs-* attributes
         const id = button.getAttribute('data-bs-id') as string;
-        fetchJobData(parseInt(id, 10));
+        const type = button.getAttribute('data-bs-type') as string;
+        fetchJobData(parseInt(id, 10), type);
       });
     }
   }, []);

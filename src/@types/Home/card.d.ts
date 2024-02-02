@@ -13,6 +13,7 @@ export interface ICard {
   } | undefined;
   competences ?: string[] | undefined;
   target: string;
+  type: string
 }
 
 export interface ICardNews {

@@ -5,7 +5,7 @@ import { textFormatDuration } from '../../utils/main';
 import { baseUrl } from '../../../config.json';
 
 function FloatCard({
-  urlImg, title, desc, date, competences, alt, id, target,
+  urlImg, title, desc, date, competences, alt, id, target, type,
 }: ICard) {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
@@ -29,6 +29,7 @@ function FloatCard({
             data-bs-target={`#${target}`}
             data-bs-id={id}
             data-bs-edit="true"
+            data-bs-type={type}
           />
         )}
         <div className="bonnet" />
