@@ -2,6 +2,7 @@ import {
   FormEvent, useEffect, useState,
 } from 'react';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 import axiosInstance from '../../utils/axios';
 import { Job } from '../../@types/Home/emploi';
 import SkillInput from '../Job/skillInput';
@@ -202,7 +203,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Date de début"
                     aria-describedby="basic-addon1"
                     name="debut"
-                    value={formData.debut}
+                    value={dayjs(formData.debut).format('YYYY-MM-DD')}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -217,7 +218,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Date de fin"
                     aria-describedby="basic-addon1"
                     name="fin"
-                    value={formData.fin}
+                    value={dayjs(formData.fin).format('YYYY-MM-DD')}
                     onChange={handleInputChange}
                   />
                 </div>
