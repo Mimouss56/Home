@@ -24,6 +24,19 @@ module.exports = {
       };
     }
   },
+  async find(url) {
+    try {
+      const result = await site.findOne({
+        where: { url },
+      });
+      return result;
+    } catch (error) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+  },
   async getAll() {
     const find = await site.findAll();
     if (!find || find.length === 0) {

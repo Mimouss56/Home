@@ -1,4 +1,5 @@
 const statusService = require('../services/status.service');
+// const banHtml = require('../../src/Pages/Error/ban.html');
 
 module.exports = {
   async get(req, res) {
@@ -7,10 +8,29 @@ module.exports = {
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },
-  async getAll(_, res) {
+
+  async getAll(req, res) {
+    if (req.query.url) {
+      const result = await statusService.find(req.query.url);
+      if (result.ban) {
+        return res.status(403).json({
+          code: 403,
+          message: 'Site Banni',
+          data: result,
+        });
+      }
+      if (result.maintenance) {
+        return res.status(503).json({
+          code: 503,
+          message: 'Site en maintenance',
+          data: result,
+        });
+      }
+    }
     const data = await statusService.getAll();
-    res.json(data);
+    return res.json(data);
   },
+
   async post(req, res) {
     const {
       name,

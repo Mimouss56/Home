@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { ErrorAxios, ErrorSanctionProps } from '../../../../@types/error';
 import ISites from '../../../../@types/Home/sites';

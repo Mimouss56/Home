@@ -5,7 +5,7 @@ const regexCeSoir = /\bce\s+soir\b/;
 module.exports = {
   name: Events.MessageCreate,
   async execute(message) {
-    if (message.guild.id === '827628489867264011') {
+    if (message.guild.id === '834291781511938110') {
       return;
     }
     const { author } = message;
