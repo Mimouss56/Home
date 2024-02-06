@@ -5,7 +5,8 @@
     "link": "/user/jobs",
     "icon": "briefcase",
     "component": "Job"
-  },  {
+  },
+  {
     "id": 5,
     "title": "Render CV",
     "link": "/user/rendercv",
@@ -32,5 +33,12 @@
     "link": "/user/portfolio",
     "icon": "award",
     "component": "portfolio"
+  },
+  {
+    "id": 7,
+    "title": "Suivi Emploi",
+    "link": "/user/emploi",
+    "icon": "award",
+    "component": "emploi"
   }
 ]

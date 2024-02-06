@@ -5,6 +5,7 @@ import Setting from '../Pages/Dashboard';
 import RenderCv from '../Pages/CV/rendercv';
 import NotFound from '../Pages/Error/404';
 import Portfolio from '../Pages/Portfolio';
+import EmploiPage from '../Pages/Admin/Home/Emploi';
 
 function Dashboard() {
   return (
@@ -15,6 +16,8 @@ function Dashboard() {
       <Route path="kanban" element={<Kanban />} />
       <Route path="rendercv" element={<RenderCv />} />
       <Route path="portfolio" element={<Portfolio />} />
+      <Route path="emploi" element={<EmploiPage />} />
+
       <Route path="*" element={<NotFound />} />
 
     </Routes>
