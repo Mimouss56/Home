@@ -56,7 +56,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = await Promise.all(find.map(generateObject));
+    const returnValue = await Promise.all(find.map(generateObject(find)));
     return returnValue;
   },
 

@@ -12,20 +12,16 @@ const { portfolio } = require('../models/index.mapper');
  */
 const generateValues = (values) => ({
   id: values.id,
-  nameSite: values.namenameSite,
+  nameSite: values.nameSite,
   description: values.description,
   urlImg: values.urlImg,
   urlSite: values.urlSite,
 });
 module.exports = {
   getAll: async () => {
-    try {
-      const data = await portfolio.findAll();
-      const returnData = await Promise.all(data.map(generateValues(data)));
-      return returnData;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const data = await portfolio.findAll();
+    const returnData = await Promise.all(data.map(async (value) => generateValues(value)));
+    return returnData;
   },
   getOne: async (id) => {
     try {

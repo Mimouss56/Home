@@ -9,7 +9,7 @@ router.route('/')
    * GET /api/home/portfolio
    * @summary View all portfolios
    * @tags Portfolio
-   * @return {Array.<Portfolio>} 200 - Success response - application/json
+   * @return {Array<Portfolio>} 200 - Success response - application/json
    * @return 500 - Unexpected error
    */
   .get(portfolioController.getAll)
