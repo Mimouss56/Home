@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import JobList from '../Job';
-import ModalAddItem from '../Modal/formJob';
+import ModalAddItem from '../Modal/Ent/formJob';
 import axiosInstance from '../../utils/axios';
 import { Job } from '../../@types/Home/emploi';
 

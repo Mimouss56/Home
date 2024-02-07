@@ -9,7 +9,7 @@ import axiosInstance from '../../utils/axios';
 import Selected from './Select';
 import { IEmploi } from '../../@types/Home/emploi';
 import ExportPDF from '../../components/Cv/PDF/template';
-import ModalAddItem from '../../components/Modal/formJob';
+import ModalAddItem from '../../components/Modal/Ent/formJob';
 import Job from '../../components/Job';
 
 function ViewCVPage() {

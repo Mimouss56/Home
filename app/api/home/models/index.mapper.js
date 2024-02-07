@@ -10,6 +10,9 @@ const News = require('./news.mapper');
 const Option = require('./option.mapper');
 const UserOption = require('./userOption.mapper');
 const Portfolio = require('./portfolio.mapper');
+const Ent = require('./suiviEnt/propal.mapper');
+const Interaction = require('./suiviEnt/interaction.mapper');
+const Contact = require('./suiviEnt/contact.mapper');
 
 module.exports = {
   job: new Job(client),
@@ -22,4 +25,7 @@ module.exports = {
   news: new News(client),
   option: new Option(client),
   portfolio: new Portfolio(client),
+  ent: new Ent(client),
+  interaction: new Interaction(client),
+  contact: new Contact(client),
 };

@@ -11,7 +11,8 @@ module.exports = class Job extends CoreDatamapper {
     const preparedQuery = {
       text: `
         SELECT * FROM "${this.tableName}" 
-        INNER JOIN "${this.userRelated}" ON "${this.tableName}".id = "${this.userRelated}".id_job 
+        INNER JOIN "${this.userRelated}" ON "${this.tableName}".id = "${this.userRelated}".id_job
+        INNER JOIN "ent" ON "${this.tableName}".id_ent = "ent".id
         WHERE "${this.userRelated}".id_user = $1`,
       values: [id],
     };

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import IFeedback from '../../../../@types/Home/feedback';

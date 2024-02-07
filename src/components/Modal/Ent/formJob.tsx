@@ -3,10 +3,10 @@ import {
 } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
-import axiosInstance from '../../utils/axios';
-import { Job } from '../../@types/Home/emploi';
-import SkillInput from '../Job/skillInput';
-import { ISkill } from '../../@types/Home/skill';
+import axiosInstance from '../../../utils/axios';
+import { Job } from '../../../@types/Home/emploi';
+import SkillInput from '../../Job/skillInput';
+import { ISkill } from '../../../@types/Home/skill';
 
 interface ModalAddItemProps {
   onAddElement: (data: Job, type: string) => void;
