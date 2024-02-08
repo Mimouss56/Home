@@ -14,11 +14,16 @@ module.exports = {
   },
 
   async post(req, res) {
-    const { name, adresse } = req.body;
+    const {
+      name, adress, postalCode, town, urlImg,
+    } = req.body;
 
     const inputQuery = {
       name,
-      adresse,
+      adress,
+      postal_code: postalCode,
+      town,
+      url_img: urlImg,
     };
     const result = await suiviService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

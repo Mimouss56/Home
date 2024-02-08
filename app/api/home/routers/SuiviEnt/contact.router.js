@@ -1,6 +1,8 @@
 /* eslint-disable max-len */
 const router = require('express').Router();
 const contactController = require('../../controllers/suiviEnt/contact.controller');
+const { validate } = require('../../../../middlewares/validate.middleware');
+const { contactPost } = require('../../schemas/suiviEnt/suivi.schema');
 
 router.route('/:id')
   /**
@@ -15,5 +17,9 @@ router.route('/:id')
    * @return 500 - Unexpected error
    */
   .get(contactController.getContact);
+
+router.route('/')
+
+  .post(validate(contactPost), contactController.create);
 
 module.exports = router;

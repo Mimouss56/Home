@@ -61,7 +61,7 @@ function ViewCVPage() {
 
   return (
     <>
-      <ModalAddItem onAddElement={() => console.log('test')} />
+      <ModalAddItem onAddElement={fetchDataJobMouss} />
       <div className="d-flex flex-column align-items-center ">
 
         {!selectedSkill

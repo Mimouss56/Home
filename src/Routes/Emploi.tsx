@@ -5,7 +5,7 @@ import DetailsEntreprise from '../Pages/Admin/Home/Emploi/ent';
 function RouteEmploi() {
   return (
     <Routes>
-      <Route path="ent/:idEnt" element={<DetailsEntreprise />} />
+      <Route path=":ent" element={<DetailsEntreprise />} />
 
       <Route path="*" element={<EmploiPage />} />
 

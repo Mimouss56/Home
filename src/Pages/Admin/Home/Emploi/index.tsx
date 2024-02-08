@@ -6,18 +6,24 @@ import axiosInstance from '../../../../utils/axios';
 import { IEntreprise } from '../../../../@types/Home/ent';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import AddEntModal from '../../../../components/Modal/Ent/formEntSuivi';
+import EntCard from '../../../../components/FloatCard/entCard';
+import DetailsEntreprise from './ent';
+import ModalAddItem from '../../../../components/Modal/Ent/formJob';
 
 function EmploiPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>([]);
   const [loader, setLoader] = useState(false);
+  const [entID, setEntID] = useState(0);
+  const [showList, setShowList] = useState(true);
 
   const fetchEmploi = async () => {
     setLoader(true);
     try {
       const data = await axiosInstance.get('/api/home/suivi/ent');
       setEmplois(data.data);
+      setFilteredEmplois(data.data);
 
       setLoader(false);
     } catch (err) {
@@ -28,6 +34,8 @@ function EmploiPage() {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEntID(0);
+    setShowList(true);
     const searchValue = e.target.value;
     setSearchTerm(searchValue);
     const filtered = emplois.filter(
@@ -36,23 +44,14 @@ function EmploiPage() {
     setFilteredEmplois(filtered);
   };
 
-  const handleDelete = async (id: string) => {
-    setLoader(true);
-    try {
-      await axiosInstance.delete(`/api/home/emploi/${id}`);
-      setLoader(false);
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-      setLoader(false);
-    }
+  const handleShowDetails = (idEntreprise: number) => {
+    setEntID(Number(idEntreprise));
+    setShowList(false);
   };
 
   useEffect(() => {
     fetchEmploi();
   }, []);
-
-  console.log(emplois);
 
   return (
     <>
@@ -71,60 +70,26 @@ function EmploiPage() {
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        {/* on affiche la liste filtrer des entreprise
-        {filteredEmplois.length > 0 && (
-          <ul className="list-group w-100 text-dark ">
-            {filteredEmplois.map((item: IEntreprise) => (
-              <li key={item.id} className="list-group-item">
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        )} */}
         {/* Afficher le bouton "Ajouter" seulement si la recherche ne retourne aucun résultat */}
-        {filteredEmplois.length === 0 && (
-          <>
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addEntModal"
-            >
-              Ajouter
-            </button>
-            <AddEntModal onAddElement={fetchEmploi} />
-          </>
-        )}
+        {filteredEmplois.length === 0 && (<AddEntModal onAddElement={fetchEmploi} />)}
       </div>
-      <div>
 
+      {entID !== 0 && (
+        <DetailsEntreprise idEnt={entID.toString()} />
+      )}
+      {filteredEmplois && showList && (
         <div className="d-flex flex-wrap w-75 m-auto ">
-          {filteredEmplois && filteredEmplois.map((item: IEntreprise) => (
-            <div
-              className="card w-25 m-2 bg-light text-dark"
+          {filteredEmplois.map((item: IEntreprise) => (
+            <EntCard
               key={item.id}
-            >
-              <a
-                href={`/user/emploi/ent/${item.id}`}
-                className="text-decoration-none text-dark"
-              >
-
-                <img
-                  className="card-img-top"
-                  src={item.urlImg}
-                  alt={item.name}
-                  style={{ maxWidth: '150px', margin: 'auto', maxHeight: '75px' }}
-                />
-                <div className="card-body">
-                  <h4 className="card-title">{item.name}</h4>
-                  <p className="card-text">{`Nombre de contacts: ${item.contact.length}`}</p>
-                </div>
-              </a>
-            </div>
-
+              ent={item}
+              onClick={() => handleShowDetails(item.id)}
+            />
           ))}
         </div>
-      </div>
+
+      )}
+      <ModalAddItem onAddElement={fetchEmploi} />
     </>
 
   );

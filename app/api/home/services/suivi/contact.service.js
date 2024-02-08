@@ -1,6 +1,18 @@
 const { contact } = require('../../models/index.mapper');
 const interactionService = require('./interaction.service');
 
+/**
+ * @typedef {object} Contact - Contact d'une entreprise
+ * @property {number} id - id du contact
+ * @property {string} nom - Nom du contact
+ * @property {string} prenom - Prénom du contact
+ * @property {string} email - Email du contact
+ * @property {string} phone - Téléphone du contact
+ * @property {string} role - Role du contact
+ * @property {Interaction[]} interaction - Liste des interactions du contact
+ * @param {object} value
+ * @returns
+ */
 const generateObject = async (value) => ({
   id: value.id,
   nom: value.nom,
@@ -22,14 +34,28 @@ module.exports = {
   },
 
   async getContact(id) {
-    const find = await contact.findByPk(id);
-    if (!find) {
+    try {
+      const find = await contact.findByPk(id);
+      const returnValue = await generateObject(find);
+      return returnValue;
+    } catch (error) {
       return {
         code: 404,
         message: 'contact not found',
       };
     }
-    const returnValue = await generateObject(find);
-    return returnValue;
+  },
+
+  async create(data) {
+    try {
+      const find = await contact.create(data);
+      const returnValue = await generateObject(find);
+      return returnValue;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `error while creating contact: ${error}`,
+      };
+    }
   },
 };

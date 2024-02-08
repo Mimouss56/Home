@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
 import { IEntreprise } from '../../../../@types/Home/ent';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import DetailsInteraction from './viewInteraction';
+import AddContactModal from '../../../../components/Modal/Ent/formContact';
 
-function DetailsEntreprise() {
+function DetailsEntreprise({ idEnt }: { idEnt: string }) {
   const [entreprise, setEntreprise] = useState<IEntreprise | null>(null);
   const [showInteration, setShowInteration] = useState(false);
   const [idContact, setIdContact] = useState(0);
-  const { idEnt } = useParams();
 
   const fetchEntreprise = async (id: number) => {
     try {
@@ -61,6 +60,10 @@ function DetailsEntreprise() {
               </li>
             ))}
           </ul>
+          <AddContactModal
+            idEnt={entreprise.id}
+            onAddElement={() => fetchEntreprise(entreprise.id)}
+          />
         </div>
         {showInteration && (
           <div className="col-9">
