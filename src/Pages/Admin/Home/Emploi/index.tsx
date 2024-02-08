@@ -48,21 +48,6 @@ function EmploiPage() {
     }
   };
 
-  const handleAdd = () => {
-    setLoader(true);
-    try {
-      axiosInstance.post('/api/home/emploi', {
-        title: 'emploi',
-        description: 'description',
-      });
-      setLoader(false);
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-      setLoader(false);
-    }
-  };
-
   useEffect(() => {
     fetchEmploi();
   }, []);
@@ -107,7 +92,7 @@ function EmploiPage() {
             >
               Ajouter
             </button>
-            <AddEntModal />
+            <AddEntModal onAddElement={fetchEmploi} />
           </>
         )}
       </div>

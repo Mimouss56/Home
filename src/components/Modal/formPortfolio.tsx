@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import axiosInstance from '../../utils/axios';
 import ICardPortfolio from '../../@types/portfolio';
 import FileUploader from '../fileUploader';
 import { ErrorAxios } from '../../@types/error';
+import useFormInput from '../../utils/formInput';
 
 interface ModalAddItemProps {
   onAddElement: (data: ICardPortfolio) => void;
@@ -19,19 +20,23 @@ const initFormData = {
 };
 
 function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
-  const [formData, setFormData] = useState<ICardPortfolio>(initFormData);
+  const {
+    form: formData,
+    handleChange,
+    setForm,
+  } = useFormInput(initFormData as ICardPortfolio);
   const [imageFile, setImageFile] = useState<File | undefined>();
 
-  const fetchJobData = async (id: number) => {
+  const fetchJobData = useCallback(async (id: number) => {
     if (id === 0) {
-      setFormData(initFormData);
+      setForm(initFormData);
       return;
     }
     try {
       const response = await axiosInstance.get(`/api/home/portfolio/${id}`);
       const jobData = response.data;
 
-      setFormData({
+      setForm({
         nameSite: jobData.nameSite || '',
         description: jobData.description || '',
         urlImg: jobData.urlImg || '',
@@ -41,7 +46,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
     } catch (error) {
       toast.error('Erreur lors de la récupération des données du Portfolio à éditer');
     }
-  };
+  }, [setForm]);
 
   const handleUpload = async (fileUploaded: File) => {
     try {
@@ -53,7 +58,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
       });
 
       const imageUrl = response.data;
-      setFormData((prev) => ({ ...prev, urlImg: imageUrl }));
+      setForm((prev) => ({ ...prev, urlImg: imageUrl }));
 
       return imageUrl;
     } catch (err) {
@@ -62,13 +67,6 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
       toast.warning(errorData?.message || 'Une erreur s\'est produite lors de l\'upload de l\'image.');
     }
     return null;
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -130,7 +128,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
         fetchJobData(parseInt(id, 10));
       });
     }
-  }, []);
+  }, [fetchJobData]);
 
   return (
     <form onSubmit={handleSave}>
@@ -156,7 +154,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                     aria-describedby="basic-addon1"
                     name="nameSite"
                     value={formData.nameSite}
-                    onChange={handleInputChange}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -171,10 +169,10 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   aria-describedby="basic-addon1"
                   name="description"
                   value={formData.description}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </div>
-              <FileUploader submit={handleFileSelect} img={formData.urlImg} />
+              <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
                   https://
@@ -186,7 +184,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   aria-describedby="basic-addon1"
                   name="urlSite"
                   value={formData.urlSite}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </div>
 

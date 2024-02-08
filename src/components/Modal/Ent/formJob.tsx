@@ -1,5 +1,5 @@
 import {
-  FormEvent, useEffect, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
@@ -7,10 +7,7 @@ import axiosInstance from '../../../utils/axios';
 import { Job } from '../../../@types/Home/emploi';
 import SkillInput from '../../Job/skillInput';
 import { ISkill } from '../../../@types/Home/skill';
-
-interface ModalAddItemProps {
-  onAddElement: (data: Job, type: string) => void;
-}
+import useFormInput from '../../../utils/formInput';
 
 const initFormData = {
   type: 'job',
@@ -24,49 +21,47 @@ const initFormData = {
   urlImg: '',
   id: 0,
 };
+interface ModalAddItemProps {
+  onAddElement: (data: Job) => void;
+}
 
 function ModalAddItem({ onAddElement }: ModalAddItemProps) {
-  const [formData, setFormData] = useState(initFormData);
+  const {
+    form, setForm, handleChange, handleSave,
+  } = useFormInput(initFormData);
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   // const [IdJob, setIdJob] = useState<number>(0);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const { type, ...inputData } = form;
 
-  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { type, ...inputData } = formData;
-
-    try {
-      const response = await axiosInstance.post(`/api/home/${type}/@me`, inputData);
-      toast.success(response.data.message);
-      delete response.data.message;
-      delete response.data.code;
-      onAddElement(response.data, type);
-    } catch (err) {
-      const error = err as Error;
-      toast.warning(error.message);
-    }
-  };
+  //   try {
+  //     const response = await axiosInstance.post(`/api/home/${type}/@me`, inputData);
+  //     toast.success(response.data.message);
+  //     delete response.data.message;
+  //     delete response.data.code;
+  //     onAddElement(response.data, type);
+  //   } catch (err) {
+  //     const error = err as Error;
+  //     toast.warning(error.message);
+  //   }
+  // };
 
   const handleSkillSelected = (skill: ISkill) => {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
 
-  const fetchJobData = async (id: number, type: string) => {
+  const fetchJobData = useCallback(async (id: number, type: string) => {
     if (id === 0) {
-      setFormData(initFormData);
+      setForm(initFormData);
       return;
     }
     try {
       const response = await axiosInstance.get(`/api/home/${type}/${id}`);
       const jobData = response.data;
 
-      setFormData({
+      setForm({
         type,
         id,
         ent: jobData.ent || '',
@@ -84,7 +79,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     } catch (error) {
       toast.error('Erreur lors de la récupération des données du job à éditer');
     }
-  };
+  }, [setForm]);
 
   useEffect(() => {
     const addItemModal = document.getElementById('addItem');
@@ -100,9 +95,9 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         fetchJobData(parseInt(id, 10), type);
       });
     }
-  }, []);
+  }, [fetchJobData]);
   return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={(e) => handleSave(e, `/api/home/${form.type}/@me`, onAddElement)}>
       <div
         className="modal fade"
         id="addItem"
@@ -115,8 +110,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                 <select
                   className="form-select input-group-select"
                   aria-label="select Type"
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                  value={form.type}
+                  onChange={(e) => setForm({ ...form, type: e.target.value })}
                   required
                 >
                   <option value="job">Emploi</option>
@@ -139,8 +134,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Entreprise"
                     aria-describedby="basic-addon1"
                     name="ent"
-                    value={formData.ent}
-                    onChange={handleInputChange}
+                    value={form.ent}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -154,8 +149,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Intitulé"
                     aria-describedby="basic-addon1"
                     name="title"
-                    value={formData.title}
-                    onChange={handleInputChange}
+                    value={form.title}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -171,8 +166,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Ville"
                     aria-describedby="basic-addon1"
                     name="ville"
-                    value={formData.ville}
-                    onChange={handleInputChange}
+                    value={form.ville}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -186,8 +181,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Departement"
                     aria-describedby="basic-addon1"
                     name="departement"
-                    value={formData.departement}
-                    onChange={handleInputChange}
+                    value={form.departement}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -203,8 +198,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Date de début"
                     aria-describedby="basic-addon1"
                     name="debut"
-                    value={dayjs(formData.debut).format('YYYY-MM-DD')}
-                    onChange={handleInputChange}
+                    value={dayjs(form.debut).format('YYYY-MM-DD')}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="input-group mb-3">
@@ -218,8 +213,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     aria-label="Date de fin"
                     aria-describedby="basic-addon1"
                     name="fin"
-                    value={dayjs(formData.fin).format('YYYY-MM-DD')}
-                    onChange={handleInputChange}
+                    value={dayjs(form.fin).format('YYYY-MM-DD')}
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -233,8 +228,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   aria-label="Description"
                   aria-describedby="basic-addon1"
                   name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
+                  value={form.description}
+                  onChange={handleChange}
                 />
               </div>
               <div className="input-group mb-3">
@@ -255,8 +250,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   aria-label="Url de l'image"
                   aria-describedby="basic-addon1"
                   name="urlImg"
-                  value={formData.urlImg}
-                  onChange={handleInputChange}
+                  value={form.urlImg}
+                  onChange={handleChange}
                 />
               </div>
 

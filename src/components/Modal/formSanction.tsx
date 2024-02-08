@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { ISanction } from '../../@types/Home/sanction';
 import { User as IUser } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
+import { ErrorSanctionProps } from '../../@types/error';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -95,8 +96,8 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
       onAddElement(cleanedData);
       toast.success(message);
     } catch (err) {
-      const error = err as Error;
-      toast.warning(error.message || 'Une erreur s\'est produite lors de la sauvegarde.');
+      const { response } = err as ErrorSanctionProps;
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
 

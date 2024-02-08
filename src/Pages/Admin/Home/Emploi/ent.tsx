@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { IEntreprise } from '../../../../@types/Home/ent';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
-import DetailsInteraction from '../../../../components/Modal/Ent/viewInteraction';
+import DetailsInteraction from './viewInteraction';
 
 function DetailsEntreprise() {
   const [entreprise, setEntreprise] = useState<IEntreprise | null>(null);

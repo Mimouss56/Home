@@ -1,12 +1,11 @@
 /* eslint-disable max-len */
 const router = require('express').Router();
-const { loggedAs } = require('../../../middlewares/auth.middleware');
-const { validate } = require('../../../middlewares/validate.middleware');
-const { EntPost } = require('../schemas/suiviEnt/suivi.schema');
-const suiviController = require('../controllers/suiviEnt/ent.controller');
-const contactController = require('../controllers/suiviEnt/contact.controller');
+const { loggedAs } = require('../../../../middlewares/auth.middleware');
+const { validate } = require('../../../../middlewares/validate.middleware');
+const { EntPost } = require('../../schemas/suiviEnt/suivi.schema');
+const entController = require('../../controllers/suiviEnt/ent.controller');
 
-router.route('/ent', loggedAs)
+router.route('/', loggedAs)
   /**
    * GET /api/home/suivi/ent
    * @tags Suivi
@@ -16,7 +15,7 @@ router.route('/ent', loggedAs)
    * @return 401 - Unauthorized
    * @return 500 - Unexpected error
    */
-  .get(suiviController.getAllEnt)
+  .get(entController.getAllEnt)
 
   /**
    * POST /api/home/suivi/ent
@@ -27,9 +26,9 @@ router.route('/ent', loggedAs)
    * @return {Ent} 200 - success response - application/json
    * @return 401 - Unauthorized
    */
-  .post(validate(EntPost), suiviController.post);
+  .post(validate(EntPost), entController.post);
 
-router.route('/ent/:id')
+router.route('/:id')
   /**
    * GET /api/home/suivi/ent/{id}
    * @tags Suivi
@@ -41,20 +40,6 @@ router.route('/ent/:id')
    * @return 404 - Not Found
    * @return 500 - Unexpected error
    */
-  .get(suiviController.getEnt);
-
-router.route('/contact/:id')
-  /**
-   * GET /api/home/suivi/contact/{id}
-   * @tags Suivi
-   * @security BearerAuth
-   * @summary Un contact avec son détail de contact, les echanges des contacts et les status des echanges
-   * @param {string} id.path.required - id du contact
-   * @return {Contact} 200 - success response - application/json
-   * @return 401 - Unauthorized
-   * @return 404 - Not Found
-   * @return 500 - Unexpected error
-   */
-  .get(contactController.getContact);
+  .get(entController.getEnt);
 
 module.exports = router;

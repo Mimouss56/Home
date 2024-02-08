@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { Editor } from '@tinymce/tinymce-react';
 import { ICreateNews } from '../../@types/Home/news';
 import axiosInstance from '../../utils/axios';
 import { ICardNews } from '../../@types/Home/card';
-// Mocked
+import useFormInput from '../../utils/formInput';
+
 interface NewsFormProps {
   onAddElement: (data: ICardNews) => void;
 }
@@ -32,35 +33,36 @@ const initEditorConfig = {
 };
 
 function ModalAddNews({ onAddElement }: NewsFormProps) {
-  const [formData, setFormData] = useState<ICreateNews>(initFormData);
+  const {
+    form, setForm, handleChange, handleSave,
+  } = useFormInput(initFormData as ICreateNews);
   const [editorContent, setEditorContent] = useState<string>('');
 
-  const fetchData = async (id: number) => {
+  const fetchData = useCallback(async (id: number) => {
     if (id === 0) {
-      setFormData(initFormData);
+      setForm(initFormData);
       return;
     }
     try {
       const response = await axiosInstance(`/api/home/news/${id}`);
       const data = await response.data;
-
-      setFormData(data);
+      setForm(data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des données des News à éditer');
     }
-  };
+  }, [setForm]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    const { id } = formData;
+    const { id } = form;
     const inputData = {
-      title: formData.title,
+      title: form.title,
       content: editorContent,
-      draft: formData.draft,
+      draft: form.draft,
     };
 
     try {
-      const endpoint = id !== 0 ? `/api/home/news/${formData.id}` : '/api/home/news';
+      const endpoint = id !== 0 ? `/api/home/news/${form.id}` : '/api/home/news';
       const method = id !== 0 ? axiosInstance.put : axiosInstance.post;
       const response = await method(endpoint, inputData);
 
@@ -72,15 +74,10 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
       const error = err as Error;
       toast.warning(error.message || 'Une erreur s\'est produite lors de la sauvegarde.');
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, [editorContent, form, onAddElement]);
 
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, draft: event.target.checked }));
+    setForm((prev) => ({ ...prev, draft: event.target.checked }));
   };
 
   useEffect(() => {
@@ -94,14 +91,14 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
         fetchData(parseInt(id, 10));
       });
     }
-  }, []);
+  }, [fetchData]);
 
   return (
     <div className="modal" tabIndex={-1} id="addModalNews">
       <div className="modal-dialog modal-dialog-centered modal-xl">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">{formData.id ? 'Edit News' : 'Add News'}</h5>
+            <h5 className="modal-title">{form.id ? 'Edit News' : 'Add News'}</h5>
             <button
               type="button"
               className="btn-close"
@@ -122,7 +119,7 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
                   aria-label="Title"
                   aria-describedby="basic-addon1"
                   name="title"
-                  value={formData.title}
+                  value={form.title}
                   onChange={handleChange}
                 />
               </div>
@@ -131,7 +128,7 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
               <div className="input-group mb-3">
                 <Editor
                   init={initEditorConfig}
-                  initialValue={formData.content}
+                  initialValue={form.content}
                   textareaName="content"
                   onEditorChange={(content) => setEditorContent(content)}
                 />
@@ -152,8 +149,8 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
                   type="checkbox"
                   role="switch"
                   name="draft"
-                  checked={formData.draft || false}
-                  {...(formData.id && { id: formData.id.toString() })}
+                  checked={form.draft || false}
+                  {...(form.id && { id: form.id.toString() })}
                   onChange={handleSwitch}
                 />
                 Brouillon

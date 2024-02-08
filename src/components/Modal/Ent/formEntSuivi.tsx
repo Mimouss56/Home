@@ -1,14 +1,9 @@
-import {
-  FormEvent, useEffect, useState,
-} from 'react';
-import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
-import axiosInstance from '../../../utils/axios';
-import { Job } from '../../../@types/Home/emploi';
-import SkillInput from '../../Job/skillInput';
-import { ISkill } from '../../../@types/Home/skill';
 import { IEntreprise } from '../../../@types/Home/ent';
+import useFormInput from '../../../utils/formInput';
 
+interface AddEntModalProps {
+  onAddElement: (data: IEntreprise[]) => void;
+}
 const initFormData = {
   id: 0,
   name: '',
@@ -19,33 +14,11 @@ const initFormData = {
   contact: [],
 };
 
-function AddEntModal() {
-  const [formData, setFormData] = useState<IEntreprise>(initFormData);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { ...inputData } = formData;
-
-    try {
-      const response = await axiosInstance.post('/api/home/', inputData);
-      toast.success(response.data.message);
-      delete response.data.message;
-      delete response.data.code;
-    } catch (err) {
-      const error = err as Error;
-      toast.warning(error.message);
-    }
-  };
+function AddEntModal({ onAddElement }: AddEntModalProps) {
+  const { form, handleChange, handleSave } = useFormInput(initFormData);
 
   return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={(e) => handleSave(e, '/api/home/', onAddElement)}>
       <div
         className="modal fade"
         id="addEntModal"
@@ -65,8 +38,8 @@ function AddEntModal() {
                   id="name"
                   name="name"
                   placeholder="Nom de l'entreprise"
-                  value={formData.name}
-                  onChange={handleInputChange}
+                  value={form.name}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3 input-group">
@@ -78,8 +51,8 @@ function AddEntModal() {
                   className="form-control"
                   id="adress"
                   name="adress"
-                  value={formData.adress}
-                  onChange={handleInputChange}
+                  value={form.adress}
+                  onChange={handleChange}
                   placeholder="N°, rue, avenue, etc..."
                 />
               </div>
@@ -93,8 +66,8 @@ function AddEntModal() {
                   className="form-control"
                   id="postalCode"
                   name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleInputChange}
+                  value={form.postalCode}
+                  onChange={handleChange}
                   placeholder="Code postal"
                 />
               </div>
@@ -107,8 +80,8 @@ function AddEntModal() {
                   className="form-control"
                   id="town"
                   name="town"
-                  value={formData.town}
-                  onChange={handleInputChange}
+                  value={form.town}
+                  onChange={handleChange}
                   placeholder="Ville"
                 />
               </div>
@@ -123,8 +96,8 @@ function AddEntModal() {
                   id="urlImg"
                   name="urlImg"
                   placeholder="URL de l'image"
-                  value={formData.urlImg}
-                  onChange={handleInputChange}
+                  value={form.urlImg}
+                  onChange={handleChange}
                 />
               </div>
 

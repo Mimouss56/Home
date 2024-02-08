@@ -13,6 +13,7 @@ const Portfolio = require('./portfolio.mapper');
 const Ent = require('./suiviEnt/propal.mapper');
 const Interaction = require('./suiviEnt/interaction.mapper');
 const Contact = require('./suiviEnt/contact.mapper');
+const Status = require('./suiviEnt/status.mapper');
 
 module.exports = {
   job: new Job(client),
@@ -28,4 +29,5 @@ module.exports = {
   ent: new Ent(client),
   interaction: new Interaction(client),
   contact: new Contact(client),
+  status: new Status(client),
 };
