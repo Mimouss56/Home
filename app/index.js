@@ -33,8 +33,9 @@ app.use(require('./middlewares/cors.middleware'));
 // Middleware pour servir des fichiers statiques depuis le répertoire public du niveau supérieur
 
 // Middleware pour servir des fichiers statiques depuis le répertoire app/public/images
-app.use(express.static(path.join(__dirname, '../app/public')));
-app.use('/images', express.static(path.join(__dirname, '../app/public/images')));
+app.use(express.static(path.join(__dirname, '/public')));
+app.use('/images', express.static(path.join(__dirname, '/app/public/images')));
+
 // Middleware pour le décodage des requêtes body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
