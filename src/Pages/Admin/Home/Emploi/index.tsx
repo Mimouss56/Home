@@ -1,5 +1,3 @@
-// on liste les emplois /api/home/emploi
-
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../../utils/axios';
@@ -75,7 +73,10 @@ function EmploiPage() {
       </div>
 
       {entID !== 0 && (
-        <DetailsEntreprise idEnt={entID.toString()} />
+        <DetailsEntreprise ent={
+          emplois.find((item) => item.id === entID) as IEntreprise
+        }
+        />
       )}
       {filteredEmplois && showList && (
         <div className="d-flex flex-wrap w-75 m-auto ">

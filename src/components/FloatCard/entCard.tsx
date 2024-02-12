@@ -35,6 +35,7 @@ function EntCard({ ent, onClick }: EntCardProps) {
         <div className="card-body">
           <h4 className="card-title">{name}</h4>
           <p className="card-text">{`Nombre de contacts: ${contact.length}`}</p>
+          <p className="card-text">{`Nombre d'interactions: ${contact.flatMap((c) => c.interaction).length}`}</p>
         </div>
 
       </div>

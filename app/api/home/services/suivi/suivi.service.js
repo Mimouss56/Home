@@ -47,7 +47,6 @@ module.exports = {
   },
 
   async create(inputQuery) {
-    console.log(inputQuery);
     try {
       const valueCreated = await ent.create(inputQuery);
       const returnValue = await generateObject(valueCreated);

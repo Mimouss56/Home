@@ -25,7 +25,7 @@ module.exports = {
     return res.json({
       code: 201,
       message: 'Nouveau contact créé',
-      ...data,
+      data,
     });
   },
 };

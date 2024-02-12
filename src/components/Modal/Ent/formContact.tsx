@@ -1,34 +1,41 @@
+import { useEffect } from 'react';
 import { IContact } from '../../../@types/Home/ent';
 import useFormInput from '../../../utils/formInput';
 
 interface AddContactModalProps {
-  idEnt: number;
-  onAddElement: (id: number) => void;
+  onAddElement: (data: {
+    contact: IContact
+  }) => void;
 }
 
-function AddContactModal(
-  { idEnt, onAddElement }: AddContactModalProps,
-) {
+function AddContactModal({ onAddElement }: AddContactModalProps) {
   const initFormData = {
     nom: '',
     prenom: '',
     email: '',
     phone: '',
     role: '',
-    idEnt,
+    idEnt: 0,
   } as IContact;
-  const { form, handleChange, handleSave } = useFormInput(initFormData);
+  const {
+    form, setForm, handleChange, handleSave,
+  } = useFormInput(initFormData);
+
+  useEffect(() => {
+    const addItemModal = document.getElementById('addContact');
+
+    if (addItemModal) {
+      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+        const button = relatedTarget as HTMLButtonElement;
+        const idEnt = button.getAttribute('data-bs-id-ent');
+        setForm({ ...form, idEnt: Number(idEnt) });
+      });
+    }
+  }, [form, setForm]);
+
   return (
     <div>
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#addContact"
-        data-bs-id={idEnt}
-      >
-        Ajouter un contact
-      </button>
       <form onSubmit={(e) => handleSave(e, '/api/home/suivi/contact', onAddElement)}>
 
         <div

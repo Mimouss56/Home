@@ -1,41 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { IEntreprise } from '../../../../@types/Home/ent';
-import axiosInstance from '../../../../utils/axios';
-import { ErrorSanctionProps } from '../../../../@types/error';
+import { useState } from 'react';
+import { AxiosResponse } from 'axios';
+import { IContact, IEntreprise, IInteraction } from '../../../../@types/Home/ent';
 import DetailsInteraction from './viewInteraction';
 import AddContactModal from '../../../../components/Modal/Ent/formContact';
+import DetailsContact from './viewContact';
+import ModalAddInteraction from '../../../../components/Modal/Ent/formInteraction';
 
-function DetailsEntreprise({ idEnt }: { idEnt: string }) {
-  const [entreprise, setEntreprise] = useState<IEntreprise | null>(null);
-  const [showInteration, setShowInteration] = useState(false);
+function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
+  const [entreprise, setEntreprise] = useState<IEntreprise>(ent);
+  const [filteredInteraction, setFilteredInteraction] = useState<IInteraction[]>(
+    entreprise.contact.flatMap((contact) => contact.interaction),
+  );
+  const [showContactDetails, setShowContactDetails] = useState(false);
   const [idContact, setIdContact] = useState(0);
 
-  const fetchEntreprise = async (id: number) => {
-    try {
-      const data = await axiosInstance.get(`/api/home/suivi/ent/${id}`);
-      setEntreprise(data.data);
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
+  const handleAddInteractionOfUser = (data: IInteraction) => {
+    setFilteredInteraction((prev) => [...prev, data]);
   };
 
-  const handleShowInteration = (id: number) => {
-    setShowInteration(!showInteration);
-    setIdContact(id);
+  const handleAddContact = (data: AxiosResponse) => {
+    setEntreprise((prev) => ({ ...prev, contact: [...prev.contact, data.data] }));
   };
-
-  useEffect(() => {
-    fetchEntreprise(Number(idEnt));
-  }, [idEnt]);
 
   if (!entreprise) {
     return <div>Aucune entreprise de trouvé ...</div>;
   }
 
+  console.log(entreprise);
+
+  // on récupere toutes les interactions de tous les contacts pour les afficher
+
   return (
-    <div>
+    <>
       <h2>{`Détails de ${entreprise.name}`}</h2>
       <div className="row">
         <div className="col-3 d-flex flex-column">
@@ -52,7 +48,9 @@ function DetailsEntreprise({ idEnt }: { idEnt: string }) {
                   className="btn btn-link"
                   itemID={contact.id.toString()}
                   onClick={() => {
-                    handleShowInteration(contact.id);
+                    setFilteredInteraction(contact.interaction);
+                    setShowContactDetails(true);
+                    setIdContact(contact.id);
                   }}
                 >
                   {`${contact.nom} ${contact.prenom}`}
@@ -60,18 +58,45 @@ function DetailsEntreprise({ idEnt }: { idEnt: string }) {
               </li>
             ))}
           </ul>
-          <AddContactModal
-            idEnt={entreprise.id}
-            onAddElement={() => fetchEntreprise(entreprise.id)}
-          />
+          <button
+            type="button"
+            className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25"
+            data-bs-toggle="modal"
+            data-bs-target="#addContact"
+            data-bs-id-ent={entreprise.id}
+          >
+            <i className="bi bi-plus-circle-fill" />
+            <span className="vr mx-2" />
+            <span>Ajout</span>
+          </button>
+
         </div>
-        {showInteration && (
-          <div className="col-9">
-            <DetailsInteraction idContact={idContact} />
-          </div>
-        )}
+        <div className="col-9">
+          {showContactDetails && idContact && (
+            <DetailsContact contact={
+              ent.contact.find((contact) => contact.id === idContact) as IContact
+            }
+            />
+          )}
+          <DetailsInteraction interactions={filteredInteraction} />
+          {idContact !== 0 && (
+            <div className="mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addInteraction"
+              >
+                Ajouter une interaction
+              </button>
+            </div>
+          )}
+
+        </div>
       </div>
-    </div>
+      <ModalAddInteraction onAddElement={() => handleAddInteractionOfUser} />
+      <AddContactModal onAddElement={handleAddContact} />
+    </>
   );
 }
 
