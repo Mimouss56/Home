@@ -15,18 +15,20 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
   const [idContact, setIdContact] = useState(0);
 
   const handleAddInteractionOfUser = (data: IInteraction) => {
-    setFilteredInteraction((prev) => [...prev, data]);
+    setFilteredInteraction(
+      (prev) => [...prev, data],
+    );
   };
 
   const handleAddContact = (data: AxiosResponse) => {
-    setEntreprise((prev) => ({ ...prev, contact: [...prev.contact, data.data] }));
+    setEntreprise(
+      (prev) => ({ ...prev, contact: [...prev.contact, data.data] }),
+    );
   };
 
   if (!entreprise) {
     return <div>Aucune entreprise de trouvé ...</div>;
   }
-
-  console.log(entreprise);
 
   // on récupere toutes les interactions de tous les contacts pour les afficher
 
@@ -86,6 +88,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
                 className="btn btn-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#addInteraction"
+                data-bs-id-contact={idContact}
               >
                 Ajouter une interaction
               </button>
@@ -94,7 +97,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
 
         </div>
       </div>
-      <ModalAddInteraction onAddElement={() => handleAddInteractionOfUser} />
+      <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />
     </>
   );
