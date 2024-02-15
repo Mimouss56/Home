@@ -1,0 +1,3 @@
+Page:  id_page [], url [], titre [], description []
+VISITE, 0N Page, 1N Visitor: visited_at [], duration [], actions_effectuées []
+Visitor: id_visitor [], ip_address [], navigateur_os [],pays [],ville []

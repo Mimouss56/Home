@@ -1,5 +1,4 @@
 const path = require('path');
-const debug = require('debug')('sql');
 const express = require('express');
 const expressSession = require('express-session');
 
@@ -7,9 +6,12 @@ const expressJSDocSwagger = require('express-jsdoc-swagger');
 // const options = require('./swagger/option');
 const optionsHome = require('./swagger/home.swagger');
 require('dotenv').config();
+const stats = require('./middlewares/stat.middleware');
 
 const app = express();
 const router = require('./routers');
+
+app.use(stats);
 
 // Middleware pour la gestion de sessions
 app.use(
@@ -23,10 +25,6 @@ app.use(
     },
   }),
 );
-app.use((req, res, next) => {
-  debug('Session', req.url);
-  next();
-});
 
 // Middleware pour permettre les requêtes CORS
 app.use(require('./middlewares/cors.middleware'));
