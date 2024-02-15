@@ -1,5 +1,3 @@
-const debug = require('debug')('sql');
-
 module.exports = class CoreDatamapper {
   tableName;
 
@@ -153,7 +151,6 @@ module.exports = class CoreDatamapper {
       values,
     };
     const resultFind = await this.client.query(preparedQueryFind);
-    console.log(preparedQueryFind);
     if (resultFind.rows[0]) {
       return resultFind.rows[0];
     }

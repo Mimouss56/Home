@@ -6,9 +6,9 @@ BEGIN;
 
 CREATE TABLE "stat_page" (
   id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  url         VARCHAR(42),
+  url         text,
   titre       VARCHAR(42),
-  description VARCHAR(42)
+  description text
 );
 
 CREATE TABLE "stat_visitor" (

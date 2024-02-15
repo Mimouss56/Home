@@ -1,8 +1,4 @@
-const path = require('path');
-
 const renderIndex = (req, res, next) => {
-  const publicPath = path.resolve(__dirname, '../public');
-  console.log('publicPath', path.join(publicPath, 'index.html'));
   // Modification ici pour prendre en compte les sous-dossiers
   if (req.originalUrl.startsWith('/images')) {
     next();
