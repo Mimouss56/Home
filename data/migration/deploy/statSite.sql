@@ -20,10 +20,9 @@ CREATE TABLE "stat_visitor" (
 );
 
 CREATE TABLE "stat_view" (
-  PRIMARY KEY (id_page, id_visitor),
-  id_page            INT NOT NULL REFERENCES "stat_page" (id),
-  id_visitor         INT NOT NULL REFERENCES "stat_visitor" (id),
-  visited_at         timestamptz NOT NULL DEFAULT NOW(),
+  id_page            INT NOT NULL REFERENCES "stat_page" (id) ,
+  id_visitor         INT NOT NULL REFERENCES "stat_visitor" (id) ,
+  visited_at         timestamptz NOT NULL DEFAULT NOW() ,
   duration           VARCHAR(42),
   actions_effectuees VARCHAR(42)
 );

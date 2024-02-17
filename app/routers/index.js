@@ -11,7 +11,8 @@ router.use('/api', require('./api.router'));
 router.get('/test', testController.renderTest);
 router.use('/status', require('./status.router'));
 
-router.get('/*', (req, res) => {
+router.get('/*', require('../middlewares/stat.middleware'), (req, res) => {
   res.sendFile(path.join(__dirname, '../../public', 'index.html'));
 });
+
 module.exports = router;

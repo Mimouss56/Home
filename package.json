@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "back": "set DEBUG=sql & npx nodemon --trace-warnings index.js",
+    "back": "set DEBUG=server & npx nodemon --trace-warnings index.js",
     "react": "vite --open --host",
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
@@ -52,6 +52,7 @@
     "jsonwebtoken": "^9.0.1",
     "jspdf": "^2.5.1",
     "multer": "^1.4.5-lts.1",
+    "parseurl": "^1.3.3",
     "pg": "^8.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -60,6 +61,7 @@
     "react-sortablejs": "^6.1.4",
     "react-toastify": "^9.1.3",
     "sortablejs": "^1.15.0",
+    "uuid": "^9.0.1",
     "vite": "^4.2.0"
   }
 }

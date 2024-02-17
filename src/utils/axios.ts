@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { urlAPI, baseUrl } from '../../config.json';
+import { baseUrl } from '../../config.json';
 // Je créer une instance d'axios pour pouvoir utiliser les interceptors et généré l'url de base
 const axiosInstance = axios.create({
   baseURL: baseUrl,

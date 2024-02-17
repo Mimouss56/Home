@@ -7,6 +7,7 @@ module.exports = {
       navigateur_os: visitorInfo.userAgent,
       pays: visitorInfo.pays || 'Pays inconnu',
       ville: visitorInfo.ville || 'Ville inconnue',
+      method: visitorInfo.method,
     };
     const inputQueryPage = {
       url: pageVisited.url,

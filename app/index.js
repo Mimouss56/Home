@@ -1,30 +1,29 @@
 const path = require('path');
 const express = require('express');
 const expressSession = require('express-session');
-
+const { v4: uuidv4 } = require('uuid');
 const expressJSDocSwagger = require('express-jsdoc-swagger');
 // const options = require('./swagger/option');
 const optionsHome = require('./swagger/home.swagger');
 require('dotenv').config();
-const stats = require('./middlewares/stat.middleware');
 
 const app = express();
 const router = require('./routers');
 
-app.use(stats);
-
 // Middleware pour la gestion de sessions
 app.use(
   expressSession({
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     secret: process.env.CLIENT_SECRET,
     cookie: {
-      secure: false,
+      secure: true,
       maxAge: 1000 * 60 * 60, // Une heure
     },
+    genid: uuidv4,
   }),
 );
+// app.use(require('./middlewares/stat.middleware'));
 
 // Middleware pour permettre les requêtes CORS
 app.use(require('./middlewares/cors.middleware'));

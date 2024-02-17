@@ -131,40 +131,11 @@ module.exports = class CoreDatamapper {
   }
 
   async findOrCreate(inputData) {
-    const fields = [];
-    const placeholders = [];
-    const values = [];
-    let indexPlaceholder = 1;
-
-    Object.entries(inputData).forEach(([prop, value]) => {
-      fields.push(`"${prop}"`);
-      placeholders.push(`$${indexPlaceholder}`);
-      indexPlaceholder += 1;
-      values.push(value);
-    });
-
-    const preparedQueryFind = {
-      text: `
-            SELECT DISTINCT * FROM "${this.tableName}"
-            WHERE ${fields.map((field, index) => `${field} = ${placeholders[index]}`).join(' AND ')}
-          `,
-      values,
-    };
-    const resultFind = await this.client.query(preparedQueryFind);
-    if (resultFind.rows[0]) {
-      return resultFind.rows[0];
-    }
-    const preparedQuery = {
-      text: `
-            INSERT INTO "${this.tableName}"
-            (${fields})
-            VALUES (${placeholders})
-            RETURNING *
-          `,
-      values,
-    };
-    const result = await this.client.query(preparedQuery);
-    return result.rows[0];
+    // find if the record exists
+    const search = await this.findOne({ where: inputData });
+    if (search) return search;
+    const result = await this.create(inputData);
+    return result;
   }
 
   /**

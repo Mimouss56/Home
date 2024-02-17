@@ -4,8 +4,9 @@ const { visitor, page, stats } = require('../models/index.mapper');
 module.exports = {
   create: async (inputVisitor, inputPage) => {
     try {
+      const { method, ...rest } = inputVisitor;
       // Enregistrer la visite dans la base de données
-      const visitorInfo = await visitor.findOrCreate(inputVisitor);
+      const visitorInfo = await visitor.findOrCreate(rest);
       const pageVisited = await page.findOrCreate(inputPage);
 
       // Enregistrer la relation entre le visiteur et la page visitée
@@ -13,7 +14,7 @@ module.exports = {
         id_visitor: visitorInfo.id,
         id_page: pageVisited.id,
         duration: 0,
-        actions_effectuees: '',
+        actions_effectuees: method,
       };
       await stats.createStat(inputQueryView);
 
