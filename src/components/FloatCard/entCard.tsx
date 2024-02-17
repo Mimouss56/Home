@@ -13,7 +13,7 @@ function EntCard({ ent, onClick }: EntCardProps) {
     id, name, urlImg, contact,
   } = ent;
   return (
-    <div className="card w-25 m-2 bg-light text-dark ">
+    <article className="card m-2 bg-light text-dark " style={{ width: '300px' }}>
       {user && user.username === 'Mouss' && (
         <button
           type="button"
@@ -27,19 +27,19 @@ function EntCard({ ent, onClick }: EntCardProps) {
       )}
       <div onClick={onClick}>
         <img
-          className="card-img-top"
+          className="card-img-top m-auto"
           src={urlImg}
           alt={name}
-          style={{ maxWidth: '150px', margin: 'auto', maxHeight: '75px' }}
+          style={{ maxWidth: '150px', maxHeight: '75px' }}
         />
         <div className="card-body">
           <h4 className="card-title">{name}</h4>
-          <p className="card-text">{`Nombre de contacts: ${contact.length}`}</p>
-          <p className="card-text">{`Nombre d'interactions: ${contact.flatMap((c) => c.interaction).length}`}</p>
+          <p className="card-text">{`Contacts: ${contact.length}`}</p>
+          <p className="card-text">{`Interactions: ${contact.flatMap((c) => c.interaction).length}`}</p>
         </div>
 
       </div>
-    </div>
+    </article>
   );
 }
 

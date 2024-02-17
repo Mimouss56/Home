@@ -86,50 +86,54 @@ function Sanction() {
               </tr>
             </thead>
             <tbody>
-              {sanctionList.map((sanction) => (
-                <tr
-                  key={sanction.id}
-                  className={sanction.warn ? 'table-danger' : ''}
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalViewSanction"
-                  data-bs-id={sanction.id}
-                >
-                  <td>
+              {sanctionList
+                .filter((sanction) => {
+                  if (user.role.id !== 1) return sanction.child.id === user.id; return sanction;
+                })
+                .map((sanction) => (
+                  <tr
+                    key={sanction.id}
+                    className={sanction.warn ? 'table-danger' : ''}
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalViewSanction"
+                    data-bs-id={sanction.id}
+                  >
+                    <td>
+                      {
+                        !sanction.read && user.role.id !== 1 && (
+                          <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
+                      }
+                    </td>
+                    <td>{excerpt(sanction.label)}</td>
+                    <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
+                    <td>{sanction.author.username}</td>
                     {
-                      !sanction.read && user.role.id !== 1 && (
-                        <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
+                      user.role.id === 1 && (
+                        <>
+                          <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
+                          <td>
+                            <button
+                              type="button"
+                              className="btn btn-warning mx-1"
+                              data-bs-toggle="modal"
+                              data-bs-target="#ModalAddSanction"
+                              data-bs-id={sanction.id}
+                            >
+                              <i className="bi bi-pencil" />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger mx-1"
+                              onClick={() => handleDelete(sanction.id)}
+                            >
+                              <i className="bi bi-trash3" />
+                            </button>
+                          </td>
+                        </>
+                      )
                     }
-                  </td>
-                  <td>{excerpt(sanction.label)}</td>
-                  <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-                  <td>{sanction.author.username}</td>
-                  {
-                    user.role.id === 1 && (
-                      <>
-                        <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-warning mx-1"
-                            data-bs-toggle="modal"
-                            data-bs-target="#ModalAddSanction"
-                            data-bs-id={sanction.id}
-                          >
-                            <i className="bi bi-pencil" />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger mx-1"
-                            onClick={() => handleDelete(sanction.id)}
-                          >
-                            <i className="bi bi-trash3" />
-                          </button>
-                        </td>
-                      </>
-                    )
-                  }
-                </tr>
-              ))}
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

@@ -41,7 +41,7 @@ function ModalViewDetails() {
     const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
     try {
       const { data } = await axiosInstance.get(`/api/home/sanction/${id}`);
-      if (idRole !== 1 && data.date.week >= dayjs().isoWeek()) {
+      if (idRole !== 1 && data.date.week >= dayjs().isoWeek() && data.date.year >= dayjs().year()) {
         data.label = '**********';
       }
       // update dataNotif in sessionStorage

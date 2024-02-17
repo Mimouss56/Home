@@ -12,22 +12,17 @@ function EmploiPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>([]);
-  const [loader, setLoader] = useState(false);
   const [entID, setEntID] = useState(0);
   const [showList, setShowList] = useState(true);
 
   const fetchEmploi = async () => {
-    setLoader(true);
     try {
       const data = await axiosInstance.get('/api/home/suivi/ent');
       setEmplois(data.data);
       setFilteredEmplois(data.data);
-
-      setLoader(false);
     } catch (err) {
       const { response } = err as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-      setLoader(false);
     }
   };
 
@@ -79,7 +74,7 @@ function EmploiPage() {
         />
       )}
       {filteredEmplois && showList && (
-        <div className="d-flex flex-wrap w-75 m-auto ">
+        <div className="d-flex flex-wrap justify-content-evenly ">
           {filteredEmplois.map((item: IEntreprise) => (
             <EntCard
               key={item.id}
