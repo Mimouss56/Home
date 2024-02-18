@@ -78,3 +78,10 @@ export const UrlLeft = {
   textAlign: 'right',
   fontStyle: 'light italic',
 };
+
+export const avatarImg = {
+  width: '80px',
+  height: '80px',
+  borderRadius: '50%',
+  margin: '5px 16px',
+};

@@ -28,7 +28,7 @@ export const titleTitle = {
 
 export const styleH1 = {
   display: 'block',
-  fontSize: '32px',
+  fontSize: '16px',
   margin: '8px',
   fontStyle: 'bold',
   fontFamily: 'Roboto',

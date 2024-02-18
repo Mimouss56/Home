@@ -17,17 +17,19 @@ function Xp(contents: { content: IEmploi[], titre: string }) {
     <View id="xp">
       <Text id="title_info" style={styles.titleSection}>{titre}</Text>
       {
-        content.map((emploi: IEmploi) => (
-          <DetailsXp
-            key={emploi.ent}
-            ent={emploi.ent}
-            date={emploi.date}
-            lieu={emploi.lieu}
-            description={emploi.description}
-            title={emploi.title}
-            competences={emploi.competences}
-          />
-        ))
+        content
+          .sort((a, b) => (a.date.fin > b.date.fin ? -1 : 1))
+          .map((emploi: IEmploi) => (
+            <DetailsXp
+              key={emploi.ent}
+              ent={emploi.ent}
+              date={emploi.date}
+              lieu={emploi.lieu}
+              description={emploi.description}
+              title={emploi.title}
+              competences={emploi.competences}
+            />
+          ))
       }
     </View>
   );

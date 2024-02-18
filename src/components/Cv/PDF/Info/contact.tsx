@@ -2,7 +2,7 @@ import {
   Text, StyleSheet, View, Link, Image,
 } from '@react-pdf/renderer';
 import {
-  UrlRight, imgStyle, linkWithImg, styleContent, styleList, styleSection,
+  UrlRight, imgStyle, linkWithImg, styleContent, styleList, styleSection, avatarImg,
 } from '../../Styles/content';
 import { styleH1, styleTitle } from '../../Styles/title';
 
@@ -16,11 +16,20 @@ function Contact() {
     imgStyle: imgStyle as object,
     linkWithImg: linkWithImg as object,
     styleList: styleList as object,
+    avatarImg: avatarImg as object,
   });
 
   return (
     <View style={styles.styleSection}>
-      <Text style={styles.styleH1}>LE PRIOL Matthieu</Text>
+      <View style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      >
+        <Image src="https://www.mimouss.fr/images/2024/2/18/1708262674461.jpg" style={styles.avatarImg} />
+        <Text style={styles.styleH1}>LE PRIOL Matthieu</Text>
+      </View>
       <Text style={styles.styleContent}>
         {'En pleine reconversion, je suis passionné d\'informatique et spécialisé en développement web fullstack JavaScript. Autonome et autodidacte, j\'ai acquis des compétences solides dans ce domaine en suivant ma passion.'}
       </Text>
