@@ -7,7 +7,10 @@ const textValue = 'ent';
  * @typedef {object} Ent - Description de l'entreprise
  * @property {integer} id - L'ID de l'entreprise
  * @property {string} name - Le nom de l'entreprise
- * @property {string} adresse - L'adresse de l'entreprise
+ * @property {string} address - L'adresse de l'entreprise
+ * @property {string} town - La ville de l'entreprise
+ * @property {string} postalCode - Le code postal de l'entreprise
+ * @property {string} urlImg - L'url de l'image de l'entreprise
  * @property {array<Contact>} contact - Le contact de l'entreprise
  * @param {object} value
  * @returns
@@ -16,7 +19,7 @@ const textValue = 'ent';
 const generateObject = async (value) => ({
   id: value.id,
   name: value.name,
-  adress: value.adress,
+  address: value.adress,
   town: value.town,
   postalCode: value.postal_code,
   urlImg: value.url_img,

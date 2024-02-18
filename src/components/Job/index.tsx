@@ -16,8 +16,8 @@ function Job({ jobs, typeData }: JobProps) {
             id={job.id}
             title={job.title}
             desc={job.description}
-            urlImg={job.urlImg}
-            alt={job.ent}
+            urlImg={job.ent.url_img}
+            alt={job.ent.name}
             date={job.date}
             competences={job.competences || []}
             target="addItem"

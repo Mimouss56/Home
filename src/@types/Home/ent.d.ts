@@ -1,10 +1,10 @@
 export interface IEntreprise {
   id: number;
   name: string;
-  adress: string;
+  address: string;
   postalCode: string;
   town: string;
-  urlImg: string;
+  url_img: string;
   contact: IContact[];
 }
 export interface IContact {

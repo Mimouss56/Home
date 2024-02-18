@@ -3,6 +3,8 @@ const CoreDatamapper = require('../../../models/core.mapper');
 module.exports = class Job extends CoreDatamapper {
   tableName = 'job';
 
+  entTable = 'ent';
+
   userRelated = 'user_job';
 
   skillRelated = 'job_skill';
@@ -12,7 +14,7 @@ module.exports = class Job extends CoreDatamapper {
       text: `
         SELECT * FROM "${this.tableName}" 
         INNER JOIN "${this.userRelated}" ON "${this.tableName}".id = "${this.userRelated}".id_job
-        INNER JOIN "ent" ON "${this.tableName}".id_ent = "ent".id
+        INNER JOIN "${this.entTable}" ON "${this.entTable}".id = "${this.tableName}".id_ent
         WHERE "${this.userRelated}".id_user = $1`,
       values: [id],
     };

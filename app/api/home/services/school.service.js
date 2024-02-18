@@ -1,5 +1,5 @@
 const { school } = require('../models/index.mapper');
-const skillService = require('./skill.service');
+const jobService = require('./job.service');
 
 const textValue = 'school';
 
@@ -7,25 +7,6 @@ const textValue = 'school';
  * @param {Job} value - Description de l'école
  * @returns
  */
-const generateObject = async (value) => {
-  const schoolSkill = await skillService.getAllSkillschool(value.id);
-  return {
-    id: value.id,
-    ent: value.ent,
-    description: value.niveau,
-    title: value.title,
-    date: {
-      debut: value.date_started,
-      fin: value.date_ended,
-    },
-    lieu: {
-      ville: value.town,
-      departement: Number(value.postal_code),
-    },
-    competences: schoolSkill,
-    urlImg: value.url_img,
-  };
-};
 
 module.exports = {
   async getAll() {
@@ -36,7 +17,8 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = await Promise.all(find.map(generateObject));
+    const returnValue = await Promise.all(find.map(jobService.generateObject));
+    // const returnValue = await Promise.all(find.map(jobService.generateObject(find)));
     return returnValue;
   },
 
@@ -48,14 +30,14 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = await Promise.all(find.map(generateObject));
+    const returnValue = await Promise.all(find.map(jobService.generateObject));
     return returnValue;
   },
 
   async getData(id) {
     try {
       const findByID = await school.findByPk(id);
-      const returnValue = await generateObject(findByID);
+      const returnValue = await jobService.generateObject(findByID);
       return returnValue;
     } catch (error) {
       return {
@@ -71,7 +53,7 @@ module.exports = {
       const value = await school.create(schoolData);
       // await school.createCompetence(valueCreated.id, inputQuery.competences);
       await school.addSchoolUser(value.id, userId);
-      const returnValue = await generateObject(value);
+      const returnValue = await jobService.generateObject(value);
       return returnValue;
     } catch (error) {
       return {

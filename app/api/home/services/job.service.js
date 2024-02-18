@@ -1,53 +1,40 @@
 const { job } = require('../models/index.mapper');
 const skillService = require('./skill.service');
+const entService = require('./ent.service');
 
 const textValue = 'job';
 
-/**
+module.exports = {
+  /**
  * @typedef {object} Job - Description de l'emploi
  * @property {integer} id - L'ID de l'emploi
  * @property {string} title - Le titre de l'emploi
  * @property {DateJob} date - Les dates de l'emploi
- * @property {Lieu} lieu - Le lieu de l'emploi
- * @property {string} ent - L'entreprise de l'emploi
+ * @property {Ent} ent - L'entreprise de l'emploi
  * @property {string} description - La description de l'emploi
  * @property {string[]} competences - Les compétences de l'emploi
- * @property {string} urlImg - L'URL de l'image de l'emploi
  */
 
-const generateObject = async (value) => {
-  const jobSkill = await skillService.getAllSkillJob(value.id);
-  return {
-    id: value.id,
-    title: value.title,
-    /**
- * DateJob
- * @typedef {object} DateJob
- * @property {string} debut - Date de début
- * @property {string} fin - Date de fin
- */
-    date: {
-      debut: value.date_started,
-      fin: value.date_ended,
-    },
-    /**
- * Lieu
- * @typedef {object} Lieu
- * @property {string} ville - Ville
- * @property {number} departement - Département
- */
-    lieu: {
-      ville: value.town,
-      departement: Number(value.postal_code),
-    },
-    ent: value.ent,
-    description: value.description,
-    competences: jobSkill,
-    urlImg: value.url_img,
-  };
-};
+  async generateObject(value) {
+    return {
+      id: value.id,
+      title: value.title,
+      description: value.description,
+      ent: await entService.getData(value.id_ent),
+      /**
+         * DateJob
+         * @typedef {object} DateJob
+         * @property {string} debut - Date de début
+         * @property {string} fin - Date de fin
+         */
+      date: {
+        debut: value.date_started,
+        fin: value.date_ended,
+      },
+      competences: await skillService.getAllSkillJob(value.id),
+    };
+  },
 
-module.exports = {
   async getAll() {
     const find = await job.findAll();
     if (!find) {
@@ -56,7 +43,7 @@ module.exports = {
         message: `${textValue} not found`,
       };
     }
-    const returnValue = await Promise.all(find.map(generateObject(find)));
+    const returnValue = await Promise.all(find.map(this.generateObject));
     return returnValue;
   },
 
@@ -69,14 +56,14 @@ module.exports = {
       };
     }
 
-    const returnValue = await Promise.all(find.map(generateObject));
+    const returnValue = await Promise.all(find.map(this.generateObject));
     return returnValue;
   },
 
   async getData(id) {
     try {
       const findByID = await job.findByPk(id);
-      const returnValue = await generateObject(findByID);
+      const returnValue = await this.generateObject(findByID);
       return returnValue;
     } catch (error) {
       return {
@@ -91,7 +78,7 @@ module.exports = {
       const { id_user: userId, ...jobData } = inputQuery;
       const value = await job.create(jobData);
       await job.addJobUser(value.id, userId);
-      const returnValue = await generateObject(value);
+      const returnValue = await this.generateObject(value);
       return returnValue;
     } catch (error) {
       return {

@@ -19,26 +19,20 @@ module.exports = {
 
   async post(req, res) {
     const {
-      ent,
+      id_ent: IdEnt,
       title,
       description,
       debut,
       fin,
-      ville,
-      departement,
-      urlImg,
     } = req.body;
 
     const inputQuery = {
-      ent,
+      id_ent: Number(IdEnt),
       title,
-      description,
+      niveau: description,
       date_started: debut,
       date_ended: fin,
-      town: ville,
-      postal_code: Number(departement),
       id_user: req.user.id,
-      url_img: urlImg,
     };
     const result = await jobService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

@@ -5,27 +5,19 @@ export interface IEmploi {
     debut: string,
     fin: string
   },
-  lieu: {
-    ville: string,
-    departement: string
-  },
   description: string,
-  competences: string[]
+  competences: string[],
+  ent: IEntreprise
 }
 
 export interface Job {
   id: number,
-  ent: string,
   title: string,
   date: {
     debut: string,
     fin: string,
   },
-  lieu: {
-    ville: string,
-    departement: number,
-  },
   description: string,
   competences? : string[],
-  urlImg: string
+  ent: IEntreprise
 }

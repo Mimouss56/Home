@@ -1,27 +1,21 @@
-const { job } = require('../models/index.mapper');
+const { ent } = require('../models/index.mapper');
 
 module.exports = {
   // Get Data
   async getData(id) {
-    const jobByID = await job.findByPk(id);
+    const jobByID = await ent.findByPk(id);
     if (!jobByID) {
       return {
         code: 404,
         message: 'Job not found',
       };
     }
-    return {
-      code: 200,
-      data: jobByID,
-    };
+    return jobByID;
   },
   // Get All Data
   async getAllData() {
-    const jobs = await job.findAll();
-    return {
-      code: 200,
-      data: jobs,
-    };
+    const jobs = await ent.findAll();
+    return jobs;
   },
 
 };
