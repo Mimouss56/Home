@@ -17,7 +17,7 @@ function EmploiPage() {
 
   const fetchEmploi = async () => {
     try {
-      const data = await axiosInstance.get('/api/home/suivi/ent');
+      const data = await axiosInstance.get('/api/home/ent');
       setEmplois(data.data);
       setFilteredEmplois(data.data);
     } catch (err) {

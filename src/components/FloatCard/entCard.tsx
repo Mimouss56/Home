@@ -10,7 +10,7 @@ interface EntCardProps {
 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 function EntCard({ ent, onClick }: EntCardProps) {
   const {
-    id, name, urlImg, contact,
+    id, name, url_img: urlImg, contact,
   } = ent;
   return (
     <article className="card m-2 bg-light text-dark " style={{ width: '300px' }}>
