@@ -55,7 +55,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
       setForm({
         type,
         id,
-        id_ent: jobData.ent,
+        id_ent: jobData.ent.id,
         title: jobData.title || '',
         debut: jobData.date.debut || '',
         fin: jobData.date.fin || '',

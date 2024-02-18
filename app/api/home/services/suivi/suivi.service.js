@@ -1,10 +1,11 @@
 const { ent } = require('../../models/index.mapper');
+const entService = require('../ent.service');
 const contactService = require('./contact.service');
 
 const textValue = 'ent';
 
 /**
- * @typedef {object} Ent - Description de l'entreprise
+ * @typedef {object} Suivi - Suivi de l'entreprise
  * @property {integer} id - L'ID de l'entreprise
  * @property {string} name - Le nom de l'entreprise
  * @property {string} address - L'adresse de l'entreprise
@@ -17,12 +18,7 @@ const textValue = 'ent';
  */
 
 const generateObject = async (value) => ({
-  id: value.id,
-  name: value.name,
-  address: value.adress,
-  town: value.town,
-  postalCode: value.postal_code,
-  urlImg: value.url_img,
+  ...await entService.getData(value.id),
   contact: await contactService.getAllContactByEntId(value.id),
 });
 

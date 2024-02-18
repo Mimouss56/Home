@@ -18,13 +18,15 @@ function Section({ title, type }: SectionProps) {
     setItems(data);
   };
 
-  const handleAddElement = (data: Job) => { // Remplacez any par le type approprié
+  const handleAddElement = (data: Job) => {
     setItems((prevItems: Job[]) => [...prevItems, data]);
   };
 
   useEffect(() => {
     fetchInfo(type);
   }, [type]);
+
+  console.log('items', items);
 
   return (
     <>
