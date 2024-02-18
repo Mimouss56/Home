@@ -77,6 +77,7 @@ function Main() {
                       id={item.id}
                       urlSite={item.urlSite}
                       target="addPortfolio"
+                      type="portfolio"
                     />
                   </a>
                 ) : (
@@ -87,6 +88,7 @@ function Main() {
                     id={item.id}
                     urlSite={item.urlSite}
                     target="addPortfolio"
+                    type="portfolio"
                   />
                 )}
               </div>

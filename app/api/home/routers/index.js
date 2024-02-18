@@ -38,6 +38,7 @@ router.use('/sanction', loggedAs, require('./sanction.router'));
 router.use('/school', require('./school.router'));
 router.use('/skill', require('./skill.router'));
 router.use('/suivi', loggedAs, require('./SuiviEnt/index.router'));
+router.use('/ent', require('./ent.router'));
 
 // A faire dans Swagger
 

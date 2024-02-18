@@ -32,10 +32,10 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
 
   const fetchListEnt = async () => {
     try {
-      const response = await axiosInstance.get('/api/home/suivi/ent');
+      const response = await axiosInstance.get('/api/home/ent');
       setListEnt(response.data);
     } catch (error) {
-      toast.error('Erreur lors de la récupération des données des Entreprises');
+      toast.error(`Erreur lors de la récupération des données des Entreprises: ${error}`);
     }
   };
 
