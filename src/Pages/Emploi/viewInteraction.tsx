@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { IInteraction } from '../../../../@types/Home/ent';
+import { IInteraction } from '../../@types/Home/ent';
 
 function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) {
   const objectColor = [

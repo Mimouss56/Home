@@ -97,8 +97,9 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
                     id="status"
                     className="form-select"
                     onChange={handleChange}
+                    value={form.status}
                   >
-                    <option value="" disabled>Choisir un status</option>
+                    <option value={0} disabled>Choisir un status</option>
                     {status.map((stat) => (
                       <option key={stat.id} value={stat.id}>{stat.label}</option>
                     ))}

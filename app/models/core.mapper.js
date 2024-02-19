@@ -98,10 +98,10 @@ module.exports = class CoreDatamapper {
   }
 
   /**
-         * Insertion de données dans la table
-         * @param {object} inputData données à insérer dans la table
-         * @returns {object} l'enregistrement créé
-         */
+   * Insertion de données dans la table
+   * @param {object} inputData données à insérer dans la table
+   * @returns {object} l'enregistrement créé
+   */
   async create(inputData) {
     const fields = [];
     const placeholders = [];
@@ -139,11 +139,11 @@ module.exports = class CoreDatamapper {
   }
 
   /**
-         * Modification de données dans la table
-         * @param {object} param0 données à mettre à jour dans la table comprenant également
-         * l'identifiant de l'enregistrement
-         * @returns {object} l'enregistrement mis à jour
-         */
+   * Modification de données dans la table
+   * @param {object} param0 données à mettre à jour dans la table comprenant également
+   * l'identifiant de l'enregistrement
+   * @returns {object} l'enregistrement mis à jour
+   */
   async update(id, inputData) {
     const fieldsAndPlaceholders = [];
     let indexPlaceholder = 1;

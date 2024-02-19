@@ -20,12 +20,8 @@ module.exports = {
       role,
       email,
     };
-    const data = await contactService.create(inputData);
-    if (data.code) return res.status(data.code).json(data);
-    return res.json({
-      code: 201,
-      message: 'Nouveau contact créé',
-      data,
-    });
+    const contact = await contactService.create(inputData);
+    if (contact.code) return res.status(contact.code).json(contact);
+    return res.status(201).json(contact);
   },
 };

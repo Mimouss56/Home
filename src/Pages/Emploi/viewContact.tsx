@@ -1,4 +1,4 @@
-import { IContact } from '../../../../@types/Home/ent';
+import { IContact } from '../../@types/Home/ent';
 
 function DetailsContact({ contact }: { contact: IContact }) {
   return (

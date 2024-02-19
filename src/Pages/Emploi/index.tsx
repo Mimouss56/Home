@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../../../utils/axios';
-import { IEntreprise } from '../../../../@types/Home/ent';
-import { ErrorSanctionProps } from '../../../../@types/error';
-import AddEntModal from '../../../../components/Modal/Ent/formEntSuivi';
-import EntCard from '../../../../components/FloatCard/entCard';
+import axiosInstance from '../../utils/axios';
+import { IEntreprise } from '../../@types/Home/ent';
+import { ErrorSanctionProps } from '../../@types/error';
+import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
+import EntCard from '../../components/FloatCard/entCard';
 import DetailsEntreprise from './ent';
-import ModalAddItem from '../../../../components/Modal/Ent/formJob';
+import ModalAddItem from '../../components/Modal/Ent/formJob';
 
 function EmploiPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);

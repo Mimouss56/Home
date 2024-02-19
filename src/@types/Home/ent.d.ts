@@ -2,9 +2,9 @@ export interface IEntreprise {
   id: number;
   name: string;
   address: string;
-  postalCode: string;
+  postal_code: string;
   town: string;
-  url_img: string;
+  urlImg: string;
   contact: IContact[];
 }
 export interface IContact {

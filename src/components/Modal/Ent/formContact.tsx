@@ -2,13 +2,7 @@ import { useEffect } from 'react';
 import { IContact } from '../../../@types/Home/ent';
 import useFormInput from '../../../utils/formInput';
 
-interface AddContactModalProps {
-  onAddElement: (data: {
-    contact: IContact
-  }) => void;
-}
-
-function AddContactModal({ onAddElement }: AddContactModalProps) {
+function AddContactModal({ onAddElement }: { onAddElement: (data: IContact) => void }) {
   const initFormData = {
     nom: '',
     prenom: '',

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { AxiosResponse } from 'axios';
-import { IContact, IEntreprise, IInteraction } from '../../../../@types/Home/ent';
+import { IContact, IEntreprise, IInteraction } from '../../@types/Home/ent';
 import DetailsInteraction from './viewInteraction';
-import AddContactModal from '../../../../components/Modal/Ent/formContact';
+import AddContactModal from '../../components/Modal/Ent/formContact';
 import DetailsContact from './viewContact';
-import ModalAddInteraction from '../../../../components/Modal/Ent/formInteraction';
+import ModalAddInteraction from '../../components/Modal/Ent/formInteraction';
 
 function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
   const [entreprise, setEntreprise] = useState<IEntreprise>(ent);
@@ -20,17 +19,19 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
     );
   };
 
-  const handleAddContact = (data: AxiosResponse) => {
-    setEntreprise(
-      (prev) => ({ ...prev, contact: [...prev.contact, data.data] }),
-    );
-  };
+  const handleAddContact = (data: IContact) => {
+    setEntreprise((prevEntreprise) => {
+      const updatedContacts = [...prevEntreprise.contact, data];
 
+      return {
+        ...prevEntreprise,
+        contact: updatedContacts,
+      };
+    });
+  };
   if (!entreprise) {
     return <div>Aucune entreprise de trouvé ...</div>;
   }
-
-  // on récupere toutes les interactions de tous les contacts pour les afficher
 
   return (
     <>
@@ -38,7 +39,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
       <div className="row">
         <div className="col-3 d-flex flex-column">
           <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid" width="150px" />
-          <i>{`${entreprise.adress}, ${entreprise.postalCode} ${entreprise.town}`}</i>
+          <i>{`${entreprise.address}, ${entreprise.postal_code} ${entreprise.town}`}</i>
           <h3>Contact</h3>
           <ul>
             {entreprise.contact.map((contact) => (
@@ -76,7 +77,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
         <div className="col-9">
           {showContactDetails && idContact && (
             <DetailsContact contact={
-              ent.contact.find((contact) => contact.id === idContact) as IContact
+              entreprise.contact.find((contact) => contact.id === idContact) as IContact
             }
             />
           )}
