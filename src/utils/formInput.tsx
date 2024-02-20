@@ -21,6 +21,8 @@ const useFormInput = <T extends object>(initialValue: T) => {
     e.preventDefault();
 
     const { id, ...formWithoutId } = form;
+    console.log(typeof id, id);
+
     try {
       let response;
       if (Number(id) !== 0) {
