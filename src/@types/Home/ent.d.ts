@@ -25,3 +25,11 @@ export interface IInteraction {
   status: string,
   created_at: string,
 }
+
+export interface IInterVue {
+  id: number;
+  entreprise: string;
+  contact: string;
+  status: string;
+  createdAt: string;
+}
