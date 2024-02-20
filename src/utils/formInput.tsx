@@ -24,7 +24,7 @@ const useFormInput = <T extends object>(initialValue: T) => {
 
     try {
       let response;
-      if (id !== undefined || Number(id) !== 0) {
+      if (id !== 'undefined' || Number(id) !== 0) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);
