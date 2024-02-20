@@ -1,7 +1,6 @@
 const router = require('express').Router();
 
 router.use('/contact', require('./contact.router'));
-router.use('/ent', require('./ent.router'));
 router.use('/interaction', require('./interaction.router'));
 router.use('/status', require('./status.router'));
 
