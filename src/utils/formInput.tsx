@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../@types/error';
 import axiosInstance from './axios';
 
-const useFormInput = <T extends object>(initialValue: T) => {
+const useFormInput = <T extends { id?: string | number }>(initialValue: T) => {
   const [form, setForm] = useState<T>(initialValue);
 
   const handleChange = (
@@ -21,11 +21,10 @@ const useFormInput = <T extends object>(initialValue: T) => {
     e.preventDefault();
 
     const { id, ...formWithoutId } = form;
-    console.log(typeof id, id);
 
     try {
       let response;
-      if (id || Number(id) !== 0) {
+      if (id !== undefined || Number(id) !== 0) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);
