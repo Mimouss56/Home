@@ -30,7 +30,7 @@ function ListInterations({ interactions }: { interactions: IInterVue[] }) {
               .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
               .map((inter) => {
                 // si created_at est > 15 jours, on l'affiche sinon on passe
-                if (dayjs().diff(dayjs(inter.createdAt), 'day') < 15) {
+                if (dayjs().diff(dayjs(inter.createdAt), 'day') < 7) {
                   return null;
                 }
                 return (
