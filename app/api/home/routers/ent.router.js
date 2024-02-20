@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const entController = require('../controllers/suiviEnt/ent.controller');
+const { validate } = require('../../../middlewares/validate.middleware');
+const { EntPost } = require('../schemas/suiviEnt/suivi.schema');
 
 router.route('/')
   /**
@@ -11,7 +13,17 @@ router.route('/')
    * @return 401 - Unauthorized
    * @return 500 - Unexpected error
    */
-  .get(entController.getAllEnt);
+  .get(entController.getAllEnt)
+  /**
+     * POST /api/home/suivi/ent
+     * @tags Suivi
+     * @security BearerAuth
+     * @summary Créer une entreprise
+     * @param {EntPost} request.body.required - L'entreprise
+     * @return {Ent} 200 - success response - application/json
+     * @return 401 - Unauthorized
+     */
+  .post(validate(EntPost), entController.post);
 
 router.route('/:id')
   /**
