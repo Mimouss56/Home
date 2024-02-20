@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../@types/error';
 import axiosInstance from './axios';
 
-const useFormInput = <T extends { id?: string | number }>(initialValue: T) => {
+const useFormInput = <T extends object>(initialValue: T) => {
   const [form, setForm] = useState<T>(initialValue);
 
   const handleChange = (
