@@ -6,8 +6,8 @@ const { ent } = require('../models/index.mapper');
  * @property {string} name - Le nom de l'entreprise
  * @property {string} address - L'adresse de l'entreprise
  * @property {string} town - La ville de l'entreprise
- * @property {string} postal_code - Le code postal de l'entreprise
- * @property {string} url_img - L'url de l'image de l'entreprise
+ * @property {string} postalCode - Le code postal de l'entreprise
+ * @property {string} urlImg - L'url de l'image de l'entreprise
 
  * @param {object} value details d'une entreprise
  * @returns
@@ -16,9 +16,9 @@ const generateObject = async (value) => ({
   id: value.id,
   name: value.name,
   address: value.adress,
+  postalCode: value.postal_code,
   town: value.town,
-  postal_code: value.postal_code,
-  url_img: value.url_img,
+  urlImg: value.url_img,
 });
 module.exports = {
   // Get Data

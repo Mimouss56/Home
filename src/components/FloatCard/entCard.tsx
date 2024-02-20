@@ -10,8 +10,10 @@ interface EntCardProps {
 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 function EntCard({ ent, onClick }: EntCardProps) {
   const {
-    id, name, url_img: urlImg, contact,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    id, name, urlImg, contact,
   } = ent;
+
   return (
     <article className="card m-2 bg-light text-dark " style={{ width: '300px' }}>
       {user && user.username === 'Mouss' && (
@@ -19,9 +21,8 @@ function EntCard({ ent, onClick }: EntCardProps) {
           type="button"
           className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
           data-bs-toggle="modal"
-          data-bs-target="#addItem"
-          data-bs-id={id}
-          data-bs-edit="true"
+          data-bs-target="#addEntModal"
+          data-bs-id-ent={id}
           data-bs-type="ent"
         />
       )}

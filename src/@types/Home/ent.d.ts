@@ -2,7 +2,7 @@ export interface IEntreprise {
   id: number;
   name: string;
   address: string;
-  postal_code: string;
+  postalCode: string;
   town: string;
   urlImg: string;
   contact: IContact[];

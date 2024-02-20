@@ -25,6 +25,16 @@ router.route('/:id')
    * @return 404 - Not Found
    * @return 500 - Unexpected error
    */
-  .get(entController.getEnt);
+  .get(entController.getEnt)
+  /**
+   * PUT /api/home/suivi/ent/{id}
+   * @tags Suivi
+   * @security BearerAuth
+   * @summary Mettre à jour une entreprise
+   * @param {string} id.path.required - id de l'entreprise
+   * @param {Ent.model} request.body.required - entreprise à mettre à jour
+   * @return {Ent} 200 - success response - application/json
+   */
+  .put(entController.put);
 
 module.exports = router;

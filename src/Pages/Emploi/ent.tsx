@@ -39,7 +39,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
       <div className="row">
         <div className="col-3 d-flex flex-column">
           <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid" width="150px" />
-          <i>{`${entreprise.address}, ${entreprise.postal_code} ${entreprise.town}`}</i>
+          <i>{`${entreprise.address}, ${entreprise.postalCode} ${entreprise.town}`}</i>
           <h3>Contact</h3>
           <ul>
             {entreprise.contact.map((contact) => (

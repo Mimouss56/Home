@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { ISanction } from '../../@types/Home/sanction';
 import { User as IUser } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
-import { ErrorSanctionProps } from '../../@types/error';
+import useFormInput from '../../utils/formInput';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -21,18 +21,21 @@ const initFormData = {
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
-  const [formData, setFormData] = useState(initFormData);
+  // const [formData, setFormData] = useState(initFormData);
+  const {
+    form, setForm, handleChange, handleSave,
+  } = useFormInput(initFormData);
 
-  const fetchData = async (id: number) => {
+  const fetchData = async (id: number, callback: (data: any) => void) => {
     if (id === 0) {
-      setFormData(initFormData);
+      callback(initFormData);
       return;
     }
     try {
       const response = await axiosInstance.get(`/api/home/sanction/${id}`);
       const sanctionData = response.data;
 
-      setFormData({
+      callback({
         id,
         label: sanctionData.label || '',
         child: sanctionData.child || '',
@@ -59,56 +62,31 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
 
-        fetchData(Number(idModal));
+        fetchData(Number(idModal), setForm);
       });
     }
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.currentTarget;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  }, [setForm]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const childId = Number(e.target.value);
     const selectedChild = childrenList.find((child) => child.id === childId);
     if (selectedChild) {
-      setFormData((prev) => ({ ...prev, child: selectedChild }));
+      setForm((prev) => ({ ...prev, child: selectedChild }));
     }
   };
 
   const handleSwitchSanction = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, warn: event.target.checked }));
-  };
-
-  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
-    const inputData = {
-      label: formData.label,
-      id_child: formData.child.id,
-      warn: formData.warn,
-    };
-
-    e.preventDefault();
-    try {
-      const response = await axiosInstance.post('/api/home/sanction', inputData);
-      const { message, code, ...cleanedData } = response.data;
-
-      onAddElement(cleanedData);
-      toast.success(message);
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
+    setForm((prev) => ({ ...prev, warn: event.target.checked }));
   };
 
   return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={(e) => handleSave(e, '/api/home/sanction', onAddElement)}>
       <div className="modal fade" id="ModalAddSanction">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <h2>
-                {formData.id === 0 ? 'Ajouter' : 'Editer'}
+                {form.id === 0 ? 'Ajouter' : 'Editer'}
                 {' '}
                 la sanction
               </h2>
@@ -125,8 +103,8 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                       type="checkbox"
                       role="switch"
                       name="warn"
-                      {...(formData.id && { id: formData.id.toString() })}
-                      checked={formData.warn || false}
+                      {...(form.id && { id: form.id.toString() })}
+                      checked={form.warn || false}
                       onChange={handleSwitchSanction}
                     />
                   </div>
@@ -139,7 +117,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                     aria-label="choix de l'enfant"
                     name="childId"
                     onChange={handleSelect}
-                    value={formData.child.id}
+                    value={form.child.id}
                   >
                     <option>Choose...</option>
                     {childrenList.map((childInfo) => (
@@ -162,7 +140,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                     id="content"
                     name="label"
                     placeholder="Raison de la sanction"
-                    value={formData.label}
+                    value={form.label}
                     onChange={handleChange}
                     rows={5}
                     required
@@ -182,7 +160,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                   className="btn btn-success"
                   data-bs-dismiss="modal"
                 >
-                  {formData.id !== 0 ? 'Modifier' : 'Ajouter'}
+                  {form.id !== 0 ? 'Modifier' : 'Ajouter'}
                 </button>
 
               </div>

@@ -57,4 +57,28 @@ module.exports = {
       };
     }
   },
+
+  async update(id, inputQuery) {
+    const find = await ent.findByPk(id);
+    if (!find) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    const inputData = {
+      ...find.dataValues,
+      ...inputQuery,
+    };
+    try {
+      await ent.update(id, inputData);
+      const returnValue = await generateObject(find);
+      return returnValue;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not updated`,
+      };
+    }
+  },
 };

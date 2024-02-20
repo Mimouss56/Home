@@ -15,17 +15,37 @@ module.exports = {
 
   async post(req, res) {
     const {
-      name, adress, postalCode, town, urlImg,
+      name, address, postalCode, town, urlImg,
     } = req.body;
 
     const inputQuery = {
       name,
-      adress,
+      address,
       postal_code: postalCode,
       town,
       url_img: urlImg,
     };
     const result = await suiviService.create(inputQuery);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      data: result,
+    });
+  },
+
+  async put(req, res) {
+    const { id } = req.params;
+    const {
+      name, address, postalCode, town, urlImg,
+    } = req.body;
+
+    const inputQuery = {
+      name,
+      address,
+      postal_code: postalCode,
+      town,
+      url_img: urlImg,
+    };
+    const result = await suiviService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json({
       data: result,

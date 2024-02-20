@@ -6,16 +6,15 @@ import { ErrorSanctionProps } from '../../@types/error';
 import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
 import DetailsEntreprise from './ent';
-import ModalAddItem from '../../components/Modal/Ent/formJob';
 
-function EmploiPage() {
+function EntPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>([]);
   const [entID, setEntID] = useState(0);
   const [showList, setShowList] = useState(true);
 
-  const fetchEmploi = async () => {
+  const fetchEnt = async () => {
     try {
       const data = await axiosInstance.get('/api/home/ent');
       setEmplois(data.data);
@@ -43,7 +42,7 @@ function EmploiPage() {
   };
 
   useEffect(() => {
-    fetchEmploi();
+    fetchEnt();
   }, []);
 
   return (
@@ -64,7 +63,17 @@ function EmploiPage() {
           onChange={handleSearchChange}
         />
         {/* Afficher le bouton "Ajouter" seulement si la recherche ne retourne aucun résultat */}
-        {filteredEmplois.length === 0 && (<AddEntModal onAddElement={fetchEmploi} />)}
+        {filteredEmplois.length === 0 && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addEntModal"
+            data-bs-id={0}
+          >
+            Ajouter
+          </button>
+        )}
       </div>
 
       {entID !== 0 && (
@@ -75,7 +84,7 @@ function EmploiPage() {
       )}
       {filteredEmplois && showList && (
         <div className="d-flex flex-wrap justify-content-evenly ">
-          {filteredEmplois.map((item: IEntreprise) => (
+          {filteredEmplois.map((item) => (
             <EntCard
               key={item.id}
               ent={item}
@@ -85,10 +94,10 @@ function EmploiPage() {
         </div>
 
       )}
-      <ModalAddItem onAddElement={fetchEmploi} />
+      <AddEntModal onAddElement={fetchEnt} />
     </>
 
   );
 }
 
-export default EmploiPage;
+export default EntPage;
