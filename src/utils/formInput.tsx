@@ -21,6 +21,7 @@ const useFormInput = <T extends object>(initialValue: T) => {
     e.preventDefault();
 
     const { id, ...formWithoutId } = form;
+    console.log('id', typeof id, id);
 
     try {
       let response;
@@ -35,11 +36,7 @@ const useFormInput = <T extends object>(initialValue: T) => {
       toast.success(message);
     } catch (err) {
       const { response } = err as ErrorSanctionProps;
-      if (response) {
-        toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-      } else {
-        toast.error('Une erreur inattendue s\'est produite.');
-      }
+      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
   return {
