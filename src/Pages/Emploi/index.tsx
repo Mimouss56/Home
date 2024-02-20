@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
-import { IEntreprise, IInterVue, IInteraction } from '../../@types/Home/ent';
+import { IEntreprise, IInterVue } from '../../@types/Home/ent';
 import { ErrorSanctionProps } from '../../@types/error';
 import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
@@ -96,26 +96,28 @@ function EntPage() {
         </div>
 
       </section>
-      <section className="d-flex flex-row">
-        <div className="col-7">
-          {filteredEmplois && showList && (
-            <div className="d-flex flex-wrap justify-content-evenly ">
-              {filteredEmplois.map((item) => (
-                <EntCard
-                  key={item.id}
-                  ent={item}
-                  onClick={() => handleShowDetails(item.id)}
-                />
-              ))}
-            </div>
+      {showList && (
+        <section className="d-flex flex-row">
+          <div className="col-7">
+            {filteredEmplois && (
+              <div className="d-flex flex-wrap justify-content-evenly ">
+                {filteredEmplois.map((item) => (
+                  <EntCard
+                    key={item.id}
+                    ent={item}
+                    onClick={() => handleShowDetails(item.id)}
+                  />
+                ))}
+              </div>
 
-          )}
+            )}
 
-        </div>
-        <div className="col-5">
-          <ListInterations interactions={allInteractions} />
-        </div>
-      </section>
+          </div>
+          <div className="col-5">
+            <ListInterations interactions={allInteractions} />
+          </div>
+        </section>
+      )}
 
       {entID !== 0 && (
         <DetailsEntreprise ent={
