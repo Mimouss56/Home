@@ -23,7 +23,7 @@ export interface IInteraction {
   moyen: string,
   reponse:string,
   status: string,
-  created_at: string,
+  createdAt: string,
 }
 
 export interface IInterVue {

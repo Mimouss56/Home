@@ -3,8 +3,8 @@ import { IInteraction } from '../../@types/Home/ent';
 
 function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) {
   const objectColor = [
-    { color: 'table-danger', date: 2 },
-    { color: 'table-warning', date: 1 },
+    { color: 'table-danger', date: 15 },
+    { color: 'table-warning', date: 7 },
     { color: 'table-success', date: 0 },
   ];
 
@@ -25,10 +25,10 @@ function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) 
         </thead>
         <tbody>
           {interactions
-            .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
+            .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
             .map((inter) => {
               // changement de color en fonction du délai de la creation de l'interaction
-              const diff = dayjs().diff(inter.created_at, 'month');
+              const diff = dayjs().diff(inter.createdAt, 'days');
               const bgColor = objectColor.find((obj) => diff >= obj.date) || { color: 'table-info' };
               return (
                 <tr
@@ -38,7 +38,7 @@ function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) 
                   <td>{inter.moyen}</td>
                   <td>{inter.reponse}</td>
                   <td>{inter.status}</td>
-                  <td>{dayjs(inter.created_at).format('DD/MM/YYYY')}</td>
+                  <td>{dayjs(inter.createdAt).format('DD/MM/YYYY')}</td>
                 </tr>
               );
             })}
