@@ -21,10 +21,9 @@ const useFormInput = <T extends object>(initialValue: T) => {
     e.preventDefault();
 
     const { id, ...formWithoutId } = form;
-
     try {
       let response;
-      if (Number(id) === 0) {
+      if (Number(id) !== 0) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);
