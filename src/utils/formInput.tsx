@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../@types/error';
@@ -16,14 +17,14 @@ const useFormInput = <T extends object>(initialValue: T) => {
   const handleSave = async (
     e: React.FormEvent<HTMLFormElement>,
     endpoint: string,
-    onAddElement: (arg0: never) => void,
+    onAddElement: (arg0: any) => void,
   ) => {
     e.preventDefault();
     try {
       let response;
       const { id, ...formWithoutId } = form as any;
 
-      if (id !== 0) {
+      if (id !== 0 && Number.isNaN(id)) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);
