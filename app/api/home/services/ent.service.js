@@ -15,7 +15,7 @@ const { ent } = require('../models/index.mapper');
 const generateObject = async (value) => ({
   id: value.id,
   name: value.name,
-  address: value.adress,
+  address: value.address,
   postalCode: value.postal_code,
   town: value.town,
   urlImg: value.url_img,

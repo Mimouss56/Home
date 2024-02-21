@@ -16,20 +16,20 @@ const useFormInput = <T extends object>(initialValue: T) => {
   const handleSave = async (
     e: React.FormEvent<HTMLFormElement>,
     endpoint: string,
-    onAddElement: (arg0: any) => void,
+    onAddElement: (arg0: never) => void,
   ) => {
     e.preventDefault();
-
-    const { id, ...formWithoutId } = form;
-    console.log('id', typeof id, id);
-
     try {
       let response;
-      if (id !== undefined || Number(id) !== 0) {
+      const { id, ...formWithoutId } = form as any;
+
+      if (id !== 0) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);
       }
+
+      // response = await axiosInstance.post(endpoint, form);
 
       const { message, code, ...cleanedData } = response.data;
       onAddElement(cleanedData);

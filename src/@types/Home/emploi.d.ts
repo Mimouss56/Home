@@ -1,5 +1,5 @@
 export interface IEmploi {
-  ent: string
+  id: number,
   title: string
   date: {
     debut: string,

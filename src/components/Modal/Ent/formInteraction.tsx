@@ -17,6 +17,7 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
     form, setForm, handleChange, handleSave,
   } = useFormInput(initDataForm);
   const [status, setStatus] = useState([{ id: 0, label: '' }]);
+  const addItemModal = document.getElementById('addInteraction');
 
   const fetchDataStatus = async () => {
     try {
@@ -29,19 +30,18 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
     }
   };
 
+  if (addItemModal) {
+    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+      const button = relatedTarget as HTMLButtonElement;
+      const idContact = button.getAttribute('data-bs-id-contact');
+      setForm({ ...form, id_contact: Number(idContact) });
+    });
+  }
+
   useEffect(() => {
     fetchDataStatus();
-    const addItemModal = document.getElementById('addInteraction');
-
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        const idContact = button.getAttribute('data-bs-id-contact');
-        setForm({ ...form, id_contact: Number(idContact) });
-      });
-    }
-  }, [setForm, form]);
+  }, []);
 
   return (
     <form onSubmit={(e) => handleSave(e, '/api/home/suivi/interaction', onAddElement)}>

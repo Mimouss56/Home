@@ -1,6 +1,4 @@
-import {
-  useCallback, useEffect, useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import axiosInstance from '../../../utils/axios';
@@ -43,11 +41,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
   };
 
-  const fetchJobData = useCallback(async (id: number, type: string) => {
-    if (id === 0) {
-      setForm(initFormData);
-      return;
-    }
+  const fetchJobData = async (id: number, type: string) => {
     try {
       const response = await axiosInstance.get(`/api/home/${type}/${id}`);
       const jobData = response.data;
@@ -67,24 +61,30 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     } catch (error) {
       toast.error('Erreur lors de la récupération des données du job à éditer');
     }
-  }, [setForm]);
+  };
+
+  const addItemModal = document.getElementById('addItem');
+
+  if (addItemModal) {
+    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+      // Button that triggered the modal
+      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+      const button = relatedTarget as HTMLButtonElement;
+      // Extract info from data-bs-* attributes
+      const id = button.getAttribute('data-bs-id') as string;
+      const type = button.getAttribute('data-bs-type') as string;
+
+      if (id !== '0') {
+        fetchJobData(parseInt(id, 10), type);
+        return;
+      }
+      setForm(initFormData);
+    });
+  }
 
   useEffect(() => {
     fetchListEnt();
-    const addItemModal = document.getElementById('addItem');
-
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        // Button that triggered the modal
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        // Extract info from data-bs-* attributes
-        const id = button.getAttribute('data-bs-id') as string;
-        const type = button.getAttribute('data-bs-type') as string;
-        fetchJobData(parseInt(id, 10), type);
-      });
-    }
-  }, [fetchJobData]);
+  }, []);
 
   return (
     <form onSubmit={(e) => handleSave(e, `/api/home/${form.type}/@me`, onAddElement)}>

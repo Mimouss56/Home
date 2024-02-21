@@ -8,7 +8,6 @@ function DetailsXp({
   ent,
   title,
   date,
-  lieu,
   description,
 }: IEmploi) {
   const dateDebut = new Date(date.debut);
@@ -34,7 +33,7 @@ function DetailsXp({
       <View id="xp_content" style={styles.Content}>
         <View style={styles.titleEnt}>
           <Text style={styles.titleTitle}>{title}</Text>
-          <Text style={styles.titleAnnote}>{`${ent}, ${lieu.ville} (${lieu.departement})`}</Text>
+          <Text style={styles.titleAnnote}>{`${ent.name}, ${ent.town} (${ent.postalCode})`}</Text>
         </View>
         {/* Bloc de desc */}
         <View>

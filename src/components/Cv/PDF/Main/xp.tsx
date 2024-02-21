@@ -21,13 +21,13 @@ function Xp(contents: { content: IEmploi[], titre: string }) {
           .sort((a, b) => (a.date.fin > b.date.fin ? -1 : 1))
           .map((emploi: IEmploi) => (
             <DetailsXp
-              key={emploi.ent}
+              key={emploi.id}
               ent={emploi.ent}
               date={emploi.date}
-              lieu={emploi.lieu}
               description={emploi.description}
               title={emploi.title}
               competences={emploi.competences}
+              id={emploi.id}
             />
           ))
       }
