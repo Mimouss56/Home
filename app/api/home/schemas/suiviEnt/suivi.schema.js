@@ -3,12 +3,12 @@ const Joi = require('joi');
 /**
  * @typedef {object} EntPost - Description de l'entreprise
  * @property {string} name - Le nom de l'entreprise
- * @property {string} adresse - L'adresse de l'entreprise
+ * @property {string} address - L'adresse de l'entreprise
  */
 
 const EntPost = Joi.object({
   name: Joi.string().required(),
-  adress: Joi.string().allow(''),
+  address: Joi.string().allow(''),
   postalCode: Joi.string(),
   town: Joi.string(),
   urlImg: Joi.string().allow(''),

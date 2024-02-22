@@ -9,7 +9,7 @@ interface AddEntModalProps {
 }
 const initFormData = {
   name: '',
-  adress: '',
+  address: '',
   postalCode: '',
   town: '',
   urlImg: '',
@@ -81,7 +81,7 @@ function AddEntModal({ onAddElement }: AddEntModalProps) {
                   className="form-control"
                   id="address"
                   name="address"
-                  value={form.adress}
+                  value={form.address}
                   onChange={handleChange}
                   placeholder="N°, rue, avenue, etc..."
                 />
