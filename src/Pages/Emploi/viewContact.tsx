@@ -15,8 +15,6 @@ function DetailsContact({ contact }: IProps) {
   const [editPrenom, setEditPrenom] = useState(false);
 
   useEffect(() => {
-    console.log(contact);
-
     setForm(contact);
   }, [setForm, contact]);
 
@@ -38,7 +36,6 @@ function DetailsContact({ contact }: IProps) {
               <button
                 type="button"
                 className="input-group-text  bg-success "
-                id="Nom"
                 onClick={(e) => {
                   setEditNom(!editNom);
                   handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
@@ -54,7 +51,7 @@ function DetailsContact({ contact }: IProps) {
               type="text"
               name="prenom"
               className={editPrenom ? 'form-control' : 'form-control-plaintext'}
-              onDoubleClick={() => setEditNom(!editPrenom)}
+              onDoubleClick={() => setEditPrenom(!editPrenom)}
               value={form.prenom}
               onChange={handleChange}
               aria-describedby="Nom"
@@ -64,7 +61,7 @@ function DetailsContact({ contact }: IProps) {
                 type="button"
                 className="input-group-text  bg-success "
                 onClick={(e) => {
-                  setEditNom(!editPrenom);
+                  setEditPrenom(!editPrenom);
                   handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
                 }}
               >
@@ -73,31 +70,31 @@ function DetailsContact({ contact }: IProps) {
             )}
           </div>
           <i>{contact.role}</i>
-          {!showForm && (
-            <button
-              type="button"
-              className="btn btn-secondary "
-              onClick={() => setShowForm(!showForm)}
-            >
-              <i className="bi bi-pencil" />
-              <span className="mx-2">Editer</span>
-            </button>
-          )}
-          {showForm && (
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={(e) => {
-                setShowForm(!showForm);
-                handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
-              }}
-            >
-              <i className="bi bi-check" />
-              <span className="mx-2">Enregistrer</span>
-            </button>
-          )}
 
         </div>
+        {!showForm && (
+          <button
+            type="button"
+            className="btn btn-secondary "
+            onClick={() => setShowForm(!showForm)}
+          >
+            <i className="bi bi-pencil" />
+            <span className="mx-2">Editer</span>
+          </button>
+        )}
+        {showForm && (
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={(e) => {
+              setShowForm(!showForm);
+              handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
+            }}
+          >
+            <i className="bi bi-check" />
+            <span className="mx-2">Enregistrer</span>
+          </button>
+        )}
 
       </h3>
       <div>
