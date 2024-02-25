@@ -25,14 +25,11 @@ const useFormInput = <T extends object>(initialValue: T) => {
 
       const { id, ...formWithoutId } = form as any;
 
-      if (id !== 0 && !Number.isNaN(id)) {
-        response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
-      } else {
+      if (id === 0 || Number.isNaN(id)) {
         response = await axiosInstance.post(endpoint, formWithoutId);
+      } else {
+        response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       }
-
-      // response = await axiosInstance.post(endpoint, form);
-
       const { message, code, ...cleanedData } = response.data;
       onAddElement(cleanedData);
       toast.success(message);

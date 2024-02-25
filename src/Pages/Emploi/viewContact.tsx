@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FormEvent, useEffect, useState } from 'react';
 import { IContact } from '../../@types/Home/ent';
 import inputForm from '../../utils/formInput';
 
