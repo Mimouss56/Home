@@ -12,46 +12,38 @@ import { INotif } from '../../@types/notifToast';
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
-const initFormData = {
-  id: 0,
-  label: '',
-  author: {
-    id: 0,
-    username: '',
-    email: '',
-  },
-  date: {
-    year: 0,
-    week: 0,
-    complete: '',
-  },
-  child: {
-    id: 0,
-    username: '',
-  },
-  warn: false,
-  read: false,
-};
-
 function ModalViewDetails() {
-  const [sanction, setSanction] = useState<ISanction>(initFormData);
+  const [sanction, setSanction] = useState<ISanction>({} as ISanction);
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
 
   const fetchData = async (id: number, idRole: number) => {
-    const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
     try {
       const { data } = await axiosInstance.get(`/api/home/sanction/${id}`);
-      if (idRole !== 1 && data.date.week >= dayjs().isoWeek() && data.date.year >= dayjs().year()) {
+      if (
+        idRole !== 1
+        && data.date.week >= dayjs().isoWeek()
+        && data.date.year >= dayjs().year()) {
         data.label = '**********';
       }
-      // update dataNotif in sessionStorage
-      await axiosInstance.put(`/api/home/sanction/${data.id}/read`, { read: true });
-      const newListNotif = dataNotif.filter((notif) => notif.id !== id);
-      sessionStorage.setItem('dataNotif', JSON.stringify(newListNotif));
-
       setSanction(data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des données de la sanction à éditer');
+    }
+  };
+
+  const handleRead = async (id: number) => {
+    try {
+      await axiosInstance.put(`/api/home/notif/${id}`);
+      const updatedData = dataNotif.map((notif) => {
+        if (notif.id === id) {
+          return { ...notif, read: true };
+        }
+        return notif;
+      });
+      sessionStorage.setItem('dataNotif', JSON.stringify(updatedData));
+    } catch (error) {
+      toast.error(`Erreur lors de la lecture de la notification: ${error}`);
     }
   };
 
@@ -63,10 +55,12 @@ function ModalViewDetails() {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
-        fetchData(Number(idModal), user.role.id);
+        if (Number(idModal) !== 0) fetchData(Number(idModal), user.role.id);
       });
     }
   }, [user.role.id]);
+
+  if (user.role.id !== 1) handleRead(sanction.id);
 
   return (
     <div className="modal fade" id="modalViewSanction">
@@ -86,10 +80,10 @@ function ModalViewDetails() {
             {sanction.warn && <span className="badge text-bg-warning rounded-pill">Important</span>}
             <p>{sanction.label}</p>
             <p className="text-end fst-italic m-0">
-              {`Par : ${sanction.author.username}`}
+              {`Par : ${sanction.author?.username}`}
             </p>
             <p className="text-end fst-italic m-0">
-              {`le ${dayjs(sanction.date.complete).locale('fr').format('LLLL')}`}
+              {`le ${dayjs(sanction.date?.complete).locale('fr').format('LLLL')}`}
             </p>
           </div>
           <div className="modal-footer d-flex justify-content-around ">

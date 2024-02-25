@@ -13,33 +13,27 @@ interface ModalAddItemProps {
 const initFormData = {
   id: 0,
   label: '',
-  child:
-  {
-    id: 0,
-  },
+  id_child: 0,
   warn: false,
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
-  // const [formData, setFormData] = useState(initFormData);
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
 
-  const fetchData = async (id: number, callback: (data: any) => void) => {
-    if (id === 0) {
-      callback(initFormData);
-      return;
-    }
+  const addItemModal = document.getElementById('ModalAddSanction');
+
+  const fetchData = async (id: number) => {
     try {
       const response = await axiosInstance.get(`/api/home/sanction/${id}`);
       const sanctionData = response.data;
 
-      callback({
-        id,
-        label: sanctionData.label || '',
-        child: sanctionData.child || '',
-        warn: sanctionData.warn || false,
+      setForm({
+        id: sanctionData.id,
+        label: sanctionData.label,
+        id_child: sanctionData.child.id,
+        warn: sanctionData.warn,
       });
     } catch (error) {
       toast.error('Erreur lors de la récupération des données de la sanction à éditer');
@@ -52,28 +46,19 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
     setChildrenList(childrenListData);
   };
 
+  if (addItemModal) {
+    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+      const button = relatedTarget as HTMLButtonElement;
+      const idModal = button.getAttribute('data-bs-id');
+      if (Number(idModal) !== 0) fetchData(Number(idModal));
+      else setForm(initFormData);
+    });
+  }
+
   useEffect(() => {
     fetchChildren();
-    const addItemModal = document.getElementById('ModalAddSanction');
-
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        const idModal = button.getAttribute('data-bs-id');
-
-        fetchData(Number(idModal), setForm);
-      });
-    }
-  }, [setForm]);
-
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const childId = Number(e.target.value);
-    const selectedChild = childrenList.find((child) => child.id === childId);
-    if (selectedChild) {
-      setForm((prev) => ({ ...prev, child: selectedChild }));
-    }
-  };
+  }, []);
 
   const handleSwitchSanction = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, warn: event.target.checked }));
@@ -103,7 +88,6 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                       type="checkbox"
                       role="switch"
                       name="warn"
-                      {...(form.id && { id: form.id.toString() })}
                       checked={form.warn || false}
                       onChange={handleSwitchSanction}
                     />
@@ -115,9 +99,9 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                     className="form-select"
                     id="inputGroupChild"
                     aria-label="choix de l'enfant"
-                    name="childId"
-                    onChange={handleSelect}
-                    value={form.child.id}
+                    name="id_child"
+                    onChange={handleChange}
+                    value={form.id_child}
                   >
                     <option>Choose...</option>
                     {childrenList.map((childInfo) => (

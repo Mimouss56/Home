@@ -16,7 +16,8 @@ router.route('/:id')
    * @return 404 - Not Found
    * @return 500 - Unexpected error
    */
-  .get(contactController.getContact);
+  .get(contactController.getContact)
+  .put(contactController.updateContact);
 
 router.route('/')
 

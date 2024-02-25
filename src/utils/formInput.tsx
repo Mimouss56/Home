@@ -22,9 +22,10 @@ const useFormInput = <T extends object>(initialValue: T) => {
     e.preventDefault();
     try {
       let response;
+
       const { id, ...formWithoutId } = form as any;
 
-      if (id !== 0 && Number.isNaN(id)) {
+      if (id !== 0 && !Number.isNaN(id)) {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       } else {
         response = await axiosInstance.post(endpoint, formWithoutId);

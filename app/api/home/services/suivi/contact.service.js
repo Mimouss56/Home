@@ -58,4 +58,24 @@ module.exports = {
       };
     }
   },
+
+  async updateContact(id, data) {
+    try {
+      const find = await contact.findByPk(id);
+      if (!find) {
+        return {
+          code: 404,
+          message: 'contact not found',
+        };
+      }
+      const newValue = await contact.update(id, data);
+      const returnValue = await generateObject(newValue);
+      return returnValue;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `error while updating contact: ${error}`,
+      };
+    }
+  },
 };

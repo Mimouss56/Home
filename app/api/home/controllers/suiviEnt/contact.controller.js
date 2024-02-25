@@ -24,4 +24,22 @@ module.exports = {
     if (contact.code) return res.status(contact.code).json(contact);
     return res.status(201).json(contact);
   },
+
+  async updateContact(req, res) {
+    const { id } = req.params;
+    const {
+      phone, nom, prenom, role, email,
+    } = req.body;
+    const getContactInfo = await contactService.getContact(id);
+    const inputData = {
+      phone_number: phone || getContactInfo.phone_number,
+      nom: nom || getContactInfo.nom,
+      prenom: prenom || getContactInfo.prenom,
+      role: role || getContactInfo.role,
+      email: email || getContactInfo.email,
+    };
+    const contact = await contactService.updateContact(id, inputData);
+    if (contact.code) return res.status(contact.code).json(contact);
+    return res.status(200).json(contact);
+  },
 };
