@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../../../utils/axios';
-import { User as IUser, Role } from '../../../../@types/Home/user';
+import { IUser, IRoleWithoutObject } from '../../../../@types/Home/user';
 import { ErrorSanctionProps } from '../../../../@types/error';
 
 function User() {
@@ -91,7 +91,7 @@ function User() {
                   id={user.id.toString()}
                   onChange={handleChangeRole}
                 >
-                  {listRole.map((role: Role) => (
+                  {listRole.map((role: IRoleWithoutObject) => (
                     <option
                       key={role.id}
                       value={role.id.toString()}

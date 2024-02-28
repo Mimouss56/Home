@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { User as UserInfo } from '../../@types/Home/user';
+import { IUser } from '../../@types/Home/user';
 
 import menuAdmin from '../../../data/navItemsAdmin.json';
 import menuESA from '../../../data/navItemsESA.json';
@@ -9,7 +9,7 @@ import ListeRoute from '../../Routes';
 import Navbar from '../../layout/Navbar';
 
 function Main() {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
+  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const location = useLocation();
 
   const isAdmin = (userSession?.role.label === 'admin');

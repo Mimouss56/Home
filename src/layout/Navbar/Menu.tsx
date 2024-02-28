@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Link, Outlet } from 'react-router-dom';
-import { User } from '../../@types/Home/user';
+import { IUser } from '../../@types/Home/user';
 
 interface NavItem {
   id: number;
   name: string;
   link: string;
 }
-const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}') as User;
+const userInfo = JSON.parse(sessionStorage.getItem('user') || '{}') as IUser;
 
 interface MenuProps {
   navContentArray: NavItem[];

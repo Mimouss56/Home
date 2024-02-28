@@ -1,24 +1,20 @@
-import { Author } from './user';
+import { IDateEmploi } from './emploi';
+import { IAuthor } from './user';
 
-export interface ICard {
+export interface ICard extends IDateEmploi {
   id: number;
   title?: string | undefined;
   desc: string;
   urlSite? : string | undefined;
   urlImg: string;
   alt: string;
-  date ?: {
-    debut : string;
-    fin : string;
-  } | undefined;
   competences ?: string[] | undefined;
   target: string;
   type: string
 }
 
-export interface ICardNews {
+export interface ICardNews extends IAuthor {
   id: number;
   title: string;
   content: string;
-  author : Author
 }

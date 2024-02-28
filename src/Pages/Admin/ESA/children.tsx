@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ProtectedRoute from '../../../components/ProtectedRoute';
-import { IStudent, IcreateStudent } from '../../../@types/ESA/student';
+import { IStudent } from '../../../@types/ESA/student';
 import ModalAddChildren from './modalAddChild';
 import { ErrorSanctionProps } from '../../../@types/error';
 import ModalAddParent from './modalViewParent';
@@ -27,7 +27,7 @@ function ListStudents() {
     try {
       const students = await fetchStudents();
 
-      setStudentsList(students as IcreateStudent[]);
+      setStudentsList(students as IStudent[]);
     } catch (error) {
       toast.error('Erreur lors de la récupération des élèves');
     }
@@ -36,7 +36,7 @@ function ListStudents() {
     setCurrentStudent(student);
   };
 
-  const handleFormSubmit = async (data: IcreateStudent) => {
+  const handleFormSubmit = async (data: IStudent) => {
     try {
       if (data.id !== 0) {
         await updateStudent(data);

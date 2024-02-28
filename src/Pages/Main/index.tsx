@@ -6,7 +6,7 @@ import { ICardNews } from '../../@types/Home/card';
 import { INews } from '../../@types/Home/news';
 import ICardPortfolio from '../../@types/portfolio';
 import FloatCard from '../../components/FloatCard';
-import ModalAddFolio from '../../components/Modal/formPortfolio';
+import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import { ErrorSanctionProps } from '../../@types/error';
 
 function Main() {

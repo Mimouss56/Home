@@ -5,8 +5,8 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { excerpt } from '../../utils/main';
 import { ISanction } from '../../@types/Home/sanction';
-import ModalAddSanction from '../../components/Modal/formSanction';
-import ModalViewDetails from '../../components/Modal/viewSanction';
+import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
+import ModalViewDetails from './viewSanction';
 
 dayjs.extend(isoWeek);
 
@@ -88,7 +88,7 @@ function Sanction() {
             <tbody>
               {sanctionList
                 .filter((sanction) => {
-                  if (user.role.id !== 1) return sanction.child.id === user.id; return sanction;
+                  if (user.role.id !== 1) return sanction.child?.id === user.id; return sanction;
                 })
                 .map((sanction) => (
                   <tr
@@ -106,11 +106,11 @@ function Sanction() {
                     </td>
                     <td>{excerpt(sanction.label)}</td>
                     <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-                    <td>{sanction.author.username}</td>
+                    <td>{sanction.author?.username}</td>
                     {
                       user.role.id === 1 && (
                         <>
-                          <td className="text-capitalize">{sanction.child.username.toLowerCase()}</td>
+                          <td className="text-capitalize">{sanction.child?.username.toLowerCase()}</td>
                           <td>
                             <button
                               type="button"

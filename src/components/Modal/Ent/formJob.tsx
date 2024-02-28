@@ -2,40 +2,43 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import axiosInstance from '../../../utils/axios';
-import { Job } from '../../../@types/Home/emploi';
 import SkillInput from '../../Job/skillInput';
+import useFormInput from '../../../hook/useFormInput';
 import { ISkill } from '../../../@types/Home/skill';
-import useFormInput from '../../../utils/formInput';
 import { IEntreprise } from '../../../@types/Home/ent';
+import { IEmploi } from '../../../@types/Home/emploi';
+import useFetchData from '../../../hook/useFetchData';
 
 const initFormData = {
   type: 'job',
+  id: 0,
   id_ent: 0,
   title: '',
   debut: '',
   fin: '',
   description: '',
-  id: 0,
 };
 interface ModalAddItemProps {
-  onAddElement: (data: Job) => void;
+  onAddElement: (data: IEmploi) => void;
 }
 
 function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
+
+  const [data] = useFetchData('/api/home/ent');
   const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
   const [listEnt, setListEnt] = useState<IEntreprise[]>([]);
 
-  const fetchListEnt = async () => {
-    try {
-      const response = await axiosInstance.get('/api/home/ent');
-      setListEnt(response.data);
-    } catch (error) {
-      toast.error(`Erreur lors de la récupération des données des Entreprises: ${error}`);
-    }
-  };
+  // const fetchListEnt = async () => {
+  //   try {
+  //     const response = await axiosInstance.get('/api/home/ent');
+  //     setListEnt(response.data);
+  //   } catch (error) {
+  //     toast.error(`Erreur lors de la récupération des données des Entreprises: ${error}`);
+  //   }
+  // };
 
   const handleSkillSelected = (skill: ISkill) => {
     setSelectedSkills((prevSkills) => [...prevSkills, skill]);
@@ -58,7 +61,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
 
       // Assurez-vous de charger les compétences sélectionnées si nécessaire
       setSelectedSkills(jobData.skills || []);
-    } catch (error) {
+    } catch (err) {
       toast.error('Erreur lors de la récupération des données du job à éditer');
     }
   };
@@ -83,8 +86,8 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   }
 
   useEffect(() => {
-    fetchListEnt();
-  }, []);
+    setListEnt(data);
+  }, [data]);
 
   return (
     <form onSubmit={(e) => handleSave(e, `/api/home/${form.type}/@me`, onAddElement)}>

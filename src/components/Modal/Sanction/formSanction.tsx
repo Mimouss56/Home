@@ -2,10 +2,10 @@ import {
   useEffect, useState,
 } from 'react';
 import { toast } from 'react-toastify';
-import { ISanction } from '../../@types/Home/sanction';
-import { User as IUser } from '../../@types/Home/user';
-import axiosInstance from '../../utils/axios';
-import useFormInput from '../../utils/formInput';
+import { ISanction } from '../../../@types/Home/sanction';
+import { IUser } from '../../../@types/Home/user';
+import axiosInstance from '../../../utils/axios';
+import useFormInput from '../../../hook/useFormInput';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -15,6 +15,12 @@ const initFormData = {
   label: '',
   id_child: 0,
   warn: false,
+  read: false,
+  date: {
+    year: 0,
+    week: 0,
+    complete: 'string',
+  },
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
@@ -34,6 +40,8 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         label: sanctionData.label,
         id_child: sanctionData.child.id,
         warn: sanctionData.warn,
+        date: sanctionData.date,
+        read: sanctionData.read,
       });
     } catch (error) {
       toast.error('Erreur lors de la récupération des données de la sanction à éditer');

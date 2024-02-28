@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import axiosInstance from '../../utils/axios';
 import { IEntreprise, IInterVue } from '../../@types/Home/ent';
-import { ErrorSanctionProps } from '../../@types/error';
 import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
 import DetailsEntreprise from './ent';
 import ListInterations from './listingInter';
+import useFetchData from '../../hook/useFetchData';
 
 function EntPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);
@@ -16,31 +15,26 @@ function EntPage() {
   const [showList, setShowList] = useState(true);
   const [allInteractions, setAllInteractions] = useState<IInterVue[]>([]);
 
-  const fetchEnt = async () => {
-    try {
-      const data = await axiosInstance.get('/api/home/ent');
-      const allEnt = data.data;
-      setEmplois(allEnt);
-      setFilteredEmplois(allEnt);
-      // On charge les interactions
-      allEnt.forEach((item: IEntreprise) => {
-        item.contact.forEach((contact) => {
-          const lastInter = contact.interaction[contact.interaction.length - 1];
-          if (!lastInter) {
-            return;
-          }
-          const returnValue = {
-            ...lastInter,
-            entreprise: item.name,
-            contact: `${contact.nom} ${contact.prenom}`,
-          };
-          setAllInteractions((prev) => [...prev, returnValue]);
-        });
+  const [data, error] = useFetchData('/api/home/ent');
+
+  const fetchEnt = (allEnt: IEntreprise[]) => {
+    setEmplois(allEnt);
+    setFilteredEmplois(allEnt);
+    // On charge les interactions
+    allEnt.forEach((item: IEntreprise) => {
+      item.contact.forEach((contact) => {
+        const lastInter = contact.interaction[contact.interaction.length - 1];
+        if (!lastInter) {
+          return;
+        }
+        const returnValue = {
+          ...lastInter,
+          entreprise: item.name,
+          contact: `${contact.nom} ${contact.prenom}`,
+        };
+        setAllInteractions((prev) => [...prev, returnValue]);
       });
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
+    });
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,8 +54,9 @@ function EntPage() {
   };
 
   useEffect(() => {
-    fetchEnt();
-  }, []);
+    fetchEnt(data);
+    if (error) toast.error(`Erreur lors du chargement des données : ${error}`);
+  }, [data, error]);
 
   return (
     <>
@@ -125,7 +120,10 @@ function EntPage() {
         }
         />
       )}
-      <AddEntModal onAddElement={fetchEnt} />
+      <AddEntModal onAddElement={() => {
+        setEmplois((prev) => [...prev, data]);
+      }}
+      />
     </>
 
   );

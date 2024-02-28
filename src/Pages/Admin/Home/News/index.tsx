@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { INews } from '../../../../@types/Home/news';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
-import ModalAddNews from '../../../../components/Modal/formNews';
+import ModalAddNews from '../../../../components/Modal/News/formNews';
 
 function NewsList() {
   const [newsList, setNewsList] = useState<INews[]>([]);

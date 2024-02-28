@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axiosInstance from '../../utils/axios';
+import axiosInstance from '../../../utils/axios';
 
 export default function ModalAddList({ updateLists }: { updateLists: () => void }) {
   const [content, setContent] = useState('' as string);

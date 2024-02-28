@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axios';
-import { ICreateSkill, ISkill } from '../../@types/Home/skill';
+import { toast } from 'react-toastify';
+import { ISkill } from '../../@types/Home/skill';
+import useFetchData from '../../hook/useFetchData';
 
 interface SkillInputProps {
   onSkillSelected: (skill: ISkill) => void;
@@ -10,15 +11,8 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [skills, setSkills] = useState<ISkill[]>([]);
   const [filteredSkills, setFilteredSkills] = useState<ISkill[]>([]);
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      const response = await axiosInstance.get('/api/home/skill');
-      setSkills(response.data);
-    };
-
-    fetchSkills();
-  }, []);
+  const [data, loading, error] = useFetchData('/api/home/skill');
+  setSkills(data as ISkill[]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -31,16 +25,18 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
     }
   }, [searchTerm, skills]);
 
-  const handleAddSkill = async () => {
-    const newSkill: ICreateSkill = {
-      name: searchTerm,
-    };
+  // const handleAddSkill = async () => {
+  //   const newSkill: ICreateSkill = {
+  //     name: searchTerm,
+  //   };
 
-    const response = await axiosInstance.post('/api/home/skill', newSkill);
-    setSkills((prevSkills) => [...prevSkills, response.data]);
-    onSkillSelected(response.data);
-    setSearchTerm('');
-  };
+  //   const response = await axiosInstance.post('/api/home/skill', newSkill);
+  //   setSkills((prevSkills) => [...prevSkills, response.data]);
+  //   onSkillSelected(response.data);
+  //   setSearchTerm('');
+  // };
+  if (loading) return <p>Loading...</p>;
+  if (error) return toast.error(error);
 
   return (
     <div className="mb-3">
@@ -51,7 +47,13 @@ function SkillInput({ onSkillSelected }: SkillInputProps) {
         className="form-control"
       />
       {filteredSkills.length === 0 && searchTerm !== '' && (
-        <button type="button" className="btn btn-primary mt-2" onClick={handleAddSkill}>Add Skill</button>
+        <button
+          type="button"
+          className="btn btn-primary mt-2"
+        // onClick={handleAddSkill}
+        >
+          Add Skill
+        </button>
       )}
       {filteredSkills.map((skill) => (
 

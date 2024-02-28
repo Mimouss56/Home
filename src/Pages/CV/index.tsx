@@ -15,8 +15,8 @@ import Job from '../../components/Job';
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
   const [listJob, setListJob] = useState([]);
-  const [listSchool, setListSchool] = useState([]);
-  const [filteredJob, setFilteredJob] = useState([]);
+  const [listSchool, setListSchool] = useState<IEmploi[]>([]);
+  const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
   const [skills, setSkills] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
 
@@ -31,10 +31,10 @@ function ViewCVPage() {
     const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     setListJob(response.data.user.job);
     setFilteredJob(response.data.user.job);
-    const schoolList = response.data.user.school;
+    const schoolList = response.data.user.school as IEmploi[];
     // trier par date decroissantes
     schoolList.sort(
-      (a: IEmploi, b: IEmploi) => new Date(b.date.fin).getDate() - new Date(a.date.fin).getDate(),
+      (a, b) => new Date(b.date.fin).getDate() - new Date(a.date.fin).getDate(),
     );
     setListSchool(schoolList);
   };
@@ -45,7 +45,7 @@ function ViewCVPage() {
       setFilteredJob(listJob);
       searchParams.delete('fj');
     } else {
-      const filterJob = listJob.filter((job: IEmploi) => job.competences.includes(selectedValue));
+      const filterJob = listJob.filter((job: IEmploi) => job.competences?.includes(selectedValue));
       setFilteredJob(filterJob);
       searchParams.set('fj', selectedValue);
     }

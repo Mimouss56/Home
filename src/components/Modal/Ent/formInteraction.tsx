@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IInteraction } from '../../../@types/Home/ent';
-import useFormInput from '../../../utils/formInput';
+import useFormInput from '../../../hook/useFormInput';
 import axiosInstance from '../../../utils/axios';
 import { ErrorSanctionProps } from '../../../@types/error';
 
@@ -11,7 +11,9 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
     id_contact: 0,
     moyen: '',
     reponse: '',
-    status: 0,
+    status: 0 || '',
+    id: 0,
+    createdAt: '',
   };
   const {
     form, setForm, handleChange, handleSave,
@@ -94,7 +96,6 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
                   <label htmlFor="status" className="input-group-text">Status</label>
                   <select
                     name="status"
-                    id="status"
                     className="form-select"
                     onChange={handleChange}
                     value={form.status}

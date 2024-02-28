@@ -1,8 +1,3 @@
-export interface INotifToast {
-  text : string;
-  color : string;
-}
-
 export interface INotif {
   id: number;
   name: string;

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import useImageUpload from '../../hook/utils/useImageUpload'; // Assurez-vous que le chemin est correct
-import { Avatar } from '../../@types/Home/user';
+import { IAvatarWithoutObject } from '../../@types/Home/user';
 
 type FileUploaderProps = {
-  submit: (file: Avatar) => void;
+  submit: (file: IAvatarWithoutObject) => void;
   img: string | undefined;
 };
 
 export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
   const { handleUpload } = useImageUpload();
-  const [imageFile, setImageFile] = useState<Avatar | null>(null);
+  const [imageFile, setImageFile] = useState<IAvatarWithoutObject | null>(null);
   const [isHover, setIsHover] = useState(false);
   const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 

@@ -1,47 +1,29 @@
-export interface ISanction {
+export interface ISanction extends ISanctionDate, ISanctionAuthor, IChild {
   id: number;
   label: string;
-  author: {
+  warn : boolean;
+  read: boolean;
+}
+
+export interface ISanctionAuthor {
+  author?: {
     id: number;
     username: string;
     email: string;
   }
-  date: ISanctionDate
-  child :
-  {
-    id: number;
-    username: string;
-  }
-  warn : boolean;
-  read: boolean;
-}
-export interface ICreateSanction {
-  id?: number | null;
-  label: string;
-  author?: ISanctionAuthor | null;
-  child? :
-  {
-    id: number;
-    username: string;
-  } | null;
-  warn : boolean | null;
-  date?: ISanctionDate | null;
-}
-export interface ISanctionResult {
-  code : number;
-  message : string;
-  sanction : ISanction;
-}
-
-export interface ISanctionAuthor {
-  id: number;
-  username: string;
-  email: string;
-
 }
 
 export interface ISanctionDate {
-  year: number;
-  week: number;
-  complete: string;
+  date: {
+    year: number;
+    week: number;
+    complete: string;
+  }
+}
+
+export interface IChild {
+  child?: {
+    id: number;
+    username: string;
+  }
 }

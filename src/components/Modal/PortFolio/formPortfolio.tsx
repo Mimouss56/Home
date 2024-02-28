@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import axiosInstance from '../../utils/axios';
-import ICardPortfolio from '../../@types/portfolio';
-import FileUploader from '../fileUploader';
-import { ErrorAxios } from '../../@types/error';
-import useFormInput from '../../utils/formInput';
+import axiosInstance from '../../../utils/axios';
+import ICardPortfolio from '../../../@types/portfolio';
+import FileUploader from '../../fileUploader';
+import { ErrorAxios } from '../../../@types/error';
+import useFormInput from '../../../hook/useFormInput';
 
 interface ModalAddItemProps {
   onAddElement: (data: ICardPortfolio) => void;

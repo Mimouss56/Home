@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
 import { IContact } from '../../../@types/Home/ent';
-import useFormInput from '../../../utils/formInput';
+import useFormInput from '../../../hook/useFormInput';
 
-function AddContactModal({ onAddElement }: { onAddElement: (data: IContact) => void }) {
+interface AddEntModalProps {
+  onAddElement: (data: IContact) => void
+}
+
+function AddContactModal({ onAddElement }: AddEntModalProps) {
   const initFormData = {
     nom: '',
     prenom: '',
@@ -10,6 +14,7 @@ function AddContactModal({ onAddElement }: { onAddElement: (data: IContact) => v
     phone: '',
     role: '',
     idEnt: 0,
+    id: 0,
   } as IContact;
   const {
     form, setForm, handleChange, handleSave,

@@ -6,17 +6,19 @@ import IFeedback from '../../@types/Home/feedback';
 import axiosInstance from '../../utils/axios';
 
 const initData = {
+  id: 0,
   name: '',
   email: '',
   message: '',
   path: '',
   draft: false,
-} as IFeedback;
+  created_at: '',
+};
 
 function Feedback() {
   const location = useLocation();
   const { pathname } = location;
-  const [feedback, setFeedback] = useState(initData);
+  const [feedback, setFeedback] = useState<IFeedback>(initData);
 
   const handleChange = (event: { target: { name: string; value: string; }; }) => {
     setFeedback({

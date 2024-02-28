@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IContact } from '../../@types/Home/ent';
-import inputForm from '../../utils/formInput';
+import useFormInput from '../../hook/useFormInput';
 
 interface IProps {
   contact: IContact;
@@ -10,7 +10,7 @@ interface IProps {
 function DetailsContact({ contact }: IProps) {
   const {
     form, setForm, handleChange, handleSave,
-  } = inputForm(contact);
+  } = useFormInput(contact);
   const [showForm, setShowForm] = useState(false);
   const [editNom, setEditNom] = useState(false);
   const [editPrenom, setEditPrenom] = useState(false);

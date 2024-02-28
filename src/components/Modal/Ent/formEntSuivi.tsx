@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { IEntreprise } from '../../../@types/Home/ent';
-import useFormInput from '../../../utils/formInput';
+import useFormInput from '../../../hook/useFormInput';
 import axiosInstance from '../../../utils/axios';
 
 interface AddEntModalProps {
-  onAddElement: (data: IEntreprise[]) => void;
+  onAddElement: (data: IEntreprise) => void;
 }
 const initFormData = {
   name: '',
@@ -14,6 +14,7 @@ const initFormData = {
   town: '',
   urlImg: '',
   id: 0,
+  contact: [],
 };
 
 function AddEntModal({ onAddElement }: AddEntModalProps) {

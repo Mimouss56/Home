@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import JobList from '../Job';
 import ModalAddItem from '../Modal/Ent/formJob';
 import axiosInstance from '../../utils/axios';
-import { Job } from '../../@types/Home/emploi';
+import { IEmploi } from '../../@types/Home/emploi';
 
 interface SectionProps {
   title: string;
@@ -10,7 +10,7 @@ interface SectionProps {
 }
 
 function Section({ title, type }: SectionProps) {
-  const [items, setItems] = useState<Job[]>([]);
+  const [items, setItems] = useState<IEmploi[]>([]);
 
   const fetchInfo = async (typeInfo: string) => {
     const response = await axiosInstance.get(`/api/home/${typeInfo}/@me`);
@@ -18,15 +18,13 @@ function Section({ title, type }: SectionProps) {
     setItems(data);
   };
 
-  const handleAddElement = (data: Job) => {
-    setItems((prevItems: Job[]) => [...prevItems, data]);
+  const handleAddElement = (data: IEmploi) => {
+    setItems((prevItems) => [...prevItems, data]);
   };
 
   useEffect(() => {
     fetchInfo(type);
   }, [type]);
-
-  console.log('items', items);
 
   return (
     <>

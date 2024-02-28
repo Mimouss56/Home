@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { User as UserInfo } from '../../@types/Home/user';
+import { IUser } from '../../@types/Home/user';
 import { MenuItemsProp } from '../../@types/menu';
 
 import './style.scss';
@@ -13,11 +13,10 @@ interface MenuProp {
 }
 
 function Menu({ navContent }: MenuProp) {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
+  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const isAdmin = (userSession.role.label === 'admin');
   const isESA = (userSession.role.label === 'esa' || userSession.role.label === 'admin');
   const isMouss = (userSession.username === 'Mouss');
-  const isFamily = userSession.family;
   const [navItemsUser, navItemsMouss] = navContent;
 
   const handleClickLogout = () => {

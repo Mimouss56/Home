@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { Editor } from '@tinymce/tinymce-react';
-import { ICreateNews } from '../../@types/Home/news';
-import axiosInstance from '../../utils/axios';
-import { ICardNews } from '../../@types/Home/card';
-import useFormInput from '../../utils/formInput';
+import axiosInstance from '../../../utils/axios';
+import { ICardNews } from '../../../@types/Home/card';
+import useFormInput from '../../../hook/useFormInput';
 
 interface NewsFormProps {
   onAddElement: (data: ICardNews) => void;
@@ -34,8 +33,8 @@ const initEditorConfig = {
 
 function ModalAddNews({ onAddElement }: NewsFormProps) {
   const {
-    form, setForm, handleChange, handleSave,
-  } = useFormInput(initFormData as ICreateNews);
+    form, setForm, handleChange,
+  } = useFormInput(initFormData);
   const [editorContent, setEditorContent] = useState<string>('');
 
   const fetchData = useCallback(async (id: number) => {

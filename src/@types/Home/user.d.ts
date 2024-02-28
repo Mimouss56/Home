@@ -1,35 +1,48 @@
-export interface User {
+export interface IUser extends IRole, IAvatar {
   id: number
   email: string
   username: string
-  role: Role
   family: boolean
   child: boolean
   sanction?: Sanction[]
   job?: Job[]
   school?: Job[]
   last_visited: string
-  avatar: Avatar
 }
 
-export interface Role {
+export interface IRole {
+  role: {
+    id: number
+    label: string
+    color?: string
+  }
+}
+export interface IRoleWithoutObject {
   id: number
   label: string
   color?: string
 }
-export interface Avatar {
+export interface IAvatar {
+  avatar: {
+    id: number
+    name: string
+    path: string
+  }
+}
+
+export interface IAvatarWithoutObject {
   id: number
   name: string
   path: string
 }
 
-export interface Author {
-  id: number
-  username: string
-  email: string
-  created_at: string
-  updated_at: string
-  last_visited: string
-  child: boolean
-  role: Role
+export interface IAuthor extends IRole {
+  author?: {
+    id: number
+    username: string
+    email: string
+    created_at: string
+    updated_at: string
+    last_visited: string
+  }
 }

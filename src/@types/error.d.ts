@@ -3,7 +3,7 @@ export interface ErrorAxios {
   message : string,
 }
 
-interface ErrorSanctionProps {
+export interface ErrorSanctionProps {
   response: {
     data: {
       message: string;

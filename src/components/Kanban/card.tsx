@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import { useState } from 'react';
 import axiosInstance from '../../utils/axios';
 import { ICardTemplate } from '../../@types/Home/kanban';
 
@@ -9,7 +8,6 @@ interface ICardTemplateProps {
 }
 
 export default function CardTemplate({ card, updateCards }: ICardTemplateProps) {
-  const [showInput, setShowInput] = useState(false);
   const handleDeleteCard = async () => {
     try {
       await axiosInstance.delete(`/api/kanban/cards/${card.id}`);
@@ -51,7 +49,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
       </div>
       <div id="content" className="d-flex flex-row justify-content-between">
         <p
-          onDoubleClick={(e) => console.log('test')}
+          onDoubleClick={() => console.log('test')}
         >
           {card.content}
 

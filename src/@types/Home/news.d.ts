@@ -1,28 +1,22 @@
-import { Author } from './user';
+import { IAuthor } from './user';
 
-export interface INews {
+export interface ICreateNews extends IAuthor, ITag {
   id: number;
   title: string;
   content: string;
-  author: Author;
+  draft: boolean;
+}
+export interface INews extends IAuthor, ITag, ICreateNews {
   created_at: string;
   updated_at: string;
-  tags: ITag[];
-  draft: boolean;
-
 }
 
 export interface ITag {
-  id: number;
-  label: string;
-  color: string;
-}
-
-export interface ICreateNews {
-  id?: number | null;
-  title: string;
-  content: string;
-  author?: Author | null;
-  tags?: ITag[] | undefined;
-  draft?: boolean;
+  tags?: [
+    {
+      id: number;
+      label: string;
+      color: string;
+    },
+  ]
 }

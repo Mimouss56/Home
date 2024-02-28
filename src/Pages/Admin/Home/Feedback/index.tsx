@@ -59,7 +59,7 @@ function ListFeedBack() {
                 </tr>
               </thead>
               <tbody>
-                {feedbackList && feedbackList.map((feedback: IFeedback) => (
+                {feedbackList && feedbackList.map((feedback) => (
                   <tr key={feedback.id}>
                     <td>{feedback.name}</td>
                     <td>{feedback.email}</td>

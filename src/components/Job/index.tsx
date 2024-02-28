@@ -1,8 +1,8 @@
 import FloatCard from '../FloatCard';
-import { Job as IJob } from '../../@types/Home/emploi';
+import { IEmploi } from '../../@types/Home/emploi';
 
 interface JobProps {
-  jobs: IJob[];
+  jobs: IEmploi[];
   typeData: string;
 }
 
@@ -12,9 +12,9 @@ function Job({ jobs, typeData }: JobProps) {
       {
         jobs
           .sort(
-            (a: IJob, b: IJob) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+            (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
           )
-          .map((job: IJob) => (
+          .map((job) => (
             <FloatCard
               key={job.id}
               id={job.id}

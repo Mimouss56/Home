@@ -1,17 +1,17 @@
 import axiosInstance from '../../../utils/axios';
-import { IcreateStudent } from '../../../@types/ESA/student';
+import { IStudent } from '../../../@types/ESA/student';
 
-export const fetchStudents = async (): Promise<IcreateStudent[]> => {
+export const fetchStudents = async (): Promise<IStudent[]> => {
   const response = await axiosInstance.get('/api/esa/child');
   return response.data;
 };
 
-export const updateStudent = async (data: IcreateStudent) => {
+export const updateStudent = async (data: IStudent) => {
   const { id, ...rest } = data; // id n'est pas nécessaire pour un PUT
   await axiosInstance.put(`/api/esa/child/${id}`, rest);
 };
 
-export const createStudent = async (data: IcreateStudent) => {
+export const createStudent = async (data: IStudent) => {
   const { id, ...rest } = data; // id n'est pas nécessaire pour un POST
   await axiosInstance.post('/api/esa/child', rest);
 };

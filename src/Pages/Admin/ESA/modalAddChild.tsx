@@ -1,15 +1,15 @@
 import {
   useEffect, useState,
 } from 'react';
-import { IcreateStudent } from '../../../@types/ESA/student';
+import { IStudent } from '../../../@types/ESA/student';
 
 interface FormProps {
-  child: IcreateStudent | null;
-  onSubmit: (data: IcreateStudent) => Promise<void>;
+  child: IStudent | null;
+  onSubmit: (data: IStudent) => Promise<void>;
 }
 
 function ModalAddChildren({ child = null, onSubmit }: FormProps) {
-  const [currentChild, setCurrentChild] = useState<IcreateStudent>(
+  const [currentChild, setCurrentChild] = useState<IStudent>(
     {
       id: 0,
       first_name: '',

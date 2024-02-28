@@ -1,13 +1,13 @@
-export interface IEntreprise {
+export interface IEntreprise extends IArrayContact {
   id: number;
   name: string;
   address: string;
   postalCode: string;
   town: string;
   urlImg: string;
-  contact: IContact[];
 }
-export interface IContact {
+
+export interface IContact extends IArrayInter {
   id: number;
   nom:string,
   prenom:string,
@@ -15,7 +15,9 @@ export interface IContact {
   role:string,
   phone:string,
   idEnt : number,
-  interaction: Interaction[];
+}
+export interface IArrayContact {
+  contact: IContact[];
 }
 
 export interface IInteraction {
@@ -24,6 +26,10 @@ export interface IInteraction {
   reponse:string,
   status: string,
   createdAt: string,
+}
+
+export interface IArrayInter {
+  interaction: IInteraction[];
 }
 
 export interface IInterVue {

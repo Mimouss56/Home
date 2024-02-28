@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ICardPortfolio from '../../@types/portfolio';
 import axiosInstance from '../../utils/axios';
-import ModalAddFolio from '../../components/Modal/formPortfolio';
+import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import FloatCard from '../../components/FloatCard';
 import { ErrorSanctionProps } from '../../@types/error';
 

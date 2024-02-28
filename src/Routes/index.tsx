@@ -3,7 +3,7 @@ import Main from '../Pages/Main';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
-import { User as UserInfo } from '../@types/Home/user';
+import { IUser } from '../@types/Home/user';
 import Dashboard from './Dashboard';
 import RoutesAdmin from './admin';
 import RoutesESA from './ESA';
@@ -13,7 +13,7 @@ import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
 
 function ListeRoute() {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as UserInfo;
+  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const isAdmin = (userSession?.role.label === 'admin');
   const isESA = (userSession?.role.label === 'esa' || userSession?.role.label === 'admin');
 

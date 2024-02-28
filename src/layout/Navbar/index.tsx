@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import MenuNav from '../User/aside.user';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import { User } from '../../@types/Home/user';
+import { IUser } from '../../@types/Home/user';
 import navItemsMouss from '../../../data/navItemsMouss.json';
 import navItemsUser from '../../../data/navItemsUser.json';
 import { baseUrl } from '../../../config.json';
@@ -16,13 +16,13 @@ interface NavbarProp {
 
 function Navbar({ navContent }: NavbarProp) {
   const [avatar, setAvatar] = useState('');
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
 
   const updateUserInfo = () => {
     const storedUserInfo = sessionStorage.getItem('user');
     if (storedUserInfo) {
-      const user = JSON.parse(storedUserInfo) as User;
+      const user = JSON.parse(storedUserInfo) as IUser;
       setUserInfo(user);
       setAvatar(user.avatar ? `${baseUrl}/images/${user.avatar.path}` : 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg');
     } else {

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { ICardTemplate, IListTemplate } from '../../@types/Home/kanban';
 import Card from './card';
-import ModalAddCard from '../Modal/formCardKanban';
+import ModalAddCard from '../Modal/Kanban/formCardKanban';
 import axiosInstance from '../../utils/axios';
 
 interface ListTemplateProps {

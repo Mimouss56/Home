@@ -6,8 +6,8 @@ import DetailsContact from './viewContact';
 import ModalAddInteraction from '../../components/Modal/Ent/formInteraction';
 
 function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
-  const [entreprise, setEntreprise] = useState<IEntreprise>(ent);
-  const [filteredInteraction, setFilteredInteraction] = useState<IInteraction[]>(
+  const [entreprise, setEntreprise] = useState(ent);
+  const [filteredInteraction, setFilteredInteraction] = useState(
     entreprise.contact.flatMap((contact) => contact.interaction),
   );
   const [showContactDetails, setShowContactDetails] = useState(false);
@@ -34,10 +34,12 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
   }
 
   return (
-    <>
+    <div className="d-flex flex-sm-column flex-wrap">
+      {/* Title */}
       <h2>{`Détails de ${entreprise.name}`}</h2>
-      <div className="row">
-        <div className="col-3 d-flex flex-column">
+      {/* Content */}
+      <div className="row d-sm-flex flex-sm-wrap flex-sm-column">
+        <div className="d-sm-flex flex-sm-column col-lg-3">
           <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid" width="150px" />
           <i>{`${entreprise.address}, ${entreprise.postalCode} ${entreprise.town}`}</i>
           <h3>Contact</h3>
@@ -63,7 +65,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
           </ul>
           <button
             type="button"
-            className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25"
+            className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25 mb-2"
             data-bs-toggle="modal"
             data-bs-target="#addContact"
             data-bs-id-ent={entreprise.id}
@@ -72,9 +74,8 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
             <span className="vr mx-2" />
             <span>Ajout</span>
           </button>
-
         </div>
-        <div className="col-9">
+        <div className="col-lg-9 d-sm-flex flex-sm-column">
           {showContactDetails && idContact && (
             <DetailsContact contact={
               entreprise.contact.find((contact) => contact.id === idContact) as IContact
@@ -100,7 +101,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
       </div>
       <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />
-    </>
+    </div>
   );
 }
 
