@@ -1,4 +1,4 @@
-const { role } = require('../models/index.mapper');
+const { user } = require('../models/index.mapper');
 
 const textValue = 'role';
 
@@ -20,7 +20,7 @@ const generateObject = async (value) => ({
 
 module.exports = {
   async getAll() {
-    const roles = await role.findAll();
+    const roles = await user.role.findAll();
     if (!roles) {
       return {
         code: 404,
@@ -33,7 +33,7 @@ module.exports = {
 
   async getData(id) {
     try {
-      const roleByID = await role.findByPk(id);
+      const roleByID = await user.role.findByPk(id);
       const returnValue = await generateObject(roleByID);
       return returnValue;
     } catch (error) {
@@ -45,7 +45,7 @@ module.exports = {
   },
   async create(inputQuery) {
     try {
-      const roleCreated = await role.create(inputQuery);
+      const roleCreated = await user.role.create(inputQuery);
       const returnValue = await generateObject(roleCreated);
       return returnValue;
     } catch (error) {
@@ -64,7 +64,7 @@ module.exports = {
     }
 
     try {
-      const roleUpdated = await role.update(id, inputQuery);
+      const roleUpdated = await user.role.update(id, inputQuery);
       return roleUpdated;
     } catch (error) {
       return {
@@ -75,7 +75,7 @@ module.exports = {
   },
   async delete(id) {
     try {
-      const roleDeleted = await role.delete(id);
+      const roleDeleted = await user.role.delete(id);
       return roleDeleted;
     } catch (error) {
       return {
@@ -86,7 +86,7 @@ module.exports = {
   },
 
   async checkRole(label) {
-    const roleExist = await role.findOne({ where: { label } });
+    const roleExist = await user.role.findOne({ where: { label } });
     return roleExist;
   },
 

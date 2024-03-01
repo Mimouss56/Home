@@ -1,3 +1,5 @@
+import { IEmploi } from './emploi';
+
 export interface IUser extends IRole, IAvatar {
   id: number
   email: string
@@ -5,8 +7,10 @@ export interface IUser extends IRole, IAvatar {
   family: boolean
   child: boolean
   sanction?: Sanction[]
-  job?: Job[]
-  school?: Job[]
+  cv: {
+    job: IEmploi[]
+    school: IEmploi[]
+  }
   last_visited: string
 }
 

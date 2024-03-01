@@ -4,19 +4,21 @@ import ExportPDF from '../../components/Cv/PDF/template';
 import { MoussID } from '../../../config.json';
 import axiosInstance from '../../utils/axios';
 import { IEmploi } from '../../@types/Home/emploi';
+import { IUser } from '../../@types/Home/user';
 
 function RenderCv() {
-  const [listJob, setListJob] = useState([]);
-  const [listSchool, setListSchool] = useState([]);
+  const [listJob, setListJob] = useState<IEmploi[]>([]);
+  const [listSchool, setListSchool] = useState<IEmploi[]>([]);
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
     const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
-    const filterJob = response.data.user.job.filter(
-      (job: IEmploi) => job.competences?.includes('Maintenance'),
+    const userInfo = response.data.user as IUser;
+    const filterJob = userInfo.cv.job.filter(
+      (job) => job.competences?.includes('Maintenance'),
     );
     setListJob(filterJob);
-    setListSchool(response.data.user.school);
+    setListSchool(userInfo.cv.school);
   };
 
   useEffect(() => {

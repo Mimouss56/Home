@@ -28,14 +28,13 @@ router.post('/login', validate(loginSchema), loginController.login);
  * @return 401 - Unauthorized
 */
 router.post('/register', loginController.register);
+router.use('/cv', require('./cv.router'));
 
-router.use('/job', require('./job.router'));
 router.use('/news', require('./news.router'));
 router.use('/option', require('./option.router'));
 router.use('/portfolio', require('./portfolio.router'));
 router.use('/role', require('./role.router'));
 router.use('/sanction', loggedAs, require('./sanction.router'));
-router.use('/school', require('./school.router'));
 router.use('/skill', require('./skill.router'));
 router.use('/suivi', loggedAs, require('./SuiviEnt/index.router'));
 router.use('/ent', require('./ent.router'));

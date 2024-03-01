@@ -11,8 +11,8 @@ function Dashboard() {
   return (
     <Routes>
       <Route path="setting" element={(<Setting />)} />
-      <Route path="jobs" element={<Section title="Emploi" type="job" />} />
-      <Route path="school" element={<Section title="Formation" type="school" />} />
+      {/* <Route path="jobs" element={<Section title="Emploi" type="job" />} /> */}
+      {/* <Route path="school" element={<Section title="Formation" type="school" />} /> */}
       <Route path="kanban" element={<Kanban />} />
       <Route path="rendercv" element={<RenderCv />} />
       <Route path="portfolio" element={<Portfolio />} />

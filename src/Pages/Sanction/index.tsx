@@ -20,6 +20,7 @@ function Sanction() {
       const updatedData = data.map((sanction: ISanction) => {
         if (
           idRole !== 1
+          && sanction.date
           && sanction.date.week >= dayjs().isoWeek()
           && sanction.date.year >= dayjs().year()) {
           return { ...sanction, label: '**********' };
@@ -94,19 +95,38 @@ function Sanction() {
                   <tr
                     key={sanction.id}
                     className={sanction.warn ? 'table-danger' : ''}
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalViewSanction"
-                    data-bs-id={sanction.id}
                   >
-                    <td>
+                    <td
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalViewSanction"
+                      data-bs-id={sanction.id}
+                    >
                       {
                         !sanction.read && user.role.id !== 1 && (
                           <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
                       }
                     </td>
-                    <td>{excerpt(sanction.label)}</td>
-                    <td>{`S${sanction.date.week}/${sanction.date.year}`}</td>
-                    <td>{sanction.author?.username}</td>
+                    <td
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalViewSanction"
+                      data-bs-id={sanction.id}
+                    >
+                      {excerpt(sanction.label)}
+                    </td>
+                    <td
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalViewSanction"
+                      data-bs-id={sanction.id}
+                    >
+                      {`S${sanction.date?.week}/${sanction.date?.year}`}
+                    </td>
+                    <td
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalViewSanction"
+                      data-bs-id={sanction.id}
+                    >
+                      {sanction.author?.username}
+                    </td>
                     {
                       user.role.id === 1 && (
                         <>

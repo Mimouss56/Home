@@ -8,6 +8,7 @@ export interface IEmploi extends IDateEmploi {
   description: string,
   competences?: string[],
   ent: IEntreprise
+  type: 'job' | 'school'
 }
 
 export interface IDateEmploi {

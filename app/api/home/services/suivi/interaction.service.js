@@ -1,4 +1,4 @@
-const { interaction } = require('../../models/index.mapper');
+const { suivi } = require('../../models/index.mapper');
 const statusService = require('./status.service');
 /**
  * @typedef {object} Interaction - Interaction d'un contact
@@ -20,7 +20,7 @@ const generateData = async (value) => ({
 module.exports = {
 
   async getAllInteractionByContactId(contactId) {
-    const find = await interaction.findAll({ where: { id_contact: contactId } });
+    const find = await suivi.interaction.findAll({ where: { id_contact: contactId } });
     if (!find) {
       return [];
     }
@@ -30,7 +30,7 @@ module.exports = {
   },
 
   async create(idContact, status, moyen, reponse) {
-    const create = await interaction.create({
+    const create = await suivi.interaction.create({
       id_contact: idContact, id_status: status, moyen, reponse,
     });
     return generateData(create);

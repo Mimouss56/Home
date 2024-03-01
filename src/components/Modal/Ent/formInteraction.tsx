@@ -21,7 +21,7 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
   const [status, setStatus] = useState([{ id: 0, label: '' }]);
   const addItemModal = document.getElementById('addInteraction');
 
-  const fetchDataStatus = async () => {
+  const fetchData = async () => {
     try {
       const response = await axiosInstance.get('/api/home/suivi/status');
       const { data } = response;
@@ -42,7 +42,7 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
   }
 
   useEffect(() => {
-    fetchDataStatus();
+    fetchData();
   }, []);
 
   return (

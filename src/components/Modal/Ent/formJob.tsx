@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import axiosInstance from '../../../utils/axios';
-import SkillInput from '../../Job/skillInput';
 import useFormInput from '../../../hook/useFormInput';
+import useFetchData from '../../../hook/useFetchData';
+import SkillInput from '../../Job/skillInput';
 import { ISkill } from '../../../@types/Home/skill';
 import { IEntreprise } from '../../../@types/Home/ent';
 import { IEmploi } from '../../../@types/Home/emploi';
-import useFetchData from '../../../hook/useFetchData';
 
 const initFormData = {
   type: 'job',
@@ -18,6 +18,7 @@ const initFormData = {
   fin: '',
   description: '',
 };
+
 interface ModalAddItemProps {
   onAddElement: (data: IEmploi) => void;
 }
@@ -27,70 +28,47 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
 
+  const [idJob, setIdJob] = useState(0);
   const [data] = useFetchData('/api/home/ent');
-  const [selectedSkills, setSelectedSkills] = useState<ISkill[]>([]);
-  const [listEnt, setListEnt] = useState<IEntreprise[]>([]);
+  const listEnt = data as IEntreprise[];
 
-  // const fetchListEnt = async () => {
-  //   try {
-  //     const response = await axiosInstance.get('/api/home/ent');
-  //     setListEnt(response.data);
-  //   } catch (error) {
-  //     toast.error(`Erreur lors de la récupération des données des Entreprises: ${error}`);
-  //   }
-  // };
-
-  const handleSkillSelected = (skill: ISkill) => {
-    setSelectedSkills((prevSkills) => [...prevSkills, skill]);
-  };
-
-  const fetchJobData = async (id: number, type: string) => {
-    try {
-      const response = await axiosInstance.get(`/api/home/${type}/${id}`);
-      const jobData = response.data;
-
-      setForm({
-        type,
-        id,
-        id_ent: jobData.ent.id,
-        title: jobData.title || '',
-        debut: jobData.date.debut || '',
-        fin: jobData.date.fin || '',
-        description: jobData.description || '',
-      });
-
-      // Assurez-vous de charger les compétences sélectionnées si nécessaire
-      setSelectedSkills(jobData.skills || []);
-    } catch (err) {
-      toast.error('Erreur lors de la récupération des données du job à éditer');
-    }
-  };
-
+  // Vérifier si data-bs-id est égal à zéro ou non
   const addItemModal = document.getElementById('addItem');
-
   if (addItemModal) {
     addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-      // Button that triggered the modal
       const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
       const button = relatedTarget as HTMLButtonElement;
-      // Extract info from data-bs-* attributes
-      const id = button.getAttribute('data-bs-id') as string;
-      const type = button.getAttribute('data-bs-type') as string;
+      const dataBsId = parseInt(button.getAttribute('data-bs-id') as string, 10);
 
-      if (id !== '0') {
-        fetchJobData(parseInt(id, 10), type);
-        return;
-      }
-      setForm(initFormData);
+      setIdJob(dataBsId);
     });
   }
-
   useEffect(() => {
-    setListEnt(data);
-  }, [data]);
+    if (idJob === 0) {
+      setForm(initFormData);
+    } else {
+      // Effectuer une requête Axios pour récupérer les données correspondantes
+      axiosInstance.get(`/api/home/cv/${idJob}`)
+        .then((response) => {
+          const formData = response.data;
+          setForm(formData);
+        })
+        .catch((error) => {
+          toast.error('Error fetching data:', error);
+          // Gérer les erreurs
+        });
+    }
+  }, [idJob]);
 
   return (
-    <form onSubmit={(e) => handleSave(e, `/api/home/${form.type}/@me`, onAddElement)}>
+    <form onSubmit={
+      (e) => handleSave(
+        e,
+        `/api/home/${form.type}/@me`,
+        () => console.log('test'),
+      )
+    }
+    >
       <div
         className="modal fade"
         id="addItem"
@@ -198,14 +176,14 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   onChange={handleChange}
                 />
               </div>
-              <div className="input-group mb-3">
+              {/* <div className="input-group mb-3">
                 <SkillInput onSkillSelected={handleSkillSelected} />
                 {selectedSkills.map((skill) => (
                   <span key={skill.id}>
                     {skill.name}
                   </span>
                 ))}
-              </div>
+              </div> */}
 
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

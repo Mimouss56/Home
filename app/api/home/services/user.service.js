@@ -3,9 +3,10 @@ const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const { upload } = require('../../../models/index.mapper');
 const roleService = require('./role.service');
-const jobService = require('./job.service');
-const schoolService = require('./school.service');
+// const jobService = require('./job.service');
+// const schoolService = require('./school.service');
 const sanctionService = require('./sanction.service');
+const cvService = require('./cv.service');
 
 /**
  * Avatar
@@ -38,25 +39,32 @@ const sanctionService = require('./sanction.service');
  * @param {object} dataOption
  * @returns
  */
-const generateByDefault = async (data, dataOption) => ({
-  id: data.id,
-  username: data.username,
-  email: data.email,
-  last_name: data.last_name,
-  first_name: data.first_name,
-  role: await roleService.getData(dataOption.id_role),
-  avatar: await upload.findByPk(data.avatar),
-  family: dataOption.family,
-  child: dataOption.child,
-  sanction: await sanctionService.getAll(data.id),
-  job: await jobService.getAllByUser(data.id),
-  school: await schoolService.getAllByUser(data.id),
-});
+const generateByDefault = async (data, dataOption) => {
+  const cvUser = await cvService.getAllByUser(data.id);
+  return ({
+    id: data.id,
+    username: data.username,
+    email: data.email,
+    last_name: data.last_name,
+    first_name: data.first_name,
+    role: await roleService.getData(dataOption.id_role),
+    avatar: await upload.findByPk(data.avatar),
+    family: dataOption.family,
+    child: dataOption.child,
+    sanction: await sanctionService.getAll(data.id),
+    cv: {
+      job: cvUser.filter((value) => value.type === 'job'),
+      school: cvUser.filter((value) => value.type === 'school'),
+    },
+    // job: await jobService.getAllByUser(data.id),
+    // school: await schoolService.getAllByUser(data.id),
+  });
+};
 
 module.exports = {
 
   async getData(id) {
-    const userByID = await user.findByPk(id);
+    const userByID = await user.base.findByPk(id);
     if (!userByID) {
       return {
         code: 404,
@@ -64,13 +72,13 @@ module.exports = {
       };
     }
     // Ingo Général User
-    const userOptionByID = await user.option(id);
+    const userOptionByID = await user.base.option(id);
     const returnUser = await generateByDefault(userByID, userOptionByID);
     return returnUser;
   },
 
   async getAll() {
-    const allUsers = await user.findAll();
+    const allUsers = await user.base.findAll();
     if (!allUsers) {
       return {
         code: 404,
@@ -90,10 +98,10 @@ module.exports = {
     const inputData = { ...inputQuery };
     delete inputData.password;
     delete inputData.passwordConfirm;
-    const userByID = await user.findByPk(id);
+    const userByID = await user.base.findByPk(id);
     // Check if email not already exist in database
 
-    const emailExist = await user.findOne({ where: { email: inputData.email } });
+    const emailExist = await user.base.findOne({ where: { email: inputData.email } });
     if (emailExist && emailExist.id !== userByID.id) {
       return { code: 409, message: 'Email already exist' };
     }
@@ -131,8 +139,8 @@ module.exports = {
     };
 
     try {
-      await user.updateOption(userByID.id, inputOption);
-      await user.update(userByID.id, inputUser);
+      await user.userOption.updateOption(userByID.id, inputOption);
+      await user.base.update(userByID.id, inputUser);
       return { message: 'Données mises à jour' };
     } catch (error) {
       return {
@@ -144,7 +152,7 @@ module.exports = {
   },
 
   async delete(id) {
-    const userByID = await user.findByPk(id);
+    const userByID = await user.base.findByPk(id);
     if (!userByID) {
       return {
         code: 404,
@@ -152,7 +160,7 @@ module.exports = {
       };
     }
     try {
-      await user.destroy({ where: { id } });
+      await user.base.destroy({ where: { id } });
       return { message: 'Utilisateur supprimé' };
     } catch (error) {
       return {
@@ -165,8 +173,8 @@ module.exports = {
 
   async checkUserExist(email, username) {
     const userExist = {
-      emailExist: await user.findOne({ where: { email } }),
-      usernameExist: await user.findOne({ where: { username } }),
+      emailExist: await user.base.findOne({ where: { email } }),
+      usernameExist: await user.base.findOne({ where: { username } }),
     };
 
     return userExist;

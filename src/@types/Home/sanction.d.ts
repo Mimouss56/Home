@@ -14,7 +14,7 @@ export interface ISanctionAuthor {
 }
 
 export interface ISanctionDate {
-  date: {
+  date?: {
     year: number;
     week: number;
     complete: string;

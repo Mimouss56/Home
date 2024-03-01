@@ -1,4 +1,4 @@
-const { contact } = require('../../models/index.mapper');
+const { suivi } = require('../../models/index.mapper');
 const interactionService = require('./interaction.service');
 
 /**
@@ -25,7 +25,7 @@ const generateObject = async (value) => ({
 module.exports = {
 
   async getAllContactByEntId(entId) {
-    const find = await contact.findAll({ where: { id_ent: entId } });
+    const find = await suivi.contact.findAll({ where: { id_ent: entId } });
     if (!find) {
       return [];
     }
@@ -35,7 +35,7 @@ module.exports = {
 
   async getContact(id) {
     try {
-      const find = await contact.findByPk(id);
+      const find = await suivi.contact.findByPk(id);
       const returnValue = await generateObject(find);
       return returnValue;
     } catch (error) {
@@ -48,7 +48,7 @@ module.exports = {
 
   async create(data) {
     try {
-      const find = await contact.create(data);
+      const find = await suivi.contact.create(data);
       const returnValue = await generateObject(find);
       return returnValue;
     } catch (error) {
@@ -61,14 +61,14 @@ module.exports = {
 
   async updateContact(id, data) {
     try {
-      const find = await contact.findByPk(id);
+      const find = await suivi.contact.findByPk(id);
       if (!find) {
         return {
           code: 404,
           message: 'contact not found',
         };
       }
-      const newValue = await contact.update(id, data);
+      const newValue = await suivi.contact.update(id, data);
       const returnValue = await generateObject(newValue);
       return returnValue;
     } catch (error) {

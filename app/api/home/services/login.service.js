@@ -23,7 +23,7 @@ module.exports = {
 * @return 500 - Unexpected error
   */
   async login(username, password) {
-    const userExist = await user.findOne({ where: { username } });
+    const userExist = await user.base.findOne({ where: { username } });
     if (!userExist) {
       return {
         code: 403,
@@ -49,7 +49,7 @@ module.exports = {
       },
     );
     // Mettre à jour la date de la dernière connexion
-    await user.update(userExist.id, {
+    await user.base.update(userExist.id, {
       last_visited: new Date(),
       delete_at: null,
     });

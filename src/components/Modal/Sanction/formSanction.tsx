@@ -16,11 +16,6 @@ const initFormData = {
   id_child: 0,
   warn: false,
   read: false,
-  date: {
-    year: 0,
-    week: 0,
-    complete: 'string',
-  },
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
@@ -40,7 +35,6 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         label: sanctionData.label,
         id_child: sanctionData.child.id,
         warn: sanctionData.warn,
-        date: sanctionData.date,
         read: sanctionData.read,
       });
     } catch (error) {

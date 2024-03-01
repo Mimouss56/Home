@@ -31,8 +31,8 @@ dayjs.extend(isoWeek);
  * @returns
  */
 const generateObject = async (value) => {
-  const author = await user.findByPk(value.author_id);
-  const child = await user.findByPk(value.id_child);
+  const author = await user.base.findByPk(value.author_id);
+  const child = await user.base.findByPk(value.id_child);
   const returnValue = {
     id: value.id,
     label: value.label,
