@@ -39,7 +39,7 @@ function Skills() {
         <Image style={styles.imgStyle} src={`https://img.icons8.com/${color}/${size}/postgreesql.png`} />
         <Image style={styles.imgStyle} src={`https://img.icons8.com/${color}/${size}/mysql-logo.png`} />
         <Image style={styles.imgStyle} src={`https://img.icons8.com/${color}/${size}/php.png`} />
-        <Image style={styles.imgStyle} src="https://seeklogo.com/images/S/swagger-logo-A49F73BAF4-seeklogo.com.png" />
+        <Image style={styles.imgStyle} src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Swagger-logo.png" />
       </View>
       <Text style={styles.styleH3}>Outils</Text>
       <View style={styles.styleFlex}>

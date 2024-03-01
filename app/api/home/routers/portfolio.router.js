@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { loggedAs } = require('../../../middlewares/auth.middleware');
 const { validate } = require('../../../middlewares/validate.middleware');
-const { portfolioSchema } = require('../schemas/portfolio.schema');
+const { portfolioPost } = require('../schemas/portfolio.schema');
 const portfolioController = require('../controllers/portfolio.controller');
 
 router.route('/')
@@ -24,7 +24,7 @@ router.route('/')
    * @return 500 - Unexpected error
    * @return 401 - Unauthorized
    */
-  .post(loggedAs, validate(portfolioSchema), portfolioController.create);
+  .post(loggedAs, validate(portfolioPost), portfolioController.create);
 
 router.route('/:id')
 

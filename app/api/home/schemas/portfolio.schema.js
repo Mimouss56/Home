@@ -13,8 +13,8 @@ const portfolioPost = Joi.object({
   id: Joi.number().integer(),
   nameSite: Joi.string().required(),
   description: Joi.string().required(),
-  urlImg: Joi.string().required(),
-  urlSite: Joi.string().required(),
+  urlImg: Joi.string().allow(null, ''),
+  urlSite: Joi.string().allow(null, ''),
 });
 
 module.exports = {
