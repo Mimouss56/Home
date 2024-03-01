@@ -29,6 +29,7 @@ CREATE TABLE "cv_has_skill"
   PRIMARY KEY (id_cv, id_skill)
 );
 
-DROP TABLE IF EXISTS job, schooling, job_skill, school_skill;
+DROP TABLE IF EXISTS job, schooling, job_skill, school_skill CASCADE;
+
 
 COMMIT;
