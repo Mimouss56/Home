@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { ICard } from '../../@types/Home/card';
 import axiosInstance from '../../utils/axios';
 import ICardPortfolio from '../../@types/portfolio';
@@ -42,7 +43,7 @@ function DetailsFloatCard() {
               });
             })
             .catch((error) => {
-              console.error(error);
+              toast.error(error);
             });
         }
       });
