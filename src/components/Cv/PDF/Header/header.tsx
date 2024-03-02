@@ -18,7 +18,7 @@ function HeaderCv() {
   return (
     <>
       <Text style={styles.styleH1}>
-        Développeur Application Web et Mobile
+        Développeur Fullstack Javascript
       </Text>
       <Text style={styles.styleContent}>
         Fort d&apos;une diversité d&apos;expériences professionnelles,

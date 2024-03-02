@@ -1,8 +1,9 @@
 import './style.scss';
 import { useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
-import { textFormatDuration } from '../../utils/main';
+import { excerpt, textFormatDuration } from '../../utils/main';
 import { baseUrl } from '../../../config.json';
+import defaultImg from '../../assets/images/default_img.png';
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target, type,
@@ -16,11 +17,15 @@ function FloatCard({
       setUrlImgState(urlImg);
     } else if (urlImg) {
       setUrlImgState(`${baseUrl}/images/${urlImg}`);
+    } else {
+      setUrlImgState(defaultImg);
     }
   }, [urlImg]);
   return (
     <article className="card m-2 border-0">
-      <div className="face face1">
+      <div
+        className="face face1"
+      >
         {user && user.username === 'Mouss' && (
           <button
             type="button"
@@ -58,8 +63,10 @@ function FloatCard({
               )}
             </div>
           )}
-          <p>{desc}</p>
-
+          <div
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: (excerpt(desc, 200)) }}
+          />
         </div>
 
       </div>

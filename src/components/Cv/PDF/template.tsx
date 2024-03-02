@@ -1,5 +1,5 @@
 import {
-  Page, View, Document, StyleSheet, Font,
+  Page, View, Document, StyleSheet, Font, Text,
 } from '@react-pdf/renderer';
 import { IEmploi } from '../../../@types/Home/emploi';
 import HeaderCv from './Header/header';
@@ -21,6 +21,9 @@ function PDFExport({ listJob, listSchool }: Props) {
     styleGlob: Glob as object,
     styleLeft: Left as object,
     styleRight: Right as object,
+    styleFooter: {
+      textAlign: 'center', fontSize: 10, color: 'grey', fontStyle: 'italic',
+    },
   });
 
   Font.register(FontRoboto);
@@ -42,6 +45,9 @@ function PDFExport({ listJob, listSchool }: Props) {
             <Lang />
             <Hobbies />
           </View>
+        </View>
+        <View style={styles.styleFooter} fixed>
+          <Text>CV généré avec passion sous REACT PDF</Text>
         </View>
       </Page>
     </Document>

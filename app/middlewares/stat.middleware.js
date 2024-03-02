@@ -5,12 +5,11 @@ const stats = (req, res, next) => {
     req.session.views = {};
   }
 
-  const sessionId = req.session.id;
   // on ignore les url qui contiennent /images et /assets
   if (['/images', '/assets'].some((route) => req.originalUrl.startsWith(route))) return next();
   // Information du visiteur
   const visitorInfo = {
-    ipAddress: req.ip,
+    ipAddress: req.headers['x-real-ip'],
     url: req.originalUrl,
     userAgent: req.headers['user-agent'],
     pays: req.headers['cf-ipcountry'],

@@ -4,6 +4,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import axiosInstance from '../../../utils/axios';
 import { ICardNews } from '../../../@types/Home/card';
 import useFormInput from '../../../hook/useFormInput';
+import { initEditorConfig } from '../../../utils/main';
 
 interface NewsFormProps {
   onAddElement: (data: ICardNews) => void;
@@ -14,21 +15,6 @@ const initFormData = {
   title: '',
   content: '',
   draft: false,
-};
-
-const initEditorConfig = {
-  height: 500,
-  menubar: false,
-  plugins: [
-    'advlist autolink lists link image charmap print preview anchor',
-    'searchreplace visualblocks code fullscreen',
-    'insertdatetime media table paste code help wordcount',
-  ],
-  toolbar: 'undo redo | formatselect | '
-    + 'bold italic backcolor | alignleft aligncenter '
-    + 'alignright alignjustify | bullist numlist outdent indent | '
-    + 'removeformat | help',
-  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 };
 
 function ModalAddNews({ onAddElement }: NewsFormProps) {

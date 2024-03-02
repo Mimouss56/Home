@@ -31,7 +31,9 @@ function Contact() {
         <Text style={styles.styleH1}>LE PRIOL Matthieu</Text>
       </View>
       <Text style={styles.styleContent}>
-        {'En pleine reconversion, je suis passionné d\'informatique et spécialisé en développement web fullstack JavaScript. Autonome et autodidacte, j\'ai acquis des compétences solides dans ce domaine en suivant ma passion.'}
+        {`
+Passionné d'informatique, développeur autodidacte en constante évolution. Polyvalent et curieux, je maîtrise le développement web fullstack JS et je suis ouvert à de nouvelles opportunités professionnelles.
+        `}
       </Text>
       <Text style={styles.styleTitle}>Contact</Text>
       <View style={styles.styleList}>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
+import { Editor } from '@tinymce/tinymce-react';
+import { initEditorConfig } from '../../../utils/main';
+
 import axiosInstance from '../../../utils/axios';
 import ICardPortfolio from '../../../@types/portfolio';
 import FileUploader from '../../fileUploader';
@@ -26,6 +29,8 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
     setForm,
   } = useFormInput(initFormData as ICardPortfolio);
   const [imageFile, setImageFile] = useState<File | undefined>();
+
+  const [editorContent, setEditorContent] = useState<string>('');
 
   const fetchJobData = useCallback(async (id: number) => {
     if (id === 0) {
@@ -72,6 +77,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { id, ...inputData } = formData;
+    inputData.description = editorContent;
 
     if (imageFile) {
       const imageUrl = await handleUpload(imageFile);
@@ -133,7 +139,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
   return (
     <form onSubmit={handleSave}>
       <div className="modal fade" id="addPortfolio">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered modal-xl ">
           <div className="modal-content">
             <div className="modal-header">
               <h2>Ajouter un élément</h2>
@@ -149,7 +155,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="nameSite"
+                    placeholder="Nom du Site"
                     aria-label="nameSite"
                     aria-describedby="basic-addon1"
                     name="nameSite"
@@ -162,7 +168,14 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                 <span className="input-group-text" id="basic-addon1">
                   <i className="bi bi-file-earmark-text px-1" />
                 </span>
-                <textarea
+                <Editor
+                  init={initEditorConfig}
+                  initialValue={formData.description}
+                  textareaName="description"
+                  onEditorChange={(description) => setEditorContent(description)}
+                />
+
+                {/* <textarea
                   className="form-control"
                   placeholder="Description"
                   aria-label="Description"
@@ -170,7 +183,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                />
+                /> */}
               </div>
               <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
               <div className="input-group mb-3">

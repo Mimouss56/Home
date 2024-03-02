@@ -37,7 +37,7 @@ router.route('/:id')
      * @return 404 - Portfolio not found
      * @return 500 - Unexpected error
      */
-  .get(loggedAs, portfolioController.getOne)
+  .get(portfolioController.getOne)
 
   /**
        * PUT /api/home/portfolio/{id}

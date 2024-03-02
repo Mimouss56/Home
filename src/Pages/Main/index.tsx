@@ -8,6 +8,7 @@ import ICardPortfolio from '../../@types/portfolio';
 import FloatCard from '../../components/FloatCard';
 import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import { ErrorSanctionProps } from '../../@types/error';
+import DetailsFloatCard from '../../components/FloatCard/modalViewDetailsFloatCard';
 
 function Main() {
   // fetch data from api
@@ -26,12 +27,7 @@ function Main() {
       const { response } = error as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
-    // const result = await axiosInstance('/api/home/news');
-    // result.data = result.data.filter((news: INews) => news.draft === false);
-    // result.data.sort(
-    //   (a: INews, b: INews) => (a.created_at < b.created_at ? 1 : -1),
-    // );
-    // setListNews(result.data);
+
     try {
       const resultPortfolio = await axiosInstance('/api/home/portfolio');
       setListPortfolio(resultPortfolio.data);
@@ -65,32 +61,25 @@ function Main() {
           {/* Ajoute ici des composants ou des liens vers tes projets */}
           <div className="d-flex flex-wrap justify-content-evenly">
             <ModalAddFolio onAddElement={fetchData} />
+            <DetailsFloatCard />
 
             {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
-              <div key={item.id}>
-                {item.urlSite ? (
-                  <a href={item.urlSite} target="_blank" rel="noopener noreferrer" className="link-opacity-10">
-                    <FloatCard
-                      urlImg={item.urlImg}
-                      desc={item.description}
-                      alt={item.nameSite}
-                      id={item.id}
-                      urlSite={item.urlSite}
-                      target="addPortfolio"
-                      type="portfolio"
-                    />
-                  </a>
-                ) : (
-                  <FloatCard
-                    urlImg={item.urlImg}
-                    desc={item.description}
-                    alt={item.nameSite}
-                    id={item.id}
-                    urlSite={item.urlSite}
-                    target="addPortfolio"
-                    type="portfolio"
-                  />
-                )}
+              <div
+                key={item.id}
+                data-bs-toggle="modal"
+                data-bs-target="#viewDetailsFloatCard"
+                data-bs-id={item.id}
+                data-bs-type="portfolio"
+              >
+                <FloatCard
+                  urlImg={item.urlImg}
+                  desc={item.description}
+                  alt={item.nameSite}
+                  id={item.id}
+                  urlSite={item.urlSite}
+                  target="addPortfolio"
+                  type="portfolio"
+                />
               </div>
             ))}
 
@@ -103,7 +92,7 @@ function Main() {
           <h2>Mes Compétences</h2>
         </section> */}
       </div>
-      <div className="w-lg-25">
+      <div className=" w-auto ">
         {/* Section Actualités */}
         <section className="news-section my-5">
           <h2>Actualités</h2>
