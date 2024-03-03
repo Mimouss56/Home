@@ -18,8 +18,6 @@ function RenderCv() {
       (job) => job.competences?.includes('Maintenance'),
     );
     setListJob(filterJob);
-    console.log(response.data.user);
-
     setListSchool(userInfo.cv.school);
   };
 

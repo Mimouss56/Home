@@ -63,7 +63,6 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         const button = relatedTarget as HTMLButtonElement;
         const id = button.getAttribute('data-bs-id');
         const editForm = button.getAttribute('data-bs-edit');
-        console.log(editForm);
 
         if (editForm === null) return;
         setEdit(!editForm);
@@ -86,10 +85,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
             <div className="modal-header">
               <div className="input-group">
                 <span className="input-group-text" id="basic-addon1">
-                  {edit ? 'Editer' : 'Ajouter'}
-                  {' '}
-                  un
-                  {' '}
+                  {edit ? 'Editer un' : 'Ajouter un'}
                 </span>
                 <select
                   className="form-select input-group-select"

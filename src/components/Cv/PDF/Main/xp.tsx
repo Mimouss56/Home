@@ -19,21 +19,18 @@ function Xp(contents: { content: IEmploi[], titre: string }) {
       {
         content
           .sort((a, b) => (a.date.fin > b.date.fin ? -1 : 1))
-          .map((emploi: IEmploi) => {
-            // console.log(emploi);
-            return (
-              <DetailsXp
-                key={emploi.id}
-                ent={emploi.ent}
-                date={emploi.date}
-                description={emploi.description}
-                title={emploi.title}
-                competences={emploi.competences}
-                id={emploi.id}
-                type="job"
-              />
-            );
-          })
+          .map((emploi: IEmploi) => (
+            <DetailsXp
+              key={emploi.id}
+              ent={emploi.ent}
+              date={emploi.date}
+              description={emploi.description}
+              title={emploi.title}
+              competences={emploi.competences}
+              id={emploi.id}
+              type="job"
+            />
+          ))
       }
     </View>
   );
