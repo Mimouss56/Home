@@ -35,6 +35,9 @@ function ViewCVPage() {
     const userInfo = response.data.user as IUser;
     setListJob(userInfo.cv.job);
     setFilteredJob(userInfo.cv.job);
+    // setFilteredJob(
+    //   searchParams.get('fj') ? applyFilter(searchParams.get('fj') as string) : userInfo.cv.job,
+    // );
     setListSchool(userInfo.cv.school);
   };
 
