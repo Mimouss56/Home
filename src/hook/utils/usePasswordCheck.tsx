@@ -5,10 +5,10 @@ const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/;
 const useCheckPassword = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [confirmPassword, setConfirmPassword] = useState('');
 
-  const checkPassword = () => {
+  const checkPassword = (password: string, confirmPassword: string) => {
     if (password !== confirmPassword) {
       setError(true);
       setErrorMessage('Les mots de passe ne correspondent pas');
@@ -28,10 +28,10 @@ const useCheckPassword = () => {
     error,
     errorMessage,
     checkPassword,
-    password,
-    confirmPassword,
-    setPassword,
-    setConfirmPassword,
+    // password,
+    // confirmPassword,
+    // setPassword,
+    // setConfirmPassword,
     setError,
     setErrorMessage,
   };

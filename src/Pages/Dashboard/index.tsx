@@ -5,22 +5,18 @@ import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import FileUploader from '../../components/fileUploader';
 import useImageUpload from '../../hook/utils/useImageUpload';
-import useCheckPassword from '../../hook/utils/usePasswordCheck';
 import axiosInstance from '../../utils/axios';
 import { ErrorAxios } from '../../@types/error';
 import { IAvatarWithoutObject } from '../../@types/Home/user';
+import Password from '../../components/User/password';
 
 interface IDataInput {
   last_name: string;
   first_name: string;
   email: string;
-  password?: string;
-  passwordConfirm?: string;
 }
 
 export default function UserSettingsPage() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [editName, setEditName] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
   const [email, setEmail] = useState('');
@@ -31,16 +27,6 @@ export default function UserSettingsPage() {
   const {
     resetImageUpload,
   } = useImageUpload();
-
-  const {
-    password,
-    confirmPassword,
-    setPassword,
-    setConfirmPassword,
-    checkPassword,
-    error,
-    errorMessage,
-  } = useCheckPassword();
 
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 
@@ -75,12 +61,6 @@ export default function UserSettingsPage() {
       email: email || user.email,
     };
 
-    // Injecter password et passwordConfirm si ils sont remplis
-    if (password && confirmPassword && password === confirmPassword) {
-      dataInput.password = password;
-      dataInput.passwordConfirm = confirmPassword;
-    }
-
     // On met à jour les infos du user par la route /user/:id
     try {
       const response = await axiosInstance.put(
@@ -109,12 +89,10 @@ export default function UserSettingsPage() {
   };
 
   useEffect(() => {
-    checkPassword();
-
     if (user.avatar !== imageFile?.path) {
       setImageFile(imageFile);
     }
-  }, [checkPassword, user.avatar, imageFile, setImageFile]);
+  }, [user.avatar, imageFile, setImageFile]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -219,52 +197,7 @@ export default function UserSettingsPage() {
           </div>
         </div>
         <div className="col-md-6 mb-3">
-          <div className="card border-primary">
-            <div className="card-body">
-              <h4 className="card-title mt-4 text-primary">
-                Modifier le mot de passe
-              </h4>
-              <div
-                className={`input-group mb-3 ${error ? 'has-error' : ''}`}
-              >
-                <i className="input-group-text bi bi-key" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  className="form-control"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className={`input-group-text bi bi-eye${showPassword ? '-slash' : ''}`}
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              </div>
-              <div
-                className={`input-group mb-3 ${error ? 'has-error' : ''}`}
-              >
-                <i className="input-group-text bi bi-key" />
-                <input
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  className="form-control"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className={`input-group-text bi bi-eye${showConfirmPassword ? '-slash' : ''}`}
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              </div>
-              {error && (
-                <span className="form-text text-bg-danger badge text-white ">
-                  {errorMessage}
-                </span>
-              )}
-            </div>
-          </div>
+          <Password />
         </div>
         <button type="submit" className="btn btn-primary">
           Enregistrer les modifications
