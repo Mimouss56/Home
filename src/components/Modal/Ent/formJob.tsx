@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useCallback, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
@@ -17,6 +16,7 @@ const initFormData = {
   debut: '',
   fin: '',
   description: '',
+  competence: '',
 };
 
 interface ModalAddItemProps {
@@ -24,60 +24,73 @@ interface ModalAddItemProps {
 }
 
 function ModalAddItem({ onAddElement }: ModalAddItemProps) {
+  const [edit, setEdit] = useState(false);
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
+  const [dataEnt] = useFetchData('/api/home/ent');
+  const listEnt = dataEnt as IEntreprise[];
 
-  const [idJob, setIdJob] = useState(0);
-  const [data] = useFetchData('/api/home/ent');
-  const listEnt = data as IEntreprise[];
+  const handleSkillSelected = (skill: ISkill) => {
+    setForm({ ...form, competence: skill.name });
+  };
 
-  // Vérifier si data-bs-id est égal à zéro ou non
-  const addItemModal = document.getElementById('addItem');
-  if (addItemModal) {
-    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-      const button = relatedTarget as HTMLButtonElement;
-      const dataBsId = parseInt(button.getAttribute('data-bs-id') as string, 10);
-
-      setIdJob(dataBsId);
-    });
-  }
-  useEffect(() => {
-    if (idJob === 0) {
+  const fetchData = useCallback(async (id: number) => {
+    if (id === 0) {
       setForm(initFormData);
-    } else {
-      // Effectuer une requête Axios pour récupérer les données correspondantes
-      axiosInstance.get(`/api/home/cv/${idJob}`)
-        .then((response) => {
-          const formData = response.data;
-          setForm(formData);
-        })
-        .catch((error) => {
-          toast.error('Error fetching data:', error);
-          // Gérer les erreurs
-        });
+      return;
     }
-  }, [idJob]);
+    const response = await axiosInstance.get(`/api/home/cv/${id}`);
+    const emploiData = response.data;
+    setForm({
+      type: emploiData.type || '',
+      id_ent: emploiData.ent.id || '',
+      title: emploiData.title || '',
+      debut: emploiData.date.debut || '',
+      fin: emploiData.date.fin || '',
+      description: emploiData.description || '',
+      competence: emploiData.competence || '',
+      id,
+    });
+  }, [setForm]);
+
+  useEffect(() => {
+    const addItemModal = document.getElementById('addItem');
+
+    if (addItemModal) {
+      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+        const button = relatedTarget as HTMLButtonElement;
+        const id = button.getAttribute('data-bs-id');
+        const editForm = button.getAttribute('data-bs-edit');
+        console.log(editForm);
+
+        if (editForm === null) return;
+        setEdit(!editForm);
+        if (id === null) return;
+        fetchData(parseInt(id, 10));
+      });
+    }
+  }, [fetchData]);
 
   return (
-    <form onSubmit={
-      (e) => handleSave(
-        e,
-        `/api/home/${form.type}/@me`,
-        () => console.log('test'),
-      )
-    }
+    <form onSubmit={(e) => handleSave(
+      e,
+      `/api/home/${form.type}/@me`,
+      () => console.log('test'),
+    )}
     >
-      <div
-        className="modal fade"
-        id="addItem"
-      >
+      <div className="modal fade" id="addItem">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
               <div className="input-group">
-                <span className="input-group-text" id="basic-addon1">Ajouter un </span>
+                <span className="input-group-text" id="basic-addon1">
+                  {edit ? 'Editer' : 'Ajouter'}
+                  {' '}
+                  un
+                  {' '}
+                </span>
                 <select
                   className="form-select input-group-select"
                   aria-label="select Type"

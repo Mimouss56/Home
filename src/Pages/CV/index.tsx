@@ -9,10 +9,10 @@ import axiosInstance from '../../utils/axios';
 import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/formJob';
-import Job from '../../components/Job';
 import { IUser } from '../../@types/Home/user';
 import { IEmploi } from '../../@types/Home/emploi';
 import { ISkill } from '../../@types/Home/skill';
+import FloatCard from '../../components/FloatCard';
 
 function ViewCVPage() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
@@ -59,59 +59,101 @@ function ViewCVPage() {
   }, []);
 
   return (
-    <>
-      <ModalAddItem onAddElement={() => console.log('test')} />
-      <div className="d-flex flex-column align-items-center ">
+    <div className="d-flex flex-column align-items-center ">
 
-        {!selectedSkill
-          && <Selected skills={skills} onHandleSelect={(e) => applyFilter(e.target.value)} />}
-        {selectedSkill && (
-          <PDFDownloadLink
-            className="btn btn-primary"
-            document={<ExportPDF listJob={filteredJob} listSchool={listSchool} />}
-            fileName="Cv-LE_PRIOL_Matthieu.pdf"
-          >
-            {({ loading }) => (loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
-                <span role="status">Loading...</span>
-              </>
-            ) : (
-              'Télécharger le CV'
-            ))}
-          </PDFDownloadLink>
-        )}
-        <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
-          <h2 className="">Expériences</h2>
-          {userSession?.role.label === 'admin' && (
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addItem"
-              data-bs-id="0"
-            >
-              Ajouter
-            </button>
-          )}
-
-        </div>
-        <Job jobs={filteredJob} typeData="job" />
-        <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
-          <h2 className="">Formations</h2>
+      {!selectedSkill
+        && <Selected skills={skills} onHandleSelect={(e) => applyFilter(e.target.value)} />}
+      {selectedSkill && (
+        <PDFDownloadLink
+          className="btn btn-primary"
+          document={<ExportPDF listJob={filteredJob} listSchool={listSchool} />}
+          fileName="Cv-LE_PRIOL_Matthieu.pdf"
+        >
+          {({ loading }) => (loading ? (
+            <>
+              <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+              <span role="status">Loading...</span>
+            </>
+          ) : (
+            'Télécharger le CV'
+          ))}
+        </PDFDownloadLink>
+      )}
+      <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
+        <h2 className="">Expériences</h2>
+        {userSession?.role.label === 'admin' && (
           <button
             type="button"
             className="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target="#addItem"
-            data-bs-id="0"
           >
             Ajouter
           </button>
-        </div>
-        <Job jobs={listSchool} typeData="school" />
+        )}
+
       </div>
-    </>
+      <div className="d-flex flex-wrap justify-content-evenly">
+        <ModalAddItem onAddElement={fetchDataJobMouss} />
+
+        {filteredJob && filteredJob.sort(
+          (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+        )
+          .map((job) => (
+            <div
+              key={job.id}
+            >
+              <FloatCard
+                id={job.id}
+                title={job.title}
+                desc={job.description}
+                urlImg={job.ent.urlImg}
+                alt={job.ent.name}
+                date={job.date}
+                competences={job.competences}
+                target="addItem"
+                type="job"
+              />
+            </div>
+          ))}
+      </div>
+
+      {/* <Job jobs={filteredJob} typeData="job" /> */}
+      <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
+        <h2 className="">Formations</h2>
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#addItem"
+          data-bs-id="0"
+        >
+          Ajouter
+        </button>
+      </div>
+      <div className="d-flex flex-wrap justify-content-evenly">
+
+        {listSchool && listSchool.sort(
+          (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+        )
+          .map((job) => (
+            <FloatCard
+              key={job.id}
+              id={job.id}
+              title={job.title}
+              desc={job.description}
+              urlImg={job.ent.urlImg}
+              alt={job.ent.name}
+              date={job.date}
+              competences={job.competences || []}
+              target="addItem"
+              type="school"
+            />
+          ))}
+      </div>
+
+      {/* <Job jobs={listSchool} typeData="school" /> */}
+    </div>
   );
 }
 

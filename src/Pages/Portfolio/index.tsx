@@ -1,31 +1,16 @@
-import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ICardPortfolio from '../../@types/portfolio';
-import axiosInstance from '../../utils/axios';
 import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import FloatCard from '../../components/FloatCard';
-import { ErrorSanctionProps } from '../../@types/error';
+import useFetchData from '../../hook/useFetchData';
 
 function Portfolio() {
-  const [listPortfolio, setListPortfolio] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const result = await axiosInstance.get('/api/home/portfolio');
-      setListPortfolio(result.data);
-    } catch (error) {
-      const { response } = error as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [data] = useFetchData('/api/home/portfolio');
+  const listPortfolio = data as ICardPortfolio[];
 
   return (
     <div>
-      <ModalAddFolio onAddElement={fetchData} />
+      <ModalAddFolio onAddElement={() => toast.info('Portfolio')} />
       <h1>Portfolio</h1>
       <button
         type="button"
@@ -36,15 +21,15 @@ function Portfolio() {
         Ajout d&apos;un item
       </button>
       <section className="d-flex w-100 flex-wrap flex-row justify-content-evenly ">
-        {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
+        {listPortfolio && listPortfolio.map((item) => (
           <div key={item.id}>
             {item.urlSite ? (
               <a href={item.urlSite} target="_blank" rel="noopener noreferrer">
                 <FloatCard
-                  urlImg={item.urlImg}
-                  desc={item.description}
-                  alt={item.nameSite}
                   id={item.id}
+                  desc={item.description}
+                  urlImg={item.urlImg}
+                  alt={item.nameSite}
                   urlSite={item.urlSite}
                   target="addPortfolio"
                   type="a"

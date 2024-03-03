@@ -19,7 +19,7 @@ module.exports = {
 
   async generateObject(value) {
     return {
-      id: value.id_job || value.id_schooling,
+      id: value.id,
       title: value.title,
       description: value.description,
       ent: await entService.getData(value.id_ent),

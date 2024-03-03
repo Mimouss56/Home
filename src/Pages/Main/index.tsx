@@ -63,25 +63,26 @@ function Main() {
             <ModalAddFolio onAddElement={fetchData} />
             <DetailsFloatCard />
 
-            {listPortfolio && listPortfolio.map((item: ICardPortfolio) => (
-              <div
-                key={item.id}
-                data-bs-toggle="modal"
-                data-bs-target="#viewDetailsFloatCard"
-                data-bs-id={item.id}
-                data-bs-type="portfolio"
-              >
-                <FloatCard
-                  urlImg={item.urlImg}
-                  desc={item.description}
-                  alt={item.nameSite}
-                  id={item.id}
-                  urlSite={item.urlSite}
-                  target="addPortfolio"
-                  type="portfolio"
-                />
-              </div>
-            ))}
+            {listPortfolio && listPortfolio
+              .map((item: ICardPortfolio) => (
+                <div
+                  key={item.id}
+                  data-bs-toggle="modal"
+                  data-bs-target="#viewDetailsFloatCard"
+                  data-bs-id={item.id}
+                  data-bs-type="portfolio"
+                >
+                  <FloatCard
+                    id={item.id}
+                    desc={item.description}
+                    urlImg={item.urlImg}
+                    alt={item.nameSite}
+                    urlSite={item.urlSite}
+                    target="addPortfolio"
+                    type="portfolio"
+                  />
+                </div>
+              ))}
 
           </div>
 

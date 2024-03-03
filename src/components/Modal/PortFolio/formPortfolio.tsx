@@ -11,7 +11,7 @@ import { ErrorAxios } from '../../../@types/error';
 import useFormInput from '../../../hook/useFormInput';
 
 interface ModalAddItemProps {
-  onAddElement: (data: ICardPortfolio) => void;
+  onAddElement: (listPortfolio: ICardPortfolio) => void;
 }
 
 const initFormData = {
@@ -130,7 +130,8 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
       addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
-        const id = button.getAttribute('data-bs-id') || '0';
+        const id = button.getAttribute('data-bs-id');
+        if (id === null) return;
         fetchJobData(parseInt(id, 10));
       });
     }
