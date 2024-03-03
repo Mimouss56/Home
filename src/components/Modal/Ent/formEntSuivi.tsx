@@ -14,7 +14,7 @@ const initFormData = {
   town: '',
   urlImg: '',
   id: 0,
-  contact: [],
+  // contact: [],
 };
 
 function AddEntModal({ onAddElement }: AddEntModalProps) {

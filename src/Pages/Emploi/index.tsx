@@ -22,7 +22,7 @@ function EntPage() {
     setFilteredEmplois(allEnt);
     // On charge les interactions
     allEnt.forEach((item: IEntreprise) => {
-      item.contact.forEach((contact) => {
+      item.contact?.forEach((contact) => {
         const lastInter = contact.interaction[contact.interaction.length - 1];
         if (!lastInter) {
           return;

@@ -25,7 +25,15 @@ const useCheckPassword = () => {
     }
   };
   return {
-    error, errorMessage, checkPassword, password, confirmPassword, setPassword, setConfirmPassword,
+    error,
+    errorMessage,
+    checkPassword,
+    password,
+    confirmPassword,
+    setPassword,
+    setConfirmPassword,
+    setError,
+    setErrorMessage,
   };
 };
 

@@ -17,7 +17,7 @@ export interface IContact extends IArrayInter {
   idEnt : number,
 }
 export interface IArrayContact {
-  contact: IContact[];
+  contact?: IContact[];
 }
 
 export interface IInteraction {
