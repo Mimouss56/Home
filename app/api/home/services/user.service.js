@@ -23,24 +23,29 @@ const cvService = require('./cv.service');
  * @property {string} email - L'email de l'utilisateur
  * @property {string} last_name - Le nom de famille de l'utilisateur
  * @property {string} first_name - Le prénom de l'utilisateur
- * @property {string} password - Le mot de passe de l'utilisateur
- * @property {Avatar} avatar - L'avatar de l'utilisateur
- * @property {string} createdAt - La date de création de l'utilisateur
- * @property {string} updatedAt - La date de modification de l'utilisateur
- * @property {string} deleteAt - La date de suppression de l'utilisateur
  * @property {Role} role - Le rôle de l'utilisateur
- * @property {array<Job>} job - Les jobs de l'utilisateur
- * @property {array<School>} school - Les écoles de l'utilisateur
- * @property {array<Sanction>} sanction - Les sanctions de l'utilisateur
+ * @property {string} prez - La présentation de l'utilisateur
+ * @property {string} address - L'adresse de l'utilisateur
+ * @property {string} phone - Le téléphone de l'utilisateur
+ * @property {string} linkedin - Le linkedin de l'utilisateur
+ * @property {string} github - Le github de l'utilisateur
+ * @property {string} website - Le site de l'utilisateur
+ * @property {Avatar} avatar - L'avatar de l'utilisateur
  * @property {boolean} family - De la famille ?
  * @property {boolean} child - Un enfant ?
+ * @property {array<Sanction>} sanction - Les sanctions de l'utilisateur
+ * @property {object} cv - Les cv de l'utilisateur
+ * @property {array<Job>} cv.job - Les jobs de l'utilisateur
+ * @property {array<Job>} cv.school - Les écoles de l'utilisateur
 
- * @param {object} data
+* @param {object} data
  * @param {object} dataOption
  * @returns
  */
 const generateByDefault = async (data, dataOption) => {
   const cvUser = await cvService.getAllByUser(data.id);
+  const infoUser = await user.infos.findOne({ where: { user_id: data.id } });
+  const { id: idInfo, user_id: userId, ...infosUserWithoutID } = infoUser;
   return ({
     id: data.id,
     username: data.username,
@@ -48,6 +53,7 @@ const generateByDefault = async (data, dataOption) => {
     last_name: data.last_name,
     first_name: data.first_name,
     role: await roleService.getData(dataOption.id_role),
+    ...infosUserWithoutID,
     avatar: await upload.findByPk(data.avatar),
     family: dataOption.family,
     child: dataOption.child,
@@ -56,8 +62,6 @@ const generateByDefault = async (data, dataOption) => {
       job: cvUser.filter((value) => value.type === 'job'),
       school: cvUser.filter((value) => value.type === 'school'),
     },
-    // job: await jobService.getAllByUser(data.id),
-    // school: await schoolService.getAllByUser(data.id),
   });
 };
 

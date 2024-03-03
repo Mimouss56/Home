@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import { excerpt, textFormatDuration } from '../../utils/main';
 import { baseUrl } from '../../../config.json';
-import defaultImg from '../../assets/images/default_img.png';
+import defaultImg from '../../assets/images/finish_website.jpeg';
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target, type,
