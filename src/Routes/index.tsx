@@ -32,7 +32,7 @@ function ListeRoute() {
       <Route path="domotic" element={<RouteDomo />} />
 
       {isAdmin && (<Route path="admin/*" element={(<ProtectedRoute><RoutesAdmin /></ProtectedRoute>)} />)}
-      {isAdmin && (<Route path="test" element={(<ProtectedRoute><Test /></ProtectedRoute>)} />)}
+      {isAdmin && (<Route path="test" element={(<Test />)} />)}
       {isESA && (<Route path="ESA/*" element={(<ProtectedRoute><RoutesESA /></ProtectedRoute>)} />)}
       <Route path="*" element={<NotFound />} />
 

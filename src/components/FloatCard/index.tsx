@@ -39,8 +39,9 @@ function FloatCard({
         )}
         <div className="bonnet" />
         <div className="content">
-          <img src={urlImgState} alt={alt} />
-          <figcaption>{title}</figcaption>
+          <figure className="position-relative overflow-hidden m-0">
+            <img src={urlImgState} alt={alt} />
+          </figure>
         </div>
         {competences && (
           <div className="d-flex flex-wrap justify-content-evenly fixed-bottom">
@@ -49,14 +50,12 @@ function FloatCard({
             ))}
           </div>
         )}
+        <figcaption className="bg-black bg-opacity-25 position-absolute bottom-0 start-0 end-0 text-center rounded-bottom-5 ">{title}</figcaption>
+
       </div>
       <div className="face face2">
         <div className="card-body">
-          {title && (
-            <h5 className="card-title">
-              <p>{title}</p>
-            </h5>
-          )}
+
           {date && (
             <div className="card-text">
               {date && (
