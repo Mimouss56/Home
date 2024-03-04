@@ -40,6 +40,7 @@ function FloatCard({
         <div className="bonnet" />
         <div className="content">
           <img src={urlImgState} alt={alt} />
+          <figcaption>{title}</figcaption>
         </div>
         {competences && (
           <div className="d-flex flex-wrap justify-content-evenly fixed-bottom">

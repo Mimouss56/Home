@@ -33,6 +33,7 @@ function Portfolio() {
                   urlSite={item.urlSite}
                   target="addPortfolio"
                   type="a"
+                  title={item.nameSite}
                 />
               </a>
             ) : (
@@ -44,6 +45,7 @@ function Portfolio() {
                 urlSite={item.urlSite}
                 target="addPortfolio"
                 type="div"
+                title={item.nameSite}
               />
             )}
           </div>

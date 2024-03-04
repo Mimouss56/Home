@@ -80,6 +80,7 @@ function Main() {
                     urlSite={item.urlSite}
                     target="addPortfolio"
                     type="portfolio"
+                    title={item.nameSite}
                   />
                 </div>
               ))}
