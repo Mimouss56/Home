@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import defaultImg from '../../assets/images/finish_website.jpeg';
 import HexagonCard from './hexagonCard';
+import { baseUrl } from '../../../config.json';
 
-function FlipCard() {
+function FlipCard({ img }: { img: string }) {
+  const [urlImgState, setUrlImgState] = useState('');
+
   const [isHovered, setIsHovered] = useState(false);
   const style = {
     hexaStyle: {
@@ -25,14 +28,24 @@ function FlipCard() {
       backfaceVisibility: 'hidden' as const,
       WebkitBackfaceVisibility: 'hidden' as const,
     },
-
   };
+
+  useEffect(() => {
+    if (img && img.includes('http')) {
+      setUrlImgState(img);
+    } else if (img) {
+      setUrlImgState(`${baseUrl}/images/${img}`);
+    } else {
+      setUrlImgState(defaultImg);
+    }
+  }, [img]);
+
   return (
     <div
-      className="pe-auto my-1"
+      className="pe-auto m-1"
       style={{
-        width: '300px',
-        height: '150px',
+        width: '200px',
+        height: '500px',
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -41,7 +54,7 @@ function FlipCard() {
         <div className="position-absolute bg-transparent" style={style.hexaDivStyle}>
           <HexagonCard>
             <img
-              src={defaultImg}
+              src={urlImgState}
               alt="default"
               className="h-100 w-100 object-fit-cover"
             />
@@ -54,7 +67,7 @@ function FlipCard() {
         >
           <HexagonCard>
             <span
-              className="bg-white d-flex justify-content-center align-items-center h-100 w-100"
+              className="bg-white d-flex justify-content-center align-items-center h-100 w-100 user-select-none pe-auto "
             >
               voir plus ...
             </span>

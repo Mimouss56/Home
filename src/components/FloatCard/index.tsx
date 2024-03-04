@@ -1,4 +1,3 @@
-import './style.scss';
 import { useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import { excerpt, textFormatDuration } from '../../utils/main';
@@ -12,6 +11,8 @@ function FloatCard({
 
   // on check si l'url de l'image est local ou externe
   const [urlImgState, setUrlImgState] = useState('');
+  const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
     if (urlImg && urlImg.includes('http')) {
       setUrlImgState(urlImg);
@@ -22,9 +23,21 @@ function FloatCard({
     }
   }, [urlImg]);
   return (
-    <article className="card m-2 border-0">
+    <article
+      className="m-2 border-0 bg-transparent pe-auto position-relative "
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+
+    >
       <div
-        className="face face1"
+        className="position-relative d-flex justify-content-center align-items-center z-1 rounded-4"
+        style={{
+          transform: !isHovered ? 'translateY(100px)' : 'translateY(0)',
+          background: !isHovered ? 'rgb(245, 216, 188)' : 'rgb(255, 123, 0)',
+          width: '300px',
+          height: '200px',
+          transition: '1s',
+        }}
       >
         {user && user.username === 'Mouss' && (
           <button
@@ -38,9 +51,25 @@ function FloatCard({
           />
         )}
         <div className="bonnet" />
-        <div className="content">
-          <figure className="position-relative overflow-hidden m-0">
-            <img src={urlImgState} alt={alt} />
+        <div
+          className="content"
+          style={{
+            transition: '0.5s',
+            opacity: isHovered ? 1 : 'none',
+          }}
+        >
+          <figure
+            className="position-relative overflow-hidden m-0"
+          >
+            <img
+              src={urlImgState}
+              alt={alt}
+              className="rounded-4"
+              style={{
+                maxWidth: '300px',
+                maxHeight: '200px',
+              }}
+            />
           </figure>
         </div>
         {competences && (
@@ -50,10 +79,24 @@ function FloatCard({
             ))}
           </div>
         )}
-        <figcaption className="bg-black bg-opacity-25 position-absolute bottom-0 start-0 end-0 text-center rounded-bottom-5 ">{title}</figcaption>
+        <figcaption
+          className="bg-black bg-opacity-25 position-absolute bottom-0 start-0 end-0 text-center rounded-bottom-4"
+        >
+          {title}
+        </figcaption>
 
       </div>
-      <div className="face face2">
+      <div
+        className="position-relative rounded-4 p-2"
+        style={{
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)',
+          boxSizing: 'border-box',
+          transform: !isHovered ? 'translateY(-100px)' : 'translateY(0)',
+          width: '300px',
+          height: '200px',
+          transition: '1s',
+        }}
+      >
         <div className="card-body">
 
           {date && (

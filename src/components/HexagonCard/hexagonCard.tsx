@@ -5,11 +5,11 @@ function HexagonCard({ children }: { children: JSX.Element }) {
       style={{ transform: 'rotate(120deg)' }}
     >
       <div
-        className="overflow-hidden h-100 w-100"
+        className="overflow-hidden w-100 h-100"
         style={{ transform: 'rotate(-60deg)' }}
       >
         <div
-          className="bg-white visible h-100 w-100"
+          className="bg-white visible w-100 h-100 "
           style={{ transform: 'rotate(-60deg)' }}
         >
           {children}
