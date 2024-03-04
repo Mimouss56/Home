@@ -1,15 +1,10 @@
-import './flipCard.scss';
 import { useState } from 'react';
 import defaultImg from '../../assets/images/finish_website.jpeg';
-import HexagonCard from '.';
+import HexagonCard from './hexagonCard';
 
 function FlipCard() {
   const [isHovered, setIsHovered] = useState(false);
   const style = {
-    parentStyle: {
-      width: '300px',
-      height: '150px',
-    },
     hexaStyle: {
       transformStyle: 'preserve-3d' as const,
       WebkitTransitionStyle: 'preserve-3d' as const,
@@ -35,11 +30,14 @@ function FlipCard() {
   return (
     <div
       className="pe-auto my-1"
-      style={style.parentStyle}
+      style={{
+        width: '300px',
+        height: '150px',
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="hexa position-relative h-100 w-100 z-1 " style={style.hexaStyle}>
+      <div className="position-relative h-100 w-100 z-1 " style={style.hexaStyle}>
         <div className="position-absolute bg-transparent" style={style.hexaDivStyle}>
           <HexagonCard>
             <img
@@ -50,7 +48,10 @@ function FlipCard() {
           </HexagonCard>
 
         </div>
-        <div className="position-absolute bg-transparent h-100 w-100" style={style.backStyle}>
+        <div
+          className="position-absolute bg-transparent h-100 w-100"
+          style={style.backStyle}
+        >
           <HexagonCard>
             <span
               className="bg-white d-flex justify-content-center align-items-center h-100 w-100"
