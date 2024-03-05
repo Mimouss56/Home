@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "back": "set DEBUG=server & npx nodemon --trace-warnings index.js",
+    "back": "set DEBUG=discord & npx nodemon --trace-warnings index.js",
     "react": "vite --open --host",
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
@@ -34,6 +34,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
+    "@discordjs/voice": "^0.16.1",
     "@popperjs/core": "^2.11.8",
     "@react-pdf/renderer": "^3.1.14",
     "@tinymce/tinymce-react": "^4.3.0",
