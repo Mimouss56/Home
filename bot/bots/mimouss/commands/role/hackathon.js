@@ -19,15 +19,15 @@ const alreadyRoleMessage = [
   'Désolé, une seule participation au hackathon par personne !',
 ];
 const incorrectResponses = [
-  "Désolé, ce n'est pas la bonne réponse. Consulte les informations du hackathon !",
-  "Raté ! Tu as besoin de plus d'infos sur le hackathon. Essaye encore !",
-  "Non, non, non... tu es loin de la bonne réponse. Révise tes connaissances sur le hackathon !",
-  "C'est une réponse décevante. Tu devrais te renseigner davantage sur le hackathon...",
-  "Tu as besoin d'une leçon sur le hackathon. Essaie encore, si tu en as le courage !",
+  'Désolé, ce n\'est pas la bonne réponse. Consulte les informations du hackathon !',
+  'Raté ! Tu as besoin de plus d\'infos sur le hackathon. Essaye encore !',
+  'Non, non, non... tu es loin de la bonne réponse. Révise tes connaissances sur le hackathon !',
+  'C\'est une réponse décevante. Tu devrais te renseigner davantage sur le hackathon...',
+  'Tu as besoin d\'une leçon sur le hackathon. Essaie encore, si tu en as le courage !',
   'Je suis désolé, tu as échoué. Peut-être que le hackathon est trop avancé pour toi...',
   'Tu ne peux pas avoir de chance tout le temps. Tu as échoué au hackathon !',
   'Tu as déçu les participants au hackathon... tu vas devoir en apprendre davantage.',
-  "Je suis désolé, mais tu n'es pas assez informé sur le hackathon pour comprendre la réponse.",
+  'Je suis désolé, mais tu n\'es pas assez informé sur le hackathon pour comprendre la réponse.',
   'Hmm... je pense que tu as besoin de plus de connaissances sur le hackathon. Dommage !',
 ];
 module.exports = {
@@ -41,17 +41,19 @@ module.exports = {
   async execute(interaction) {
     const response = interaction.options.getString('response');
 
-    const roleHack = ["niji", "open", "cgi"];
+    const roleHack = ['niji', 'open', 'cgi'];
     // verifie si la response est parmis l'array pour attrbuer le role hackathon
     if (roleHack.includes(response)) {
-
-      const { member } = interaction; // Récupère le membre Discord
-      const hasquarksRole = interaction.guild.roles.cache.find((role) => role.id === role.hackathon);
-      if (member.roles.cache.has(hasquarksRole.id)) { // Vérifie si l'utilisateur a le rôle "Quarks"
+      // Récupère le membre Discord
+      const { member } = interaction;
+      const hasHackathonRole = interaction.guild.roles.cache.find((roleDetails) => roleDetails.id === roleDetails.hackathon);
+      // Vérifie si l'utilisateur a le rôle "Hackathon"
+      if (member.roles.cache.has(hasHackathonRole.id)) {
         const message = welcomeMessages[Math.floor(Math.random() * alreadyRoleMessage.length)];
         // L'utilisateur a le rôle "Quarks"
         await interaction.reply(message);
-      } else {
+      }
+      else {
         // L'utilisateur n'a pas le rôle "Quarks"
         await interaction.member.roles.add([role.hackathon]);
         const message = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
@@ -60,7 +62,8 @@ module.exports = {
       }
 
       // Envois message de confirmation
-    } else {
+    }
+    else {
       const message = incorrectResponses[Math.floor(Math.random() * incorrectResponses.length)];
       await interaction.reply(message);
     }

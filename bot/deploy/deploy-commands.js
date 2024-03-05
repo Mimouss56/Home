@@ -1,12 +1,12 @@
 const { deployCommands } = require('./index');
 const { clientID, token } = require('../../config.json');
-const botName = "mimouss";
+const botName = 'mimouss';
 const optionsService = require('../../app/api/home/services/option.service');
 
 // on récupere le token stocker dans la bdd
 const tokenBot = optionsService.getOne({ name: botName });
-tokenBot.then((token) => {
-    console.log(token);
+tokenBot.then((tokenInfo) => {
+    console.log(tokenInfo);
 });
 
 // Déployer les commandes sur le bot BBC

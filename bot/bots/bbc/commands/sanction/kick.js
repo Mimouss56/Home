@@ -20,10 +20,12 @@ module.exports = {
 
     if (!interaction.isChatInputCommand()) return;
 
-    if (!isAdmin) return interaction.reply({
-      content: 'Tu n\'es pas autorisé à faire ça',
-      ephemeral: true
-    });
+    if (!isAdmin) {
+      return interaction.reply({
+        content: 'Tu n\'es pas autorisé à faire ça',
+        ephemeral: true,
+      });
+    }
 
     const user = interaction.options.getUser('user');
     const reason = interaction.options.getString('reason');

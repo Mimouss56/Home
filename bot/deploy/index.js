@@ -30,7 +30,8 @@ const deployCommands = async (clientID, tokenBot, folderNameBot) => {
         { body: commands },
       );
       console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error);
     }
   })();

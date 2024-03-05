@@ -21,10 +21,12 @@ module.exports = {
       return interaction.reply({ content: 'Tu n\'es pas autorisé à faire ça', ephemeral: true });
     }
     const returnListSanction = await sanctionService.getAll(user.id);
-    if (returnListSanction.length === 0) return interaction.reply({
-      content: 'Aucune sanction pour cet utilisateur',
-      ephemeral: true
-    });
+    if (returnListSanction.length === 0) {
+      return interaction.reply({
+        content: 'Aucune sanction pour cet utilisateur',
+        ephemeral: true,
+      });
+    }
 
     const sanctionField = returnListSanction.flatMap((sanction) => {
       const authorMember = interaction.guild.members.cache.get(sanction.author);
@@ -47,8 +49,8 @@ module.exports = {
           name: 'Par : ',
           value: `${authorMember.user.username}`,
           inline: true,
-        }
-      ]
+        },
+      ];
     });
     const embed = new EmbedBuilder()
       .setColor(0xff0000)
