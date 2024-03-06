@@ -11,7 +11,7 @@ router.use('/api', require('./api.router'));
 router.get('/test', testController.renderTest);
 router.use('/status', require('./status.router'));
 
-router.get('/*', require('../middlewares/stat.middleware'), (req, res) => {
+router.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../public', 'index.html'));
 });
 

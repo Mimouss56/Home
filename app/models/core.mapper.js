@@ -90,6 +90,7 @@ module.exports = class CoreDatamapper {
         values,
       };
       const result = await this.client.query(preparedQuery);
+      if (result.rows.length === 0) return [];
 
       return result.rows[0];
     }

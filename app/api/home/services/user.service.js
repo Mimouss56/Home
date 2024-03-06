@@ -45,7 +45,8 @@ const cvService = require('./cv.service');
 const generateByDefault = async (data, dataOption) => {
   const cvUser = await cvService.getAllByUser(data.id);
   const infoUser = await user.infos.findOne({ where: { user_id: data.id } });
-  const { id: idInfo, user_id: userId, ...infosUserWithoutID } = infoUser;
+
+  const { id, user_id: userId, ...infosUserWithoutID } = infoUser;
   return ({
     id: data.id,
     username: data.username,
