@@ -1,7 +1,8 @@
 const { Events, ChannelType } = require('discord.js');
+const { object } = require('joi');
 const createOnJoinChannel = '1214670999027458149';
 // Variable globale pour stocker l'ID du propriétaire du salon vocal
-const salonProprietaire = {};
+let salonProprietaire = [];
 module.exports = {
 	name: Events.VoiceStateUpdate,
 	/**
@@ -20,13 +21,13 @@ module.exports = {
 		if (!channelJoinedInfo) return;
 		// Creation du nouveau channel vocal pour l'utilisateur qui rejoint le channel vocal de création
 		if (channelJoinForCreate.id === channelJoinedInfo.id) {
-			this.setSalonProprietaire(channelJoinedInfo.id, user.id);
 			try {
 				const channel = await oldState.guild.channels.create({
 					name: `🔊 | ${user.globalName}`,
 					type: ChannelType.GuildVoice,
 					parent: channelJoinForCreate.parent,
 				});
+				this.addProprietaire(channel.id, user.id);
 				await newState.member.voice.setChannel(channel);
 			}
 			catch (error) {
@@ -39,20 +40,48 @@ module.exports = {
 	 * @returns
 	 */
 	getSalonProprietaire(channelId) {
-		return salonProprietaire[channelId];
+		console.log(salonProprietaire);
+		return salonProprietaire.find(object => object.channelId === channelId);
 	},
 	/**
 	 * @param {VoiceState.channelId} channelId
 	 * @param {User.id} userId
 	 */
 	setSalonProprietaire(channelId, userId) {
-		salonProprietaire[channelId] = userId;
+		// on cherche le salon vocal dans le tableau
+		const salon = salonProprietaire.find(proprietaire => proprietaire.channelId === channelId);
+		// on modifie le proprietaire du salon vocal
+		if (salon) {
+			console.log('je suis dans le if');
+			// on modifie l'ID du proprietaire dans l'objet salonProprietaire
+			salon.userId = userId;
+			// on modifie l'objet salonProprietaire
+			salonProprietaire = salonProprietaire.map((proprietaire) => {
+				proprietaire.channelId === channelId ? salon : proprietaire
+				});
+
+			return;
+		}
+
+	},
+	/**
+	 * @param {VoiceState.channelId} channelId
+	 * @param {User.id} userId
+	 */
+	addProprietaire(channelId, userId) {
+		salonProprietaire.push({ channelId, userId });
 	},
 	/**
 	 * @param {VoiceState.channelId} channelId
 	 */
 	deleteSalonProprietaire(channelId) {
-		delete salonProprietaire[channelId];
+		// on delete l'object qui ccontien l'ID du salon vocal
+		const newList = salonProprietaire.filter(proprietaire => proprietaire.channelId !== channelId);
+		salonProprietaire = newList;
+		return;
 	},
+	getAllProprietaire() {
+		return salonProprietaire;
+	}
 
 };
