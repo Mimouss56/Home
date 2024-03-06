@@ -1,15 +1,29 @@
 const { removeCommands } = require('./index');
-const { clientID, token, guildID } = require('../../config.json');
-const botName = 'Mimouss';
-console.log(
-  'clientId: ', clientID[botName.toLocaleUpperCase()],
-  'token: ', token[botName.toLocaleUpperCase()],
-  'guildId:', guildID[botName.toLocaleUpperCase()],
-  'botname:', botName,
-);
-removeCommands(
-  clientID[botName.toLocaleUpperCase()],
-  token[botName.toLocaleUpperCase()],
-  guildID[botName.toLocaleUpperCase()],
-  botName,
-);
+require('dotenv').config();
+const botName = 'mimouss';
+const optionsService = require('../../app/api/home/services/option.service');
+const { guildID } = require('../../config.json');
+
+async function getBotInfo() {
+  const botToken = await optionsService.getBotInfo(botName);
+  // on close la connexion
+  await optionsService.close();
+
+  return botToken;
+}
+
+async function main() {
+  const bot = await getBotInfo();
+  removeCommands(
+    bot.clientID,
+    bot.token,
+    guildID[botName.toLocaleUpperCase()],
+    botName,
+  );
+  await optionsService.close();
+}
+async function run() {
+  await main();
+}
+
+run();

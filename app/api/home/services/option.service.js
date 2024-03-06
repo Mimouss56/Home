@@ -18,6 +18,25 @@ module.exports = {
     });
     return options;
   },
+  getBotInfo: async (nameBot) => {
+    const bot = await option.findOne({
+      where: {
+        name: nameBot,
+      },
+    });
+    const botClientid = await option.findOne({
+      where: {
+        name: `${nameBot}ClientID`,
+      },
+    });
+    const returnValue = {
+      name: bot.name,
+      token: bot.value,
+      clientID: botClientid.value,
+    };
+
+    return returnValue;
+  },
   create: async (body) => {
     try {
       const options = await option.create(body);
@@ -62,5 +81,8 @@ module.exports = {
         error,
       };
     }
+  },
+  async close() {
+    await option.close();
   },
 };

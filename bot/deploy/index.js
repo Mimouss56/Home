@@ -37,19 +37,24 @@ const deployCommands = async (clientID, tokenBot, folderNameBot) => {
   })();
 };
 
-async function removeCommands(clientID, tokenBot, guildId) {
+async function removeCommands(clientID, tokenBot, guildId = null) {
   const rest = new REST().setToken(tokenBot);
 
   // DELETE ALL FUNCTION
-  // for guild-based commands
-  rest.put(Routes.applicationGuildCommands(clientID, guildId), { body: [] })
-    .then(() => console.log('Successfully deleted all guild commands.'))
-    .catch(console.error);
+  if (guildId) {
+    // for guild-based commands
+    rest.put(Routes.applicationGuildCommands(clientID, guildId), { body: [] })
+      .finally(() => console.log('Successfully deleted all guild commands.'))
+      .catch(console.error);
+  }
+
 
   // for global commands
   rest.put(Routes.applicationCommands(clientID), { body: [] })
-    .then(() => console.log('Successfully deleted all application commands.'))
+    .finally(() => console.log('Successfully deleted all application commands.'))
     .catch(console.error);
+  return;
+
 }
 
 module.exports = {

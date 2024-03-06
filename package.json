@@ -8,7 +8,7 @@
     "react": "vite --open --host",
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
-    "remove-command-bot": "node bot/deploy/remove-commandsTest.js"
+    "remove-command-bot": "node bot/deploy/remove-commands.js"
   },
   "author": "Mouss",
   "license": "ISC",

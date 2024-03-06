@@ -1,5 +1,7 @@
 const { Events, ChannelType } = require('discord.js');
 const createOnJoinChannel = '1214670999027458149';
+// Variable globale pour stocker l'ID du propriétaire du salon vocal
+const salonProprietaire = {};
 module.exports = {
 	name: Events.VoiceStateUpdate,
 	/**
@@ -18,6 +20,7 @@ module.exports = {
 		if (!channelJoinedInfo) return;
 		// Creation du nouveau channel vocal pour l'utilisateur qui rejoint le channel vocal de création
 		if (channelJoinForCreate.id === channelJoinedInfo.id) {
+			this.setSalonProprietaire(channelJoinedInfo.id, user.id);
 			try {
 				const channel = await oldState.guild.channels.create({
 					name: `🔊 | ${user.globalName}`,
@@ -30,6 +33,26 @@ module.exports = {
 				console.error('error', error);
 			}
 		}
-
 	},
+	/**
+	 * @param {VoiceState.channelId} channelId
+	 * @returns
+	 */
+	getSalonProprietaire(channelId) {
+		return salonProprietaire[channelId];
+	},
+	/**
+	 * @param {VoiceState.channelId} channelId
+	 * @param {User.id} userId
+	 */
+	setSalonProprietaire(channelId, userId) {
+		salonProprietaire[channelId] = userId;
+	},
+	/**
+	 * @param {VoiceState.channelId} channelId
+	 */
+	deleteSalonProprietaire(channelId) {
+		delete salonProprietaire[channelId];
+	},
+
 };

@@ -1,14 +1,26 @@
 const { deployCommands } = require('./index');
-const { clientID, token } = require('../../config.json');
+require('dotenv').config();
 const botName = 'mimouss';
 const optionsService = require('../../app/api/home/services/option.service');
+async function getBotInfo() {
+    const botToken = await optionsService.getBotInfo(botName);
+    // on close la connexion
+    await optionsService.close();
 
-// on récupere le token stocker dans la bdd
-const tokenBot = optionsService.getOne({ name: botName });
-tokenBot.then((tokenInfo) => {
-    console.log(tokenInfo);
-});
+    return botToken;
+}
 
-// Déployer les commandes sur le bot BBC
-deployCommands(clientID[botName.toLocaleUpperCase()], token[botName.toLocaleUpperCase()], botName);
+async function main() {
+    const bot = await getBotInfo();
+    deployCommands(
+        bot.clientID,
+        bot.token,
+        botName,
+    );
+    await optionsService.close();
+}
+async function run() {
+    await main();
+}
 
+run();
