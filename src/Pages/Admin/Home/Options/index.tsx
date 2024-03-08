@@ -100,6 +100,7 @@ function Options() {
                   placeholder={option.value || 'Value'}
                   name="value"
                   aria-describedby="button-addon2"
+                  defaultValue={option.value}
                 />
               )}
               <div className="form-check form-switch">

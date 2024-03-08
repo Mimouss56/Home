@@ -2,16 +2,24 @@ import { IEmploi } from './emploi';
 
 export interface IUser extends IRole, IAvatar {
   id: number
-  email: string
   username: string
+  email: string
+  last_name: string
+  first_name: string
+  prez: string
+  phone: string
+  address: string
+  linkedin: string
+  github: string
+  website: string
   family: boolean
   child: boolean
   sanction?: Sanction[]
+
   cv: {
     job: IEmploi[]
     school: IEmploi[]
   }
-  last_visited: string
 }
 
 export interface IRole {

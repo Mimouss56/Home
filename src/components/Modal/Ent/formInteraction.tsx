@@ -5,6 +5,7 @@ import { IInteraction } from '../../../@types/Home/ent';
 import useFormInput from '../../../hook/useFormInput';
 import axiosInstance from '../../../utils/axios';
 import { ErrorSanctionProps } from '../../../@types/error';
+import Textarea from '../../Form/textarea';
 
 function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteraction) => void }) {
   const initDataForm = {
@@ -80,16 +81,13 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
                 </div>
 
                 {/* //Input Réponse */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">Réponse</span>
-                  <textarea
-                    name="reponse"
-                    id="reponse"
-                    className="form-control"
-                    placeholder="Le retour de l'interaction"
-                    onChange={handleChange}
-                  />
-                </div>
+                <Textarea
+                  title="Réponse"
+                  text={form.reponse}
+                  onChange={handleChange}
+                  name="reponse"
+                  leng={500}
+                />
 
                 {/* //Input Status */}
                 <div className="input-group mb-3">

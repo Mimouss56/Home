@@ -6,6 +6,7 @@ import { ISanction } from '../../../@types/Home/sanction';
 import { IUser } from '../../../@types/Home/user';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
+import Textarea from '../../Form/textarea';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -118,21 +119,12 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                   </select>
                 </div>
               </div>
-              <div className="mb-3">
-                <div className="input-group">
-                  <span className="input-group-text">Raison</span>
-                  <textarea
-                    className="form-control"
-                    id="content"
-                    name="label"
-                    placeholder="Raison de la sanction"
-                    value={form.label}
-                    onChange={handleChange}
-                    rows={5}
-                    required
-                  />
-                </div>
-              </div>
+              <Textarea
+                title="Raison"
+                text={form.label}
+                onChange={handleChange}
+                name="label"
+              />
               <div className="modal-footer d-flex justify-content-around">
                 <button
                   type="button"

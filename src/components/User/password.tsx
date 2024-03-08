@@ -25,7 +25,7 @@ function Password() {
     errorMessage,
   } = useCheckPassword();
 
-  const { handleChange, form, setForm } = useFormInput(initData);
+  const { handleChange, form } = useFormInput(initData);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ function Password() {
     try {
       const response = await axiosInstance.put(
         `/api/home/user/${user.id}`,
-        { form },
+        { ...form, passwordEdit: true },
       );
       toast.info(response.data.message);
     } catch (err) {
@@ -100,10 +100,13 @@ function Password() {
             </span>
           )}
         </div>
+        <div className="card-footer text-end ">
+          <button type="submit" className="btn btn-primary">
+            Enregistrer
+          </button>
+
+        </div>
       </div>
-      <button type="submit" className="btn btn-primary">
-        Enregistrer
-      </button>
     </form>
   );
 }

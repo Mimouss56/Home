@@ -1,3 +1,5 @@
+import { IEntreprise } from './ent.d';
+
 export interface IEmploi extends IDateEmploi {
   id: number,
   title: string

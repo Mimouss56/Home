@@ -1,26 +1,9 @@
 const userService = require('../services/user.service');
-// const jobService = require('../services/home/job.service');
-// const schoolService = require('../services/home/school.service');
-// const sanctionService = require('../services/home/sanction.service');
 
 module.exports = {
   async getAll(req, res) {
     const dataUsers = await userService.getAll();
-    // promise.all
-    // const users = await Promise.all(
-    //   dataUsers.map(async (user) => {
-    //     const jobUser = await jobService.getAllByUser(user.id);
-    //     const schoolUser = await schoolService.getAllByUser(user.id);
-    //     const sanctionUser = (user.child) ? await sanctionService.getAll(user.id) : [];
 
-    //     return {
-    //       ...user,
-    //       job: jobUser,
-    //       school: schoolUser,
-    //       sanction: sanctionUser,
-    //     };
-    //   }),
-    // );
     res.json(dataUsers);
   },
   async get(req, res) {
@@ -34,29 +17,74 @@ module.exports = {
     const { id } = req.params;
     const userInfo = await userService.getData(id);
     const {
-      role, last_name: lastName, first_name: firstName, email, password, passwordConfirm, avatar,
+      info,
+      main,
+      passwordEdit,
+      option,
     } = req.body;
-    const updatedFamily = Object.prototype.hasOwnProperty.call(req.body, 'family') ? req.body.family : userInfo.family;
-    const updatedChild = Object.prototype.hasOwnProperty.call(req.body, 'child') ? req.body.child : userInfo.child;
-    const inputData = {
-      id_role: Number(role) || Number(userInfo.role.id),
-      family: updatedFamily,
-      child: updatedChild,
-      last_name: lastName || userInfo.lastName,
-      first_name: firstName || userInfo.firstName,
-      email: email || userInfo.email,
-      password,
-      passwordConfirm,
-      avatar: avatar || userInfo.avatar,
-    };
-    const data = await userService.update(id, inputData);
-    if (data.code) {
-      return res.status(data.code).json(
-        { message: data.message, error: data.error },
-      );
-    }
 
-    return res.json(data);
+    if (passwordEdit) {
+      const inputData = {
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm,
+      };
+      const dataPassword = await userService.updatePassword(id, inputData);
+      if (dataPassword.code) {
+        return res.status(dataPassword.code).json(
+          { message: dataPassword.message, error: dataPassword.error },
+        );
+      }
+      return res.json(dataPassword);
+    }
+    if (main) {
+      const inputDataGeneral = {
+        last_name: req.body.lastName || userInfo.lastName,
+        first_name: req.body.firstName || userInfo.firstName,
+        email: req.body.email || userInfo.email,
+        avatar: req.body.avatar || userInfo.avatar,
+      };
+      const dataMain = await userService.updateGeneral(id, inputDataGeneral);
+      if (dataMain.code) {
+        return res.status(dataMain.code).json(
+          { message: dataMain.message, error: dataMain.error },
+        );
+      }
+      return res.json(dataMain);
+    }
+    if (info) {
+      const inputDataInfos = {
+        linkedin: req.body.linkedin || userInfo.linkedin,
+        github: req.body.github || userInfo.github,
+        website: req.body.website || userInfo.website,
+        address: req.body.address || userInfo.address,
+        phone: req.body.phone || userInfo.phone,
+        prez: req.body.prez || userInfo.prez,
+      };
+      const dataInfo = await userService.updateInfo(userInfo.id, inputDataInfos);
+      if (dataInfo.code) {
+        return res.status(dataInfo.code).json(
+          { message: dataInfo.message, error: dataInfo.error },
+        );
+      }
+      return res.json(dataInfo);
+    }
+    if (option) {
+      const updatedFamily = Object.prototype.hasOwnProperty.call(req.body, 'family') ? req.body.family : userInfo.family;
+      const updatedChild = Object.prototype.hasOwnProperty.call(req.body, 'child') ? req.body.child : userInfo.child;
+      const inputData = {
+        id_role: Number(req.body.role) || Number(userInfo.role.id),
+        family: updatedFamily,
+        child: updatedChild,
+      };
+      const dataOption = await userService.updateOption(id, inputData);
+      if (dataOption.code) {
+        return res.status(dataOption.code).json(
+          { message: dataOption.message, error: dataOption.error },
+        );
+      }
+      return res.json(dataOption);
+    }
+    return res.json({ message: 'No data to update' });
   },
   async delete(req, res) {
     const { id } = req.params;

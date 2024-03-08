@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../../@types/error';
 import IFeedback from '../../@types/Home/feedback';
 import axiosInstance from '../../utils/axios';
+import Textarea from '../Form/textarea';
 
 const initData = {
   id: 0,
@@ -95,16 +96,12 @@ function Feedback() {
                     value={feedback.email}
                   />
                 </div>
-                <div className="input-group">
-                  <span className="input-group-text">Message</span>
-                  <textarea
-                    className="form-control"
-                    id="message-text"
-                    name="message"
-                    onChange={handleChange}
-                    value={feedback.message}
-                  />
-                </div>
+                <Textarea
+                  title="Message"
+                  text={feedback.message}
+                  onChange={handleChange}
+                  name="message"
+                />
 
               </div>
               <div className="modal-footer">

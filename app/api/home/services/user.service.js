@@ -99,52 +99,22 @@ module.exports = {
     return users;
   },
 
-  async update(id, inputQuery) {
-    const inputData = { ...inputQuery };
-    delete inputData.password;
-    delete inputData.passwordConfirm;
+  async update(id, inputData) {
     const userByID = await user.base.findByPk(id);
     // Check if email not already exist in database
-
     const emailExist = await user.base.findOne({ where: { email: inputData.email } });
     if (emailExist && emailExist.id !== userByID.id) {
       return { code: 409, message: 'Email already exist' };
     }
-    // check if password exist in object
-    if (inputQuery.password !== undefined) {
-      // check if password and passwordConfirm are the same
-      if (inputQuery.password && inputQuery.password !== inputQuery.passwordConfirm) {
-        return ({
-          code: 409,
-          message: 'Le mot de passe et la confirmation doivent être identique',
-        });
-      }
 
-      // check if password and old password are the same
-      if (bcrypt.compareSync(inputQuery.password, userByID.password)) {
-        return ({
-          code: 409,
-          message: 'Le nouveau mot de passe doit être différent de l\'ancien',
-        });
-      }
-      inputData.password = bcrypt.hash(inputQuery.password, 10);
-    }
-
-    const inputOption = {
-      id_role: inputData.id_role,
-      child: inputData.child,
-      family: inputData.family,
-    };
     const inputUser = {
       last_name: inputData.last_name,
       first_name: inputData.first_name,
       email: inputData.email,
       avatar: inputData.avatar,
-      // password: inputData.password,
     };
 
     try {
-      await user.userOption.updateOption(userByID.id, inputOption);
       await user.base.update(userByID.id, inputUser);
       return { message: 'Données mises à jour' };
     } catch (error) {
@@ -156,6 +126,89 @@ module.exports = {
     }
   },
 
+  async updateInfo(id, inputQuery) {
+    const userByID = await user.base.findByPk(id);
+    if (!userByID) {
+      return {
+        code: 404,
+        message: 'User not found',
+      };
+    }
+    const inputInfos = {
+      prez: inputQuery.prez,
+      phone: inputQuery.phone,
+      address: inputQuery.address,
+      linkedin: inputQuery.linkedin,
+      github: inputQuery.github,
+      website: inputQuery.website,
+    };
+    try {
+      await user.infos.updateInfos(userByID.id, inputInfos);
+      return { message: 'Données mises à jour' };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'Error while updating user',
+        error,
+      };
+    }
+  },
+  async updatePassword(id, inputQuery) {
+    const userByID = await user.base.findByPk(id);
+    if (!userByID) {
+      return {
+        code: 404,
+        message: 'User not found',
+      };
+    }
+    if (inputQuery.password !== inputQuery.passwordConfirm) {
+      return {
+        code: 409,
+        message: 'Le mot de passe et la confirmation doivent être identique',
+      };
+    }
+    if (bcrypt.compareSync(inputQuery.password, userByID.password)) {
+      return {
+        code: 409,
+        message: 'Le nouveau mot de passe doit être différent de l\'ancien',
+      };
+    }
+    const password = bcrypt.hash(inputQuery.password, 10);
+    try {
+      await user.base.update(userByID.id, { password });
+      return { message: 'Mot de passe mis à jour' };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'Error while updating user password',
+        error,
+      };
+    }
+  },
+  async updateOption(id, inputData) {
+    const userByID = await user.base.findByPk(id);
+    if (!userByID) {
+      return {
+        code: 404,
+        message: 'User not found',
+      };
+    }
+    const inputOption = {
+      id_role: inputData.id_role,
+      child: inputData.child,
+      family: inputData.family,
+    };
+    try {
+      await user.option.updateOption(userByID.id, inputOption);
+      return { message: 'Données mises à jour' };
+    } catch (error) {
+      return {
+        code: 500,
+        message: 'Error while updating user options',
+        error,
+      };
+    }
+  },
   async delete(id) {
     const userByID = await user.base.findByPk(id);
     if (!userByID) {
@@ -175,7 +228,6 @@ module.exports = {
       };
     }
   },
-
   async checkUserExist(email, username) {
     const userExist = {
       emailExist: await user.base.findOne({ where: { email } }),

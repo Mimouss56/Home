@@ -175,16 +175,6 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   textareaName="description"
                   onEditorChange={(description) => setEditorContent(description)}
                 />
-
-                {/* <textarea
-                  className="form-control"
-                  placeholder="Description"
-                  aria-label="Description"
-                  aria-describedby="basic-addon1"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                /> */}
               </div>
               <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
               <div className="input-group mb-3">

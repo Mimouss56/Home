@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
+import Textarea from '../../Form/textarea';
 
 interface ModalProps { updateCards: () => void }
 
@@ -72,19 +73,13 @@ export default function ModalAddList({ updateCards }: ModalProps) {
             </div>
             <div className="modal-body">
               <section>
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="name-list">Contenu</span>
-                  <textarea
-                    className="form-control"
-                    placeholder="Contenu de la carte"
-                    aria-label="Contenu de la carte"
-                    aria-describedby="content-card"
-                    value={content}
-                    onChange={(event) => setContent(event.target.value)}
-                    name="name-list"
-                  />
-                  {error && <div className="invalid-feedback">{error}</div>}
-                </div>
+                <Textarea
+                  title="Contenu"
+                  text={content}
+                  onChange={(event) => setContent(event.target.value)}
+                  name="content"
+                />
+
                 <div className="input-group mb-3">
                   <span className="input-group-text" id="name-list">Couleur</span>
                   <input
