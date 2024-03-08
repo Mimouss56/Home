@@ -6,7 +6,7 @@ export default function UserSettingsPage() {
   return (
     <div className="row">
       <div className="col-md-6 mb-3">
-        <InfosUser />
+        {/* <InfosUser /> */}
       </div>
       <div className="col-md-6 mb-3">
         <Complement />
