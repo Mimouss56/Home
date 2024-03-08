@@ -103,7 +103,11 @@ module.exports = {
     const userByID = await user.base.findByPk(id);
     // Check if email not already exist in database
     const emailExist = await user.base.findOne({ where: { email: inputData.email } });
-    if (emailExist && emailExist.id !== userByID.id) {
+    console.log(emailExist);
+    if (
+      emailExist.email === inputData.email
+      // && emailExist.id !== userByID.id
+    ) {
       return { code: 409, message: 'Email already exist' };
     }
 
@@ -120,7 +124,7 @@ module.exports = {
     } catch (error) {
       return {
         code: 500,
-        message: 'Error while updating user',
+        message: `Error while updating user : ${error}`,
         error,
       };
     }
