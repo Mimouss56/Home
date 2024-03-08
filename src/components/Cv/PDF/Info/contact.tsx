@@ -37,7 +37,6 @@ function Contact() {
   useEffect(() => {
     fetchInfo();
   }, []);
-  console.log(userInfo);
 
   return (
     <View style={styles.styleSection}>

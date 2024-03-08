@@ -23,15 +23,34 @@ function Dev() {
   return (
     <section id="dev">
       <Text id="title_info" style={styles.titleSection}>Expérience Développeur</Text>
+
       <View id="xp_1" style={styles.flexGlobal}>
         {/* 1er Bloc de date */}
         <Text id="xp_date" style={styles.Date}>2023</Text>
         {/* Bloc de D'ent */}
+
         <View id="xp_content" style={styles.Content}>
           <View style={styles.titleEnt}>
             <Text style={styles.titleTitle}>Développeur JS</Text>
           </View>
           {/* Bloc de desc */}
+          <View style={styles.viewContentDev}>
+            <Text>
+              Création d&apos;un outils web pour mes besoins personnels : sous ReactJS et NodeJS
+            </Text>
+            <Text>
+              Création suivi de candidature Gestion diffusion CV sous React
+              Mise en place d&apos;API REST pour une école maternelle
+              Gestion complète de suivi de distribution d&apos;argent de poche sur le mérite
+            </Text>
+            <Link
+              style={styles.UrlLeft}
+              src="https://www.mimouss.fr"
+            >
+              <Text>Mimouss Home</Text>
+            </Link>
+          </View>
+
           <View style={styles.viewContentDev}>
             <Text>Création d&apos;une application web sous ReactJS et NodeJS</Text>
             <Text>(système de collaboration entre développeurs pour du pair-programming.)</Text>

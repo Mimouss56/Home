@@ -4,10 +4,12 @@ export const contentView = {
   flexDirection: 'column',
   marginBotton: '5px',
   paddingBottom: '5px',
+  fontSize: '8px',
+
 };
 
 export const ContentDesc = {
-  fontSize: '10px',
+  fontSize: '8px',
   fontWeight: 100,
   marginBottom: '5px',
   marginTop: '5px',
@@ -21,11 +23,12 @@ export const styleSection = {
 
 export const styleContent = {
   padding: '0 8px 10px 8px',
-  fontSize: '9px',
+  fontSize: '8px',
   textAlign: 'justify',
   fontFamily: 'Roboto',
   fontStyle: 'light italic',
   fontWeight: 100,
+
 };
 
 export const UrlRight = {
@@ -72,6 +75,7 @@ export const viewContentDev = {
   borderBottom: '1px solid #ccc',
   paddingBottom: '5px',
   marginBottom: '5px',
+  fontSize: '8px',
 };
 
 export const UrlLeft = {
