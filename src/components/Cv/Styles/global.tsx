@@ -65,3 +65,13 @@ export const Right = {
   width: '30%',
   height: '100vh',
 };
+
+export const Footer = {
+  textAlign: 'center',
+  fontSize: 10,
+  color: 'black',
+  marginBottom: 10,
+  fontFamily: 'Roboto',
+  fontStyle: 'light italic',
+  marginTop: 'auto',
+};

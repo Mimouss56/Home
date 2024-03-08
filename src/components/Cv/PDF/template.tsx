@@ -7,7 +7,7 @@ import Xp from './Main/xp';
 import Contact from './Info/contact';
 // import Skills from '../Info/skills';
 import {
-  Glob, Left, Right, FontRoboto,
+  Glob, Left, Right, FontRoboto, Footer,
 } from '../Styles/global';
 import Skills from './Info/skills';
 import Lang from './Info/lang';
@@ -21,9 +21,7 @@ function PDFExport({ listJob, listSchool }: Props) {
     styleGlob: Glob as object,
     styleLeft: Left as object,
     styleRight: Right as object,
-    styleFooter: {
-      textAlign: 'center', fontSize: 10, color: 'grey', fontStyle: 'italic',
-    },
+    styleFooter: Footer as object,
   });
 
   Font.register(FontRoboto);
@@ -37,7 +35,9 @@ function PDFExport({ listJob, listSchool }: Props) {
             <Dev />
             <Xp content={listJob} titre="Autres Expériences" />
             <Xp content={listSchool} titre="Formations" />
-
+            <View style={styles.styleFooter}>
+              <Text>CV généré avec passion sous REACT PDF</Text>
+            </View>
           </View>
           <View style={styles.styleRight}>
             <Contact />
@@ -46,9 +46,7 @@ function PDFExport({ listJob, listSchool }: Props) {
             <Hobbies />
           </View>
         </View>
-        <View style={styles.styleFooter} fixed>
-          <Text>CV généré avec passion sous REACT PDF</Text>
-        </View>
+
       </Page>
     </Document>
   );

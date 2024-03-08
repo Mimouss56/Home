@@ -103,8 +103,6 @@ module.exports = {
     const userByID = await user.base.findByPk(id);
     // Check if email not already exist in database
     const emailExist = await user.base.findOne({ where: { email: inputData.email } });
-    console.log(emailExist);
-    console.log(userByID);
     if (
       emailExist.email === inputData.email
       && emailExist.id !== userByID.id
