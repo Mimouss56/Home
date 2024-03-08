@@ -57,27 +57,34 @@ function Contact() {
         <Link src={`mailto:${userInfo.email}`}>
           <Text style={styles.styleLink}>{userInfo.email}</Text>
         </Link>
-        <Link src={`tel:${userInfo.phone}`} style={styles.styleLink}>{userInfo.phone}</Link>
+        <Link src={`tel:${userInfo.phone}`} style={styles.styleLink}>
+          <Text style={styles.styleLink}>{userInfo.phone}</Text>
+        </Link>
         <Text style={styles.styleLink}>{userInfo.address}</Text>
-
-        <Link src={`${userInfo.website}`} style={styles.linkWithImg}>
-          <Image src="https://img.icons8.com/ios-filled/32/ffffff/domain.png" style={styles.imgStyle} />
-          <Text style={styles.styleLink}>
-            {userInfo.website}
-          </Text>
-        </Link>
-        <Link src={`${userInfo.linkedin}`} style={styles.linkWithImg}>
-          <Image src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" style={styles.imgStyle} />
-          <Text style={styles.styleLink}>
-            {userInfo.linkedin?.split('/')[4]}
-          </Text>
-        </Link>
-        <Link src={`${userInfo.github}`} style={styles.linkWithImg}>
-          <Image src="https://img.icons8.com/ios-filled/32/ffffff/github.png" style={styles.imgStyle} />
-          <Text style={styles.styleLink}>
-            {userInfo.github?.split('/')[3]}
-          </Text>
-        </Link>
+        {userInfo.website && (
+          <Link src={`${userInfo.website}`} style={styles.linkWithImg}>
+            <Image src="https://img.icons8.com/ios-filled/32/ffffff/domain.png" style={styles.imgStyle} />
+            <Text style={styles.styleLink}>
+              {userInfo.website}
+            </Text>
+          </Link>
+        )}
+        {userInfo.linkedin && (
+          <Link src={`${userInfo.linkedin}`} style={styles.linkWithImg}>
+            <Image src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" style={styles.imgStyle} />
+            <Text style={styles.styleLink}>
+              {userInfo.linkedin.split('/')[4]}
+            </Text>
+          </Link>
+        )}
+        {userInfo.github && (
+          <Link src={`${userInfo.github}`} style={styles.linkWithImg}>
+            <Image src="https://img.icons8.com/ios-filled/32/ffffff/github.png" style={styles.imgStyle} />
+            <Text style={styles.styleLink}>
+              {userInfo.github.split('/')[3]}
+            </Text>
+          </Link>
+        )}
 
       </View>
 
