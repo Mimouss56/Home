@@ -106,7 +106,7 @@ module.exports = {
     console.log(emailExist);
     if (
       emailExist.email === inputData.email
-      // && emailExist.id !== userByID.id
+      && emailExist.id !== userByID.id
     ) {
       return { code: 409, message: 'Email already exist' };
     }
