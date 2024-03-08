@@ -1,28 +1,27 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import { IAvatarWithoutObject } from '../../@types/Home/user';
+import { IAvatarWithoutObject, IUser } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
 import FileUploader from '../fileUploader';
 import { ErrorAxios } from '../../@types/error';
 import useImageUpload from '../../hook/utils/useImageUpload';
+import useFormInput from '../../hook/useFormInput';
 
-interface IDataInput {
-  last_name: string;
-  first_name: string;
-  email: string;
-}
 function InfosUser() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}') as IUser;
+  const initData = {
+    last_name: user.last_name || '',
+    first_name: user.first_name || '',
+    email: user.email,
+  };
   const [editName, setEditName] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [imageFile, setImageFile] = useState<IAvatarWithoutObject | null>(null);
   const {
     resetImageUpload,
   } = useImageUpload();
+  const { form, handleChange } = useFormInput(initData);
   const handleChangeFile = (file: IAvatarWithoutObject) => {
     setImageFile(file);
 
@@ -48,23 +47,17 @@ function InfosUser() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const dataInput: IDataInput = {
-      last_name: lastName || user.last_name,
-      first_name: firstName || user.first_name,
-      email: email || user.email,
-    };
-
     // On met à jour les infos du user par la route /user/:id
     try {
       const response = await axiosInstance.put(
         `/api/home/user/${user.id}`,
-        { ...dataInput, main: true },
+        { ...form, main: true },
       );
       toast.info(response.data.message);
       // On met à jour le user dans le sessionStorage
       const newUser = {
         ...user,
-        ...dataInput,
+        ...form,
       };
       sessionStorage.setItem('user', JSON.stringify(newUser));
     } catch (err) {
@@ -75,14 +68,13 @@ function InfosUser() {
         || "Une erreur s'est produite lors de l'upload de l'image.",
       );
     }
-
     setEditName(false);
     setEditEmail(false);
     resetImageUpload();
   };
 
   useEffect(() => {
-    if (user.avatar !== imageFile?.path) {
+    if (user.avatar.path !== imageFile?.path) {
       setImageFile(imageFile);
     }
   }, [user.avatar, imageFile, setImageFile]);
@@ -103,12 +95,13 @@ function InfosUser() {
             <input
               type="text"
               className="form-control"
-              placeholder={user.last_name}
+              placeholder={form.last_name}
               aria-label="last_name"
               aria-describedby="Nom"
-              value={lastName}
+              value={form.last_name}
+              name="last_name"
               disabled={!editName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={handleChange}
             />
             {!editName && (
               <button
@@ -127,12 +120,13 @@ function InfosUser() {
             <input
               type="text"
               className="form-control"
-              placeholder={user.first_name}
+              placeholder={form.first_name}
               aria-label="first_name"
               aria-describedby="Prénom"
-              value={firstName}
+              name="first_name"
+              value={form.first_name}
               disabled={!editName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={handleChange}
             />
             {!editName && (
               <button
@@ -151,12 +145,13 @@ function InfosUser() {
             <input
               type="text"
               className="form-control"
-              placeholder={user.email}
+              placeholder={form.email}
               aria-label="Email"
               aria-describedby="Email"
-              value={email}
+              value={form.email}
+              name="email"
               disabled={!editEmail}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
             />
             {!editEmail && (
               <button
