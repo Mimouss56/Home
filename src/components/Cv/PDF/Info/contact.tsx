@@ -1,12 +1,27 @@
 import {
   Text, StyleSheet, View, Link, Image,
 } from '@react-pdf/renderer';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   UrlRight, imgStyle, linkWithImg, styleContent, styleList, styleSection, avatarImg,
 } from '../../Styles/content';
 import { styleH1, styleTitle } from '../../Styles/title';
+import axiosInstance from '../../../../utils/axios';
+import { MoussID, baseUrl } from '../../../../../config.json';
+import { IUser } from '../../../../@types/Home/user';
 
 function Contact() {
+  const [userInfo, setUserInfo] = useState({} as IUser);
+  const fetchInfo = async () => {
+    try {
+      const userInfoDataReponse = await axiosInstance.get(`/api/home/user/${MoussID}`);
+      setUserInfo(userInfoDataReponse.data.user);
+    } catch (error) {
+      toast.error('Erreur lors de la récupération des données');
+    }
+  };
+
   const styles = StyleSheet.create({
     styleSection: styleSection as object,
     styleH1: styleH1 as object,
@@ -19,6 +34,11 @@ function Contact() {
     avatarImg: avatarImg as object,
   });
 
+  useEffect(() => {
+    fetchInfo();
+  }, []);
+  console.log(userInfo);
+
   return (
     <View style={styles.styleSection}>
       <View style={{
@@ -27,32 +47,36 @@ function Contact() {
         alignItems: 'center',
       }}
       >
-        <Image src="https://www.mimouss.fr/images/2024/2/18/1708262674461.jpg" style={styles.avatarImg} />
-        <Text style={styles.styleH1}>LE PRIOL Matthieu</Text>
+        <Image src={`${baseUrl}/images/${userInfo.avatar?.path}`} style={styles.avatarImg} />
+        <Text style={styles.styleH1}>{`${userInfo.last_name} ${userInfo.first_name}`}</Text>
       </View>
       <Text style={styles.styleContent}>
-        {`
-Passionné d'informatique, développeur autodidacte en constante évolution. Polyvalent et curieux, je maîtrise le développement web fullstack JS et je suis ouvert à de nouvelles opportunités professionnelles.
-        `}
+        {userInfo.prez}
       </Text>
       <Text style={styles.styleTitle}>Contact</Text>
       <View style={styles.styleList}>
-        <Link src="mailto:lepriol.matthieu@gmail.com">
-          <Text style={styles.styleLink}>lepriol.matthieu@gmail.com</Text>
+        <Link src={`mailto:${userInfo.email}`}>
+          <Text style={styles.styleLink}>{userInfo.email}</Text>
         </Link>
-        <Link src="tel:0649389905" style={styles.styleLink}>06.49.38.99.05</Link>
-        <Text style={styles.styleLink}>Belz, Morbihan, France</Text>
+        <Link src={`tel:${userInfo.phone}`} style={styles.styleLink}>{userInfo.phone}</Link>
+        <Text style={styles.styleLink}>{userInfo.address}</Text>
 
-        <Link src="https://www.mimouss.fr" style={styles.linkWithImg}>
+        <Link src={`${userInfo.website}`} style={styles.linkWithImg}>
           <Image src="https://img.icons8.com/ios-filled/32/ffffff/domain.png" style={styles.imgStyle} />
           <Text style={styles.styleLink}>
-            www.mimouss.fr
+            {userInfo.website}
           </Text>
         </Link>
-        <Link src="https://www.linkedin.com/in/matthieu-le-priol56/" style={styles.linkWithImg}>
+        <Link src={`${userInfo.linkedin}`} style={styles.linkWithImg}>
           <Image src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" style={styles.imgStyle} />
           <Text style={styles.styleLink}>
-            matthieu-le-priol56/
+            {userInfo.linkedin?.split('/')[4]}
+          </Text>
+        </Link>
+        <Link src={`${userInfo.github}`} style={styles.linkWithImg}>
+          <Image src="https://img.icons8.com/ios-filled/32/ffffff/github.png" style={styles.imgStyle} />
+          <Text style={styles.styleLink}>
+            {userInfo.github?.split('/')[3]}
           </Text>
         </Link>
 

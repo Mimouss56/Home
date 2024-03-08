@@ -38,12 +38,12 @@ module.exports = {
     }
     if (main) {
       const inputDataGeneral = {
-        last_name: req.body.lastName || userInfo.lastName,
-        first_name: req.body.firstName || userInfo.firstName,
+        last_name: req.body.last_name || userInfo.last_name,
+        first_name: req.body.first_name || userInfo.first_name,
         email: req.body.email || userInfo.email,
-        avatar: req.body.avatar || userInfo.avatar,
+        avatar: req.body.avatar || userInfo.avatar.id,
       };
-      const dataMain = await userService.updateGeneral(id, inputDataGeneral);
+      const dataMain = await userService.update(id, inputDataGeneral);
       if (dataMain.code) {
         return res.status(dataMain.code).json(
           { message: dataMain.message, error: dataMain.error },
