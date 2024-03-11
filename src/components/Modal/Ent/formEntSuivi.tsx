@@ -46,6 +46,12 @@ function AddEntModal({ onAddElement }: AddEntModalProps) {
         fetchData(Number(idEnt));
       });
     }
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => { });
+      }
+    };
   }, [fetchData]);
 
   return (

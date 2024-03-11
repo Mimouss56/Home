@@ -1,14 +1,14 @@
 import { IDateEmploi } from './emploi';
+import { IArraySkill } from './skill';
 import { IAuthor } from './user';
 
-export interface ICard extends IDateEmploi {
+export interface ICard extends IDateEmploi, IArraySkill {
   id: number;
   title: string | undefined;
   desc: string;
   urlSite? : string | undefined;
   urlImg: string;
   alt: string;
-  competences ?: string[] | undefined;
   target: string;
   type: string
 }

@@ -10,15 +10,15 @@ export default function ModalAddList({ updateCards }: ModalProps) {
   const [listId, setListId] = useState(0 as number);
   const [color, setColor] = useState('' as string);
   const [error, setError] = useState('' as string);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode] = useState(false);
 
   const handleFindListId = () => {
-    const exampleModal = document.getElementById('addCardModal');
-    if (exampleModal) {
-      exampleModal.addEventListener('show.bs.modal', (event) => {
+    const addItemModal = document.getElementById('addCardModal');
+    if (addItemModal) {
+      addItemModal.addEventListener('show.bs.modal', (event) => {
         // Button that triggered the modal
         const button = (event as FocusEvent).relatedTarget;
-        const isEdit = (button as Element).getAttribute('data-bs-edit');
+        // const isEdit = (button as Element).getAttribute('data-bs-edit');
 
         // Extract info from data-bs-* attributes
         if (button) {
@@ -29,6 +29,12 @@ export default function ModalAddList({ updateCards }: ModalProps) {
         }
       });
     }
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => { });
+      }
+    };
   };
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -78,6 +84,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
                   text={content}
                   onChange={(event) => setContent(event.target.value)}
                   name="content"
+                  icon={null}
                 />
 
                 <div className="input-group mb-3">

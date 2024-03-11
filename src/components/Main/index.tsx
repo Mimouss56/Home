@@ -12,8 +12,8 @@ function Main() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const location = useLocation();
 
-  const isAdmin = (userSession?.role.label === 'admin');
-  const isESA = (userSession?.role.label === 'esa' || userSession?.role.label === 'admin');
+  const isAdmin = (userSession && userSession.role.label === 'admin');
+  const isESA = (userSession && (userSession.role.label === 'esa' || userSession.role.label === 'admin'));
 
   const shouldShowAdminMenu = isAdmin && location.pathname.startsWith('/admin');
   const shouldShowESAMenu = (isAdmin || isESA) && location.pathname.startsWith('/ESA');

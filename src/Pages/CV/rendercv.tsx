@@ -15,7 +15,7 @@ function RenderCv() {
     const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     const userInfo = response.data.user as IUser;
     const filterJob = userInfo.cv.job.filter(
-      (job) => job.competences?.includes('Maintenance'),
+      (job) => job.competences?.some((competence) => competence.name === 'Maintenance'),
     );
     setListJob(filterJob);
     setListSchool(userInfo.cv.school);

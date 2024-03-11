@@ -1,6 +1,7 @@
 import { IEntreprise } from './ent.d';
+import { IArraySkill } from './skill';
 
-export interface IEmploi extends IDateEmploi {
+export interface IEmploi extends IDateEmploi, IArraySkill {
   id: number,
   title: string
   date: {
@@ -8,7 +9,6 @@ export interface IEmploi extends IDateEmploi {
     fin: string
   },
   description: string,
-  competences?: string[],
   ent: IEntreprise
   type: 'job' | 'school'
 }
@@ -21,11 +21,12 @@ export interface IDateEmploi {
 }
 
 export interface IEmploiPost {
-  type: 'job',
-  id: 0,
-  id_ent: 0,
-  title: '',
-  debut: '',
-  fin: '',
-  description: '',
+  type: string,
+  id: number,
+  id_ent: number,
+  title: string,
+  debut: string,
+  fin: string,
+  description: string,
+  competences: number[]
 }

@@ -10,11 +10,13 @@ const Joi = require('joi');
  */
 
 const postJob = Joi.object({
-  id_ent: Joi.string().required(),
+  type: Joi.string().required(),
+  id_ent: Joi.number().required(),
   title: Joi.string().required(),
   description: Joi.string().required(),
   debut: Joi.date().required(),
   fin: Joi.date().required(),
+  competences: Joi.array().items(Joi.number()),
 });
 module.exports = {
   postJob,

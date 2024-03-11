@@ -2,18 +2,20 @@ interface IForm {
   text: string,
   title: string,
   leng?: number,
-  name: string
+  name: string,
+  icon: string | null,
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function Textarea({
-  title, text = '', leng, onChange, name,
+  title, text = '', leng, onChange, name, icon,
 }: IForm) {
   return (
     <>
       <div className="input-group mb-1">
         <span className="input-group-text" id={title}>
-          {title}
+          {icon && <i className={`bi bi-${icon} px-1`} />}
+          {!icon && title}
         </span>
         <textarea
           // type="text"

@@ -1,13 +1,15 @@
 const router = require('express').Router();
 const { loggedAs } = require('../../../middlewares/auth.middleware');
+const { isLogged } = require('../../../middlewares/validate.middleware');
 const cvController = require('../controllers/cv.controller');
+const { postJob } = require('../schemas/job.schema');
 
 router.route('/')
   /**
-   * GET /api/home/school
-   * @summary Get all schools
-   * @tags Cv
-   * @return {array<Job>} 200 - Schools list
+   * GET /api/home/cv
+   * @summary Get all CV
+   * @tags CV
+   * @return {array<Job>} 200 - CV list
    * @return 500 - Unexpected error
    */
   .get(cvController.getAll);
@@ -15,42 +17,69 @@ router.route('/')
 router.route('/@me')
   /**
    * GET /api/home/cv/@me
-    * @summary Get all schools by user
-    * @tags Cv
-    * @return {array<Job>} 200 - Schools list
+    * @summary Get all CV by user
+    * @tags CV
+    * @return {array<Job>} 200 - CV list
     * @return 500 - Unexpected error
     * @security BearerAuth
     */
-  .get(loggedAs, cvController.getAllByUser);
+  .get(loggedAs, cvController.getAllByUser)
+  /**
+     * POST /api/home/cv/@me
+     * @summary Create a new CV for the user
+     * @tags CV
+     * @param {JobPost} request.body.required - CV object
+     * @return {Job} 200 - CV created
+     * @return 400 - Invalid school object
+     * @return 500 - Unexpected error
+     * @security BearerAuth
+     */
+  .post(isLogged(postJob), cvController.post);
+
+router.route('/@me/:id')
+
+  /**
+     * PUT /api/home/cv/@me/{id}
+     * @summary Update cv by id
+     * @tags CV
+     * @param {string} id.path.required - id
+     * @param {JobPost} request.body.required - CV object
+     * @return {Job} 200 - CV updated
+     * @security BearerAuth
+     * @return 400 - Invalid id
+     * @return 500 - Unexpected error
+     */
+  .put(isLogged(postJob), cvController.post);
 
 router.route('/:id')
 
   /**
    * GET /api/home/cv/{id}
    * @summary Get cv by id
-   * @tags Cv
+   * @tags CV
    * @param {string} id.path.required - id
-   * @return {Job} 200 - Cv object
+   * @return {Job} 200 - CV object
    * @return 400 - Invalid id
    * @return 500 - Unexpected error
    */
   .get(cvController.get);
 
+//   /**
+//    * DELETE /api/home/school/{id}
+//    * @summary Delete school by id
+//    * @tags School
+//    * @param {string} id.path.required - id
+//    * @return {Job} 200 - School deleted
+//    * @security BearerAuth
+//    * @return 400 - Invalid id
+//    * @return 500 - Unexpected error
+//    * @return 401 - Unauthorized
+//    */
+//   .delete(checkRole(1), schoolController.delete);
 // !TODO : Factoriser les routes pour les écoles et les emplois suivantes
 
 // router.route('/@me')
 
-//   /**
-//    * POST /api/home/school/@me
-//    * @summary Create a new school for the user
-//    * @tags School
-//    * @param {JobPost} request.body.required - School object
-//    * @return {Job} 200 - School created
-//    * @return 400 - Invalid school object
-//    * @return 500 - Unexpected error
-//    * @security BearerAuth
-//    */
-//   .post(isLogged(postJob), schoolController.post);
 //   /**
 //   * POST /api/home/job/@me
 //   * @summary Ajoute un emploi à l'utilisateur
@@ -74,32 +103,6 @@ router.route('/:id')
 //    * @return 500 - Unexpected error
 //    */
 //   .get(schoolController.get)
-
-//   /**
-//    * PUT /api/home/school/{id}
-//    * @summary Update school by id
-//    * @tags School
-//    * @param {string} id.path.required - id
-//    * @param {JobPost} request.body.required - School object
-//    * @return {Job} 200 - School updated
-//    * @security BearerAuth
-//    * @return 400 - Invalid id
-//    * @return 500 - Unexpected error
-//    */
-//   .put(loggedAs, schoolController.put)
-
-//   /**
-//    * DELETE /api/home/school/{id}
-//    * @summary Delete school by id
-//    * @tags School
-//    * @param {string} id.path.required - id
-//    * @return {Job} 200 - School deleted
-//    * @security BearerAuth
-//    * @return 400 - Invalid id
-//    * @return 500 - Unexpected error
-//    * @return 401 - Unauthorized
-//    */
-//   .delete(checkRole(1), schoolController.delete);
 
 // router.route('/:id')
 //   /**

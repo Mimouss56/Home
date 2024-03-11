@@ -39,17 +39,6 @@ function FloatCard({
           transition: '1s',
         }}
       >
-        {user && user.username === 'Mouss' && (
-          <button
-            type="button"
-            className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
-            data-bs-toggle="modal"
-            data-bs-target={`#${target}`}
-            data-bs-id={id}
-            data-bs-edit="true"
-            data-bs-type={type}
-          />
-        )}
         <div className="bonnet" />
         <div
           className="content"
@@ -73,9 +62,9 @@ function FloatCard({
           </figure>
         </div>
         {competences && (
-          <div className="d-flex flex-wrap justify-content-evenly fixed-bottom">
-            {competences.map((competence: string) => (
-              <span key={competence} className="badge text-bg-light rounded-pill m-1">{competence}</span>
+          <div className="d-flex flex-wrap justify-content-evenly fixed-top">
+            {competences.map((competence) => (
+              <span key={competence.id} className="badge text-bg-light rounded-pill m-1">{competence.name}</span>
             ))}
           </div>
         )}
@@ -98,6 +87,17 @@ function FloatCard({
         }}
       >
         <div className="card-body">
+          {user && user.username === 'Mouss' && (
+            <button
+              type="button"
+              className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
+              data-bs-toggle="modal"
+              data-bs-target={`#${target}`}
+              data-bs-id={id}
+              data-bs-edit="true"
+              data-bs-type={type}
+            />
+          )}
 
           {date && (
             <div className="card-text">

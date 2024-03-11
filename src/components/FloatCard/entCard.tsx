@@ -10,7 +10,6 @@ interface EntCardProps {
 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 function EntCard({ ent, onClick }: EntCardProps) {
   const {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     id, name, urlImg, contact,
   } = ent;
 
@@ -35,8 +34,8 @@ function EntCard({ ent, onClick }: EntCardProps) {
         />
         <div className="card-body">
           <h4 className="card-title">{name}</h4>
-          <p className="card-text">{`Contacts: ${contact.length}`}</p>
-          <p className="card-text">{`Interactions: ${contact.flatMap((c) => c.interaction).length}`}</p>
+          <p className="card-text">{`Contacts: ${contact?.length}`}</p>
+          <p className="card-text">{`Interactions: ${contact?.flatMap((c) => c.interaction).length}`}</p>
         </div>
 
       </div>

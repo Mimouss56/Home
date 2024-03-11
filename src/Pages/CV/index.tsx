@@ -11,8 +11,8 @@ import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/formJob';
 import { IUser } from '../../@types/Home/user';
 import { IEmploi } from '../../@types/Home/emploi';
-import { ISkill } from '../../@types/Home/skill';
 import FloatCard from '../../components/FloatCard';
+import useFetchData from '../../hook/useFetchData';
 
 function ViewCVPage() {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
@@ -20,14 +20,9 @@ function ViewCVPage() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
   const [listSchool, setListSchool] = useState<IEmploi[]>([]);
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
-  const [skills, setSkills] = useState<ISkill[]>([]);
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
 
-  // Chargement des Skills pour le select
-  const fetchDataSkills = async () => {
-    const response = await axiosInstance.get('/api/home/skill');
-    setSkills(response.data);
-  };
+  const [dataSkillList] = useFetchData('/api/home/skill');
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
@@ -47,7 +42,11 @@ function ViewCVPage() {
       setFilteredJob(listJob);
       searchParams.delete('fj');
     } else {
-      const filterJob = listJob.filter((job) => job.competences?.includes(selectedValue));
+      // on filtre les jobs en fonction de la compétence selectionnée
+      const filterJob = listJob.filter(
+        (job) => job.competences?.some((competence) => competence.name === selectedValue),
+      );
+
       setFilteredJob(filterJob);
       searchParams.set('fj', selectedValue);
     }
@@ -58,14 +57,13 @@ function ViewCVPage() {
 
   useEffect(() => {
     fetchDataJobMouss();
-    fetchDataSkills();
   }, []);
 
   return (
     <div className="d-flex flex-column align-items-center ">
 
       {!selectedSkill
-        && <Selected skills={skills} onHandleSelect={(e) => applyFilter(e.target.value)} />}
+        && <Selected skills={dataSkillList} onHandleSelect={(e) => applyFilter(e.target.value)} />}
       {selectedSkill && (
         <PDFDownloadLink
           className="btn btn-primary"
@@ -97,7 +95,7 @@ function ViewCVPage() {
 
       </div>
       <div className="d-flex flex-wrap justify-content-evenly">
-        <ModalAddItem onAddElement={fetchDataJobMouss} />
+        <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
 
         {filteredJob && filteredJob.sort(
           (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
@@ -113,7 +111,7 @@ function ViewCVPage() {
                 urlImg={job.ent.urlImg}
                 alt={job.ent.name}
                 date={job.date}
-                competences={job.competences}
+                competences={job.competences || []}
                 target="addItem"
                 type="job"
               />
@@ -121,7 +119,6 @@ function ViewCVPage() {
           ))}
       </div>
 
-      {/* <Job jobs={filteredJob} typeData="job" /> */}
       <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
         <h2 className="">Formations</h2>
         <button
@@ -154,8 +151,6 @@ function ViewCVPage() {
             />
           ))}
       </div>
-
-      {/* <Job jobs={listSchool} typeData="school" /> */}
     </div>
   );
 }

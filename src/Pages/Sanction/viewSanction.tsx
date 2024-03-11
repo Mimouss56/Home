@@ -58,6 +58,12 @@ function ModalViewDetails() {
         if (Number(idModal) !== 0) fetchData(Number(idModal), user.role.id);
       });
     }
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => {});
+      }
+    };
   }, [user.role.id]);
 
   if (user.role.id !== 1) handleRead(sanction.id);

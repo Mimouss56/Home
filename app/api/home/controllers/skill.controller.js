@@ -14,9 +14,7 @@ module.exports = {
     };
     const result = await skillService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
-    return res.json({
-      data: result,
-    });
+    return res.json(result);
   },
 
 };

@@ -33,18 +33,22 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
     }
   };
 
-  if (addItemModal) {
-    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-      const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-      const button = relatedTarget as HTMLButtonElement;
-      const idContact = button.getAttribute('data-bs-id-contact');
-      setForm({ ...form, id_contact: Number(idContact) });
-    });
-  }
-
   useEffect(() => {
+    if (addItemModal) {
+      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
+        const button = relatedTarget as HTMLButtonElement;
+        const idContact = button.getAttribute('data-bs-id-contact');
+        setForm({ ...form, id_contact: Number(idContact) });
+      });
+    }
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => { });
+      }
+    };
     fetchData();
-  }, []);
+  }, [setForm, form, addItemModal]);
 
   return (
     <form onSubmit={(e) => handleSave(e, '/api/home/suivi/interaction', onAddElement)}>
@@ -87,6 +91,7 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
                   onChange={handleChange}
                   name="reponse"
                   leng={500}
+                  icon={null}
                 />
 
                 {/* //Input Status */}

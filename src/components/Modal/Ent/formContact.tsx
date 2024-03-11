@@ -31,6 +31,12 @@ function AddContactModal({ onAddElement }: AddEntModalProps) {
         setForm({ ...form, idEnt: Number(idEnt) });
       });
     }
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => {});
+      }
+    };
   }, [form, setForm]);
 
   return (

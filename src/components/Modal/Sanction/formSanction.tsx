@@ -124,6 +124,8 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                 text={form.label}
                 onChange={handleChange}
                 name="label"
+                leng={500}
+                icon={null}
               />
               <div className="modal-footer d-flex justify-content-around">
                 <button

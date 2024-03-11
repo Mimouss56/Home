@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { IEntreprise, IInterVue } from '../../@types/Home/ent';
 import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
@@ -15,7 +14,7 @@ function EntPage() {
   const [showList, setShowList] = useState(true);
   const [allInteractions, setAllInteractions] = useState<IInterVue[]>([]);
 
-  const [data, error] = useFetchData('/api/home/ent');
+  const [data] = useFetchData('/api/home/ent');
 
   const fetchEnt = (allEnt: IEntreprise[]) => {
     setEmplois(allEnt);
@@ -55,8 +54,7 @@ function EntPage() {
 
   useEffect(() => {
     fetchEnt(data);
-    if (error) toast.error(`Erreur lors du chargement des données : ${error}`);
-  }, [data, error]);
+  }, [data]);
 
   return (
     <>

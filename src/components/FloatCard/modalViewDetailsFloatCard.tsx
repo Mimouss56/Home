@@ -40,6 +40,7 @@ function DetailsFloatCard() {
                 alt: returnData.nameSite,
                 target: returnData.urlSite,
                 type: 'portfolio',
+                competences: [],
               });
             })
             .catch((error) => {
@@ -48,6 +49,11 @@ function DetailsFloatCard() {
         }
       });
     }
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => { });
+      }
+    };
   }, []);
 
   return (

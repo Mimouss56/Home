@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
 import useFetchData from '../../../hook/useFetchData';
 import SkillInput from '../../Job/skillInput';
 import { ISkill } from '../../../@types/Home/skill';
 import { IEntreprise } from '../../../@types/Home/ent';
-import { IEmploi } from '../../../@types/Home/emploi';
+import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
+import Textarea from '../../Form/textarea';
+import InputText from '../../Form/inputText';
 
 const initFormData = {
   type: 'job',
@@ -16,43 +19,71 @@ const initFormData = {
   debut: '',
   fin: '',
   description: '',
-  competence: '',
-};
+  competences: [] as number[],
+} as IEmploiPost;
 
 interface ModalAddItemProps {
-  onAddElement: (data: IEmploi) => void;
+  onAddElement: (data: IEmploiPost) => void;
+  listSkill: ISkill[];
 }
 
-function ModalAddItem({ onAddElement }: ModalAddItemProps) {
+function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
   const [edit, setEdit] = useState(false);
+  const [addInput, setAddInput] = useState(false);
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
   const [dataEnt] = useFetchData('/api/home/ent');
   const listEnt = dataEnt as IEntreprise[];
 
-  const handleSkillSelected = (skill: ISkill) => {
-    setForm({ ...form, competence: skill.name });
-  };
-
-  const fetchData = useCallback(async (id: number) => {
-    if (id === 0) {
-      setForm(initFormData);
-      return;
+  const fetchData = (async (id: number) => {
+    try {
+      const response = await axiosInstance.get(`/api/home/cv/${id}`);
+      const emploiData = response.data as IEmploi;
+      const returnData = {
+        type: emploiData.type,
+        id: emploiData.id,
+        id_ent: emploiData.ent.id,
+        title: emploiData.title,
+        debut: emploiData.date.debut,
+        fin: emploiData.date.fin,
+        description: emploiData.description,
+        competences: emploiData.competences.flatMap((c: ISkill) => c.id),
+      } as IEmploiPost;
+      return returnData;
+    } catch (err) {
+      const error = err as Error;
+      toast.error(error.message);
     }
     const response = await axiosInstance.get(`/api/home/cv/${id}`);
     const emploiData = response.data;
-    setForm({
-      type: emploiData.type || '',
-      id_ent: emploiData.ent.id || '',
-      title: emploiData.title || '',
-      debut: emploiData.date.debut || '',
-      fin: emploiData.date.fin || '',
-      description: emploiData.description || '',
-      competence: emploiData.competence || '',
-      id,
-    });
-  }, [setForm]);
+    return emploiData;
+  });
+
+  const handleAddSkill = (skill: ISkill) => {
+    // on recupere l'ancien liste des form.competences
+    const oldArraySkills = form.competences;
+    // on ajoute le skill.id à la liste des form.competences
+    oldArraySkills.push(skill.id);
+    // on met à jour le state
+    setForm({ ...form, competences: oldArraySkills });
+
+    setAddInput(false);
+  };
+
+  const handleDeleteSkill = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { target } = e;
+    const button = target as HTMLButtonElement;
+    const idSkill = Number(button.parentElement?.id);
+    if (idSkill) {
+      // on recupere l'ancien liste des form.competences
+      const oldArraySkills = form.competences;
+      // on supprime le skill.id à la liste des form.competences
+      const newArraySkills = oldArraySkills.filter((skill) => skill !== idSkill);
+      // on met à jour le state
+      setForm({ ...form, competences: newArraySkills });
+    }
+  };
 
   useEffect(() => {
     const addItemModal = document.getElementById('addItem');
@@ -62,25 +93,38 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const id = button.getAttribute('data-bs-id');
+        if (id === null) {
+          setForm(initFormData);
+          return;
+        }
         const editForm = button.getAttribute('data-bs-edit');
+        if (editForm === null) {
+          setEdit(!editForm);
+          return;
+        }
 
-        if (editForm === null) return;
-        setEdit(!editForm);
-        if (id === null) return;
-        fetchData(parseInt(id, 10));
+        const detailsCV = await fetchData(parseInt(id, 10));
+
+        setForm(detailsCV);
       });
     }
-  }, [fetchData]);
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => {});
+      }
+    };
+  }, [setForm, form]);
 
   return (
-    <form onSubmit={(e) => handleSave(
+    <form onSubmit={async (e) => handleSave(
       e,
-      `/api/home/${form.type}/@me`,
-      () => console.log('test'),
+      '/api/home/cv/@me',
+      onAddElement,
     )}
     >
       <div className="modal fade" id="addItem">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered modal-xl ">
           <div className="modal-content">
             <div className="modal-header">
               <div className="input-group">
@@ -120,26 +164,20 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                       <option key={ent.id} value={ent.id}>{ent.name}</option>
                     ))}
                   </select>
+                  {/* // Intitulé Input */}
+                </div>
+                <InputText
+                  title="Intitulé"
+                  text={form.title}
+                  name="title"
+                  icon="briefcase"
+                  onChange={handleChange}
+                />
 
-                </div>
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="bi bi-briefcase px-1" />
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Intitulé"
-                    aria-label="Intitulé"
-                    aria-describedby="basic-addon1"
-                    name="title"
-                    value={form.title}
-                    onChange={handleChange}
-                  />
-                </div>
               </div>
-
+              {/* // Date Input */}
               <div className="d-flex justify-content-between">
+                {/* // Date Debut Input */}
                 <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">
                     <i className="bi bi-calendar px-1" />
@@ -155,6 +193,7 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                     onChange={handleChange}
                   />
                 </div>
+                {/* // Date Fin Input */}
                 <div className="input-group mb-3">
                   <span className="input-group-text" id="basic-addon1">
                     <i className="bi bi-calendar px-1" />
@@ -171,28 +210,56 @@ function ModalAddItem({ onAddElement }: ModalAddItemProps) {
                   />
                 </div>
               </div>
+              {/* // Description Input */}
+              <Textarea
+                title="Description"
+                text={form.description}
+                name="description"
+                icon="file-earmark-text"
+                onChange={handleChange}
+              />
+              {/* // Skill Input */}
               <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">
-                  <i className="bi bi-file-earmark-text px-1" />
-                </span>
-                <textarea
-                  className="form-control"
-                  placeholder="Description"
-                  aria-label="Description"
-                  aria-describedby="basic-addon1"
-                  name="description"
-                  value={form.description}
-                  onChange={handleChange}
-                />
-              </div>
-              {/* <div className="input-group mb-3">
-                <SkillInput onSkillSelected={handleSkillSelected} />
-                {selectedSkills.map((skill) => (
-                  <span key={skill.id}>
-                    {skill.name}
+                {/* // List des ID des Skills */}
+                {form.competences.map((skillID) => (
+                  <span
+                    key={skillID}
+                    className="badge d-flex align-items-center p-1 pe-2 border rounded-pill text-light-emphasis bg-light-subtle border-light-subtle"
+                  >
+                    {listSkill.find((skill) => skill.id === skillID)?.name}
+                    <span className="vr mx-2" />
+                    <button
+                      type="button"
+                      className="btn-close"
+                      aria-label="Close"
+                      onClick={handleDeleteSkill}
+                      id={skillID.toString()}
+                    >
+                      <i className="bi bi-x" />
+                    </button>
                   </span>
                 ))}
-              </div> */}
+                {/* // Add Skill Button */}
+                {!addInput && (
+                  <button
+                    className="btn rounded-pill bg-success-subtle"
+                    type="button"
+                    onClick={() => setAddInput(!addInput)}
+                  >
+                    <i className="bi bi-plus-circle" />
+                  </button>
+                )}
+
+                {/* // Input Skill */}
+                {addInput && (
+                  <SkillInput
+                    onSkillSelected={handleAddSkill}
+                    skills={form.competences}
+                    listSkills={listSkill}
+                  />
+                )}
+
+              </div>
 
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

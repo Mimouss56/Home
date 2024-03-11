@@ -76,6 +76,12 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
         fetchData(parseInt(id, 10));
       });
     }
+    // on remove le addEventListener
+    return () => {
+      if (addItemModal) {
+        addItemModal.removeEventListener('show.bs.modal', () => { });
+      }
+    };
   }, [fetchData]);
 
   return (

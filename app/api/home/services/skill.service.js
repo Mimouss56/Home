@@ -27,25 +27,15 @@ module.exports = {
     return returnValue;
   },
 
-  async getAllSkillJob(id) {
-    const find = await skill.findAllSkillJob(id);
+  async getAllSkillCV(id) {
+    const find = await skill.findAllSkillCV(id);
     if (!find) {
       return {
         code: 404,
         message: `${textValue} not found`,
       };
     }
-    return find.map((value) => value.name);
-  },
-  async getAllSkillschool(id) {
-    const find = await skill.findAllSkillSchool(id);
-    if (!find) {
-      return {
-        code: 404,
-        message: `${textValue} not found`,
-      };
-    }
-    return find.map((value) => value.name);
+    return find;
   },
 
   async create(inputQuery) {

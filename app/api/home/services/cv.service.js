@@ -33,7 +33,7 @@ module.exports = {
         debut: value.date_started,
         fin: value.date_ended,
       },
-      competences: await skillService.getAllSkillJob(value.id),
+      competences: await skillService.getAllSkillCV(value.id),
       type: value.type,
     };
   },
@@ -71,6 +71,48 @@ module.exports = {
       };
     }
     return this.generateObject(find);
+  },
+  async create(inputQuery) {
+    const { competences, id_user: idUser, ...rest } = inputQuery;
+    try {
+      const result = await cv.create(rest);
+      if (competences.lengh > 0) {
+        // on ajoute le lien entre le cv et les skills
+        await cv.SkillCV(result.id, competences);
+      }
+      // on ajoute le lien entre le cv et l'utilisateur
+      await cv.addJobUser(result.id, idUser);
+
+      const returnValue = await this.generateObject(result);
+      return returnValue;
+    } catch (e) {
+      return {
+        code: 500,
+        message: `Error on create: ${e}`,
+      };
+    }
+  },
+  async update(id, inputQuery) {
+    const find = await cv.findByPk(id);
+    if (!find) {
+      return {
+        code: 400,
+        message: `${textValue} not found`,
+      };
+    }
+    const { competences, id_user: idUser, ...rest } = inputQuery;
+    try {
+      const result = await cv.update(id, rest);
+      await cv.SkillCV(result.id, competences);
+
+      const returnValue = await this.generateObject(result);
+      return returnValue;
+    } catch (e) {
+      return {
+        code: 500,
+        message: `Error on update: ${e}`,
+      };
+    }
   },
 
 };
