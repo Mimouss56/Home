@@ -3,7 +3,7 @@ import defaultImg from '../../assets/images/finish_website.jpeg';
 import HexagonCard from './hexagonCard';
 import { baseUrl } from '../../../config.json';
 
-function FlipCard({ img }: { img: string }) {
+function FlipCard({ img, widthHexa = 200 }: { img: string, widthHexa: number }) {
   const [urlImgState, setUrlImgState] = useState('');
 
   const [isHovered, setIsHovered] = useState(false);
@@ -42,10 +42,10 @@ function FlipCard({ img }: { img: string }) {
 
   return (
     <div
-      className="pe-auto m-1"
+      className="pe-auto"
       style={{
-        width: '200px',
-        height: '500px',
+        width: `${widthHexa}px`,
+        height: `${(widthHexa / Math.sqrt(3)) * 2}px`, // calcul pour avoir un hexagone parfait
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

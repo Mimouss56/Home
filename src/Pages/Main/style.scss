@@ -1,0 +1,28 @@
+$width: 200px;
+$margin: 2px;
+$float: calc(1.732 * #{$width} + 4 * #{$margin} - 1px);
+
+.hex-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* Permet aux hexagones de passer à la ligne lorsque nécessaire */
+}
+
+.hex-cell {
+  width: $width;
+  margin: $margin;
+  height: calc($width * 1.1547);
+  margin-bottom: calc($margin - $width * 0.2885);
+  display: inline-block;
+}
+
+.hex-container::before {
+  content: "";
+  width: calc($width/2 + $margin);
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(     
+                   #0000 0 calc($float - 3px),      
+                   #000  0 $float);
+}

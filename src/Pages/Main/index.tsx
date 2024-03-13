@@ -10,6 +10,9 @@ import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import { ErrorSanctionProps } from '../../@types/error';
 import DetailsFloatCard from '../../components/FloatCard/modalViewDetailsFloatCard';
 import FlipCard from '../../components/HexagonCard/flipCard';
+import './style.scss';
+
+const widthHexa = 200; // px;
 
 function Main() {
   // fetch data from api
@@ -60,53 +63,42 @@ function Main() {
         <section className="portfolio-section my-5">
           <h2>Portfolio</h2>
           {/* Ajoute ici des composants ou des liens vers tes projets */}
-          <div className="d-flex flex-wrap">
-            <ModalAddFolio onAddElement={fetchData} />
-            <DetailsFloatCard />
-
-            {listPortfolio && listPortfolio
-              .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
-              .map((item: ICardPortfolio) => (
-                <div
-                  key={item.id}
-                  data-bs-toggle="modal"
-                  data-bs-target="#viewDetailsFloatCard"
-                  data-bs-id={item.id}
-                  data-bs-type="portfolio"
-                >
-                  <FlipCard img={item.urlImg} />
-                  {/* <FloatCard
-                    id={item.id}
-                    desc={item.description}
-                    urlImg={item.urlImg}
-                    alt={item.nameSite}
-                    urlSite={item.urlSite}
-                    target="addPortfolio"
-                    type="portfolio"
-                    title={item.nameSite}
-                  /> */}
-                </div>
-              ))}
-
+          <div className="hex-grid">
+            <div className="hex-container">
+              {listPortfolio && listPortfolio
+                .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
+                .map((item: ICardPortfolio, index: number) => (
+                  <div
+                    key={item.id}
+                    data-bs-toggle="modal"
+                    data-bs-target="#viewDetailsFloatCard"
+                    data-bs-id={item.id}
+                    data-bs-type="portfolio"
+                    className="hex-cell"
+                  >
+                    <FlipCard img={item.urlImg} widthHexa={widthHexa} />
+                  </div>
+                ))}
+            </div>
           </div>
 
         </section>
       </div>
-      <div className=" w-auto ">
-        {/* Section Actualités */}
-        <section className="news-section my-5">
-          <h2>Actualités</h2>
-          <div className="d-flex flex-wrap">
-            {listNews && listNews.map((item: ICardNews) => (
-              <Card key={item.id}>
-                {/* eslint-disable-next-line react/no-danger */}
-                <div dangerouslySetInnerHTML={{ __html: item.content }} />
-              </Card>
-            ))}
-          </div>
-        </section>
+      {/* Section Actualités */}
+      <section className="news-section my-5">
+        <h2>Actualités</h2>
+        <div className="d-flex flex-wrap">
+          {listNews && listNews.map((item: ICardNews) => (
+            <Card key={item.id}>
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: item.content }} />
+            </Card>
+          ))}
+        </div>
+      </section>
+      <ModalAddFolio onAddElement={fetchData} />
+      <DetailsFloatCard />
 
-      </div>
     </div>
   );
 }
