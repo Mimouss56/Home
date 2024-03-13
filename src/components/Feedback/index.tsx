@@ -101,6 +101,7 @@ function Feedback() {
                   text={feedback.message}
                   onChange={handleChange}
                   name="message"
+                  icon={null}
                 />
 
               </div>

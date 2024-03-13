@@ -1,6 +1,4 @@
 import { OpenAI } from 'openai';
-import { APIError, OpenAIError } from 'openai/error';
-import { Chat } from 'openai/resources';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import Textarea from '../Form/textarea';
@@ -42,7 +40,7 @@ function ChatGPT() {
       );
       console.log(response.choices[0].message.content);
       setGptChat(response.choices[0].message.content as string);
-    } catch (err: any) {
+    } catch (err) {
       setGptChat(err.message);
       toast.error(err.message);
     }

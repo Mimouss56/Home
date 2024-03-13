@@ -34,6 +34,7 @@ function Portfolio() {
                   target="addPortfolio"
                   type="a"
                   title={item.nameSite}
+                  competences={[]}
                 />
               </a>
             ) : (
@@ -46,6 +47,7 @@ function Portfolio() {
                 target="addPortfolio"
                 type="div"
                 title={item.nameSite}
+                competences={[]}
               />
             )}
           </div>

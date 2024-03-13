@@ -12,7 +12,6 @@ function EntPage() {
   const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>([]);
   const [entID, setEntID] = useState(0);
   const [showList, setShowList] = useState(true);
-  const [allInteractions, setAllInteractions] = useState<IInterVue[]>([]);
   const [filteredInteraction, setFilteredInteraction] = useState<IInterVue[]>([]);
   // const [showLastInter, setShowLastInter] = useState<IInterVue[]>([]);
 

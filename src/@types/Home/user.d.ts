@@ -20,6 +20,7 @@ export interface IUser extends IRole, IAvatar {
     job: IEmploi[]
     school: IEmploi[]
   }
+  last_visited?: string
 }
 
 export interface IRole {

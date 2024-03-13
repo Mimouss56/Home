@@ -37,9 +37,9 @@ function DetailsContact({ contact }: IProps) {
               <button
                 type="button"
                 className="input-group-text bg-success "
-                onClick={(e) => {
+                onClick={(e: never) => {
                   setEditNom(!editNom);
-                  handleSave(e as any, '/api/home/suivi/contact', () => { });
+                  handleSave(e, '/api/home/suivi/contact', () => { });
                 }}
               >
                 <i className="bi bi-check" />
@@ -60,9 +60,9 @@ function DetailsContact({ contact }: IProps) {
               <button
                 type="button"
                 className="input-group-text  bg-success "
-                onClick={(e) => {
+                onClick={(e: never) => {
                   setEditPrenom(!editPrenom);
-                  handleSave(e as any, '/api/home/suivi/contact', () => { });
+                  handleSave(e, '/api/home/suivi/contact', () => { });
                 }}
               >
                 <i className="bi bi-check" />
@@ -85,9 +85,9 @@ function DetailsContact({ contact }: IProps) {
             <button
               type="button"
               className="input-group-text  bg-success "
-              onClick={(e) => {
+              onClick={(e: never) => {
                 setEditRole(!editRole);
-                handleSave(e as any, '/api/home/suivi/contact', () => { });
+                handleSave(e, '/api/home/suivi/contact', () => { });
               }}
             >
               <i className="bi bi-check" />
@@ -143,9 +143,9 @@ function DetailsContact({ contact }: IProps) {
           <button
             type="button"
             className="btn btn-success text-end"
-            onClick={(e) => {
+            onClick={(e : never) => {
               setShowForm(!showForm);
-              handleSave(e as any, '/api/home/suivi/contact', () => { });
+              handleSave(e, '/api/home/suivi/contact', () => { });
             }}
           >
             <i className="bi bi-check" />

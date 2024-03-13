@@ -9,7 +9,7 @@ type FileUploaderProps = {
 
 export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
   const { handleUpload } = useImageUpload();
-  const [imageFile, setImageFile] = useState<IAvatarWithoutObject | null>(null);
+  const [imageFile] = useState<IAvatarWithoutObject | null>(null);
   const [isHover, setIsHover] = useState(false);
   const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
