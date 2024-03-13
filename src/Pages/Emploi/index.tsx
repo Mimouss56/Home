@@ -13,29 +13,33 @@ function EntPage() {
   const [entID, setEntID] = useState(0);
   const [showList, setShowList] = useState(true);
   const [allInteractions, setAllInteractions] = useState<IInterVue[]>([]);
+  const [filteredInteraction, setFilteredInteraction] = useState<IInterVue[]>([]);
+  // const [showLastInter, setShowLastInter] = useState<IInterVue[]>([]);
 
   const [data] = useFetchData('/api/home/ent');
+  const listEnt = data as IEntreprise[];
 
-  const fetchEnt = (allEnt: IEntreprise[]) => {
-    setEmplois(allEnt);
-    setFilteredEmplois(allEnt);
-    // On charge les interactions
-    allEnt.forEach((item: IEntreprise) => {
-      item.contact?.forEach((contact) => {
+  const fetchLastInter = (listingEnt: IEntreprise[]) => {
+    // on filtre la derniere interaction en date de chaque entreprise
+    const lastInters: IInterVue[] = [];
+    listingEnt.forEach((ent) => {
+      ent.contact?.forEach((contact) => {
         const lastInter = contact.interaction[contact.interaction.length - 1];
+        // si la date de la derniere interaction est supérieur on, passe
+
         if (!lastInter) {
           return;
         }
         const returnValue = {
           ...lastInter,
-          entreprise: item.name,
+          entreprise: ent.name,
           contact: `${contact.nom} ${contact.prenom}`,
         };
-        setAllInteractions((prev) => [...prev, returnValue]);
+        lastInters.push(returnValue);
       });
     });
+    setFilteredInteraction(lastInters);
   };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntID(0);
     setShowList(true);
@@ -45,6 +49,7 @@ function EntPage() {
       (item) => item.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
     setFilteredEmplois(filtered);
+    fetchLastInter(filtered);
   };
 
   const handleShowDetails = (idEntreprise: number) => {
@@ -52,12 +57,19 @@ function EntPage() {
     setShowList(false);
   };
 
+  const fetchEnt = (allEnt: IEntreprise[]) => {
+    setEmplois(allEnt);
+    setFilteredEmplois(allEnt);
+  };
+
   useEffect(() => {
-    fetchEnt(data);
-  }, [data]);
+    fetchEnt(listEnt);
+    fetchLastInter(listEnt);
+  }, [listEnt]);
 
   return (
     <>
+      {/* //barre de recherche d'une entreprise */}
       <section>
         <h1>Suivi Candidature</h1>
         {/* //barre de recherche d'une entreprise */}
@@ -89,6 +101,7 @@ function EntPage() {
         </div>
 
       </section>
+      {/* Liste des entreprises */}
       {showList && (
         <section className="d-flex flex-row">
           <div className="col-7">
@@ -107,7 +120,7 @@ function EntPage() {
 
           </div>
           <div className="col-5">
-            <ListInterations interactions={allInteractions} />
+            <ListInterations interactions={filteredInteraction} />
           </div>
         </section>
       )}
@@ -118,9 +131,10 @@ function EntPage() {
         }
         />
       )}
-      <AddEntModal onAddElement={() => {
-        setEmplois((prev) => [...prev, data]);
-      }}
+      <AddEntModal
+        onAddElement={() => {
+          setEmplois((prev) => [...prev, data]);
+        }}
       />
     </>
 

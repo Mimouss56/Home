@@ -15,6 +15,7 @@ import Notifications from './components/Notification';
 if (new Date().getMonth() === 11) {
   import('./scss/christmasTheme.scss');
 }
+const showFeedback = false; // true pour afficher le feedback
 // User menu
 function App() {
   useEffect(() => {
@@ -32,7 +33,7 @@ function App() {
         autoClose={5000}
         theme="dark"
       />
-      <Feedback />
+      {showFeedback && <Feedback />}
       <Snow />
 
       <Login />

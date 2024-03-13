@@ -15,7 +15,7 @@ const initFormData = {
   urlImg: '',
   id: 0,
   // contact: [],
-};
+} as IEntreprise;
 
 function AddEntModal({ onAddElement }: AddEntModalProps) {
   const {

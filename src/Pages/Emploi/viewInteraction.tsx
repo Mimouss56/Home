@@ -13,7 +13,7 @@ function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) 
   }
 
   return (
-    <div>
+    <div className="table-responsive w-100">
       <table className="table">
         <thead>
           <tr>

@@ -22,7 +22,7 @@ function Complement() {
       onSubmit={(e) => handleSave(
         e,
         '/api/home/user',
-        () => console.log('Update Infos complémentaires'),
+        () => null,
       )}
     >
       <div className="card border-white">
@@ -35,6 +35,7 @@ function Complement() {
             text={form.prez}
             onChange={handleChange}
             name="prez"
+            icon={null}
           />
           {/* // Section GPT */}
           {/* <ChatGPT /> */}

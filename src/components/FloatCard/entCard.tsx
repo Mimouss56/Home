@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { IEntreprise } from '../../@types/Home/ent';
 
 interface EntCardProps {
@@ -25,7 +23,12 @@ function EntCard({ ent, onClick }: EntCardProps) {
           data-bs-type="ent"
         />
       )}
-      <div onClick={onClick}>
+      <button
+        type="button"
+        onClick={onClick}
+        className="card-body border-0 bg-none"
+
+      >
         <img
           className="card-img-top m-auto"
           src={urlImg}
@@ -38,7 +41,7 @@ function EntCard({ ent, onClick }: EntCardProps) {
           <p className="card-text">{`Interactions: ${contact?.flatMap((c) => c.interaction).length}`}</p>
         </div>
 
-      </div>
+      </button>
     </article>
   );
 }

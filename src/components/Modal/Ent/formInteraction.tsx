@@ -42,8 +42,8 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
         const idContact = button.getAttribute('data-bs-id-contact');
         setForm({ ...form, id_contact: Number(idContact) });
       });
+      fetchData();
     }
-    fetchData();
 
     return () => {
       if (addItemModal) {

@@ -66,6 +66,7 @@ function ChatGPT() {
           text={gptChat}
           onChange={(e) => setGptChat(e.target.value)}
           name="gpt"
+          icon={null}
         />
 
       )}

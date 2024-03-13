@@ -34,35 +34,37 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
   }
 
   return (
-    <div className="d-flex flex-sm-column flex-wrap">
-      {/* Title */}
-      <h2>{`Détails de ${entreprise.name}`}</h2>
-      {/* Content */}
-      <div className="row d-sm-flex flex-sm-wrap flex-sm-column">
-        <div className="d-sm-flex flex-sm-column col-lg-3">
-          <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid" width="150px" />
+    <div className="d-flex flex-wrap">
+      {/* 1er colonne */}
+      <div className="d-flex flex-wrap col-lg-3">
+
+        {/* details ENT */}
+        <div className="d-flex flex-column flex-wrap m-auto">
+          <h2>{`Détails de ${entreprise.name}`}</h2>
+          <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid m-auto" width="150px" />
           <i>{`${entreprise.address}, ${entreprise.postalCode} ${entreprise.town}`}</i>
+        </div>
+
+        {/* Contact Details */}
+        <div className="d-flex flex-column flex-wrap w-100 ">
           <h3>Contact</h3>
-          <ul>
+          <div className="list-group mb-2">
             {entreprise.contact.map((contact) => (
-              <li
+              <button
                 key={contact.id}
+                type="button"
+                className="list-group-item list-group-item-action w-100 rounded-0 border-1"
+                itemID={contact.id.toString()}
+                onClick={() => {
+                  setFilteredInteraction(contact.interaction);
+                  setShowContactDetails(true);
+                  setIdContact(contact.id);
+                }}
               >
-                <button
-                  type="button"
-                  className="btn btn-link"
-                  itemID={contact.id.toString()}
-                  onClick={() => {
-                    setFilteredInteraction(contact.interaction);
-                    setShowContactDetails(true);
-                    setIdContact(contact.id);
-                  }}
-                >
-                  {`${contact.nom} ${contact.prenom}`}
-                </button>
-              </li>
+                {`${contact.nom} ${contact.prenom}`}
+              </button>
             ))}
-          </ul>
+          </div>
           <button
             type="button"
             className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25 mb-2"
@@ -74,30 +76,34 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
             <span className="vr mx-2" />
             <span>Ajout</span>
           </button>
-        </div>
-        <div className="col-lg-9 d-sm-flex flex-sm-column">
+
           {showContactDetails && idContact && (
             <DetailsContact contact={
               entreprise.contact.find((contact) => contact.id === idContact) as IContact
             }
             />
           )}
-          <DetailsInteraction interactions={filteredInteraction} />
-          {idContact !== 0 && (
-            <div className="mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="button"
-                className="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#addInteraction"
-                data-bs-id-contact={idContact}
-              >
-                Ajouter une interaction
-              </button>
-            </div>
-          )}
 
         </div>
+      </div>
+
+      <div className="col-lg-9">
+
+        <DetailsInteraction interactions={filteredInteraction} />
+        {idContact !== 0 && (
+          <div className="mt-3 text-end ">
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#addInteraction"
+              data-bs-id-contact={idContact}
+            >
+              Ajouter une interaction
+            </button>
+          </div>
+        )}
+
       </div>
       <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />

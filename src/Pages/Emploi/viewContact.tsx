@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { IContact } from '../../@types/Home/ent';
 import useFormInput from '../../hook/useFormInput';
@@ -14,16 +13,17 @@ function DetailsContact({ contact }: IProps) {
   const [showForm, setShowForm] = useState(false);
   const [editNom, setEditNom] = useState(false);
   const [editPrenom, setEditPrenom] = useState(false);
+  const [editRole, setEditRole] = useState(false);
 
   useEffect(() => {
     setForm(contact);
   }, [setForm, contact]);
 
   return (
-    <div>
-      <h3>
-        <div className="d-flex flex-row justify-content-start ">
-          <div className="input-group mb-3 w-25">
+    <div className="mb-2 card ">
+      <h5 className="px-2">
+        <div className="d-flex flex-wrap justify-content-between ">
+          <div className="input-group mb-1 w-50">
             <input
               type="text"
               name="nom"
@@ -36,18 +36,17 @@ function DetailsContact({ contact }: IProps) {
             {editNom && (
               <button
                 type="button"
-                className="input-group-text  bg-success "
+                className="input-group-text bg-success "
                 onClick={(e) => {
                   setEditNom(!editNom);
-                  handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
+                  handleSave(e as any, '/api/home/suivi/contact', () => { });
                 }}
               >
                 <i className="bi bi-check" />
               </button>
             )}
           </div>
-
-          <div className="input-group mb-3 w-25">
+          <div className="input-group mb-1 w-50">
             <input
               type="text"
               name="prenom"
@@ -63,43 +62,42 @@ function DetailsContact({ contact }: IProps) {
                 className="input-group-text  bg-success "
                 onClick={(e) => {
                   setEditPrenom(!editPrenom);
-                  handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
+                  handleSave(e as any, '/api/home/suivi/contact', () => { });
                 }}
               >
                 <i className="bi bi-check" />
               </button>
             )}
           </div>
-          <i>{contact.role}</i>
+        </div>
+
+        <div className="input-group mb-1">
+          <input
+            type="text"
+            name="role"
+            className={editRole ? 'form-control' : 'form-control-plaintext'}
+            onDoubleClick={() => setEditRole(!editRole)}
+            value={form.role}
+            onChange={handleChange}
+            aria-describedby="Rôle"
+          />
+          {editRole && (
+            <button
+              type="button"
+              className="input-group-text  bg-success "
+              onClick={(e) => {
+                setEditRole(!editRole);
+                handleSave(e as any, '/api/home/suivi/contact', () => { });
+              }}
+            >
+              <i className="bi bi-check" />
+            </button>
+          )}
 
         </div>
-        {!showForm && (
-          <button
-            type="button"
-            className="btn btn-secondary "
-            onClick={() => setShowForm(!showForm)}
-          >
-            <i className="bi bi-pencil" />
-            <span className="mx-2">Editer</span>
-          </button>
-        )}
-        {showForm && (
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={(e) => {
-              setShowForm(!showForm);
-              handleSave(e as any, '/api/home/suivi/contact', () => { console.log('done'); });
-            }}
-          >
-            <i className="bi bi-check" />
-            <span className="mx-2">Enregistrer</span>
-          </button>
-        )}
-
-      </h3>
+      </h5>
       <div>
-        <div className="input-group mb-3 w-25">
+        <div className="input-group mb-1">
           <span className="input-group-text" id="prefixId">
             <a href={`mailto:${form.email}`}>
               <i className="bi bi-envelope" />
@@ -115,7 +113,7 @@ function DetailsContact({ contact }: IProps) {
             name="email"
           />
         </div>
-        <div className="input-group mb-3 w-25">
+        <div className="input-group mb-1">
           <span className="input-group-text" id="prefixId">
             <a href={`tel:+33${form.phone}`}>
               <i className="bi bi-phone" />
@@ -131,6 +129,30 @@ function DetailsContact({ contact }: IProps) {
             name="phone"
           />
         </div>
+        {!showForm && (
+          <button
+            type="button"
+            className="btn btn-secondary text-end"
+            onClick={() => setShowForm(!showForm)}
+          >
+            <i className="bi bi-pencil" />
+            <span className="mx-2">Editer</span>
+          </button>
+        )}
+        {showForm && (
+          <button
+            type="button"
+            className="btn btn-success text-end"
+            onClick={(e) => {
+              setShowForm(!showForm);
+              handleSave(e as any, '/api/home/suivi/contact', () => { });
+            }}
+          >
+            <i className="bi bi-check" />
+            <span className="mx-2">Enregistrer</span>
+          </button>
+        )}
+
       </div>
     </div>
   );
