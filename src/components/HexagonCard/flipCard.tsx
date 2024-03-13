@@ -3,7 +3,12 @@ import defaultImg from '../../assets/images/finish_website.jpeg';
 import HexagonCard from './hexagonCard';
 import { baseUrl } from '../../../config.json';
 
-function FlipCard({ img, widthHexa = 200 }: { img: string, widthHexa: number }) {
+interface FlipCardProps {
+  img: string;
+  widthHexa?: number;
+  title: string;
+}
+function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
   const [urlImgState, setUrlImgState] = useState('');
 
   const [isHovered, setIsHovered] = useState(false);
@@ -69,7 +74,7 @@ function FlipCard({ img, widthHexa = 200 }: { img: string, widthHexa: number }) 
             <span
               className="bg-white d-flex justify-content-center align-items-center h-100 w-100 user-select-none pe-auto "
             >
-              voir plus ...
+              {title}
             </span>
 
           </HexagonCard>
@@ -78,5 +83,7 @@ function FlipCard({ img, widthHexa = 200 }: { img: string, widthHexa: number }) 
     </div>
   );
 }
-
+FlipCard.defaultProps = {
+  widthHexa: 200,
+};
 export default FlipCard;

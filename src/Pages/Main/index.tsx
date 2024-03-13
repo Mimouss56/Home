@@ -67,7 +67,7 @@ function Main() {
             <div className="hex-container">
               {listPortfolio && listPortfolio
                 .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
-                .map((item: ICardPortfolio, index: number) => (
+                .map((item: ICardPortfolio) => (
                   <div
                     key={item.id}
                     data-bs-toggle="modal"
@@ -76,7 +76,7 @@ function Main() {
                     data-bs-type="portfolio"
                     className="hex-cell"
                   >
-                    <FlipCard img={item.urlImg} widthHexa={widthHexa} />
+                    <FlipCard img={item.urlImg} title={item.nameSite} />
                   </div>
                 ))}
             </div>
