@@ -1,15 +1,15 @@
 function HexagonCard({ children }: { children: JSX.Element }) {
   return (
     <div
-      className="overflow-hidden w-100 h-100 pe-auto invisible "
+      className="overflow-hidden h-100 invisible "
       style={{ transform: 'rotate(120deg)' }}
     >
       <div
-        className="overflow-hidden w-100 h-100"
+        className="overflow-hidden h-100"
         style={{ transform: 'rotate(-60deg)' }}
       >
         <div
-          className="bg-white visible w-100 h-100 "
+          className="visible h-100"
           style={{ transform: 'rotate(-60deg)' }}
         >
           {children}

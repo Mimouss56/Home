@@ -15,6 +15,7 @@ $float: calc(1.732 * #{$width} + 4 * #{$margin} - 1px);
   height: calc($width * 1.1547);
   margin-bottom: calc($margin - $width * 0.2885);
   display: inline-block;
+  
 }
 
 .hex-container::before {
@@ -25,4 +26,15 @@ $float: calc(1.732 * #{$width} + 4 * #{$margin} - 1px);
   shape-outside: repeating-linear-gradient(     
                    #0000 0 calc($float - 3px),      
                    #000  0 $float);
+}
+
+@keyframes flipOn {
+  from {
+    transform: translateY(100%) rotateX(180deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
 }

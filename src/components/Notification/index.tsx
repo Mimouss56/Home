@@ -31,10 +31,10 @@ function Notifications() {
     // Mettre à jour les notifications lorsqu'il y a un nouvel événement de connexion
     document.addEventListener('newLogin', () => updateNotifications());
     // on remove le addEventListener
+    updateNotifications();
     return () => {
       document.removeEventListener('newLogin', () => updateNotifications());
     };
-    updateNotifications();
   }, []);
 
   return (

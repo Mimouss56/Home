@@ -12,8 +12,6 @@ import DetailsFloatCard from '../../components/FloatCard/modalViewDetailsFloatCa
 import FlipCard from '../../components/HexagonCard/flipCard';
 import './style.scss';
 
-const widthHexa = 200; // px;
-
 function Main() {
   // fetch data from api
   const [listNews, setListNews] = useState([]);
@@ -67,7 +65,7 @@ function Main() {
             <div className="hex-container">
               {listPortfolio && listPortfolio
                 .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
-                .map((item: ICardPortfolio) => (
+                .map((item: ICardPortfolio, index: number) => (
                   <div
                     key={item.id}
                     data-bs-toggle="modal"
@@ -75,8 +73,14 @@ function Main() {
                     data-bs-id={item.id}
                     data-bs-type="portfolio"
                     className="hex-cell"
+                    style={{
+                      animation: `flipOn ${(listPortfolio.length - index) * 0.2}s ease-in-out`,
+                    }}
                   >
-                    <FlipCard img={item.urlImg} title={item.nameSite} />
+                    <FlipCard
+                      img={item.urlImg}
+                      title={item.nameSite}
+                    />
                   </div>
                 ))}
             </div>

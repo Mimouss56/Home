@@ -20,10 +20,12 @@ function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
       WebkitTransition: 'all 1s',
       transform: isHovered ? 'rotateX(180deg)' : 'none',
       WebkitTransform: isHovered ? 'rotateX(180deg)' : 'none',
+      width: `${widthHexa}px`,
+      // calcul pour avoir un hexagone parfait
+      height: `${(widthHexa / Math.sqrt(3)) * 2}px`,
+
     },
-    hexaDivStyle: {
-      height: '100%',
-      width: '100%',
+    frontStyle: {
       backfaceVisibility: 'hidden' as const,
       WebkitBackfaceVisibility: 'hidden' as const,
     },
@@ -47,38 +49,26 @@ function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
 
   return (
     <div
-      className="pe-auto"
-      style={{
-        width: `${widthHexa}px`,
-        height: `${(widthHexa / Math.sqrt(3)) * 2}px`, // calcul pour avoir un hexagone parfait
-      }}
+      className="position-relative z-1 pe-auto"
+      style={style.hexaStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="position-relative h-100 w-100 z-1 " style={style.hexaStyle}>
-        <div className="position-absolute bg-transparent" style={style.hexaDivStyle}>
-          <HexagonCard>
-            <img
-              src={urlImgState}
-              alt="default"
-              className="h-100 w-100 object-fit-cover"
-            />
-          </HexagonCard>
+      <div className="position-absolute h-100" style={style.frontStyle}>
+        <HexagonCard>
+          <img src={urlImgState} alt={title} className="h-100 w-100 object-fit-cover" />
+        </HexagonCard>
 
-        </div>
-        <div
-          className="position-absolute bg-transparent h-100 w-100"
-          style={style.backStyle}
-        >
-          <HexagonCard>
-            <span
-              className="bg-white d-flex justify-content-center align-items-center h-100 w-100 user-select-none pe-auto "
-            >
-              {title}
-            </span>
+      </div>
+      <div className="position-absolute h-100 w-100 " style={style.backStyle}>
+        <HexagonCard>
+          <p
+            className="bg-gradient bg-warning-subtle  d-flex justify-content-center align-items-center h-100 user-select-none "
+          >
+            {title}
+          </p>
 
-          </HexagonCard>
-        </div>
+        </HexagonCard>
       </div>
     </div>
   );
