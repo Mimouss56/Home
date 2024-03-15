@@ -89,7 +89,7 @@ function Main() {
         </section>
       </div>
       {/* Section Actualités */}
-      <section className="news-section my-5">
+      <section className="news-section my-5 w-lg-25 w-sm-100">
         <h2>Actualités</h2>
         <div className="d-flex flex-wrap">
           {listNews && listNews.map((item: ICardNews) => (

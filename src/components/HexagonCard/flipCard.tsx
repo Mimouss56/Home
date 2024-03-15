@@ -56,7 +56,7 @@ function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
     >
       <div className="position-absolute h-100" style={style.frontStyle}>
         <HexagonCard>
-          <img src={urlImgState} alt={title} className="h-100 w-100 object-fit-cover" />
+          <img src={urlImgState} alt={title} className="h-100 w-100 object-fit-cover " />
         </HexagonCard>
 
       </div>
