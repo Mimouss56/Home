@@ -24,7 +24,7 @@ export interface IInteraction {
   id : number,
   moyen: string,
   reponse:string,
-  status: string,
+  status?: IStatus,
   createdAt: string,
 }
 
@@ -36,6 +36,11 @@ export interface IInterVue {
   id: number;
   entreprise: string;
   contact: string;
-  status: string;
+  status?: IStatus;
   createdAt: string;
+}
+
+export interface IStatus {
+  id: number;
+  label: string;
 }

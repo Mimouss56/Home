@@ -15,7 +15,7 @@ function Footer() {
           </span>
         </div>
         <span className="">
-          <a className="text-white" href="/swagger-ui">
+          <a className="text-white" href="/swagger-home">
             <img src="https://seeklogo.com/images/S/swagger-logo-A49F73BAF4-seeklogo.com.png" width="25" alt="Swagger" />
           </a>
 

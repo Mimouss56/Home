@@ -1,36 +1,24 @@
 /* eslint-disable max-len */
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { IInteraction } from '../../../@types/Home/ent';
+import { useEffect } from 'react';
+import { IInteraction, IStatus } from '../../../@types/Home/ent';
 import useFormInput from '../../../hook/useFormInput';
-import axiosInstance from '../../../utils/axios';
-import { ErrorSanctionProps } from '../../../@types/error';
 import Textarea from '../../Form/textarea';
+import useFetchData from '../../../hook/useFetchData';
 
 function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteraction) => void }) {
   const initDataForm = {
     id_contact: 0,
     moyen: '',
     reponse: '',
-    status: 0 || '',
+    idStatus: 0,
     id: 0,
     createdAt: '',
   };
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initDataForm);
-  const [status, setStatus] = useState([{ id: 0, label: '' }]);
-
-  const fetchData = async () => {
-    try {
-      const response = await axiosInstance.get('/api/home/suivi/status');
-      const { data } = response;
-      setStatus(data);
-    } catch (err) {
-      const { response } = err as ErrorSanctionProps;
-      toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
-  };
+  const [dataStatus] = useFetchData('/api/home/suivi/status');
+  const status = dataStatus as IStatus[];
 
   useEffect(() => {
     const addItemModal = document.getElementById('addInteraction');
@@ -42,7 +30,6 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
         const idContact = button.getAttribute('data-bs-id-contact');
         setForm({ ...form, id_contact: Number(idContact) });
       });
-      fetchData();
     }
 
     return () => {
@@ -53,7 +40,12 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
   }, [setForm, form]);
 
   return (
-    <form onSubmit={(e) => handleSave(e, '/api/home/suivi/interaction', onAddElement)}>
+    <form onSubmit={(e) => handleSave(
+      e,
+      '/api/home/suivi/interaction',
+      onAddElement,
+    )}
+    >
 
       {/* // <!-- Modal --> */}
       <div className="modal fade" id="addInteraction">
@@ -100,14 +92,14 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
                 <div className="input-group mb-3">
                   <label htmlFor="status" className="input-group-text">Status</label>
                   <select
-                    name="status"
+                    name="idStatus"
                     className="form-select"
                     onChange={handleChange}
-                    value={form.status}
+                    value={form.idStatus}
                   >
                     <option value={0} disabled>Choisir un status</option>
-                    {status.map((stat) => (
-                      <option key={stat.id} value={stat.id}>{stat.label}</option>
+                    {status.map((s) => (
+                      <option key={s.id} value={s.id}>{s.label}</option>
                     ))}
                   </select>
                 </div>
