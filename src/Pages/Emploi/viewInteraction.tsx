@@ -37,7 +37,7 @@ function DetailsInteraction({ interactions }: { interactions: IInteraction[] }) 
                 >
                   <td>{inter.moyen}</td>
                   <td>{inter.reponse}</td>
-                  <td>{inter.status}</td>
+                  <td>{inter.status?.label}</td>
                   <td>{dayjs(inter.createdAt).format('DD/MM/YYYY')}</td>
                 </tr>
               );
