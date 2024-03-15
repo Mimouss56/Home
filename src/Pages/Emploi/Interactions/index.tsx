@@ -76,24 +76,26 @@ function Interations({ listEnt }: { listEnt: IEntreprise[] }) {
             </tr>
           </thead>
           <tbody>
-            {listInteractions.map((inter) => {
-              const diff = dayjs().diff(dayjs(inter.createdAt), 'days');
-              const bgColor = objectColor.find((obj) => diff >= obj.date) || { color: 'table-info' };
+            {listInteractions
+              .filter((inter) => inter.status !== 'Refus')
+              .map((inter) => {
+                const diff = dayjs().diff(dayjs(inter.createdAt), 'days');
+                const bgColor = objectColor.find((obj) => diff >= obj.date) || { color: 'table-info' };
 
-              // Afficher uniquement les interactions de plus de 7 jours
-              if (diff < 7) {
-                return null;
-              }
+                // Afficher uniquement les interactions de plus de 7 jours
+                if (diff < 7) {
+                  return null;
+                }
 
-              return (
-                <tr key={inter.id} className={bgColor.color}>
-                  <td>{inter.entreprise}</td>
-                  <td>{inter.contact}</td>
-                  <td>{inter.status}</td>
-                  <td>{diff}</td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={inter.id} className={bgColor.color}>
+                    <td>{inter.entreprise}</td>
+                    <td>{inter.contact}</td>
+                    <td>{inter.status}</td>
+                    <td>{diff}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
