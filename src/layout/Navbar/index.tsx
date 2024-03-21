@@ -32,6 +32,9 @@ function Navbar({ navContent }: NavbarProp) {
     const storedSessionToken = sessionStorage.getItem('sessionToken');
     setSessionToken(storedSessionToken);
   };
+  if (userInfo?.role.id === 1) {
+    navContent.push({ id: 4, name: 'Test', link: '/test' });
+  }
 
   useEffect(() => {
     updateUserInfo();
@@ -42,19 +45,14 @@ function Navbar({ navContent }: NavbarProp) {
       }
     };
 
-    const handleLoginEvent = () => {
-      // Mettre à jour l'info utilisateur lorsque l'événement de connexion est déclenché
-      updateUserInfo();
-    };
-
     window.addEventListener('storage', handleStorageChange);
-    document.addEventListener('newLogin', handleLoginEvent);
+    document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      document.removeEventListener('newLogin', handleLoginEvent);
+      document.removeEventListener('newLogin', updateUserInfo);
     };
-  }, []);
+  }, [navContent]);
 
   return (
     <>

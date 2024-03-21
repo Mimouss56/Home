@@ -10,7 +10,7 @@ import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/formJob';
 import { IUser } from '../../@types/Home/user';
-import { IEmploi } from '../../@types/Home/emploi';
+import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import FloatCard from '../../components/FloatCard';
 import useFetchData from '../../hook/useFetchData';
 
@@ -20,6 +20,7 @@ function ViewCVPage() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
   const [listSchool, setListSchool] = useState<IEmploi[]>([]);
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
+  const [infoCV, setInfoCV] = useState({} as ICVDetails);
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
 
   const [dataSkillList] = useFetchData('/api/home/skill');
@@ -28,6 +29,8 @@ function ViewCVPage() {
   const fetchDataJobMouss = async () => {
     const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     const userInfo = response.data.user as IUser;
+    const { job, school, ...infoDetailsCV } = userInfo.cv;
+    setInfoCV(infoDetailsCV);
     setListJob(userInfo.cv.job);
     setFilteredJob(userInfo.cv.job);
     // setFilteredJob(
@@ -67,7 +70,7 @@ function ViewCVPage() {
       {selectedSkill && (
         <PDFDownloadLink
           className="btn btn-primary"
-          document={<ExportPDF listJob={filteredJob} listSchool={listSchool} />}
+          document={<ExportPDF listJob={filteredJob} listSchool={listSchool} title={infoCV} />}
           fileName="Cv-LE_PRIOL_Matthieu.pdf"
         >
           {({ loading }) => (loading ? (
@@ -80,6 +83,11 @@ function ViewCVPage() {
           ))}
         </PDFDownloadLink>
       )}
+      <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
+        <h2>Présentation</h2>
+      </div>
+      <p className="m-3 w-75">{infoCV.description}</p>
+
       <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
         <h2 className="">Expériences</h2>
         {userSession?.role.label === 'admin' && (
@@ -95,7 +103,6 @@ function ViewCVPage() {
 
       </div>
       <div className="d-flex flex-wrap justify-content-evenly">
-        <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
 
         {filteredJob && filteredJob.sort(
           (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
@@ -151,6 +158,8 @@ function ViewCVPage() {
             />
           ))}
       </div>
+      <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
+
     </div>
   );
 }

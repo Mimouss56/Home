@@ -1,27 +1,13 @@
-import FlipCard from '../../components/HexagonCard/flipCard';
+import CardPortfolio from '../../components/cardPortfolio';
 
 function Test() {
   return (
-    <div className="d-flex flex-wrap ">
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
-      <FlipCard />
+    <section className="portfolio-section my-5">
+      <h2>Portfolio</h2>
+      {/* Ajoute ici des composants ou des liens vers tes projets */}
+      <CardPortfolio />
 
-    </div>
+    </section>
   );
 }
 

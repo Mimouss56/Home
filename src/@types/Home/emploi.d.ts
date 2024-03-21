@@ -30,3 +30,11 @@ export interface IEmploiPost {
   description: string,
   competences: number[]
 }
+
+export interface ICVDetails {
+  id: number,
+  title: string,
+  description: string,
+  createdAt: string,
+  updatedAt: string,
+}

@@ -60,6 +60,7 @@ const generateByDefault = async (data, dataOption) => {
     child: dataOption.child,
     sanction: await sanctionService.getAll(data.id),
     cv: {
+      ...await cvService.getInfo(data.id),
       job: cvUser.filter((value) => value.type === 'job'),
       school: cvUser.filter((value) => value.type === 'school'),
     },

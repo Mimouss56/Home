@@ -17,6 +17,11 @@ export interface IUser extends IRole, IAvatar {
   sanction?: Sanction[]
 
   cv: {
+    id: number,
+    title: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
     job: IEmploi[]
     school: IEmploi[]
   }

@@ -1,7 +1,7 @@
 import {
   Page, View, Document, StyleSheet, Font, Text, Image, Link,
 } from '@react-pdf/renderer';
-import { IEmploi } from '../../../@types/Home/emploi';
+import { ICVDetails, IEmploi } from '../../../@types/Home/emploi';
 import HeaderCv from './Header/header';
 import Xp from './Main/xp';
 import Contact from './Info/contact';
@@ -15,9 +15,9 @@ import Lang from './Info/lang';
 import Hobbies from './Info/hobbies';
 import Dev from './Main/dev';
 
-interface Props { listJob: IEmploi[], listSchool: IEmploi[] }
+interface Props { listJob: IEmploi[], listSchool: IEmploi[], title: ICVDetails }
 
-function PDFExport({ listJob, listSchool }: Props) {
+function PDFExport({ listJob, listSchool, title }: Props) {
   const styles = StyleSheet.create({
     styleGlob: Glob as object,
     styleLeft: Left as object,
@@ -37,7 +37,7 @@ function PDFExport({ listJob, listSchool }: Props) {
       <Page size="A4">
         <View style={styles.styleGlob}>
           <View style={styles.styleLeft}>
-            <HeaderCv />
+            <HeaderCv title={title} />
             <Dev />
             <Xp content={listJob} titre="Autres Expériences" />
             <Xp content={listSchool} titre="Formations" />

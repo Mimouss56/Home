@@ -1,7 +1,8 @@
 import { Text, StyleSheet } from '@react-pdf/renderer';
 import { styleContent } from '../../Styles/content';
+import { ICVDetails } from '../../../../@types/Home/emploi';
 
-function HeaderCv() {
+function HeaderCv({ title }: { title: ICVDetails }) {
   const styles = StyleSheet.create({
     styleContent: styleContent as object,
     styleH1: {
@@ -18,14 +19,10 @@ function HeaderCv() {
   return (
     <>
       <Text style={styles.styleH1}>
-        Développeur Fullstack Javascript
+        {title.title}
       </Text>
       <Text style={styles.styleContent}>
-        Fort d&apos;une diversité d&apos;expériences professionnelles,
-        j&apos;ai cultivé une capacité d&apos;adaptation remarquable,
-        une aptitude prononcée à la résolution de problèmes et un sens du service client affûté.
-        Ces compétences, alliées à mon autonomie et à ma rigueur organisationnelle,
-        m&apos;ont permis d&apos;exceller dans chaque rôle que j&apos;ai entrepris.
+        {title.description}
       </Text>
     </>
   );

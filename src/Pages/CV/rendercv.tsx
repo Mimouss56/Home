@@ -3,22 +3,25 @@ import { PDFViewer } from '@react-pdf/renderer';
 import ExportPDF from '../../components/Cv/PDF/template';
 import { MoussID } from '../../../config.json';
 import axiosInstance from '../../utils/axios';
-import { IEmploi } from '../../@types/Home/emploi';
+import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import { IUser } from '../../@types/Home/user';
 
 function RenderCv() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
   const [listSchool, setListSchool] = useState<IEmploi[]>([]);
+  const [title, setTitle] = useState<ICVDetails>({} as ICVDetails);
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
     const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
     const userInfo = response.data.user as IUser;
+    const { job, school, ...infoDetailsCV } = userInfo.cv;
     const filterJob = userInfo.cv.job.filter(
-      (job) => job.competences?.some((competence) => competence.name === 'Maintenance'),
+      (j) => j.competences?.some((competence) => competence.name === 'Maintenance'),
     );
     setListJob(filterJob);
     setListSchool(userInfo.cv.school);
+    setTitle(infoDetailsCV);
   };
 
   useEffect(() => {
@@ -33,7 +36,7 @@ function RenderCv() {
 
       }}
       >
-        <ExportPDF listJob={listJob} listSchool={listSchool} />
+        <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
       </PDFViewer>
     </div>
   );

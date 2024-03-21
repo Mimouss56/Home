@@ -39,7 +39,7 @@ module.exports = {
   },
 
   async getAll(type = false) {
-    const find = type ? await cv.findAll({ where: { type } }) : await cv.findAll();
+    const find = type ? await cv.details.findAll({ where: { type } }) : await cv.details.findAll();
     if (!find) {
       return {
         code: 404,
@@ -51,7 +51,7 @@ module.exports = {
   },
 
   async getAllByUser(id) {
-    const find = await cv.findAllByUserId(id);
+    const find = await cv.details.findAllByUserId(id);
     if (!find) {
       return {
         code: 404,
@@ -63,7 +63,7 @@ module.exports = {
   },
 
   async get(id) {
-    const find = await cv.findByPk(id);
+    const find = await cv.details.findByPk(id);
     if (!find) {
       return {
         code: 404,
@@ -72,10 +72,21 @@ module.exports = {
     }
     return this.generateObject(find);
   },
+  async getInfo(userID) {
+    const find = await cv.infos.findOne({ where: { user_id: userID } });
+    if (!find) {
+      return {
+        code: 404,
+        message: `${textValue} not found`,
+      };
+    }
+    const { user_id: userId, ...rest } = find;
+    return rest;
+  },
   async create(inputQuery) {
     const { competences, id_user: idUser, ...rest } = inputQuery;
     try {
-      const result = await cv.create(rest);
+      const result = await cv.details.create(rest);
       if (competences.lengh > 0) {
         // on ajoute le lien entre le cv et les skills
         await cv.SkillCV(result.id, competences);
@@ -93,7 +104,7 @@ module.exports = {
     }
   },
   async update(id, inputQuery) {
-    const find = await cv.findByPk(id);
+    const find = await cv.details.findByPk(id);
     if (!find) {
       return {
         code: 400,
@@ -102,8 +113,8 @@ module.exports = {
     }
     const { competences, id_user: idUser, ...rest } = inputQuery;
     try {
-      const result = await cv.update(id, rest);
-      await cv.SkillCV(result.id, competences);
+      const result = await cv.details.update(id, rest);
+      await cv.details.SkillCV(result.id, competences);
 
       const returnValue = await this.generateObject(result);
       return returnValue;
