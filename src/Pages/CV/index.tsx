@@ -128,15 +128,17 @@ function ViewCVPage() {
 
       <div className="d-flex justify-content-between mt-5 text-dark w-100 mx-auto border-1 border-top border-bottom p-2">
         <h2 className="">Formations</h2>
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#addItem"
-          data-bs-id="0"
-        >
-          Ajouter
-        </button>
+        {userSession?.role.label === 'admin' && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addItem"
+            data-bs-id="0"
+          >
+            Ajouter
+          </button>
+        )}
       </div>
       <div className="d-flex flex-wrap justify-content-evenly">
 
