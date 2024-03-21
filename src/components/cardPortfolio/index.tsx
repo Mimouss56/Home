@@ -28,7 +28,7 @@ function CardPortfolio() {
             <div className="col-md-4 align-content-center my-auto">
               <img
                 src={item.urlImg ? `${baseUrl}/images/${item.urlImg}` : defaultImage}
-                className="img-fluid rounded-start m-5 w-75 h-75"
+                className="img-fluid rounded-start w-75 h-75"
                 alt={item.nameSite}
               />
             </div>
