@@ -32,8 +32,17 @@ function Navbar({ navContent }: NavbarProp) {
     const storedSessionToken = sessionStorage.getItem('sessionToken');
     setSessionToken(storedSessionToken);
   };
+
+  // Ajout du lien Test pour les admin
   if (userInfo?.role.id === 1) {
-    navContent.push({ id: 4, name: 'Test', link: '/test' });
+    const pushTestLink = {
+      id: 4,
+      name: 'Test',
+      link: '/test',
+    };
+    // on verifie si le lien n'existe pas deja
+    const found = navContent.some((el) => el.id === pushTestLink.id);
+    if (!found) navContent.push(pushTestLink);
   }
 
   useEffect(() => {
