@@ -1,49 +1,10 @@
-$color-primary-0: #FFAF58; // Main Primary color */
-$color-primary-1: #FFF9F3;
-$color-primary-2: #FFCF9A;
-$color-primary-3: #FF9119;
-$color-primary-4: #FF8500;
-
-$color-secondary-1-0: #FFCF58; // Main Secondary color (1) */
-$color-secondary-1-1: #FFFCF3;
-$color-secondary-1-2: #FFE29A;
-$color-secondary-1-3: #FFBD19;
-$color-secondary-1-4: #FFB600;
-
-$color-secondary-2-0: #FF7558; // Main Secondary color (2) */
-$color-secondary-2-1: #FFF5F3;
-$color-secondary-2-2: #FFAC9A;
-$color-secondary-2-3: #FF4119;
-$color-secondary-2-4: #FF2C00;
-
+@import "bootstrap/scss/bootstrap";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 // Importe les fichiers Bootstrap nécessaires
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 
-// Écrase les variables Bootstrap avec tes couleurs personnalisées
-$primary: $color-primary-0;
-$secondary: $color-secondary-1-0;
 
-$primary-100: $color-primary-1;
-$secondary-100: $color-secondary-1-1;
-
-$primary-200: $color-primary-2;
-$secondary-200: $color-secondary-1-2;
-
-$primary-300: $color-primary-3;
-$secondary-300: $color-secondary-1-3;
-
-$primary-400: $color-primary-4;
-$secondary-400: $color-secondary-1-4;
-
-$dark : $color-secondary-2-4;
-
-@import "bootstrap/scss/bootstrap";
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
-
-body {
-  background-color: $color-primary-0;
-}
 
 #section {
   height: 100vh;
@@ -62,26 +23,6 @@ body {
   height: auto;
   z-index: -1;
   transition: transform 0.5s ease-in-out;
-}
-
-#section.in-view .parallax-content {
-  transform: translate(-50%, -40%);
-  /* Ajuste la valeur de translation selon ton souhait */
-}
-
-/* Style pour l'arrière-plan flou */
-.modal-backdrop {
-  filter: blur(20rem);
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -o-filter: blur(5px);
-  -ms-filter: blur(5px);
-  /* Ajuste la valeur de flou selon tes préférences */
-}
-
-body.modal-open {
-  overflow: hidden;
-  /* Empêche le défilement lorsque la modal est ouverte */
 }
 
 

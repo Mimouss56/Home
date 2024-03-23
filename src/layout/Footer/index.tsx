@@ -1,7 +1,10 @@
 function Footer() {
   return (
     <footer>
-      <div className="fixed-bottom d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark vw-100 px-5">
+      <div
+        className=" d-flex flex-wrap justify-content-between align-items-center py-3 border-top vw-100 px-5"
+        style={{ backgroundColor: '#1d1d20' }}
+      >
         <div className="d-flex align-items-center">
           <span className="text-white ">
             © 2023 author : Mouss &
