@@ -1,4 +1,4 @@
-const client = require('./pg.client');
+const client = require('../../../models/pg.client');
 
 const Sanction = require('./sanction.mapper');
 const Skill = require('./skill.mapper');

@@ -38,10 +38,10 @@ router.use('/sanction', loggedAs, require('./sanction.router'));
 router.use('/skill', require('./skill.router'));
 router.use('/suivi', loggedAs, require('./SuiviEnt/index.router'));
 router.use('/ent', require('./ent.router'));
+router.use('/feedback', require('./feedback.router'));
 
 // A faire dans Swagger
 
-router.use('/test', require('../../../routers/test.router'));
 router.use('/upload', require('./upload.router'));
 router.use('/user', require('./user.router'));
 
