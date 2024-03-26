@@ -75,7 +75,7 @@ function Navbar({ navContent }: NavbarProp) {
     <>
       <header className={`${window.scrollY > 0 ? 'fixed-top' : ''}`}>
         <nav
-          className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top"
+          className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
           style={{
             backgroundColor: '#1d1d20',
           }}

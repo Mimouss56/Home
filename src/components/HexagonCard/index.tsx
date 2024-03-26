@@ -11,7 +11,13 @@ const marginHexa = 2;
 function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
   return (
-    <div className="d-flex justify-content-center flex-wrap pt-5 bg-dark h-75">
+    <div
+      className="d-flex justify-content-center flex-column pt-5 bg-dark h-75"
+      style={{
+        height: '100vh',
+        padding: '100px 0',
+      }}
+    >
       <h2 className="text-center text-light">Mes différents projets</h2>
       <div className="hex-container">
         {dataPortfolio && dataPortfolio

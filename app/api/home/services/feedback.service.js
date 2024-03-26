@@ -1,4 +1,4 @@
-const { feedback } = require('../../../models/index.mapper');
+const { feedback } = require('../models/index.mapper');
 
 const textValue = 'feedback';
 

@@ -39,6 +39,7 @@ router.use('/skill', require('./skill.router'));
 router.use('/suivi', loggedAs, require('./SuiviEnt/index.router'));
 router.use('/ent', require('./ent.router'));
 router.use('/feedback', require('./feedback.router'));
+router.use('/recommandations', require('./recommandations.router'));
 
 // A faire dans Swagger
 

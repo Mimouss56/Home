@@ -1,37 +1,26 @@
-import { PDFViewer } from '@react-pdf/renderer';
-import { IUser } from '../../@types/Home/user';
+import useFetchData from '../../hook/useFetchData';
+import { MoussID } from '../../../config.json';
 import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
 import Prez from './prez';
 import HexaSection from '../../components/HexagonCard';
-import ExportPDF from '../../components/Cv/PDF/template';
+import DetailsFloatCard from '../../components/FloatCard/modalViewDetailsFloatCard';
+import NewsSection from './news';
+import navTop from '../../../data/navTop.json';
 
-function LandingPage({ info }: { info: IUser }) {
-  const { job, school, ...infoDetailsCV } = info.cv;
+function MainDev() {
+  const [data] = useFetchData(`/api/home/user/${MoussID}`);
+  const [dataNews] = useFetchData('/api/home/news');
 
   return (
     <>
-      <Prez Mouss={info} />
+      {data.user && <Prez Mouss={data.user} />}
       <Navbar navContent={navTop} />
       <HexaSection />
-      <div className="d-flex flex-column ">
-        <PDFViewer style={{
-          width: '100%',
-          height: '100vh',
-        }}
-        >
-          <ExportPDF
-            listJob={info.cv.job.filter(
-              (j) => j.competences?.some((competence) => competence.name === 'Maintenance'),
-            )}
-            listSchool={info.cv.school}
-            title={infoDetailsCV}
-          />
-        </PDFViewer>
-      </div>
-
+      {dataNews && <NewsSection listNews={dataNews} />}
+      <DetailsFloatCard />
     </>
+
   );
 }
 
-export default LandingPage;
+export default MainDev;
