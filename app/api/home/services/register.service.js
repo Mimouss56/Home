@@ -43,7 +43,7 @@ module.exports = {
         id_role: countUser === 1 ? 1 : 2,
       });
       await user.infos.create({
-        id_user: data.id,
+        user_id: data.id,
       });
       return {
         ...await userService.getData(data.id),
