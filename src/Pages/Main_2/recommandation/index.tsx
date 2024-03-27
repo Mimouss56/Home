@@ -12,7 +12,7 @@ function Recommandation() {
   const [dataRecommendation] = useFetchData('/api/home/recommandations');
 
   return (
-    <section className="recommandation bg-dark" style={{ height: '100vh' }}>
+    <section className="recommandation bg-dark pb-5">
       <div className="">
         <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
           <h2>Recommandations</h2>

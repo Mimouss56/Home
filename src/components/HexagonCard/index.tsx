@@ -26,8 +26,8 @@ function HexaSection() {
         </button>
       </div>
 
-      <div className="w-50 mx-auto d-flex justify-content-center flex-wrap ">
-        <div className="hex-container">
+      <div className="w-50 mx-auto d-flex justify-content-center flex-wrap vh-auto">
+        <div className="hex-container vh-100">
           {dataPortfolio && dataPortfolio
             .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
             .map((item: ICardPortfolio, index: number) => (
