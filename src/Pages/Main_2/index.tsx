@@ -34,7 +34,7 @@ function MainDev() {
     <Suspense fallback={<Loading />}>
       { data.user && <Prez Mouss={data.user} />}
       <Navbar navContent={navTop} />
-      {/* <HexaSection /> */}
+      <HexaSection />
       <Recommandation />
       {dataNews && <NewsSection listNews={dataNews} />}
       <DetailsFloatCard />
