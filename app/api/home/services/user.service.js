@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt');
 const { user } = require('../models/index.mapper');
 const { upload } = require('../../../models/index.mapper');
 const roleService = require('./role.service');
-// const jobService = require('./job.service');
-// const schoolService = require('./school.service');
 const sanctionService = require('./sanction.service');
 const cvService = require('./cv.service');
 
@@ -78,7 +76,7 @@ module.exports = {
       };
     }
     // Ingo Général User
-    const userOptionByID = await user.base.option(id);
+    const userOptionByID = await user.base.option(userByID.id);
     const returnUser = await generateByDefault(userByID, userOptionByID);
     return returnUser;
   },

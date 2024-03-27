@@ -1,6 +1,6 @@
 const CoreDatamapper = require('../../../../models/core.mapper');
 
-module.exports = class User extends CoreDatamapper {
+module.exports = class Options extends CoreDatamapper {
   tableName = 'user_option';
 
   async updateOption(idUser, inputData) {
