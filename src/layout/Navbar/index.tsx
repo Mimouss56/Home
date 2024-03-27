@@ -17,6 +17,9 @@ function Navbar({ navContent }: NavbarProp) {
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
 
+  const nav = document.querySelector('nav');
+  const sticky = nav?.offsetTop || null;
+
   const updateUserInfo = () => {
     const storedUserInfo = sessionStorage.getItem('user');
     if (storedUserInfo) {
@@ -45,15 +48,7 @@ function Navbar({ navContent }: NavbarProp) {
 
   useEffect(() => {
     updateUserInfo();
-
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'user' || e.key === 'sessionToken') {
-        updateUserInfo();
-      }
-    };
-    // si le menu est en haut de la page on ajoute la class fixed-top
-    const nav = document.querySelector('nav');
-    const sticky = nav?.offsetTop || null;
+    console.log(window.scrollY);
     const scrollCallBack = () => {
       if (sticky !== null && window.scrollY > sticky) {
         nav?.classList.add('fixed-top');
@@ -61,15 +56,22 @@ function Navbar({ navContent }: NavbarProp) {
         nav?.classList.remove('fixed-top');
       }
     };
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'user' || e.key === 'sessionToken') {
+        updateUserInfo();
+      }
+    };
+
     window.addEventListener('scroll', scrollCallBack);
     window.addEventListener('storage', handleStorageChange);
     document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
+      window.addEventListener('scroll', scrollCallBack);
       window.removeEventListener('storage', handleStorageChange);
       document.removeEventListener('newLogin', updateUserInfo);
     };
-  }, [navContent]);
+  }, [navContent, nav, sticky]);
 
   return (
     <>

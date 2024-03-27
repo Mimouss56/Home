@@ -24,6 +24,7 @@ function App() {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
+      sessionStorage.removeItem('notifToast');
     }
   }, []);
 
