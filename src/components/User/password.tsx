@@ -95,7 +95,7 @@ function Password() {
             />
           </div>
           {error && (
-            <span className="form-text text-bg-danger badge text-white ">
+            <span className="form-text text-bg-danger badge ">
               {errorMessage}
             </span>
           )}

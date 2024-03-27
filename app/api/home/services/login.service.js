@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { user } = require('../models/index.mapper');
 const userService = require('./user.service');
-const feedbackService = require('../../../services/feedback.service');
+const feedbackService = require('./feedback.service');
 const sanctionService = require('./sanction.service');
 
 module.exports = {

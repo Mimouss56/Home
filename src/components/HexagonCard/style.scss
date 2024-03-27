@@ -1,0 +1,27 @@
+$width: 200px;
+$margin: 2px;
+$float: calc(1.732 * #{$width} + 4 * #{$margin} - 1px);
+
+
+
+.hex-container::before {
+  content: "";
+  width: calc($width/2 + $margin);
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(#0000 0 calc($float - 3px),
+      #000 0 $float );
+
+}
+
+@keyframes flipOn {
+  from {
+    transform: translateY(100%) rotateX(180deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
+}

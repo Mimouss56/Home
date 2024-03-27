@@ -17,7 +17,7 @@ function InputText({
       <input
         type="text"
         className="form-control"
-        placeholder={text}
+        placeholder={title}
         aria-label="prez"
         aria-describedby="prez"
         value={text}

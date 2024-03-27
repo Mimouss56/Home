@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import defaultImg from '../../assets/images/finish_website.jpeg';
-import HexagonCard from './hexagonCard';
 import { baseUrl } from '../../../config.json';
 
 interface FlipCardProps {
   img: string;
-  widthHexa?: number;
+  widthHexa: number;
   title: string;
 }
-function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
+function FlipCard({ img, widthHexa, title }: FlipCardProps) {
   const [urlImgState, setUrlImgState] = useState('');
 
   const [isHovered, setIsHovered] = useState(false);
@@ -55,25 +54,49 @@ function FlipCard({ img, widthHexa = 200, title }: FlipCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="position-absolute h-100" style={style.frontStyle}>
-        <HexagonCard>
-          <img src={urlImgState} alt={title} className="h-100 w-100 object-fit-cover " />
-        </HexagonCard>
+        <div
+          className="overflow-hidden h-100 invisible "
+          style={{ transform: 'rotate(120deg)' }}
+        >
+          <div
+            className="overflow-hidden h-100"
+            style={{ transform: 'rotate(-60deg)' }}
+          >
+            <div
+              className="visible h-100"
+              style={{ transform: 'rotate(-60deg)' }}
+            >
+              <img src={urlImgState} alt={title} className="h-100 w-100 object-fit-cover " />
+            </div>
+          </div>
+        </div>
 
       </div>
       <div className="position-absolute h-100 w-100 " style={style.backStyle}>
-        <HexagonCard>
-          <p
-            className="bg-gradient bg-warning-subtle  d-flex justify-content-center align-items-center h-100 user-select-none "
+        <div
+          className="overflow-hidden h-100 invisible "
+          style={{ transform: 'rotate(120deg)' }}
+        >
+          <div
+            className="overflow-hidden h-100"
+            style={{ transform: 'rotate(-60deg)' }}
           >
-            {title}
-          </p>
+            <div
+              className="visible h-100"
+              style={{ transform: 'rotate(-60deg)' }}
+            >
+              <p
+                className="bg-gradient bg-warning-subtle  d-flex justify-content-center align-items-center h-100 user-select-none "
+              >
+                {title}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        </HexagonCard>
       </div>
     </div>
   );
 }
-FlipCard.defaultProps = {
-  widthHexa: 200,
-};
+
 export default FlipCard;

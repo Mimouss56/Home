@@ -61,7 +61,7 @@ function Main() {
         <section className="portfolio-section my-5">
           <h2>Portfolio</h2>
           {/* Ajoute ici des composants ou des liens vers tes projets */}
-          <div className="hex-grid">
+          <div className="hex-grid d-flex justify-content-center flex-wrap">
             <div className="hex-container">
               {listPortfolio && listPortfolio
                 .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
@@ -80,6 +80,7 @@ function Main() {
                     <FlipCard
                       img={item.urlImg}
                       title={item.nameSite}
+                      widthHexa={200}
                     />
                   </div>
                 ))}

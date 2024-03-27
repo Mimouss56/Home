@@ -1,4 +1,4 @@
-const client = require('../pg.client');
+const client = require('../../../../models/pg.client');
 
 const Interaction = require('./interaction.mapper');
 const Contact = require('./contact.mapper');

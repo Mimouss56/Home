@@ -26,7 +26,7 @@ function InfosUser() {
     setImageFile(file);
 
     try {
-      axiosInstance.put(`/api/home/user/${user.id}`, { avatar: file.id });
+      axiosInstance.put(`/api/home/user/${user.id}`, { main: true, avatar: file.id });
       const newUser = {
         ...user,
         avatar: file,
@@ -74,7 +74,7 @@ function InfosUser() {
   };
 
   useEffect(() => {
-    if (user.avatar.path !== imageFile?.path) {
+    if (user.avatar?.path !== imageFile?.path) {
       setImageFile(imageFile);
     }
   }, [user.avatar, imageFile, setImageFile]);

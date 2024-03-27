@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Menu } from 'react-feather';
-import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MenuNav from '../User/aside.user';
 import NavBar from './Menu';
@@ -18,6 +16,9 @@ function Navbar({ navContent }: NavbarProp) {
   const [avatar, setAvatar] = useState('');
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
+
+  const nav = document.querySelector('nav');
+  const sticky = nav?.offsetTop || null;
 
   const updateUserInfo = () => {
     const storedUserInfo = sessionStorage.getItem('user');
@@ -47,29 +48,38 @@ function Navbar({ navContent }: NavbarProp) {
 
   useEffect(() => {
     updateUserInfo();
-
+    console.log(window.scrollY);
+    const scrollCallBack = () => {
+      if (sticky !== null && window.scrollY > sticky) {
+        nav?.classList.add('fixed-top');
+      } else {
+        nav?.classList.remove('fixed-top');
+      }
+    };
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'user' || e.key === 'sessionToken') {
         updateUserInfo();
       }
     };
 
+    window.addEventListener('scroll', scrollCallBack);
     window.addEventListener('storage', handleStorageChange);
     document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
+      window.addEventListener('scroll', scrollCallBack);
       window.removeEventListener('storage', handleStorageChange);
       document.removeEventListener('newLogin', updateUserInfo);
     };
-  }, [navContent]);
+  }, [navContent, nav, sticky]);
 
   return (
     <>
-      <header>
+      <header className={`${window.scrollY > 0 ? 'fixed-top' : ''}`}>
         <nav
-          className="d-flex flex-wrap align-items-center justify-content-between p-2 fixed-top vw-100"
+          className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
           style={{
-            backgroundColor: '#da5903',
+            backgroundColor: '#1d1d20',
           }}
         >
           <NavBar navContentArray={navContent} />
@@ -80,8 +90,8 @@ function Navbar({ navContent }: NavbarProp) {
                   <p className="text-light m-2 d-none d-md-block">
                     {`Bienvenu ${userInfo.username}`}
                   </p>
-                  <Link
-                    to="/user/setting"
+                  <a
+                    href="/user/setting"
                     className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#aside"
@@ -93,7 +103,7 @@ function Navbar({ navContent }: NavbarProp) {
                       width="32"
                       height="32"
                     />
-                  </Link>
+                  </a>
                   <button
                     type="button"
                     className="btn align-items-end text-light d-block d-md-none"

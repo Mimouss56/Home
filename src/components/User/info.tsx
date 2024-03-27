@@ -7,12 +7,12 @@ function Complement() {
   const initData = {
     info: true,
     id: user.id,
-    prez: user.prez,
-    phone: user.phone,
-    address: user.address,
-    linkedin: user.linkedin,
-    github: user.github,
-    website: user.website,
+    prez: user.prez || '',
+    phone: user.phone || '',
+    address: user.address || '',
+    linkedin: user.linkedin || '',
+    github: user.github || '',
+    website: user.website || '',
   };
   const {
     form, handleChange, handleSave,
@@ -36,6 +36,7 @@ function Complement() {
             onChange={handleChange}
             name="prez"
             icon={null}
+            leng={250}
           />
           {/* // Section GPT */}
           {/* <ChatGPT /> */}

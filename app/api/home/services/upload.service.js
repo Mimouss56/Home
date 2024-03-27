@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { upload } = require('../models/index.mapper');
+const { upload } = require('../../../models/index.mapper');
 
 module.exports = {
   async create(inputQuery) {

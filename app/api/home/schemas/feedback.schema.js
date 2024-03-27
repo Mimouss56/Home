@@ -10,10 +10,11 @@ const Joi = require('joi');
  */
 
 const feedbackPost = Joi.object({
-  message: Joi.string().required(),
   name: Joi.string().required(),
   email: Joi.string().required(),
+  message: Joi.string().required(),
   path: Joi.string().required(),
+  draft: Joi.boolean(),
 });
 
 const feedbackRead = Joi.object({

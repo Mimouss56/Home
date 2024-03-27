@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const feedbackController = require('../controllers/feedback.controller');
-const { validate } = require('../middlewares/validate.middleware');
+const { validate } = require('../../../middlewares/validate.middleware');
 const { feedbackPost } = require('../schemas/feedback.schema');
 /**
  * Error

@@ -2,24 +2,22 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../../@types/error';
-import IFeedback from '../../@types/Home/feedback';
+
 import axiosInstance from '../../utils/axios';
 import Textarea from '../Form/textarea';
 
 const initData = {
-  id: 0,
   name: '',
   email: '',
   message: '',
   path: '',
   draft: false,
-  created_at: '',
 };
 
 function Feedback() {
   const location = useLocation();
   const { pathname } = location;
-  const [feedback, setFeedback] = useState<IFeedback>(initData);
+  const [feedback, setFeedback] = useState(initData);
 
   const handleChange = (event: { target: { name: string; value: string; }; }) => {
     setFeedback({
@@ -33,7 +31,7 @@ function Feedback() {
     event.preventDefault();
     // on envoie le feedback au serveur
     try {
-      const response = await axiosInstance.post('/feedback', feedback);
+      const response = await axiosInstance.post('/api/home/feedback', feedback);
       toast.success(response.data.message);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -102,6 +100,7 @@ function Feedback() {
                   onChange={handleChange}
                   name="message"
                   icon={null}
+                  leng={500}
                 />
 
               </div>
