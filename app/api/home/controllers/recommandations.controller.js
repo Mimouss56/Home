@@ -4,15 +4,29 @@ module.exports = {
   getAll: async (req, res) => {
     try {
       const recommandations = await recommandationService.getAll();
-      res.status(200).json(recommandations);
+      return res.status(200).json(recommandations);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   },
   create: async (req, res) => {
+    const {
+      firstName,
+      lastName,
+      linkedinLink,
+      avatar,
+      recommandation,
+    } = req.body;
+    const inputData = {
+      first_name: firstName,
+      last_name: lastName,
+      linkedin_link: linkedinLink,
+      avatar,
+      recommandation,
+    };
     try {
-      const recommandation = await recommandationService.create(req.body);
-      res.status(200).json(recommandation);
+      const data = await recommandationService.create(inputData);
+      res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

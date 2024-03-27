@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ICardPortfolio from '../../@types/portfolio';
 import FlipCard from './flipCard';
 import useFetchData from '../../hook/useFetchData';
@@ -13,12 +12,9 @@ function HexaSection() {
   return (
     <div
       className="d-flex justify-content-center flex-column pt-5 bg-dark h-75"
-      style={{
-        height: '100vh',
-        padding: '100px 0',
-      }}
+      onScrollCapture={() => console.log('focus')}
     >
-      <h2 className="text-center text-light">Mes différents projets</h2>
+      <h2 className="text-center">Mes différents projets</h2>
       <div className="hex-container">
         {dataPortfolio && dataPortfolio
           .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))

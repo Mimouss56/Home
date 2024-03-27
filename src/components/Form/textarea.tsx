@@ -1,7 +1,7 @@
 interface IForm {
   text: string,
   title: string,
-  leng?: number,
+  leng: number,
   name: string,
   icon: string | null,
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
@@ -27,7 +27,7 @@ function Textarea({
           name={name}
           onChange={onChange}
           rows={4}
-          maxLength={250}
+          maxLength={leng}
         />
         {/* {!editName && (
     <button
@@ -40,7 +40,7 @@ function Textarea({
   )} */}
       </div>
       <i
-        className={`form-text badge text-white ${text.length > 250 ? 'text-bg-danger ' : 'text-bg-info '} mb-3`}
+        className={`form-text badge ${text.length > leng ? 'text-bg-danger ' : 'text-bg-info '} mb-3`}
       >
         {`${text.length} / ${leng}`}
       </i>
@@ -48,7 +48,4 @@ function Textarea({
     </>
   );
 }
-Textarea.defaultProps = {
-  leng: 250,
-};
 export default Textarea;

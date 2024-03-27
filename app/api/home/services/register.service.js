@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { user, userOption } = require('../models/index.mapper');
+const { user } = require('../models/index.mapper');
 const userService = require('./user.service');
 
 module.exports = {
@@ -7,13 +7,13 @@ module.exports = {
   async register(inputData) {
     const userExist = await this.checkUserExist(inputData.email, inputData.username);
 
-    if (userExist.emailExist) {
+    if (userExist.emailExist.length !== 0) {
       return {
         code: 400,
         message: 'Email already exist',
       };
     }
-    if (userExist.usernameExist) {
+    if (userExist.usernameExist.length !== 0) {
       return {
         code: 400,
         message: 'Username already exist',
@@ -31,16 +31,19 @@ module.exports = {
     const hash = await bcrypt.hash(dataInput.password, 10);
 
     // On attribut le role d'admin pour le 1er user
-    const countUser = await user.count();
+    const countUser = await user.base.count();
 
     try {
-      const data = await user.create({
+      const data = await user.base.create({
         ...dataInput,
         password: hash,
       });
-      await userOption.create({
+      await user.option.create({
         id_user: data.id,
         id_role: countUser === 1 ? 1 : 2,
+      });
+      await user.infos.create({
+        user_id: data.id,
       });
       return {
         ...await userService.getData(data.id),
@@ -54,8 +57,8 @@ module.exports = {
     }
   },
   async checkUserExist(email, username) {
-    const userExist = await user.findOne({ where: { email } });
-    const usernameExist = await user.findOne({ where: { username } });
+    const userExist = await user.base.findOne({ where: { email } });
+    const usernameExist = await user.base.findOne({ where: { username } });
     return {
       emailExist: userExist,
       usernameExist,

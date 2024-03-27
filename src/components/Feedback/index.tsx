@@ -33,7 +33,7 @@ function Feedback() {
     event.preventDefault();
     // on envoie le feedback au serveur
     try {
-      const response = await axiosInstance.post('/feedback', feedback);
+      const response = await axiosInstance.post('/api/home/feedback', feedback);
       toast.success(response.data.message);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -102,6 +102,7 @@ function Feedback() {
                   onChange={handleChange}
                   name="message"
                   icon={null}
+                  leng={500}
                 />
 
               </div>

@@ -6,6 +6,7 @@ import HexaSection from '../../components/HexagonCard';
 import DetailsFloatCard from '../../components/FloatCard/modalViewDetailsFloatCard';
 import NewsSection from './news';
 import navTop from '../../../data/navTop.json';
+import Recommandation from './recommandation';
 
 function MainDev() {
   const [data] = useFetchData(`/api/home/user/${MoussID}`);
@@ -16,6 +17,7 @@ function MainDev() {
       {data.user && <Prez Mouss={data.user} />}
       <Navbar navContent={navTop} />
       <HexaSection />
+      <Recommandation />
       {dataNews && <NewsSection listNews={dataNews} />}
       <DetailsFloatCard />
     </>

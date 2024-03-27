@@ -4,7 +4,6 @@ function Prez({ Mouss }: { Mouss: IUser }) {
   return (
     <section
       id="landing-page"
-      className="bg-dark text-white "
       style={{
         padding: '100px 0',
         height: '100vh',

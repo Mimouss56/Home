@@ -4,8 +4,20 @@
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
 
+$primary: #273c4d;
+$secondary: #bec3c8;
+$warning: #c28422;
+$dark: #113550;
+$light : #d4e3df;
+$bg-dark: $light;
 
-
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: $dark;
+  color : $light;
+}
 #section {
   height: 100vh;
   /* Ajuste la hauteur de la section en fonction de ta conception */

@@ -10,26 +10,31 @@ const { recommandations } = require('../models/index.mapper');
  * @param {object} values
  * @returns
  */
+
+const generateValues = async (values) => ({
+  id: values.id,
+  author: `${values.first_name} ${values.last_name}`,
+  lastName: values.last_name,
+  recommandation: values.recommandation,
+  linkedinLink: values.linkedin_link,
+  avatar: values.avatar,
+  createdAt: values.created_at,
+});
+
 module.exports = {
-  generateValues: async (values) => ({
-    id: values.id,
-    author: `${values.first_name} ${values.last_name}`,
-    last_name: values.last_name,
-    recommandation: values.recommandation,
-    linkedin_link: values.linkedin_link,
-    avatar: values.avatar,
-    created_at: values.created_at,
-  }),
 
   getAll: async () => {
     const data = await recommandations.findAll();
-    const returnData = await Promise.all(data.map(async (value) => this.generateValues(value)));
+    if (data.length === 0) {
+      return [];
+    }
+    const returnData = await Promise.all(data.map(async (value) => generateValues(value)));
     return returnData;
   },
   create: async (recommandation) => {
     try {
       const data = await recommandations.create(recommandation);
-      const returnData = await this.generateValues(data);
+      const returnData = generateValues(data);
       return returnData;
     } catch (error) {
       throw new Error(error);

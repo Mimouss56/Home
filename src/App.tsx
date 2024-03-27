@@ -25,11 +25,10 @@ function App() {
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
     }
-    sessionStorage.removeItem('notifToast');
   }, []);
+
   return (
     <>
-      <ListeRoute />
 
       <ToastContainer
         position="top-left"
@@ -42,6 +41,8 @@ function App() {
       <Login />
       <Register />
       <Notifications />
+      <ListeRoute />
+
       <Footer />
     </>
   );
