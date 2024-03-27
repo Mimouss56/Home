@@ -1,5 +1,5 @@
 .blockquote {
-	max-width: 600px;
+	max-width: 500px;
 }
 
 .blockquote:before,
@@ -13,14 +13,14 @@
 
 .blockquote:before {
 	content: '“';
-	left: -5rem;
+	left: -4rem;
 	top: -2rem;
 }
 
 .blockquote:after {
 	content: '”';
-	right: -5rem;
-	bottom: 1rem;
+	right: -4rem;
+	bottom: -2rem;
 }
 
 cite {

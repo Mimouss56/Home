@@ -9,34 +9,16 @@ $secondary: #bec3c8;
 $warning: #c28422;
 $dark: #113550;
 $light : #d4e3df;
-$bg-dark: $light;
+$bg-dark: $dark;
+$bg-secondary: $secondary;
+$bg-light: $light;
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background-color: $dark;
-  color : $light;
+  color: $light;
 }
-#section {
-  height: 100vh;
-  /* Ajuste la hauteur de la section en fonction de ta conception */
-  overflow: hidden;
-  position: relative;
-}
-
-.parallax-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  /* Ajuste la largeur en fonction de ta conception */
-  height: auto;
-  z-index: -1;
-  transition: transform 0.5s ease-in-out;
-}
-
 
 .shake {
   animation: shakeEffect 0.82s cubic-bezier(.36, .07, .19, .97) both;
@@ -160,5 +142,3 @@ body {
     }
   }
 }
-
-@media all and (max-width: 375px) {}
