@@ -2,24 +2,22 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ErrorSanctionProps } from '../../@types/error';
-import IFeedback from '../../@types/Home/feedback';
+
 import axiosInstance from '../../utils/axios';
 import Textarea from '../Form/textarea';
 
 const initData = {
-  id: 0,
   name: '',
   email: '',
   message: '',
   path: '',
   draft: false,
-  created_at: '',
 };
 
 function Feedback() {
   const location = useLocation();
   const { pathname } = location;
-  const [feedback, setFeedback] = useState<IFeedback>(initData);
+  const [feedback, setFeedback] = useState(initData);
 
   const handleChange = (event: { target: { name: string; value: string; }; }) => {
     setFeedback({
