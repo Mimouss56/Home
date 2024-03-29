@@ -4,7 +4,7 @@ import { ICard } from '../../@types/Home/card';
 import axiosInstance from '../../utils/axios';
 import ICardPortfolio from '../../@types/portfolio';
 import { baseUrl } from '../../../config.json';
-import defaultImg from '../../assets/images/finish_website.jpeg';
+import defaultImg from '../../assets/images/finishWebsite.png';
 
 const initValueCard: ICard = {
   id: 0,

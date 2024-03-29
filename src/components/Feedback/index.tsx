@@ -50,7 +50,7 @@ function Feedback() {
   return (
     <>
       <div
-        className="position-fixed bg-info-subtle "
+        className="position-fixed "
         style={{ top: '75%', zIndex: 1000 }}
       >
         <button

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import defaultImg from '../../assets/images/finish_website.jpeg';
+import defaultImg from '../../assets/images/finishWebsite.png';
 import { baseUrl } from '../../../config.json';
 
 interface FlipCardProps {
