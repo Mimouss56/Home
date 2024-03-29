@@ -15,7 +15,8 @@ import { IUser } from '../../@types/Home/user';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import useFetchData from '../../hook/useFetchData';
 import Navbar from '../../layout/Navbar';
-import SectionJob from './sectionJob';
+import SectionJob from '../../components/Cv/sectionJob';
+import SectionPrez from '../../components/Cv/sectionPrez';
 
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
@@ -95,12 +96,7 @@ function ViewCVPage() {
             </PDFDownloadLink>
           )}
         </section>
-        <section className="bg-dark w-100">
-          <div className="d-flex justify-content-between mb-5  mx-auto border-1 border-top border-bottom p-2 bg-secondary">
-            <h2>Présentation</h2>
-          </div>
-          <p className="m-3 w-75">{infoCV.description}</p>
-        </section>
+        <SectionPrez description={infoCV.description} />
         <SectionJob title="Expériences" list={filteredJob} />
         <SectionJob title="Formations" list={listSchool} />
         <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />

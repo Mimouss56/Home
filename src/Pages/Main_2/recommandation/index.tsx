@@ -4,27 +4,31 @@ import { excerpt } from '../../../utils/main';
 import ModalAddRecomm from './modalAddRecomm';
 import './style.scss';
 import useFetchData from '../../../hook/useFetchData';
+import { IUser } from '../../../@types/Home/user';
 
 const excerptLength = 250;
 
 function Recommandation() {
   const [showDetailsText, setShowDetailsText] = useState<boolean>(false);
   const [dataRecommendation] = useFetchData('/api/home/recommandations');
+  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const isMouss = (userSession?.username === 'Mouss');
 
   return (
     <section className="recommandation bg-dark pb-5">
       <div className="">
         <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
           <h2>Recommandations</h2>
-          <button
-            type="button"
-            className="btn btn-primary "
-            data-bs-toggle="modal"
-            data-bs-target="#modalAddRecomm"
-          >
-            Ajouter une recommandation
-          </button>
-
+          {isMouss && (
+            <button
+              type="button"
+              className="btn btn-primary "
+              data-bs-toggle="modal"
+              data-bs-target="#modalAddRecomm"
+            >
+              Ajouter une recommandation
+            </button>
+          )}
         </div>
         <div className="my-5">
           {dataRecommendation.map((r: IRecommandation, index: number) => (

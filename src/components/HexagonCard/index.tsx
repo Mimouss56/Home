@@ -4,26 +4,31 @@ import useFetchData from '../../hook/useFetchData';
 import './style.scss';
 import DetailsFloatCard from '../FloatCard/modalViewDetailsFloatCard';
 import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
+import { IUser } from '../../@types/Home/user';
 
 const width = 200;
 const marginHexa = 2;
 
 function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
+  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const isMouss = (userSession?.username === 'Mouss');
   return (
     <section
       className="d-flex justify-content-center flex-column h-75 bg-dark"
     >
       <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
         <h2>Mes Différents Projets</h2>
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#addPortfolio"
-        >
-          Ajout d&apos;un item
-        </button>
+        {isMouss && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addPortfolio"
+          >
+            Ajout d&apos;un item
+          </button>
+        )}
       </div>
 
       <div className="w-50 mx-auto d-flex justify-content-center flex-wrap vh-auto">

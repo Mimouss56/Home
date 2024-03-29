@@ -1,5 +1,5 @@
 import { IEmploi } from '../../@types/Home/emploi';
-import FloatCard from '../../components/FloatCard';
+import FloatCard from '../FloatCard';
 
 function SectionJob({ title, list }: { title: string, list: IEmploi[] }) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string);
@@ -20,7 +20,7 @@ function SectionJob({ title, list }: { title: string, list: IEmploi[] }) {
         )}
 
       </div>
-      <div className="d-flex flex-wrap justify-content-evenly">
+      <div className="d-flex flex-wrap justify-content-evenly w-75 mx-auto">
 
         {list && list.sort(
           (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),

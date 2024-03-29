@@ -1,4 +1,3 @@
-const { request } = require('undici');
 const GitHubSDK = require('../models/github.class');
 
 const github = new GitHubSDK();
@@ -19,7 +18,7 @@ module.exports = {
   },
 
   async oauthToGithub(code) {
-    const tokenResponseData = await request('https://github.com/login/oauth/access_token', {
+    const tokenResponseData = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       body: new URLSearchParams({
         client_id: process.env.GITHUB_CLIENT_ID,
