@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
 import useFetchData from '../../../hook/useFetchData';
-import SkillInput from '../../Job/skillInput';
-import { ISkill } from '../../../@types/Home/skill';
+import SkillInput from '../../Job/softSkillInput';
+import { ISoftSkill } from '../../../@types/Home/softSkill';
 import { IEntreprise } from '../../../@types/Home/ent';
 import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
 import Textarea from '../../Form/textarea';
@@ -24,7 +24,7 @@ const initFormData = {
 
 interface ModalAddItemProps {
   onAddElement: (data: IEmploiPost) => void;
-  listSkill: ISkill[];
+  listSkill: ISoftSkill[];
 }
 
 function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
@@ -48,7 +48,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
         debut: emploiData.date.debut,
         fin: emploiData.date.fin,
         description: emploiData.description,
-        competences: emploiData.competences.flatMap((c: ISkill) => c.id),
+        competences: emploiData.competences.flatMap((c: ISoftSkill) => c.id),
       } as IEmploiPost;
       return returnData;
     } catch (err) {
@@ -60,7 +60,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     return emploiData;
   });
 
-  const handleAddSkill = (skill: ISkill) => {
+  const handleAddSkill = (skill: ISoftSkill) => {
     // on recupere l'ancien liste des form.competences
     const oldArraySkills = form.competences;
     // on ajoute le skill.id à la liste des form.competences
@@ -111,7 +111,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     // on remove le addEventListener
     return () => {
       if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => {});
+        addItemModal.removeEventListener('show.bs.modal', () => { });
       }
     };
   }, [setForm, form]);
@@ -217,6 +217,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                 name="description"
                 icon="file-earmark-text"
                 onChange={handleChange}
+                leng={500}
               />
               {/* // Skill Input */}
               <div className="input-group mb-3">

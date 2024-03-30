@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
-import { ICreateSkill, ISkill } from '../../@types/Home/skill';
+import { ICreateSoftSkill, ISoftSkill } from '../../@types/Home/softSkill';
 import axiosInstance from '../../utils/axios';
 
 interface SkillInputProps {
-  onSkillSelected: (skill: ISkill) => void;
+  onSkillSelected: (skill: ISoftSkill) => void;
   skills: number[] // Skills du CV
-  listSkills: ISkill[] // Liste completes des skills
+  listSkills: ISoftSkill[] // Liste completes des skills
 }
 
 function SkillInput({ onSkillSelected, skills, listSkills }: SkillInputProps) {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [filteredSkills, setFilteredSkills] = useState<ISkill[]>([]);
+  const [filteredSkills, setFilteredSkills] = useState<ISoftSkill[]>([]);
 
   useEffect(() => {
     if (searchTerm) {
       // on filtre les skills en excluant ceux qui sont déjà dans la skills
       const filtered = listSkills.filter(
-        (skill: ISkill) => !skills.find((s) => s === skill.id)
+        (skill) => !skills.find((s) => s === skill.id)
           && skill.name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
       setFilteredSkills(filtered);
@@ -26,12 +26,12 @@ function SkillInput({ onSkillSelected, skills, listSkills }: SkillInputProps) {
   }, [searchTerm, listSkills, skills]);
 
   const handleAddSkill = async () => {
-    const newSkill: ICreateSkill = {
+    const newSkill: ICreateSoftSkill = {
       name: searchTerm,
     };
 
-    const response = await axiosInstance.post('/api/home/skill', newSkill);
-    const skill = response.data as ISkill;
+    const response = await axiosInstance.post('/api/home/softskill', newSkill);
+    const skill = response.data as ISoftSkill;
     // on ajoute le skill à la liste des skills
     listSkills.push(skill);
     onSkillSelected(skill);

@@ -35,7 +35,7 @@ router.use('/option', require('./option.router'));
 router.use('/portfolio', require('./portfolio.router'));
 router.use('/role', require('./role.router'));
 router.use('/sanction', loggedAs, require('./sanction.router'));
-router.use('/skill', require('./skill.router'));
+router.use('/softskill', require('./softSkill.router'));
 router.use('/suivi', loggedAs, require('./SuiviEnt/index.router'));
 router.use('/ent', require('./ent.router'));
 router.use('/feedback', require('./feedback.router'));

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const skillController = require('../controllers/skill.controller');
+const softSkillController = require('../controllers/softSkill.controller');
 const { loggedAs } = require('../../../middlewares/auth.middleware');
 const { validate } = require('../../../middlewares/validate.middleware');
 const { skillPost } = require('../schemas/skill.schema');
@@ -14,7 +14,7 @@ router.route('/')
    * @return {array<Skill>} 200 - Skills list
 
    */
-  .get(skillController.getAll)
+  .get(softSkillController.getAll)
   /**
    * POST /api/home/skill
    * @summary Create a new skill
@@ -24,6 +24,6 @@ router.route('/')
    * @return 400 - Invalid skill supplied
    * @return 500 - Unexpected error
    */
-  .post(loggedAs, validate(skillPost), skillController.post);
+  .post(loggedAs, validate(skillPost), softSkillController.post);
 
 module.exports = router;

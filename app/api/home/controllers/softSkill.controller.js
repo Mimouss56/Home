@@ -1,8 +1,8 @@
-const skillService = require('../services/skill.service');
+const softSkillService = require('../services/softSkill.service');
 
 module.exports = {
   async getAll(req, res) {
-    const data = await skillService.getAll();
+    const data = await softSkillService.getAll();
     res.json(data);
   },
 
@@ -12,7 +12,7 @@ module.exports = {
     const inputQuery = {
       name,
     };
-    const result = await skillService.create(inputQuery);
+    const result = await softSkillService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },

@@ -26,7 +26,7 @@ function ViewCVPage() {
   const [infoCV, setInfoCV] = useState({} as ICVDetails);
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
 
-  const [dataSkillList] = useFetchData('/api/home/skill');
+  const [dataSkillList] = useFetchData('/api/home/softskill');
 
   // Chargement des jobs de Mouss
   const fetchDataJobMouss = async () => {
