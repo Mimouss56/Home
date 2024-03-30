@@ -12,7 +12,10 @@ const textValue = 'softSkill';
  */
 const generateObject = (value) => ({
   id: value.id,
-  name: value.name,
+  label: value.label,
+  color: value.color,
+  urlIcon: value.url_icon,
+  stack: value.stack,
 });
 module.exports = {
   async getAll() {
