@@ -2,6 +2,7 @@ const client = require('../../../models/pg.client');
 
 const Sanction = require('./sanction.mapper');
 const SoftSkill = require('./softSkill.mapper');
+const HardSkill = require('./hardSkill.mapper');
 const News = require('./news.mapper');
 const Option = require('./option.mapper');
 const Portfolio = require('./portfolio.mapper');
@@ -15,6 +16,7 @@ const Recommandations = require('./recommandations.mapper');
 module.exports = {
   sanction: new Sanction(client),
   softSkill: new SoftSkill(client),
+  hardSkill: new HardSkill(client),
   news: new News(client),
   option: new Option(client),
   portfolio: new Portfolio(client),
