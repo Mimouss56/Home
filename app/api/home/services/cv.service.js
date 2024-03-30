@@ -1,6 +1,6 @@
 const { cv } = require('../models/index.mapper');
 
-const skillService = require('./skill.service');
+const softSkillService = require('./softSkill.service');
 const entService = require('./ent.service');
 
 const textValue = 'cv';
@@ -33,7 +33,7 @@ module.exports = {
         debut: value.date_started,
         fin: value.date_ended,
       },
-      competences: await skillService.getAllSkillCV(value.id),
+      competences: await softSkillService.getAllSkillCV(value.id),
       type: value.type,
     };
   },

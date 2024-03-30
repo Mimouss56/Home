@@ -1,9 +1,9 @@
-const { skill } = require('../models/index.mapper');
+const { softSkill } = require('../models/index.mapper');
 
-const textValue = 'skill';
+const textValue = 'softSkill';
 
 /**
- * @typedef {object} Skill - Description de la compétence
+ * @typedef {object} SoftSkill - Description de la compétence
  * @property {integer} id - L'ID de la compétence
  * @property {string} name - Le nom de la compétence
 
@@ -16,7 +16,7 @@ const generateObject = (value) => ({
 });
 module.exports = {
   async getAll() {
-    const find = await skill.findAll();
+    const find = await softSkill.findAll();
     if (!find) {
       return {
         code: 404,
@@ -28,7 +28,7 @@ module.exports = {
   },
 
   async getAllSkillCV(id) {
-    const find = await skill.findAllSkillCV(id);
+    const find = await softSkill.findAllSkillCV(id);
     if (!find) {
       return {
         code: 404,
@@ -40,7 +40,7 @@ module.exports = {
 
   async create(inputQuery) {
     try {
-      const valueCreated = await skill.create(inputQuery);
+      const valueCreated = await softSkill.create(inputQuery);
       return valueCreated;
     } catch (error) {
       return {

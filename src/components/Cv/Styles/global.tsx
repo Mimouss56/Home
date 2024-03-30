@@ -53,7 +53,7 @@ export const flexGlobal = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   // alignItems: 'center',
-  margin: '5px',
+  margin: '3px 5px',
 };
 export const Left = {
   backgroundColor: '#ffffff',

@@ -1,7 +1,7 @@
 import { IEntreprise } from './ent.d';
-import { IArraySkill } from './skill';
+import { IArraySoftSkill } from './softSkill';
 
-export interface IEmploi extends IDateEmploi, IArraySkill {
+export interface IEmploi extends IDateEmploi, IArraySoftSkill {
   id: number,
   title: string
   date: {

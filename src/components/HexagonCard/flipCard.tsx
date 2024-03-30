@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import defaultImg from '../../assets/images/finish_website.jpeg';
+import defaultImg from '../../assets/images/finishWebsite.png';
 import { baseUrl } from '../../../config.json';
 
 interface FlipCardProps {
@@ -86,7 +86,7 @@ function FlipCard({ img, widthHexa, title }: FlipCardProps) {
               style={{ transform: 'rotate(-60deg)' }}
             >
               <p
-                className="bg-gradient bg-warning-subtle  d-flex justify-content-center align-items-center h-100 user-select-none "
+                className="bg-gradient bg-secondary d-flex justify-content-center align-items-center h-100 user-select-none fw-bolder"
               >
                 {title}
               </p>

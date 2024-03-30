@@ -1,5 +1,5 @@
 .blockquote {
-	max-width: 600px;
+	max-width: 500px;
 }
 
 .blockquote:before,
@@ -13,17 +13,23 @@
 
 .blockquote:before {
 	content: '“';
-	left: -5rem;
+	left: -4rem;
 	top: -2rem;
 }
 
 .blockquote:after {
 	content: '”';
-	right: -5rem;
-	bottom: 1rem;
+	right: -4rem;
+	bottom: -2rem;
 }
 
 cite {
 	line-height: 3;
 	text-align: left;
+}
+
+.process-card {
+	will-change: transform;
+	transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg);
+	transform-style: preserve-3d;
 }

@@ -1,8 +1,8 @@
 import { IDateEmploi } from './emploi';
-import { IArraySkill } from './skill';
+import { IArraySoftSkill } from './softSkill';
 import { IAuthor } from './user';
 
-export interface ICard extends IDateEmploi, IArraySkill {
+export interface ICard extends IDateEmploi, IArraySoftSkill {
   id: number;
   title: string | undefined;
   desc: string;

@@ -1,5 +1,4 @@
 require('dotenv').config();
-const { request } = require('undici');
 
 class GitHubSDK {
   authtype;
@@ -54,7 +53,7 @@ class GitHubSDK {
   }
 
   static async getOauthTokenAccess() {
-    const tokenResponseData = await request('https://github.com/login/oauth/access_token', {
+    const tokenResponseData = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       body: new URLSearchParams({
         client_id: process.env.GITHUB_CLIENT_ID,

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import ICardPortfolio from '../../@types/portfolio';
 import { baseUrl } from '../../../config.json';
-import defaultImage from '../../assets/images/finish_website.jpeg';
+import defaultImage from '../../assets/images/finishWebsite.png';
 import './style.scss';
 import useFetchData from '../../hook/useFetchData';
 import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
