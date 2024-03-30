@@ -1,3 +1,4 @@
+import { IHard } from '../../../@types/Home/hardSkill';
 import { IUser } from '../../../@types/Home/user';
 import Tags from '../../../components/Tag';
 import useFetchData from '../../../hook/useFetchData';
@@ -12,14 +13,14 @@ function Prez({ Mouss }: { Mouss: IUser }) {
           <p>{`${Mouss.prez}`}</p>
         </div>
         <div className="col-md-6">
-          {/* {dataHardSkill && dataHardSkill.map((skill : IHard) => (
+          {dataHardSkill && dataHardSkill.map((skill : IHard) => (
             <Tags
               key={skill.id}
-              icon="https://img.icons8.com/ios/40/000000/html-5.png"
-              name="HTML"
-              color="red"
+              icon={skill.url_icon}
+              name={skill.label}
+              color={skill.color}
             />
-          ))} */}
+          ))}
           <Tags
             icon="https://img.icons8.com/ios/40/000000/html-5.png"
             name="HTML"
