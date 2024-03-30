@@ -1,7 +1,9 @@
 import { IUser } from '../../../@types/Home/user';
 import Tags from '../../../components/Tag';
+import useFetchData from '../../../hook/useFetchData';
 
 function Prez({ Mouss }: { Mouss: IUser }) {
+  const [dataHardSkill] = useFetchData('/api/home/hardskill');
   return (
     <section id="landing-page" className="bg-dark vh-100 d-flex align-items-center ">
       <div className="w-75 h-50 m-auto row">
@@ -10,6 +12,14 @@ function Prez({ Mouss }: { Mouss: IUser }) {
           <p>{`${Mouss.prez}`}</p>
         </div>
         <div className="col-md-6">
+          {/* {dataHardSkill && dataHardSkill.map((skill : IHard) => (
+            <Tags
+              key={skill.id}
+              icon="https://img.icons8.com/ios/40/000000/html-5.png"
+              name="HTML"
+              color="red"
+            />
+          ))} */}
           <Tags
             icon="https://img.icons8.com/ios/40/000000/html-5.png"
             name="HTML"
