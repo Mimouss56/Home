@@ -10,15 +10,12 @@ interface FlipCardProps {
 function FlipCard({ img, widthHexa, title }: FlipCardProps) {
   const [urlImgState, setUrlImgState] = useState('');
 
-  const [isHovered, setIsHovered] = useState(false);
   const style = {
     hexaStyle: {
       transformStyle: 'preserve-3d' as const,
       WebkitTransitionStyle: 'preserve-3d' as const,
       transition: 'all 1s',
       WebkitTransition: 'all 1s',
-      transform: isHovered ? 'rotateX(180deg)' : 'none',
-      WebkitTransform: isHovered ? 'rotateX(180deg)' : 'none',
       width: `${widthHexa}px`,
       // calcul pour avoir un hexagone parfait
       height: `${(widthHexa / Math.sqrt(3)) * 2}px`,
@@ -50,8 +47,8 @@ function FlipCard({ img, widthHexa, title }: FlipCardProps) {
     <div
       className="position-relative z-1 pe-auto"
       style={style.hexaStyle}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotateX(180deg)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; }}
     >
       <div className="position-absolute h-100" style={style.frontStyle}>
         <div
