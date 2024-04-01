@@ -9,6 +9,7 @@ import NewsSection from './news';
 import navTop from '../../../data/navTop.json';
 import Recommandation from './recommandation';
 import Loading from '../../components/Loading';
+import SkillSection from './skill';
 
 function MainDev() {
   const [data] = useFetchData(`/api/home/user/${MoussID}`);
@@ -18,6 +19,7 @@ function MainDev() {
     <Suspense fallback={<Loading />}>
       {data.user && <Prez Mouss={data.user} />}
       <Navbar navContent={navTop} />
+      <SkillSection />
       <HexaSection />
       <Recommandation />
       {dataNews && <NewsSection listNews={dataNews} />}

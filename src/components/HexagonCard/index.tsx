@@ -18,7 +18,7 @@ function HexaSection() {
       className="d-flex justify-content-center flex-column h-75 bg-dark"
     >
       <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
-        <h2>Mes Différents Projets</h2>
+        <h2>Mes différentes réalisations</h2>
         {isMouss && (
           <button
             type="button"
