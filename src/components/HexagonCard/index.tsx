@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import ICardPortfolio from '../../@types/portfolio';
 import FlipCard from './flipCard';
 import useFetchData from '../../hook/useFetchData';
@@ -13,11 +14,38 @@ function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const isMouss = (userSession?.username === 'Mouss');
+
+  useEffect(() => {
+    const scrollFunction = () => {
+      const sectionElement = document.querySelector('#portfolio') as HTMLElement;
+      const sticky = sectionElement.offsetTop;
+      const header = document.querySelector('#portfolio-header') as HTMLElement;
+      if (window.scrollY > sticky) {
+        header.classList.add('fixed-top');
+        header.style.top = '60px';
+        sectionElement.style.marginTop = '60px';
+      } else {
+        header.classList.remove('fixed-top');
+        header.style.top = '0';
+        sectionElement.style.marginTop = '0';
+      }
+    };
+
+    window.addEventListener('scroll', scrollFunction);
+    return () => {
+      window.removeEventListener('scroll', () => { });
+    };
+  }, []);
+
   return (
     <section
-      className="d-flex justify-content-center flex-column h-75 bg-dark "
+      className="d-flex justify-content-center flex-column h-75 bg-dark"
+      id="portfolio"
     >
-      <div className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
+      <div
+        className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary"
+        id="portfolio-header"
+      >
         <h2>Mes différentes réalisations</h2>
         {isMouss && (
           <button
@@ -35,7 +63,7 @@ function HexaSection() {
         <div className="hex-container my-5">
           {dataPortfolio && dataPortfolio
             .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
-            .map((item: ICardPortfolio, index: number) => (
+            .map((item: ICardPortfolio) => (
               <div
                 key={item.id}
                 data-bs-toggle="modal"
@@ -44,11 +72,11 @@ function HexaSection() {
                 data-bs-type="portfolio"
                 className="d-inline-block "
                 style={{
-                  animation: `flipOn ${(dataPortfolio.length - index) * 0.2}s ease-in-out`,
                   width: `${width}px`,
                   height: `${width * 1.1547}px`,
                   margin: `${marginHexa}px`,
                   marginBottom: `${marginHexa - width * 0.2885}px`,
+
                 }}
               >
                 <FlipCard
