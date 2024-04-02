@@ -12,7 +12,7 @@ function SkillSection() {
         <h2>Mes compétences</h2>
       </div>
 
-      <div className="w-50 mx-auto d-flex justify-content-center flex-wrap vh-auto">
+      <div className="w-75 mx-auto d-flex justify-content-center flex-wrap vh-auto">
         {dataHardSkill && dataHardSkill.map((skill: IHard) => (
           <Tags
             key={skill.id}
