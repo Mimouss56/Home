@@ -12,7 +12,7 @@ function Prez({ Mouss }: { Mouss: IUser }) {
             <p>{`${Mouss.prez}`}</p>
           </div>
           <div className="col-md-6">
-            <img src="https://via.placeholder.com/500" alt="test" />
+            <img src="https://www.mimouss.fr/images/2024/4/1/log_mimouss.png" alt="Mimouss Home" className=" img-fluid img-thumbnail " />
           </div>
 
         </div>

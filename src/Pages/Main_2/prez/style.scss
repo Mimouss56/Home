@@ -20,33 +20,34 @@ $left-end: 0;
   0% {
     top: 0;
     left: calc(100% - #{$circle-diameter});
-    background-color: $bg-light;
+    // background-color: $bg-light;
     clip-path: circle(50% at 50% 50%);
+    background-image: url('https://www.mimouss.fr/images/2024/4/1/log_mimouss.png');
 
   }
 
   20% {
-    top: calc(100% - #{$circle-diameter});
+    top: calc(50% - #{$circle-diameter});
     left: 0;
-    background-color: $bg-light;
+    clip-path: circle(50% at 50% 50%);
 
   }
 
-  35% {
+  40% {
     top : calc(100% - #{$circle-diameter});
     left: 60%;
     clip-path: circle(50% at 50% 50%);
-    border-color: 1 solid $bg-dark;
 
   }
 
   50% {
     top: 60%;
     left: 60%;
+    background-image: url('https://www.mimouss.fr/images/2024/4/1/log_mimouss.png');
+
   }
 
   60% {
-    background-color: $bg-light;
     border-radius: 0;
     scale: 1;
   }
@@ -96,6 +97,7 @@ $left-end: 0;
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
