@@ -49,8 +49,15 @@ function Recommandation() {
                     width="100px"
                     height="100px"
                   />
+                  <cite className="d-flex justify-content-center">
+                    <a href={r.linkedinLink}>
+                      <i className="bi bi-linkedin mx-1" />
+                      {r.author}
+                    </a>
+                  </cite>
+
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 px-5">
                   <div className="card-body">
                     <button
                       type="button"
@@ -63,12 +70,6 @@ function Recommandation() {
                       {!showDetailsText
                         ? excerpt(r.recommandation, excerptLength) : r.recommandation}
                     </button>
-                    <cite className="d-flex justify-content-center">
-                      <a href={r.linkedinLink}>
-                        <i className="bi bi-linkedin mx-1" />
-                        {r.author}
-                      </a>
-                    </cite>
                   </div>
                 </div>
               </div>
