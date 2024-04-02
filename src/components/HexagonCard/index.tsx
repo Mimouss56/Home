@@ -15,9 +15,9 @@ function HexaSection() {
   const isMouss = (userSession?.username === 'Mouss');
   return (
     <section
-      className="d-flex justify-content-center flex-column h-75 bg-dark"
+      className="d-flex justify-content-center flex-column h-75 bg-dark "
     >
-      <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
+      <div className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
         <h2>Mes différentes réalisations</h2>
         {isMouss && (
           <button
@@ -31,8 +31,8 @@ function HexaSection() {
         )}
       </div>
 
-      <div className="w-50 mx-auto d-flex justify-content-center flex-wrap vh-auto">
-        <div className="hex-container vh-100">
+      <div className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5">
+        <div className="hex-container my-5">
           {dataPortfolio && dataPortfolio
             .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
             .map((item: ICardPortfolio, index: number) => (
