@@ -7,9 +7,6 @@
 }
 
 .badgeTag {
-  width: 4em;
-  height: 6.2em;
-  transition: all 0.2s ease;
 
   &:before,
   &:after {
@@ -28,30 +25,6 @@
 
   &:after {
     transform: rotate(-60deg);
-  }
-
-  &:hover {
-    top: -4px;
-  }
-
-  .circleTag {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    background: #fff;
-    z-index: 10;
-    border-radius: 50%;
-    @include margin-auto;
-
-  }
-
-  .ribbon {
-    width: 100px;
-    bottom: 12px;
-    height: 15px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.27);
-    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom right, #555 0%, #333 100%);
   }
 }
 

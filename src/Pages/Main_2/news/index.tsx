@@ -1,13 +1,15 @@
 import { ICardNews } from '../../../@types/Home/card';
 import Card from '../../../components/Card';
+import useScrollSection from '../../../hook/useScrollSection';
+import SectionLayout from '../../../layout/SectionLayout';
+
+const idName = 'news';
 
 function NewsSection({ listNews }: { listNews: ICardNews[] }) {
+  useScrollSection(idName);
   return (
-    <section className="news bg-dark">
-      <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
-        <h2>Nouveautés de l&apos;application</h2>
-      </div>
-      <div className="d-flex flex-wrap">
+    <SectionLayout idName={idName} title="Actualités" addButton={null}>
+      <div className="d-flex flex-wrap w-75 mx-auto">
         {listNews && listNews.map((item: ICardNews) => (
           <Card key={item.id}>
             {/* eslint-disable-next-line react/no-danger */}
@@ -15,7 +17,8 @@ function NewsSection({ listNews }: { listNews: ICardNews[] }) {
           </Card>
         ))}
       </div>
-    </section>
+    </SectionLayout>
+
   );
 }
 

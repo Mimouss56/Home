@@ -59,14 +59,14 @@ function Navbar({ navContent }: NavbarProp) {
       document.removeEventListener('newLogin', updateUserInfo);
     };
   }, [navContent]);
-
   return (
     <>
-      <header className={`${window.scrollY > 0 ? 'fixed-top' : ''}`}>
+      <header>
         <nav
           className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
           style={{
             backgroundColor: '#1d1d20',
+            height: '60px',
           }}
         >
           <NavBar navContentArray={navContent} />

@@ -5,6 +5,9 @@ import EntCard from '../../components/FloatCard/entCard';
 import DetailsEntreprise from './ent';
 import Interations from './Interactions';
 import useFetchData from '../../hook/useFetchData';
+import Navbar from '../../layout/Navbar';
+import navTop from '../../../data/navTop.json';
+import SectionLayout from '../../layout/SectionLayout';
 
 function EntPage() {
   const [emplois, setEmplois] = useState<IEntreprise[]>([]);
@@ -43,10 +46,8 @@ function EntPage() {
 
   return (
     <>
-      {/* //barre de recherche d'une entreprise */}
-      <section>
-        <h1>Suivi Candidature</h1>
-        {/* //barre de recherche d'une entreprise */}
+      <Navbar navContent={navTop} />
+      <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
         <div className="input-group mb-3 w-50 m-auto">
           <span className="input-group-text" id="search-ent">
             <i className="bi bi-search" />
@@ -73,38 +74,39 @@ function EntPage() {
             </button>
           )}
         </div>
+        {showList && (
+          <section className="d-flex flex-row">
+            <div className="col-7">
+              {filteredEmplois && (
+                <div className="d-flex flex-wrap justify-content-evenly ">
+                  {filteredEmplois.map((item) => (
+                    <EntCard
+                      key={item.id}
+                      ent={item}
+                      onClick={() => handleShowDetails(item.id)}
+                    />
+                  ))}
+                </div>
 
-      </section>
+              )}
+
+            </div>
+            <div className="col-5">
+              <Interations listEnt={filteredEmplois} />
+            </div>
+          </section>
+        )}
+
+        {entID !== 0 && (
+          <DetailsEntreprise ent={
+            emplois.find((item) => item.id === entID) as IEntreprise
+          }
+          />
+        )}
+
+      </SectionLayout>
+
       {/* Liste des entreprises */}
-      {showList && (
-        <section className="d-flex flex-row">
-          <div className="col-7">
-            {filteredEmplois && (
-              <div className="d-flex flex-wrap justify-content-evenly ">
-                {filteredEmplois.map((item) => (
-                  <EntCard
-                    key={item.id}
-                    ent={item}
-                    onClick={() => handleShowDetails(item.id)}
-                  />
-                ))}
-              </div>
-
-            )}
-
-          </div>
-          <div className="col-5">
-            <Interations listEnt={filteredEmplois} />
-          </div>
-        </section>
-      )}
-
-      {entID !== 0 && (
-        <DetailsEntreprise ent={
-          emplois.find((item) => item.id === entID) as IEntreprise
-        }
-        />
-      )}
       <AddEntModal
         onAddElement={() => {
           setEmplois((prev) => [...prev, data]);

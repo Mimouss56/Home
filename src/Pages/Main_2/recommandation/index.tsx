@@ -4,32 +4,20 @@ import { excerpt } from '../../../utils/main';
 import ModalAddRecomm from './modalAddRecomm';
 import './style.scss';
 import useFetchData from '../../../hook/useFetchData';
-import { IUser } from '../../../@types/Home/user';
+import useScrollSection from '../../../hook/useScrollSection';
+import SectionLayout from '../../../layout/SectionLayout';
 
 const excerptLength = 250;
+const idName = 'recommandation';
 
 function Recommandation() {
   const [showDetailsText, setShowDetailsText] = useState<boolean>(false);
   const [dataRecommendation] = useFetchData('/api/home/recommandations');
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
-  const isMouss = (userSession?.username === 'Mouss');
+  useScrollSection(idName);
 
   return (
-    <section className="recommandation bg-dark pb-5">
-      <div className="">
-        <div className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary">
-          <h2>Recommandations</h2>
-          {isMouss && (
-            <button
-              type="button"
-              className="btn btn-primary "
-              data-bs-toggle="modal"
-              data-bs-target="#modalAddRecomm"
-            >
-              Ajouter une recommandation
-            </button>
-          )}
-        </div>
+    <>
+      <SectionLayout idName={idName} title="Recommandations" addButton="addRecommandation">
         <div className="my-5">
           {dataRecommendation.map((r: IRecommandation, index: number) => (
             <div
@@ -49,8 +37,15 @@ function Recommandation() {
                     width="100px"
                     height="100px"
                   />
+                  <cite className="d-flex justify-content-center">
+                    <a href={r.linkedinLink}>
+                      <i className="bi bi-linkedin mx-1" />
+                      {r.author}
+                    </a>
+                  </cite>
+
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 px-5">
                   <div className="card-body">
                     <button
                       type="button"
@@ -63,21 +58,16 @@ function Recommandation() {
                       {!showDetailsText
                         ? excerpt(r.recommandation, excerptLength) : r.recommandation}
                     </button>
-                    <cite className="d-flex justify-content-center">
-                      <a href={r.linkedinLink}>
-                        <i className="bi bi-linkedin mx-1" />
-                        {r.author}
-                      </a>
-                    </cite>
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </SectionLayout>
       <ModalAddRecomm onAddElement={dataRecommendation} />
-    </section>
+    </>
+
   );
 }
 

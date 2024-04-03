@@ -5,6 +5,8 @@ import { MoussID } from '../../../config.json';
 import axiosInstance from '../../utils/axios';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import { IUser } from '../../@types/Home/user';
+import Navbar from '../../layout/Navbar';
+import navTop from '../../../data/navTop.json';
 
 function RenderCv() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
@@ -29,16 +31,20 @@ function RenderCv() {
   }, []);
 
   return (
-    <div className="d-flex flex-column ">
-      <PDFViewer style={{
-        width: '100%',
-        height: '100vh',
+    <>
+      <Navbar navContent={navTop} />
 
-      }}
-      >
-        <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
-      </PDFViewer>
-    </div>
+      <div className="d-flex flex-column ">
+        <PDFViewer style={{
+          width: '100%',
+          height: '100vh',
+
+        }}
+        >
+          <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
+        </PDFViewer>
+      </div>
+    </>
   );
 }
 
