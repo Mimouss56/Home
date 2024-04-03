@@ -7,12 +7,17 @@ import { excerpt } from '../../utils/main';
 import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from './viewSanction';
+import SectionLayout from '../../layout/SectionLayout';
+import Navbar from '../../layout/Navbar';
+import navTop from '../../../data/navTop.json';
+import useScrollSection from '../../hook/useScrollSection';
 
 dayjs.extend(isoWeek);
 
 function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
+  useScrollSection('sanction');
 
   const fetchData = async (idRole: number) => {
     try {
@@ -53,23 +58,10 @@ function Sanction() {
 
   return (
     <>
+      <Navbar navContent={navTop} />
       <ModalViewDetails />
       <ModalAddSanction onAddElement={handleAddElement} />
-      <article>
-        <div className="d-flex justify-content-between">
-          <h1>Liste des Sanctions</h1>
-          {user.role.id === 1 && (
-            <button
-              type="button"
-              className="btn btn-danger"
-              data-bs-toggle="modal"
-              data-bs-target="#ModalAddSanction"
-              data-bs-id="0"
-            >
-              Ajout d&apos;une sanction
-            </button>
-          )}
-        </div>
+      <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">
         <div className="table-responsive">
           <table className="table table-striped table-sm text-center">
             <thead>
@@ -157,7 +149,7 @@ function Sanction() {
             </tbody>
           </table>
         </div>
-      </article>
+      </SectionLayout>
     </>
   );
 }
