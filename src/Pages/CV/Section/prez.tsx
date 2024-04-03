@@ -6,7 +6,7 @@ import SectionLayout from '../../../layout/SectionLayout';
 
 const idName = 'skill';
 
-function SkillSection() {
+function PrezSection() {
   const [dataHardSkill] = useFetchData('/api/home/hardskill');
   useScrollSection(idName);
 
@@ -30,4 +30,4 @@ function SkillSection() {
   );
 }
 
-export default SkillSection;
+export default PrezSection;

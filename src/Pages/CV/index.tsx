@@ -15,8 +15,8 @@ import { IUser } from '../../@types/Home/user';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import useFetchData from '../../hook/useFetchData';
 import Navbar from '../../layout/Navbar';
-import SectionJob from '../../components/Cv/sectionJob';
-import SectionPrez from '../../components/Cv/sectionPrez';
+import SectionLayout from '../../layout/SectionLayout';
+import FloatCard from '../../components/FloatCard';
 
 function ViewCVPage() {
   const [searchParams] = useSearchParams();
@@ -68,40 +68,102 @@ function ViewCVPage() {
   return (
     <>
       <Navbar navContent={navTop} />
+      <section className="bg-dark pb-5 w-100">
 
-      <div className="d-flex flex-column align-items-center ">
-        <section className="bg-dark pb-5 w-100">
-
-          {!selectedSkill
-            && (
-              <Selected
-                skills={dataSkillList}
-                onHandleSelect={(e) => applyFilter(e.target.value)}
-              />
-            )}
-          {selectedSkill && (
-            <PDFDownloadLink
-              className="btn btn-primary"
-              document={<ExportPDF listJob={filteredJob} listSchool={listSchool} title={infoCV} />}
-              fileName="Cv-LE_PRIOL_Matthieu.pdf"
-            >
-              {({ loading }) => (loading ? (
-                <>
-                  <span className="spinner-border spinner-border-sm" aria-hidden="true" />
-                  <span role="status">Loading...</span>
-                </>
-              ) : (
-                'Télécharger le CV'
-              ))}
-            </PDFDownloadLink>
+        {!selectedSkill
+          && (
+            <Selected
+              skills={dataSkillList}
+              onHandleSelect={(e) => applyFilter(e.target.value)}
+            />
           )}
-        </section>
-        <SectionPrez description={infoCV.description} />
-        <SectionJob title="Expériences" list={filteredJob} />
-        <SectionJob title="Formations" list={listSchool} />
-        <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
+        {selectedSkill && (
+          <PDFDownloadLink
+            className="btn btn-primary"
+            document={<ExportPDF listJob={filteredJob} listSchool={listSchool} title={infoCV} />}
+            fileName="Cv-LE_PRIOL_Matthieu.pdf"
+          >
+            {({ loading }) => (loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+                <span role="status">Loading...</span>
+              </>
+            ) : (
+              'Télécharger le CV'
+            ))}
+          </PDFDownloadLink>
+        )}
+      </section>
 
-      </div>
+      <SectionLayout
+        idName="prez"
+        title="Présentation"
+        addButton={null}
+      >
+        <p className="m-3 w-75 mx-auto">{infoCV.description}</p>
+      </SectionLayout>
+      <SectionLayout
+        idName="xp"
+        title="Expériences"
+        addButton="addItem"
+      >
+        <div className="d-flex flex-wrap justify-content-evenly">
+
+          {filteredJob && filteredJob.sort(
+            (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+          )
+            .map((job) => (
+              <div
+                key={job.id}
+              >
+                <FloatCard
+                  id={job.id}
+                  title={job.title}
+                  desc={job.description}
+                  urlImg={job.ent.urlImg}
+                  alt={job.ent.name}
+                  date={job.date}
+                  competences={job.competences || []}
+                  target="addItem"
+                  type="job"
+                />
+              </div>
+            ))}
+        </div>
+      </SectionLayout>
+
+      <SectionLayout
+        idName="school"
+        title="Formations"
+        addButton="addItem"
+      >
+        <div className="d-flex flex-wrap justify-content-evenly">
+
+          {listSchool && listSchool.sort(
+            (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+          )
+            .map((job) => (
+              <div
+                key={job.id}
+              >
+                <FloatCard
+                  id={job.id}
+                  title={job.title}
+                  desc={job.description}
+                  urlImg={job.ent.urlImg}
+                  alt={job.ent.name}
+                  date={job.date}
+                  competences={job.competences || []}
+                  target="addItem"
+                  type="job"
+                />
+              </div>
+            ))}
+        </div>
+      </SectionLayout>
+
+      <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
+
     </>
   );
 }

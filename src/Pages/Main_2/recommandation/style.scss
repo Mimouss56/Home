@@ -17,24 +17,18 @@
 	content: '“';
 	left: -4rem;
 	top: -2rem;
-	color : $bg-light;
+	color: $bg-light;
 }
 
 .blockquote:after {
 	content: '”';
 	right: -4rem;
 	bottom: -2rem;
-	color : $bg-light;
+	color: $bg-light;
 
 }
 
 cite {
 	line-height: 3;
 	text-align: left;
-}
-
-.process-card {
-	will-change: transform;
-	transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg);
-	transform-style: preserve-3d;
 }
