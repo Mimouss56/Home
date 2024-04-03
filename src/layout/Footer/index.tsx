@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <footer>
-      <div
+      <section
         className=" d-flex flex-wrap justify-content-between align-items-center py-3 border-top vw-100 px-5"
         style={{ backgroundColor: '#1d1d20' }}
       >
@@ -27,7 +27,7 @@ function Footer() {
           <a className="" href="/about">About</a>
         </span>
 
-      </div>
+      </section>
     </footer>
   );
 }

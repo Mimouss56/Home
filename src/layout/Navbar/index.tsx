@@ -51,11 +51,25 @@ function Navbar({ navContent }: NavbarProp) {
       }
     };
 
+    const scrollCallBack = () => {
+      const nav = document.querySelector('#nav-bar') as HTMLElement;
+      const heroPage = document.querySelector('#home') as HTMLElement;
+      const heigthPrez = heroPage?.scrollHeight || 0;
+
+      if (nav.offsetTop !== null && window.scrollY > nav.offsetTop) {
+        nav.classList.add('fixed-top');
+      }
+      if (window.scrollY < nav.offsetTop || window.scrollY < heigthPrez) {
+        nav.classList.remove('fixed-top');
+      }
+    };
+    window.addEventListener('scroll', scrollCallBack);
     window.addEventListener('storage', handleStorageChange);
     document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('scroll', scrollCallBack);
       document.removeEventListener('newLogin', updateUserInfo);
     };
   }, [navContent]);
@@ -63,6 +77,7 @@ function Navbar({ navContent }: NavbarProp) {
     <>
       <header>
         <nav
+          id="nav-bar"
           className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
           style={{
             backgroundColor: '#1d1d20',

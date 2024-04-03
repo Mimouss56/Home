@@ -8,13 +8,6 @@ $top-start: 0;
 $left-start: 100%;
 $top-end: 0;
 $left-end: 0;
-
-.intro {
-  background:
-    radial-gradient(circle at 0 0, rgba($dark, $alpha), rgba($light, 1 - $alpha)),
-    radial-gradient(circle at 100% 0, rgba($dark, $alpha), rgba($light, 1 - $alpha));
-}
-
 // Créer l'animation
 @keyframes circleMoveToHexaForm {
   0% {

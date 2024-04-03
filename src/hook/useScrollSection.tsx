@@ -8,7 +8,7 @@ export default function useScrollSection(idName: string) {
       const index = Array.from(allSections).findIndex((section) => section.id === idName);
       // on récupère la section qui suit la section skill
       const skillSection = allSections[index];
-      const nextSection = allSections[index + 1];
+      const nextSection = allSections[index + 1] || allSections[index];
       const sectionElement = document.querySelector(`#${idName}`) as HTMLElement;
       const sticky = skillSection.offsetTop;
       const nextSticky = nextSection.offsetTop;
