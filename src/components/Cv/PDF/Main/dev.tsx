@@ -64,13 +64,6 @@ function Dev() {
           <View style={styles.viewContentDev}>
             <Text>Migration de l&apos;application bbc.mimouss.fr de PHP sous JS</Text>
             <Text>(Authentification et gestion utilisateur via Discord, Gestion de dons)</Text>
-            <Link
-              style={styles.UrlLeft}
-              src="https://bbc.mimouss.fr"
-            >
-              <Text>BelBreizh Crew</Text>
-
-            </Link>
           </View>
         </View>
       </View>
@@ -100,13 +93,6 @@ function Dev() {
           <View style={styles.viewContentDev}>
             <Text>Création d&apos;une application pour une communauté de joueurs.</Text>
             <Text>(Authentification via Discord, Gestion de dons)</Text>
-            <Link
-              style={styles.UrlLeft}
-              src="https://bbc.mimouss.fr"
-            >
-              <Text>BelBreizh Crew</Text>
-
-            </Link>
           </View>
         </View>
       </View>

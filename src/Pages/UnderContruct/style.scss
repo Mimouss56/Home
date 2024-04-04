@@ -17,20 +17,22 @@
     5px 4px 1px #ccc, 4px 5px 1px #eee,
     6px 5px 1px #ccc, 5px 6px 1px #eee,
     7px 6px 1px #ccc;
+
+  & h1 {
+    font-size: 7rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #555;
+  }
+
+  & h2 {
+    font-size: 5rem;
+    font-weight: 300;
+    text-transform: uppercase;
+
+  }
 }
 
-.main-title h1 {
-  font-size: 7rem;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #555;
-}
-
-.main-title h2 {
-  font-size: 4rem;
-  font-weight: 300;
-  text-transform: uppercase;
-}
 
 .svg-img {
   display: block;
@@ -130,35 +132,38 @@ svg {
 /* Media Queries */
 
 @media (max-width: 450px) {
-  .main-title h1 {
-    font-size: 5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #555;
+  .main-title {
+    & h1 {
+      font-size: 5rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #555;
+    }
+
+    & h2 {
+      font-size: 3rem;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+
   }
-
-  .main-title h2 {
-    font-size: 3rem;
-    font-weight: 300;
-    text-transform: uppercase;
-  }
-
-
 }
 
 @media (min-width: 450px) {
 
-  .main-title h1 {
-    font-size: 7rem;
-    text-transform: uppercase;
-    font-weight: 900;
-    color: #555;
-  }
+  .main-title {
+    &h1 {
+      font-size: 7rem;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: #555;
+    }
 
-  .main-title h2 {
-    font-size: 5rem;
-    font-weight: 300;
-    text-transform: uppercase;
+    & h2 {
+      font-size: 5rem;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
   }
 
 }

@@ -1,12 +1,18 @@
 import { IAuthor } from './user';
 
-export interface ICreateNews extends IAuthor, ITag {
+export interface ICreateNews extends IAuthor {
   id: number;
   title: string;
   content: string;
   draft: boolean;
+  created_at: string;
+  updated_at: string;
 }
-export interface INews extends IAuthor, ITag, ICreateNews {
+export interface INews extends IAuthor {
+  id: number;
+  title: string;
+  content: string;
+  draft: boolean;
   created_at: string;
   updated_at: string;
 }

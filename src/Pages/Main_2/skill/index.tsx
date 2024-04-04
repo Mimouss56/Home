@@ -16,7 +16,7 @@ function SkillSection() {
       title="Mes compétences"
       addButton={null}
     >
-      <div className="w-75 mx-auto d-flex justify-content-center flex-wrap vh-auto">
+      <div className="w-75 m-auto d-flex justify-content-center flex-wrap my-5">
         {dataHardSkill && dataHardSkill.map((skill: IHard) => (
           <Tags
             key={skill.id}
