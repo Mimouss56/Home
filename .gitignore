@@ -133,7 +133,7 @@ app/public/
 .pnp.*
 
 /node_modules
-
+.idea
 .vscode
 .env
 .editorconfig

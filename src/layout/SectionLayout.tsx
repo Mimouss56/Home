@@ -14,7 +14,7 @@ function SectionLayout({
 
   return (
     <section
-      className="d-flex justify-content-center flex-column h-75 bg-dark pb-5"
+      className="d-flex justify-content-center flex-column h-75 bg-dark"
       id={idName}
     >
       <div
