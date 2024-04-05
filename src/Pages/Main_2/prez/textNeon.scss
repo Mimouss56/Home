@@ -1,0 +1,70 @@
+@mixin font($font-family, $font-file) {
+  @font-face {
+    font-family: $font-family;
+    src: url($font-file + '.ttf') format('truetype');
+  }
+}
+
+@include font('MetalOnMetal', '../../../fonts/MetalOnMetal-OBo');
+
+#prez {
+  font-family: 'MetalOnMetal', Arial, sans-serif;
+  text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em #001121, 0 0 0.5em #001121, 0 0 0.1em #001121, 0 10px 3px #000;
+}
+
+.blinkText {
+  animation: blinkText linear infinite 2s;
+
+  &:nth-of-type(2) {
+    animation: blinkText linear infinite 3s;
+  }
+
+  &:nth-of-type(3) {
+    animation: blinkText linear infinite 3.5s;
+  }
+
+  &:nth-of-type(4) {
+    animation: blinkText linear infinite 4s;
+  }
+}
+
+@keyframes blinkText {
+  78% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+
+  79% {
+    color: #333;
+  }
+
+  80% {
+
+    text-shadow: none;
+  }
+
+  81% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+
+  82% {
+    color: #333;
+    text-shadow: none;
+  }
+
+  83% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+
+  92% {
+    color: #333;
+    text-shadow: none;
+  }
+
+  92.5% {
+    color: inherit;
+    text-shadow: inherit;
+  }
+}

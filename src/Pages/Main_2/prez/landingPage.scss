@@ -1,0 +1,14 @@
+#landing-page {
+  height: 100vh;
+  animation: fadeIn 2.75s 2.75s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
