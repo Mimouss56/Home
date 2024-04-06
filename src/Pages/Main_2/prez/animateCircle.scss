@@ -1,0 +1,87 @@
+$circle-diameter: 10vw; // 1/10 de la page
+
+
+
+// Appliquer le style au cercle
+.circle {
+  position: absolute;
+  width: $circle-diameter;
+  height: $circle-diameter;
+  animation: circleMoveToHexaForm 4s ease-in-out forwards;
+}
+
+// Définir les positions initiales et finales
+$top-start: 0;
+$left-start: 100%;
+$top-end: 0;
+$left-end: 0;
+
+
+// Créer l'animation
+@keyframes circleMoveToHexaForm {
+  0% {
+    top: 0;
+    left: calc(100% - #{$circle-diameter});
+    background-image: url('https://www.mimouss.fr/images/2024/4/1/log_mimouss.png');
+    background-size: $circle-diameter calc($circle-diameter * sqrt(3) / 2);
+    clip-path: polygon(25% 0%,
+        75% 0%,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0% 50%);
+    width: $circle-diameter;
+    height: calc($circle-diameter * sqrt(3) / 2);
+  }
+
+  20% {
+    top: calc(50% - #{$circle-diameter});
+    left: 0;
+
+  }
+
+  40% {
+    top : calc(100% - #{$circle-diameter});
+    left: 60%;
+
+  }
+
+  50% {
+    top: 60%;
+    left: 60%;
+
+  }
+
+  60% {
+    border-radius: 0;
+    scale: 1;
+    background-image: url('https://www.mimouss.fr/images/2024/4/1/log_mimouss.png');
+    background-size: $circle-diameter calc($circle-diameter * sqrt(3) / 2);
+  }
+
+  80% {
+    rotate: (4turn);
+    top: 60%;
+    left: 60%;
+
+  }
+
+  99% {
+    scale: 50;
+    background-color: transparent;
+    clip-path: polygon(25% 0%,
+        75% 0%,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0% 50%);
+    width: $circle-diameter;
+    height: calc($circle-diameter * sqrt(3) / 2);
+
+  }
+
+  100% {
+    scale: 0;
+  }
+
+}

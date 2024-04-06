@@ -9,6 +9,10 @@ import SectionLayout from '../../layout/SectionLayout';
 
 const width = 200;
 const marginHexa = 2;
+const float = 1.732 * width + 4 * marginHexa - 1;
+
+// calc(1.732 * #{ $width } + 4 * #{ $margin } - 1px);
+
 const idName = 'portfolio';
 
 function HexaSection() {
@@ -19,7 +23,18 @@ function HexaSection() {
     <>
       <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
         <div className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5">
-          <div className="hex-container my-5">
+          <div className="my-5">
+            <div
+              id="beforeFloat"
+              style={{
+                content: '""',
+                width: width / 2 + marginHexa,
+                float: 'left',
+                height: width * 1.1547 + marginHexa * 2,
+                // backgroundColor: 'yellow',
+                shapeOutside: 'polygon(25% 0%, 75% 0%, 100% 50%)',
+              }}
+            />
             {dataPortfolio && dataPortfolio
               .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
               .map((item: ICardPortfolio) => (
@@ -31,10 +46,11 @@ function HexaSection() {
                   data-bs-type="portfolio"
                   className="d-inline-block "
                   style={{
-                    width: `${width}px`,
-                    height: `${width * 1.1547}px`,
-                    margin: `${marginHexa}px`,
-                    marginBottom: `${marginHexa - width * 0.2885}px`,
+                    width,
+                    height: width * 1.1547,
+                    margin: marginHexa,
+                    // `${}, ${marginHexa}, ${marginHexa - width * 0.2885}, ${marginHexa}`,
+                    marginBottom: marginHexa - width * 0.2885,
 
                   }}
                 >
