@@ -9,6 +9,7 @@ $float: calc(1.732 * #{$width} + 4 * #{$margin} - 1px);
   height: 120%;
   shape-outside: repeating-linear-gradient(#0000 0 calc($float - 3px),
       #000 0 $float );
+  background-color: red;
 }
 
 @keyframes flipOn {
