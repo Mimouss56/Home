@@ -21,9 +21,9 @@ function Prez() {
       className="vh-100 bg-dark"
       id="home"
     >
-      {/* <div className="circle" /> */}
+      <div className="circle" />
       <section id="landing-page" className="bg-dark vh-100 d-flex align-items-center mb-5 position-relative overflow-hidden">
-        <div className="w-lg-75 h-50 m-md-auto row my-sm-0">
+        <div className="w-lg-75 h-lg-50 m-md-auto row my-sm-0">
           <div className="col-md-6 my-auto px-5">
             <h1 id="prez">
               l
@@ -40,7 +40,7 @@ function Prez() {
             </h1>
             <p>{`${Mouss.prez}`}</p>
           </div>
-          <div className="col-md-6 d-flex justify-content-center my-auto">
+          <div className="col-md-6 d-flex justify-content-center my-auto ">
             <div
               className="box"
               style={{
