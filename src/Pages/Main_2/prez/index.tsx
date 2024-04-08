@@ -1,7 +1,7 @@
 import { IUser } from '../../../@types/Home/user';
 import useFetchData from '../../../hook/useFetchData';
 import './textNeon.scss';
-// import './landingPage.scss';
+import './landingPage.scss';
 import './animateCircle.scss';
 import './borderNeon.scss';
 import '../../../scss/styles.scss';
@@ -21,11 +21,11 @@ function Prez() {
       className="vh-100 bg-dark"
       id="home"
     >
-      <div className="circle" />
+      {/* <div className="circle" /> */}
       <section id="landing-page" className="bg-dark vh-100 d-flex align-items-center mb-5 position-relative overflow-hidden">
-        <div className="w-lg-75 h-lg-50 m-md-auto row my-sm-0">
+        <div className="h-lg-50 m-md-auto row my-sm-0 h-sm-100">
           <div className="col-md-6 my-auto px-5">
-            <h1 id="prez">
+            <h1 id="name" className="neonText">
               l
               <span className="blinkText">e</span>
               {' '}
@@ -40,36 +40,29 @@ function Prez() {
             </h1>
             <p>{`${Mouss.prez}`}</p>
           </div>
-          <div className="col-md-6 d-flex justify-content-center my-auto ">
+          <div className="col-md-6 d-flex justify-content-center my-auto mw-100">
             <div
-              className="box"
+              className="box position-relative "
               style={{
                 width,
                 height: width,
               }}
             >
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-              <div className="object-fit-fill">
-                <img
-                  src="https://www.mimouss.fr/images/2024/4/1/log_mimouss.png"
-                  alt="Mouss"
-                  className="d-inline-block "
-                  width={250}
-                  height={250}
-                />
-              </div>
+              <span className="position-absolute top-0 h-100" />
+              <span className="position-absolute top-0 h-100" />
+              <span className="position-absolute top-0 h-100" />
+              <span className="position-absolute top-0 h-100" />
+              <span className="position-absolute top-0 h-100" />
+              <span className="position-absolute top-0 h-100" />
+              <img
+                src="https://www.mimouss.fr/images/2024/4/1/log_mimouss.png"
+                alt="Mouss"
+                width={width - 100}
+                height={width - 100}
+                className="position-absolute top-50 start-50 translate-middle rounded-circle "
+              />
 
             </div>
-            {/* <img
-              src="https://www.mimouss.fr/images/2024/4/1/log_mimouss.png"
-              alt="Mouss"
-              className="rounded border-4"
-            /> */}
           </div>
 
         </div>
