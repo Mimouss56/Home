@@ -9,9 +9,7 @@ import SectionLayout from '../../layout/SectionLayout';
 
 const width = 200;
 const marginHexa = 2;
-const float = 1.732 * width + 4 * marginHexa - 1;
-
-// calc(1.732 * #{ $width } + 4 * #{ $margin } - 1px);
+// const float = 1.732 * width + 4 * marginHexa - 1;
 
 const idName = 'portfolio';
 
@@ -31,9 +29,10 @@ function HexaSection() {
                 width: width / 2 + marginHexa,
                 float: 'left',
                 height: width * 1.1547 + marginHexa * 2,
-                // backgroundColor: 'yellow',
-                shapeOutside: 'polygon(25% 0%, 75% 0%, 100% 50%)',
+                backgroundColor: 'yellow',
+                // shapeOutside: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
               }}
+              className="d-none d-sm-inline-block"
             />
             {dataPortfolio && dataPortfolio
               .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
@@ -44,7 +43,7 @@ function HexaSection() {
                   data-bs-target="#viewDetailsFloatCard"
                   data-bs-id={item.id}
                   data-bs-type="portfolio"
-                  className="d-inline-block "
+                  className="d-inline-block"
                   style={{
                     width,
                     height: width * 1.1547,
