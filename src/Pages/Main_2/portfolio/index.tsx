@@ -1,11 +1,11 @@
-import ICardPortfolio from '../../@types/portfolio';
-import FlipCard from './flipCard';
-import useFetchData from '../../hook/useFetchData';
+import ICardPortfolio from '../../../@types/portfolio';
+import FlipCard from '../../../components/HexagonCard/flipCard';
+import useFetchData from '../../../hook/useFetchData';
 import './style.scss';
-import DetailsFloatCard from '../FloatCard/modalViewDetailsFloatCard';
-import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
-import useScrollSection from '../../hook/useScrollSection';
-import SectionLayout from '../../layout/SectionLayout';
+import DetailsFloatCard from '../../../components/FloatCard/modalViewDetailsFloatCard';
+import ModalAddFolio from '../../../components/Modal/PortFolio/formPortfolio';
+import useScrollSection from '../../../hook/useScrollSection';
+import SectionLayout from '../../../layout/SectionLayout';
 
 const width = 200;
 const marginHexa = 2;
@@ -20,7 +20,7 @@ function HexaSection() {
   return (
     <>
       <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
-        <div className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5">
+        <div className="w-75 m-auto d-flex justify-content-center flex-wrap ">
           <div className="my-5">
             <div
               id="beforeFloat"
@@ -29,7 +29,7 @@ function HexaSection() {
                 width: width / 2 + marginHexa,
                 float: 'left',
                 height: width * 1.1547 + marginHexa * 2,
-                backgroundColor: 'yellow',
+                // backgroundColor: 'yellow',
                 // shapeOutside: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
               }}
               className="d-none d-sm-inline-block"
