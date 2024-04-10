@@ -8,40 +8,35 @@ function CarouselTest() {
   const [dataSkill] = useFetchData('/api/home/hardskill');
   const skills = dataSkill as IHard[];
 
-  const cellHeight = 200;
-  const cellSize = cellHeight;
-  const cellCount = skills.length;
+  const root = document.documentElement;
+  const marqueeElementsDisplayed = getComputedStyle(root).getPropertyValue('--marquee-elements-displayed');
+  const marqueeContent = document.querySelector('ul.marquee-content') as HTMLElement;
 
-  const radius = Math.round((cellSize / 2) / Math.tan(Math.PI / cellCount));
-  const theta = 360 / cellCount;
+  // root.style.setProperty('--marquee-elements', marqueeContent.children.length);
 
-  const selectedIndex = 0;
-
-  useEffect(() => {
-    const carousel = document.querySelector('.carousel__list') as HTMLElement;
-    const cells = carousel.querySelectorAll('.carousel__cell') as NodeListOf<HTMLElement>;
-    for (let i = 0; i < cells.length; i += 1) {
-      const cell = cells[i];
-      const cellAngle = theta * i;
-      cell.style.transform = `rotateX(${-cellAngle}deg) translateZ(${radius}px)`;
-    }
-
-    const angle = theta * selectedIndex * -1;
-    carousel.style.transform = `translateZ(${-radius}px) rotateX(${-angle}deg)`;
-
-    const cellIndex = selectedIndex < 0
-      ? (cellCount - ((selectedIndex * -1) % cellCount)) : (selectedIndex % cellCount);
-    cells.forEach((cell, index) => {
-      if (cellIndex === index) {
-        if (!cell.classList.contains('selected')) cell.classList.add('selected');
-      } else if (cell.classList.contains('selected')) {
-        cell.classList.remove('selected');
-      }
-    });
-  }, [radius, selectedIndex, theta, cellCount]);
+  for (let i = 0; i < marqueeElementsDisplayed.length; i += 1) {
+    marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+  }
 
   return (
-    <div className="d-flex justify-content-center ">
+    <div className="d-flex justify-content-center vh-100">
+      <div className="marquee">
+        <ul className="marquee-content">
+          {skills && skills.map((skill) => (
+            <li
+              key={skill.id}
+              className="carousel__cell"
+            >
+              <Tags
+                key={skill.id}
+                icon={skill.urlIcon}
+                name={skill.label}
+                color={skill.color}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="carousel__scene">
         <ol className="carousel__list">
           {dataSkill && dataSkill.map((skill: IHard) => (

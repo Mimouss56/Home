@@ -47,7 +47,11 @@ function EntPage() {
   return (
     <>
       <Navbar navContent={navTop} />
-      <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
+      <SectionLayout
+        idName="ent"
+        title="Suivi Candidature"
+        addButton={null}
+      >
         <div className="input-group mb-3 w-50 m-auto">
           <span className="input-group-text" id="search-ent">
             <i className="bi bi-search" />

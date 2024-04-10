@@ -1,13 +1,11 @@
-import CardPortfolio from '../../components/cardPortfolio';
+import SectionLayout from '../../layout/SectionLayout';
+import CarouselTest from '../Main_2/skill/carousel';
 
 function Test() {
   return (
-    <section className="portfolio-section my-5">
-      <h2>Portfolio</h2>
-      {/* Ajoute ici des composants ou des liens vers tes projets */}
-      <CardPortfolio />
-
-    </section>
+    <SectionLayout title="Test" idName="test" addButton={null}>
+      <CarouselTest />
+    </SectionLayout>
   );
 }
 
