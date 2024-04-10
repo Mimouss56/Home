@@ -1,27 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Montserrat', sans-serif;
-  background-color: #eee;
-  color: #111;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 :root {
   --marquee-width: 80vw;
   --marquee-height: 20vh;
   /* --marquee-elements: 12; */ /* defined with JavaScript */
   --marquee-elements-displayed: 5;
   --marquee-element-width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
-  --marquee-animation-duration: calc(var(--marquee-elements) * 3s);
 }
 
 .marquee {
@@ -52,14 +34,11 @@ body {
   list-style: none;
   height: 100%;
   display: flex;
-  animation: scrolling var(--marquee-animation-duration) linear infinite;
+  animation: scrolling calc(var(--marquee-elements) * 3s) linear infinite;
 }
-/* .marquee-content:hover {
-  animation-play-state: paused;
-} */
 @keyframes scrolling {
   0% { transform: translateX(0); }
-  100% { transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements))); }
+  100% { transform: translateX(calc(-1 * calc(var(--marquee-width) / var(--marquee-elements-displayed)) * var(--marquee-elements))); }
 }
 .marquee-content li {
   display: flex;
@@ -67,7 +46,7 @@ body {
   align-items: center;
   /* text-align: center; */
   flex-shrink: 0;
-  width: var(--marquee-element-width);
+  width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
   max-height: 100%;
   font-size: calc(var(--marquee-height)*3/4); /* 5rem; */
   white-space: nowrap;

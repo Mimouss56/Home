@@ -1,33 +1,3 @@
-@mixin margin-auto {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-.badgeTag {
-
-  &:before,
-  &:after {
-    position: absolute;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    background: inherit;
-    content: "";
-    @include margin-auto;
-  }
-
-  &:before {
-    transform: rotate(60deg);
-  }
-
-  &:after {
-    transform: rotate(-60deg);
-  }
-}
-
 .yellow {
   background: linear-gradient(to bottom right, #ffeb3b 0%, #fbc02d 100%);
   color: #ffb300;
