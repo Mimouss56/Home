@@ -1,5 +1,5 @@
 const CoreDatamapper = require('../../../../models/core.mapper');
 
-module.exports = class Techno extends CoreDatamapper {
+module.exports = class Role extends CoreDatamapper {
   tableName = 'role';
 };

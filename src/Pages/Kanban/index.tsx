@@ -5,9 +5,6 @@ import axiosInstance from '../../utils/axios';
 import ModalAddList from '../../components/Modal/Kanban/formListKanban';
 import List from '../../components/Kanban/list';
 import { IListTemplate } from '../../@types/Home/kanban';
-import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
-import SectionLayout from '../../layout/SectionLayout';
 
 export default function Kanban() {
   const [lists, setLists] = useState([] as IListTemplate['list'][]);
@@ -49,22 +46,31 @@ export default function Kanban() {
 
   return (
     <>
-      <Navbar navContent={navTop} />
-      <SectionLayout title="Kanban" idName="kanban" addButton="addListModal">
-        <div className="vh-100">
-          <ReactSortable
-            list={lists}
-            setList={setLists}
-            className="d-flex flex-wrap justify-content-between align-content-between w-75 mx-auto"
-            onEnd={updateListPosition}
+      <section>
+        <div className="d-flex justify-content-between">
+          <h1 className="title">oKanban</h1>
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addListModal"
           >
-            {lists.map((list) => (
-              <List key={list.id} list={list} updateList={fecthLists} />
-            ))}
-          </ReactSortable>
-
+            <i className="bi bi-clipboard-plus p-2" />
+            Ajouter une liste
+          </button>
         </div>
-      </SectionLayout>
+
+        <ReactSortable
+          list={lists}
+          setList={setLists}
+          className="d-flex flex-wrap justify-content-between align-content-between"
+          onEnd={updateListPosition}
+        >
+          {lists.map((list) => (
+            <List key={list.id} list={list} updateList={fecthLists} />
+          ))}
+        </ReactSortable>
+      </section>
       <ModalAddList updateLists={fecthLists} />
     </>
   );

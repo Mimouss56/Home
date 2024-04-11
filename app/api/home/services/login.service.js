@@ -24,10 +24,12 @@ module.exports = {
   */
   async login(username, password) {
     const userExist = await user.base.findOne({ where: { username } });
-    if (!userExist) {
+    console.log(userExist);
+
+    if (!userExist || userExist.length === 0) {
       return {
         code: 403,
-        message: 'Email or password is incorrect',
+        message: 'Username or password is incorrect',
       };
     }
     const userInfo = await userService.getData(userExist.id);
@@ -35,7 +37,7 @@ module.exports = {
     if (!passwordMatch) {
       return {
         code: 403,
-        message: 'Email or password is incorrect',
+        message: 'Username or password is incorrect',
       };
     }
     // Création d'un token
