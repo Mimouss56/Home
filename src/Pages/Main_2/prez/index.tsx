@@ -6,10 +6,12 @@ import './animateCircle.scss';
 import './borderNeon.scss';
 import '../../../scss/styles.scss';
 import { MoussID } from '../../../../config.json';
+import CarouselSkill from '../skill/carousel';
 
 const width = 300;
 function Prez() {
   const [dataMouss] = useFetchData(`/api/home/user/${MoussID}`);
+  const [dataHardSkill] = useFetchData('/api/home/hardskill');
   const Mouss = dataMouss.user as IUser;
 
   if (!Mouss) {
@@ -39,6 +41,7 @@ function Prez() {
               <span className="blinkText">ieu</span>
             </h1>
             <p>{`${Mouss.prez}`}</p>
+            <CarouselSkill skills={dataHardSkill} />
           </div>
           <div className="col-md-6 d-flex justify-content-center my-auto mw-100">
             <div

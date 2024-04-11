@@ -26,13 +26,13 @@ function HexaSection() {
               id="beforeFloat"
               style={{
                 content: '""',
-                width: width / 2 + marginHexa,
                 float: 'left',
+                width: width / 2 + marginHexa,
                 height: width * 1.1547 + marginHexa * 2,
-                // backgroundColor: 'yellow',
-                // shapeOutside: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
+                minHeight: width * dataPortfolio.length * 1.1547 + marginHexa * 2,
+                backgroundColor: 'yellow',
               }}
-              className="d-none d-sm-inline-block"
+              className="d-xs-none d-sm-inline-block"
             />
             {dataPortfolio && dataPortfolio
               .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))

@@ -1,7 +1,7 @@
 import useFetchData from '../../../hook/useFetchData';
 import useScrollSection from '../../../hook/useScrollSection';
 import SectionLayout from '../../../layout/SectionLayout';
-import CarouselTest from './carousel';
+import CarouselSkill from './carousel';
 
 const idName = 'skill';
 
@@ -16,7 +16,7 @@ function SkillSection() {
       addButton={null}
     >
       <div className="w-75 m-auto d-flex justify-content-center flex-wrap my-5">
-        <CarouselTest skills={dataHardSkill} />
+        <CarouselSkill skills={dataHardSkill} />
       </div>
     </SectionLayout>
   );

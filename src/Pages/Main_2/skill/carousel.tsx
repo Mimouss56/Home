@@ -7,7 +7,7 @@ const marqueeWidth = 50;
 const marqueeHeight = 10;
 const displayedElements = 5;
 
-function CarouselTest({ skills }: { skills: IHard[] }) {
+function CarouselSkill({ skills }: { skills: IHard[] }) {
   // animation keyframes
   useEffect(() => {
     const style = document.createElement('style');
@@ -21,11 +21,12 @@ function CarouselTest({ skills }: { skills: IHard[] }) {
   if (!skills) return null;
 
   return (
-    <div className="d-flex justify-content-center vh-100">
+    <div className="d-flex justify-content-center">
       <div
         id="marquee"
-        className="text-white bg-transparent overflow-hidden position-relative "
+        className="text-white bg-transparent overflow-hidden position-relative"
         style={{
+          // minInlineSize: '100%',
           width: `${marqueeWidth}vw`,
           height: `${marqueeHeight}vh`,
         }}
@@ -53,6 +54,7 @@ function CarouselTest({ skills }: { skills: IHard[] }) {
               key={skill.id}
               style={{ width: `${marqueeWidth / displayedElements}vw` }}
               className="d-flex justify-content-center align-items-center flex-shrink-0 mh-100 text-nowrap"
+              id={skill.label}
             >
               <Tags
                 // key={skill.id}
@@ -77,7 +79,7 @@ function CarouselTest({ skills }: { skills: IHard[] }) {
   );
 }
 
-export default CarouselTest;
+export default CarouselSkill;
 // useEffect(() => {
 //   const root = document.documentElement;
 //   console.log(root);
