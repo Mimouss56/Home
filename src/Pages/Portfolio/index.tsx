@@ -14,9 +14,8 @@ function Portfolio() {
   return (
     <>
       <Navbar navContent={navTop} />
-      <ModalAddFolio onAddElement={() => toast.info('Portfolio')} />
       <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
-        <div className="d-flex justify-content-center flex-wrap max-vh-100 my-5">
+        <div className="d-flex justify-content-center flex-wrap max-vh-100 my-5 w-75 mx-auto">
           {listPortfolio && listPortfolio.map((item) => (
             <div key={item.id}>
               <FloatCard
@@ -34,6 +33,7 @@ function Portfolio() {
           ))}
         </div>
       </SectionLayout>
+      <ModalAddFolio onAddElement={() => toast.info('Portfolio')} />
     </>
   );
 }
