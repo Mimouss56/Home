@@ -16,9 +16,9 @@ function FlipCard({ img, widthHexa, title }: FlipCardProps) {
       WebkitTransitionStyle: 'preserve-3d' as const,
       transition: 'all 1s',
       WebkitTransition: 'all 1s',
-      width: widthHexa,
+      width: `${widthHexa}px`,
       // calcul pour avoir un hexagone parfait
-      height: (widthHexa / Math.sqrt(3)) * 2,
+      height: `${(widthHexa / Math.sqrt(3)) * 2}px`,
 
     },
     frontStyle: {

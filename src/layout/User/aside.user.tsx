@@ -50,7 +50,7 @@ function Menu({ navContent }: MenuProp) {
     <ProtectedRoute>
       <aside
         id="aside"
-        className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg z-0 "
+        className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right my-5 shadow-lg"
         data-bs-scroll="true"
         data-bs-backdrop="false"
         data-bs-dismiss="true"

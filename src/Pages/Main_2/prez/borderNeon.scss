@@ -1,29 +1,47 @@
 @import '../../../scss/styles.scss';
+
+.box {
+  // width: 300px;
+  // height: 300px;
+  // background: #111845a6;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgb(23, 32, 90);
+  border: 2px solid transparent;
+  color: white;
+  padding: 20px;
+  position: relative;
+}
+
+.box span {
+  position: absolute;
+  top: 0;
+  left: 21.5%;
+  width: 57%;
+  height: 100%;
+  box-sizing: border-box;
+
+}
+
 // Définissez le nombre total d'éléments (dans ce cas, 6)
 $total-elements: 6;
 
+// Boucle @for pour générer les sélecteurs
 .box {
-
   @for $i from 1 through $total-elements {
     span:nth-child(#{$i}) {
       transform: rotate((($i - 1) * $total-elements * 10deg + 30deg));
     }
   }
+}
 
-  & span {
-    left: 21.5%;
-    width: 57%;
-  }
-
-  & span:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: #50dfdb;
-    animation: animate 4s linear infinite;
-  }
-
+.box span:before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #50dfdb;
+  animation: animate 4s linear infinite;
 }
 
 @keyframes animate {
@@ -40,10 +58,14 @@ $total-elements: 6;
   50.1% {
     transform: scaleX(1);
     transform-origin: right;
+
   }
 
   100% {
     transform: scaleX(0);
     transform-origin: right;
+
   }
+
+
 }

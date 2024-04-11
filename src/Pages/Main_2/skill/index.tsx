@@ -1,7 +1,8 @@
+import { IHard } from '../../../@types/Home/hardSkill';
+import Tags from '../../../components/Tag';
 import useFetchData from '../../../hook/useFetchData';
 import useScrollSection from '../../../hook/useScrollSection';
 import SectionLayout from '../../../layout/SectionLayout';
-import CarouselSkill from './carousel';
 
 const idName = 'skill';
 
@@ -16,7 +17,14 @@ function SkillSection() {
       addButton={null}
     >
       <div className="w-75 m-auto d-flex justify-content-center flex-wrap my-5">
-        <CarouselSkill skills={dataHardSkill} />
+        {dataHardSkill && dataHardSkill.map((skill: IHard) => (
+          <Tags
+            key={skill.id}
+            icon={skill.urlIcon}
+            name={skill.label}
+            color={skill.color}
+          />
+        ))}
       </div>
     </SectionLayout>
   );
