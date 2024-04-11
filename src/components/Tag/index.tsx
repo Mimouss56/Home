@@ -9,7 +9,8 @@ interface ITagProp {
 function Tags({ icon, name, color }: ITagProp) {
   return (
     <div
-      className={`${color} badgeTag position-relative d-inline-block start-0 mx-4 my-2 rounded-3 `}
+      id="badgeTag"
+      className={`${color} position-relative d-inline-block start-0 mx-4 my-2 rounded-3 `}
       style={{
         width: '4em',
         height: '6.2em',
@@ -18,6 +19,18 @@ function Tags({ icon, name, color }: ITagProp) {
       onMouseEnter={(e) => { e.currentTarget.style.top = '-4px'; }}
       onMouseLeave={(e) => { e.currentTarget.style.top = '0px'; }}
     >
+      <div
+        id="before"
+        className="position-absolute top-0 start-0 bottom-0 end-0 m-auto"
+        style={{
+          transform: 'rotate(60deg)',
+          width: 'inherit',
+          height: 'inherit',
+          borderRadius: 'inherit',
+          background: 'inherit',
+          content: '',
+        }}
+      />
       <div
         className="position-absolute bg-white z-2 rounded-circle m-auto top-0 start-0 bottom-0 end-0 "
         style={{
@@ -44,6 +57,7 @@ function Tags({ icon, name, color }: ITagProp) {
           }
         />
       </div>
+
       <div
         className="position-absolute rounded-pill text-white px-2 py-1 start-50 d-flex align-items-center justify-content-center fs-6 z-2 text-uppercase pe-none translate-middle-x"
         style={{
@@ -56,6 +70,19 @@ function Tags({ icon, name, color }: ITagProp) {
       >
         {name}
       </div>
+      <div
+        id="after"
+        className="position-absolute top-0 start-0 bottom-0 end-0 m-auto"
+        style={{
+          transform: 'rotate(-60deg)',
+          width: 'inherit',
+          height: 'inherit',
+          borderRadius: 'inherit',
+          background: 'inherit',
+          content: '',
+        }}
+      />
+
     </div>
   );
 }
