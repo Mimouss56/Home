@@ -30,7 +30,7 @@ function HexaSection() {
                 width: width / 2 + marginHexa,
                 height: width * 1.1547 + marginHexa * 2,
                 minHeight: width * dataPortfolio.length * 1.1547 + marginHexa * 2,
-                backgroundColor: 'yellow',
+                // backgroundColor: 'yellow',
               }}
               className="d-xs-none d-sm-inline-block"
             />
