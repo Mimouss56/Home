@@ -1,7 +1,6 @@
 import { IUser } from '../../../@types/Home/user';
 import useFetchData from '../../../hook/useFetchData';
 import './textNeon.scss';
-import './landingPage.scss';
 import './animateCircle.scss';
 import './borderNeon.scss';
 import '../../../scss/styles.scss';
@@ -24,10 +23,10 @@ function Prez() {
       id="home"
     >
       {/* <div className="circle" /> */}
-      <section id="landing-page" className="bg-dark vh-100 d-flex align-items-center mb-5 position-relative overflow-hidden">
+      <section id="landing-page" className="vh-100 d-flex align-items-center mb-5 position-relative overflow-hidden">
         <div className="h-lg-50 m-md-auto row my-sm-0 h-sm-100">
           <div className="col-md-6 my-auto px-5">
-            <h1 id="name" className="neonText">
+            <h1 id="prezName" className="neonText">
               l
               <span className="blinkText">e</span>
               {' '}

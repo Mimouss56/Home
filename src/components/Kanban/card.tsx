@@ -30,13 +30,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
           </span>
         ))}
         <div>
-          {/* <button
-            type="button"
-            className="btn btn-sm p-0"
-            onClick={() => setShowInput(!showInput)}
-          >
-            <i className="fs-5 bi bi-pencil-fill px-1 text-success" />
-          </button> */}
+
           <button
             type="button"
             className="btn btn-sm p-0"
@@ -50,6 +44,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
       <div id="content" className="d-flex flex-row justify-content-between">
         <p
           onDoubleClick={() => console.log('test')}
+          className="text-dark"
         >
           {card.content}
 

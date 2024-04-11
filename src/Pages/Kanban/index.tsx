@@ -5,9 +5,12 @@ import axiosInstance from '../../utils/axios';
 import ModalAddList from '../../components/Modal/Kanban/formListKanban';
 import List from '../../components/Kanban/list';
 import { IListTemplate } from '../../@types/Home/kanban';
+import SectionLayout from '../../layout/SectionLayout';
+import Navbar from '../../layout/Navbar';
 
 export default function Kanban() {
   const [lists, setLists] = useState([] as IListTemplate['list'][]);
+  const idName = 'kanban';
 
   const fecthLists = async () => {
     try {
@@ -46,31 +49,26 @@ export default function Kanban() {
 
   return (
     <>
-      <section>
-        <div className="d-flex justify-content-between">
-          <h1 className="title">oKanban</h1>
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#addListModal"
+      <Navbar navContent={[]} />
+      <SectionLayout
+        idName={idName}
+        title="oKanban"
+        addButton="addListModal"
+      >
+        <div className="vh-100 w-75 mx-auto">
+          <ReactSortable
+            list={lists}
+            setList={setLists}
+            className="d-flex flex-wrap justify-content-between align-content-between"
+            onEnd={updateListPosition}
           >
-            <i className="bi bi-clipboard-plus p-2" />
-            Ajouter une liste
-          </button>
+            {lists.map((list) => (
+              <List key={list.id} list={list} updateList={fecthLists} />
+            ))}
+          </ReactSortable>
         </div>
+      </SectionLayout>
 
-        <ReactSortable
-          list={lists}
-          setList={setLists}
-          className="d-flex flex-wrap justify-content-between align-content-between"
-          onEnd={updateListPosition}
-        >
-          {lists.map((list) => (
-            <List key={list.id} list={list} updateList={fecthLists} />
-          ))}
-        </ReactSortable>
-      </section>
       <ModalAddList updateLists={fecthLists} />
     </>
   );

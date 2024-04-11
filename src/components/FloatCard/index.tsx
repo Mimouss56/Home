@@ -76,7 +76,7 @@ function FloatCard({
 
       </div>
       <div
-        className="position-relative rounded-4 p-2"
+        className="position-relative rounded-4 p-2 bg-secondary"
         style={{
           boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)',
           boxSizing: 'border-box',
