@@ -6,6 +6,7 @@ import NewsSection from './news';
 import navTop from '../../../data/navTop.json';
 import Recommandation from './recommandation';
 import Loading from '../../components/Loading';
+import Footer from '../../layout/Footer';
 
 function MainDev() {
   return (
@@ -15,6 +16,7 @@ function MainDev() {
       <HexaSection />
       <Recommandation />
       <NewsSection />
+      <Footer />
     </Suspense>
   );
 }

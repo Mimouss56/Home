@@ -34,7 +34,7 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
   }
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className="d-flex flex-wrap min-wh-100">
       {/* 1er colonne */}
       <div className="d-flex flex-wrap col-lg-3">
 

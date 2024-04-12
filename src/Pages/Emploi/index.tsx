@@ -75,7 +75,7 @@ function EntPage() {
           )}
         </div>
         {showList && (
-          <section className="d-flex flex-row">
+          <section className="d-flex flex-row min-vh-100">
             <div className="col-7">
               {filteredEmplois && (
                 <div className="d-flex flex-wrap justify-content-evenly ">
