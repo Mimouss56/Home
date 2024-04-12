@@ -113,21 +113,19 @@ function ViewCVPage() {
             (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
           )
             .map((job) => (
-              <div
+              <FloatCard
                 key={job.id}
-              >
-                <FloatCard
-                  id={job.id}
-                  title={job.title}
-                  desc={job.description}
-                  urlImg={job.ent.urlImg}
-                  alt={job.ent.name}
-                  date={job.date}
-                  competences={job.competences || []}
-                  target="addItem"
-                  type="job"
-                />
-              </div>
+                id={job.id}
+                title={job.title}
+                desc={job.description}
+                urlImg={job.ent.urlImg}
+                alt={job.ent.name}
+                date={job.date}
+                competences={job.competences || []}
+                target="addItem"
+                type="job"
+              />
+
             ))}
         </div>
       </SectionLayout>
