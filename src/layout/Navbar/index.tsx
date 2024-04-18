@@ -1,11 +1,8 @@
 import { Menu } from 'react-feather';
 import { useEffect, useState } from 'react';
-import MenuNav from '../User/aside.user';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { IUser } from '../../@types/Home/user';
-import navItemsMouss from '../../../data/navItemsMouss.json';
-import navItemsUser from '../../../data/navItemsUser.json';
 import { baseUrl } from '../../../config.json';
 
 interface NavbarProp {
@@ -74,68 +71,65 @@ function Navbar({ navContent }: NavbarProp) {
     };
   }, [navContent]);
   return (
-    <>
-      <header>
-        <nav
-          id="nav-bar"
-          className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
-          style={{
-            backgroundColor: '#1d1d20',
-            height: '60px',
-          }}
-        >
-          <NavBar navContentArray={navContent} />
-          {
-            (sessionToken !== null && userInfo !== null)
-              ? (
-                <>
-                  <p className="text-light m-2 d-none d-md-block">
-                    {`Bienvenu ${userInfo.username}`}
-                  </p>
-                  <a
-                    href="/user/setting"
-                    className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#aside"
-                  >
-                    <img
-                      src={avatar}
-                      alt="avatar"
-                      className="rounded-circle"
-                      width="32"
-                      height="32"
-                    />
-                  </a>
-                  <button
-                    type="button"
-                    className="btn align-items-end text-light d-block d-md-none"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#aside"
-                    aria-controls="offcanvasRight"
-                  >
-                    <Menu color="black" className="m-0" />
-                  </button>
-                </>
-              )
-              : (
+    <header>
+      <nav
+        id="nav-bar"
+        className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
+        style={{
+          backgroundColor: '#1d1d20',
+          height: '60px',
+        }}
+      >
+        <NavBar navContentArray={navContent} />
+        {
+          (sessionToken !== null && userInfo !== null)
+            ? (
+              <>
+                <p className="text-light m-2 d-none d-md-block">
+                  {`Bienvenu ${userInfo.username}`}
+                </p>
+                <a
+                  href="/user/setting"
+                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#aside"
+                >
+                  <img
+                    src={avatar}
+                    alt="avatar"
+                    className="rounded-circle"
+                    width="32"
+                    height="32"
+                  />
+                </a>
                 <button
                   type="button"
-                  className="btn text-light fw-bold"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalLogin"
-                  data-bs-dismiss="modal"
+                  className="btn align-items-end text-light d-block d-md-none"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#aside"
+                  aria-controls="offcanvasRight"
                 >
-                  Connexion
+                  <Menu color="black" className="m-0" />
                 </button>
+              </>
+            )
+            : (
+              <button
+                type="button"
+                className="btn text-light fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLogin"
+                data-bs-dismiss="modal"
+              >
+                Connexion
+              </button>
 
-              )
-          }
+            )
+        }
 
-        </nav>
+      </nav>
 
-      </header>
-      {userInfo && (<MenuNav navContent={[navItemsUser, navItemsMouss]} />)}
-    </>
+    </header>
   );
 }
 

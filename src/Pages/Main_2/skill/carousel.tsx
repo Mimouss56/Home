@@ -60,7 +60,6 @@ function CarouselSkill({ skills }: { skills: IHard[] }) {
               style={{ width: `${100 / elementDisplayed}%` }}
             >
               <Tags
-                // key={skill.id}
                 icon={skill.urlIcon}
                 name={skill.label}
                 color={skill.color}
@@ -68,24 +67,6 @@ function CarouselSkill({ skills }: { skills: IHard[] }) {
             </li>
           ))}
         </ul>
-        {/* <div
-          id="marqueeBefore"
-          className="position-absolute top-0 h-100 z-1 start-0"
-          style={{
-            // width: '10rem',
-            content: '',
-            background: 'linear-gradient(to right, #203c4f 0%, transparent 100%)',
-          }}
-        />
-        <div
-          id="marqueeAfter"
-          className="position-absolute top-0 h-100 z-1 end-0"
-          style={{
-            // width: '10rem',
-            content: '',
-            background: 'linear-gradient(to left, #253e52 0%, transparent 100%)',
-          }}
-        /> */}
 
       </div>
     </div>

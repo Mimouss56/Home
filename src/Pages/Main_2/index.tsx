@@ -13,7 +13,10 @@ function MainDev() {
     <Suspense fallback={<Loading />}>
       <Prez />
       <Navbar navContent={navTop} />
-      <HexaSection />
+      <div className="d-none d-md-block">
+        <HexaSection />
+
+      </div>
       <Recommandation />
       <NewsSection />
       <Footer />
