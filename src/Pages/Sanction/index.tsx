@@ -8,8 +8,6 @@ import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from './viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
-import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
 import useScrollSection from '../../hook/useScrollSection';
 
 dayjs.extend(isoWeek);
@@ -58,7 +56,6 @@ function Sanction() {
 
   return (
     <>
-      <Navbar navContent={navTop} />
       <ModalViewDetails />
       <ModalAddSanction onAddElement={handleAddElement} />
       <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">

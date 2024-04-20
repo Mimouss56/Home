@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { IContact } from '../../@types/Home/ent';
 import useFormInput from '../../hook/useFormInput';
 
-interface IProps {
-  contact: IContact;
-}
-
-function DetailsContact({ contact }: IProps) {
+function DetailsContact({ contact }: { contact: IContact }) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(contact);
@@ -20,7 +16,7 @@ function DetailsContact({ contact }: IProps) {
   }, [setForm, contact]);
 
   return (
-    <div className="mb-2 card ">
+    <div className="mb-2 card rounded-0">
       <h5 className="px-2">
         <div className="d-flex flex-wrap justify-content-between ">
           <div className="input-group mb-1 w-50">
@@ -143,7 +139,7 @@ function DetailsContact({ contact }: IProps) {
           <button
             type="button"
             className="btn btn-success text-end"
-            onClick={(e : never) => {
+            onClick={(e: never) => {
               setShowForm(!showForm);
               handleSave(e, '/api/home/suivi/contact', () => { });
             }}

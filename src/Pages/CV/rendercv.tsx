@@ -5,8 +5,7 @@ import { MoussID } from '../../../config.json';
 import axiosInstance from '../../utils/axios';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import { IUser } from '../../@types/Home/user';
-import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
+import Textarea from '../../components/Form/textarea';
 
 function RenderCv() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
@@ -31,20 +30,38 @@ function RenderCv() {
   }, []);
 
   return (
-    <>
-      <Navbar navContent={navTop} />
-
-      <div className="d-flex flex-column ">
-        <PDFViewer style={{
-          width: '100%',
-          height: '100vh',
-
-        }}
-        >
-          <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
-        </PDFViewer>
+    <div className="d-flex flex-column justify-content-center w-75 m-auto bg-dark vh-100">
+      <div className="input-group mb-3 w-50 mx-auto my-5">
+        <span className="input-group-text" id="prefixId">Titre</span>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          className="form-control"
+          placeholder="Titre du CV"
+          onChange={(e) => setTitle({ ...title, title: e.target.value })}
+        />
       </div>
-    </>
+      <div className="w-75 mx-auto">
+        <Textarea
+          title="Description"
+          text={title.description}
+          name="description"
+          onChange={(e) => setTitle({ ...title, description: e.target.value })}
+          icon=""
+          leng={500}
+        />
+      </div>
+
+      <PDFViewer style={{
+        width: '100%',
+        height: '100vh',
+
+      }}
+      >
+        <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
+      </PDFViewer>
+    </div>
   );
 }
 

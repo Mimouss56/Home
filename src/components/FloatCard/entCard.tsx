@@ -2,11 +2,10 @@ import { IEntreprise } from '../../@types/Home/ent';
 
 interface EntCardProps {
   ent: IEntreprise;
-  onClick: () => void;
 }
 
 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-function EntCard({ ent, onClick }: EntCardProps) {
+function EntCard({ ent }: EntCardProps) {
   const {
     id, name, urlImg, contact,
   } = ent;
@@ -25,7 +24,6 @@ function EntCard({ ent, onClick }: EntCardProps) {
       )}
       <button
         type="button"
-        onClick={onClick}
         className="card-body border-0 bg-none"
 
       >
