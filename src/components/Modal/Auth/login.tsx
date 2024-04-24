@@ -53,17 +53,17 @@ function Login() {
       sessionStorage.setItem('notifToast', message);
       document.dispatchEvent(new Event('newLogin'));
       // on ferme la modal
-      const modal = document.getElementById('modalLogin');
-      const backdrop = document.querySelector('.modal-backdrop');
-      backdrop?.remove();
-      modal?.classList.remove('show');
+      const modal = document.getElementById('modalLogin') as HTMLElement;
+      modal.classList.remove('show');
+      const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
+      backdrop.remove();
 
       // on affiche le toast
       toast.success(`🦄 ${message} !`);
     } catch (err) {
       const { response } = err as { response: { data: string } };
       setError(true);
-      toast.error(response.data);
+      setErrorMessage(response.data);
     }
   };
 
@@ -71,7 +71,7 @@ function Login() {
     <form
       onSubmit={(e) => handleSubmit(e)}
     >
-      <div className="modal fade" id="modalLogin" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="modalLogin" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div
           className={`modal-dialog modal-dialog-centered ${error ? 'shake' : ''}`}
         >
@@ -81,18 +81,22 @@ function Login() {
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
             </div>
             <div className="modal-body">
-              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+              <div className="input-group mb-3 has-validation">
                 <i className="input-group-text bi bi-person" />
                 <input
+                  id="username"
                   type="text"
-                  className="form-control"
+                  className={`form-control ${error ? 'is-invalid' : ''}`}
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  aria-describedby="username"
                 />
-                {error && <span className="help-block">{errorMessage}</span>}
+                <div id="username" className="invalid-feedback">
+                  {errorMessage}
+                </div>
               </div>
-              <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
+              <div className="input-group mb-3 ">
                 <i className="input-group-text bi bi-key" />
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -107,7 +111,6 @@ function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                 />
 
-                {error && <span className="help-block">{errorMessage}</span>}
               </div>
             </div>
             <div className="modal-footer d-flex justify-content-around">

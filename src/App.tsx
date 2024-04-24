@@ -7,8 +7,6 @@ import Footer from './layout/Footer';
 import MenuNav from './layout/User/aside.user';
 
 // COMPONENTS
-import Login from './components/Modal/Auth/login';
-import Register from './components/Modal/Auth/register';
 import Feedback from './components/Feedback';
 import Snow from './components/Snowflakes';
 import Notifications from './components/Notification';
@@ -17,12 +15,14 @@ import Navbar from './layout/Navbar';
 import navItemsUser from '../data/navItemsUser.json';
 import navItemsMouss from '../data/navItemsMouss.json';
 import { IUser } from './@types/Home/user';
+import navTop from '../data/navTop.json';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
   import('./scss/christmasTheme.scss');
 }
-const showFeedback = true; // true pour afficher le feedback
+// afficher le feedback en dehors du mode dev déclarer dans le .env
+const showFeedback = process.env.NODE_ENV === 'dev';
 // User menu
 
 function App() {
@@ -66,13 +66,10 @@ function App() {
       {showFeedback && <Feedback />}
       <Snow />
 
-      <Login />
-      <Register />
       <Notifications />
-      {window.location.pathname === '/' ? null : <Navbar navContent={[]} />}
       {userInfo && (<MenuNav navContent={[navItemsUser, navItemsMouss]} />)}
-      <ListeRoute />
-
+      {window.location.pathname === '/' ? null : <Navbar navContent={navTop} />}
+      <main><ListeRoute /></main>
       <Footer />
     </>
   );

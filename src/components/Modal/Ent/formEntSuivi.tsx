@@ -8,7 +8,7 @@ interface AddEntModalProps {
   onAddElement: (data: IEntreprise) => void;
 }
 const initFormData = {
-  name: '',
+  // name: '',
   address: '',
   postalCode: '',
   town: '',
@@ -52,7 +52,7 @@ function AddEntModal({ onAddElement }: AddEntModalProps) {
         addItemModal.removeEventListener('show.bs.modal', () => { });
       }
     };
-  }, [fetchData]);
+  }, [fetchData, setForm]);
 
   return (
     <form onSubmit={(e) => handleSave(e, '/api/home/ent', onAddElement)}>

@@ -2,7 +2,7 @@
 import DetailsContact from '../../Pages/Emploi/viewContact';
 import { IContact } from '../../@types/Home/ent';
 
-function ContactCollapse({ contact, onClick }: { contact: IContact, onClick: (e: any) => void }) {
+function ContactCollapse({ contact, onClick }: { contact: IContact, onClick: (e: never) => void }) {
   return (
     <>
       <button

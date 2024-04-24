@@ -8,14 +8,12 @@ import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from './viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
-import useScrollSection from '../../hook/useScrollSection';
 
 dayjs.extend(isoWeek);
 
 function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
-  useScrollSection('sanction');
 
   const fetchData = async (idRole: number) => {
     try {

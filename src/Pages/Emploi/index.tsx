@@ -33,70 +33,62 @@ function EntPage() {
   }, [listEnt]);
 
   return (
-    <>
-      <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
-        <div className="input-group mb-3 w-50 m-auto">
-          <span className="input-group-text" id="search-ent">
-            <i className="bi bi-search" />
-          </span>
-          <input
-            type="search"
-            className="form-control"
-            placeholder="Entreprise"
-            aria-label="Entreprise"
-            aria-describedby="search-ent"
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-          {/* Afficher le bouton "Ajouter" seulement si la recherche ne retourne aucun résultat */}
-          {filteredEmplois.length === 0 && (
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addEntModal"
-              data-bs-id={0}
-              data-bs-name-ent={searchTerm}
-            >
-              Ajouter
-            </button>
+    <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
+      <div className="input-group mb-3 w-50 m-auto">
+        <span className="input-group-text" id="search-ent">
+          <i className="bi bi-search" />
+        </span>
+        <input
+          type="search"
+          className="form-control"
+          placeholder="Entreprise"
+          aria-label="Entreprise"
+          aria-describedby="search-ent"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        {/* Afficher le bouton "Ajouter" seulement si la recherche ne retourne aucun résultat */}
+        {filteredEmplois.length === 0 && (
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#addEntModal"
+            data-bs-id={0}
+          >
+            Ajouter
+          </button>
+        )}
+      </div>
+      <section className="d-flex flex-row min-vh-100">
+        <div className="col-7">
+          {filteredEmplois && (
+            <div className="d-flex flex-wrap justify-content-evenly ">
+              {filteredEmplois.map((item) => (
+                <a
+                  href={`/user/emploi/ent/${item.id}/details`}
+                  key={item.id}
+                  className="text-decoration-none"
+                >
+                  <EntCard
+                    ent={item}
+                  />
+                </a>
+              ))}
+            </div>
           )}
         </div>
-        <section className="d-flex flex-row min-vh-100">
-          <div className="col-7">
-            {filteredEmplois && (
-              <div className="d-flex flex-wrap justify-content-evenly ">
-                {filteredEmplois.map((item) => (
-                  <a
-                    href={`/user/emploi/ent/${item.id}/details`}
-                    key={item.id}
-                    className="text-decoration-none"
-                  >
-                    <EntCard
-                      ent={item}
-                    />
-                  </a>
-                ))}
-              </div>
-
-            )}
-
-          </div>
-          <div className="col-5">
-            <Interations listEnt={filteredEmplois} />
-          </div>
-        </section>
-
-      </SectionLayout>
-
-      {/* Liste des entreprises */}
+        <div className="col-5">
+          <Interations listEnt={filteredEmplois} />
+        </div>
+      </section>
+      {/* Modal Add Ent */}
       <AddEntModal
         onAddElement={() => {
           setEmplois((prev) => [...prev, data]);
         }}
       />
-    </>
-
+    </SectionLayout>
   );
 }
 

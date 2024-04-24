@@ -14,11 +14,11 @@ function SectionLayout({
 
   return (
     <section
-      className="d-flex justify-content-center flex-column h-75 bg-dark"
+      className="d-flex justify-content-center flex-column bg-dark"
       id={idName}
     >
       <div
-        className="d-flex justify-content-between mb-5 w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary"
+        className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary"
         id={`${idName}-header`}
       >
         <h2>{title}</h2>

@@ -6,8 +6,7 @@ import './borderNeon.scss';
 import '../../../scss/styles.scss';
 import { MoussID } from '../../../../config.json';
 import CarouselSkill from '../skill/carousel';
-import useScrollSection from '../../../hook/useScrollSection';
-import { IHard } from '../../../@types/Home/hardSkill';
+// import { IHard } from '../../../@types/Home/hardSkill';
 
 const idName = 'landing-page';
 
@@ -15,18 +14,20 @@ const width = 300;
 function Prez() {
   const [dataMouss] = useFetchData(`/api/home/user/${MoussID}`);
   const [dataHardSkill] = useFetchData('/api/home/hardskill');
-  const listHardSkill = dataHardSkill.filter((skill: IHard) => skill.stack === 'back');
+  // const listHardSkill = dataHardSkill.filter((skill: IHard) => skill.stack === 'back');
 
   const Mouss = dataMouss.user as IUser;
-  useScrollSection(idName);
 
   if (!Mouss) {
     return <div>Loading...</div>;
   }
 
   return (
-    <section id="landing-page" className="vh-100 d-flex align-items-center position-relative overflow-hidden bg-dark">
-      <div className="h-lg-50 m-md-auto row my-sm-0 h-sm-100">
+    <section id={idName} className="vh-100 d-flex align-items-center position-relative overflow-hidden bg-dark">
+      <div
+        id={`${idName}-content`}
+        className="h-lg-50 m-md-auto row my-sm-0 h-sm-100"
+      >
         <div className="col-md-6 my-auto px-5">
           <h1 id="prezName" className="neonText">
             l

@@ -36,6 +36,7 @@ function Notifications() {
       document.removeEventListener('newLogin', () => updateNotifications());
     };
   }, []);
+  if (listNotif.length === 0) return null;
 
   return (
     <div className="position-fixed" style={{ bottom: '15%', right: '25px' }}>

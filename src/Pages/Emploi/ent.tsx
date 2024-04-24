@@ -41,11 +41,13 @@ function DetailsEntreprise({ id }: { id: number }) {
   }
 
   return (
-    <div className="d-flex flex-wrap min-wh-100 bg-dark vh-100">
+    <section
+      className="d-flex flex-wrap bg-dark vh-100 mx-auto w-100"
+    >
       {/* 1er colonne */}
-      <div className="d-flex flex-wrap col-lg-3">
+      <div className="d-flex flex-column col-lg-3 mx-auto justify-content-center ">
 
-        {/* details ENT */}
+        {/* Card ENT */}
         <div className="d-flex flex-column flex-wrap m-auto">
           <h2>{`Détails de ${entreprise.name}`}</h2>
           <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid m-auto" width="150px" />
@@ -53,18 +55,10 @@ function DetailsEntreprise({ id }: { id: number }) {
         </div>
 
         {/* Contact Details */}
-        {entreprise.contact && (
-          <div className="d-flex flex-column flex-wrap w-100 ">
+        <div className="d-flex flex-column flex-wrap w-100 ">
+          <div className="d-flex flex-wrap justify-content-between ">
             <h3>Contact</h3>
-            <div className="list-group mb-2">
-              {entreprise.contact.map((contact) => (
-                <ContactCollapse
-                  key={contact.id}
-                  contact={contact}
-                  onClick={handleShowContact}
-                />
-              ))}
-            </div>
+
             <button
               type="button"
               className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25 mb-2"
@@ -76,17 +70,31 @@ function DetailsEntreprise({ id }: { id: number }) {
               <span className="vr mx-2" />
               <span>Ajout</span>
             </button>
+
           </div>
-        )}
+          <div className="list-group mb-2">
+            {entreprise.contact?.map((contact) => (
+              <ContactCollapse
+                key={contact.id}
+                contact={contact}
+                onClick={handleShowContact}
+              />
+            ))}
+          </div>
+
+        </div>
 
       </div>
-      {entreprise.contact && (
-        <div className="col-lg-9">
 
-          <DetailsInteraction
-            interactions={entreprise.contact.flatMap((contact) => contact.interaction)}
-          />
-          {idContact !== 0 && (
+      {/* 2eme colonne */}
+
+      <div className="col-lg-9">
+
+        <DetailsInteraction
+          interactions={entreprise.contact?.flatMap((contact) => contact.interaction)}
+        />
+        {
+          idContact !== 0 && (
             <div className="mt-3 text-end ">
               <button
                 type="button"
@@ -98,15 +106,14 @@ function DetailsEntreprise({ id }: { id: number }) {
                 Ajouter une interaction
               </button>
             </div>
-          )}
+          )
+        }
 
-        </div>
-
-      )}
+      </div>
 
       <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />
-    </div>
+    </section>
   );
 }
 

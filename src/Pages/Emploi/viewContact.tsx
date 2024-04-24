@@ -89,7 +89,6 @@ function DetailsContact({ contact }: { contact: IContact }) {
               <i className="bi bi-check" />
             </button>
           )}
-
         </div>
       </h5>
       <div>
@@ -125,30 +124,19 @@ function DetailsContact({ contact }: { contact: IContact }) {
             name="phone"
           />
         </div>
-        {!showForm && (
-          <button
-            type="button"
-            className="btn btn-secondary text-end"
-            onClick={() => setShowForm(!showForm)}
-          >
-            <i className="bi bi-pencil" />
-            <span className="mx-2">Editer</span>
-          </button>
-        )}
-        {showForm && (
-          <button
-            type="button"
-            className="btn btn-success text-end"
-            onClick={(e: never) => {
-              setShowForm(!showForm);
+        <button
+          type="button"
+          className={`btn ${!showForm ? 'btn-secondary' : 'btn-success'} text-end`}
+          onClick={(e:never) => {
+            setShowForm(!showForm);
+            if (showForm) {
               handleSave(e, '/api/home/suivi/contact', () => { });
-            }}
-          >
-            <i className="bi bi-check" />
-            <span className="mx-2">Enregistrer</span>
-          </button>
-        )}
-
+            }
+          }}
+        >
+          <i className={`bi ${!showForm ? 'bi-pencil' : 'bi-check'}`} />
+          <span className="mx-2">{!showForm ? 'Editer' : 'Enregistrer'}</span>
+        </button>
       </div>
     </div>
   );

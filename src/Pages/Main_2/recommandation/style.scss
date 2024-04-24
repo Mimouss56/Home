@@ -32,3 +32,10 @@ cite {
 	line-height: 3;
 	text-align: left;
 }
+
+.fixed-position {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
