@@ -55,7 +55,7 @@ function CardRecomm({ card, index }: CardRecommProps) {
   return (
     <div
       id="recommandation-card"
-      className="card w-75 mx-auto my-5 position-sticky p-4"
+      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column  justify-content-center "
       key={card.id}
       style={cardStyle}
       ref={cardRef}
