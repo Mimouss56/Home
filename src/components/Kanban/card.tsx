@@ -43,7 +43,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
       </div>
       <div id="content" className="d-flex flex-row justify-content-between">
         <p
-          onDoubleClick={() => console.log('test')}
+          onDoubleClick={() => {}}
           className="text-dark"
         >
           {card.content}

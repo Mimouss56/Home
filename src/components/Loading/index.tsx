@@ -2,7 +2,7 @@ import './style.scss';
 
 function Loading() {
   return (
-    <div className="loading">
+    <div className="loading position-fixed top-0 h-100 w-100 bg-black z-3 start-0 ">
       <div className="loading-text">
         <span className="loading-text-words">L</span>
         <span className="loading-text-words">O</span>

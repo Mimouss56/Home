@@ -4,7 +4,6 @@ import { useSearchParams } from 'react-router-dom';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import { MoussID } from '../../../config.json';
-import navTop from '../../../data/navTop.json';
 
 import axiosInstance from '../../utils/axios';
 
@@ -14,7 +13,6 @@ import ModalAddItem from '../../components/Modal/Ent/formJob';
 import { IUser } from '../../@types/Home/user';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import useFetchData from '../../hook/useFetchData';
-import Navbar from '../../layout/Navbar';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';
 
@@ -67,7 +65,6 @@ function ViewCVPage() {
 
   return (
     <>
-      <Navbar navContent={navTop} />
       <section className="bg-dark pb-5 w-100">
 
         {!selectedSkill

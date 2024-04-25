@@ -1,12 +1,11 @@
 import { Menu } from 'react-feather';
 import { useEffect, useState } from 'react';
-import MenuNav from '../User/aside.user';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { IUser } from '../../@types/Home/user';
-import navItemsMouss from '../../../data/navItemsMouss.json';
-import navItemsUser from '../../../data/navItemsUser.json';
 import { baseUrl } from '../../../config.json';
+import Login from '../../components/Modal/Auth/login';
+import Register from '../../components/Modal/Auth/register';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -16,7 +15,17 @@ function Navbar({ navContent }: NavbarProp) {
   const [avatar, setAvatar] = useState('');
   const [userInfo, setUserInfo] = useState<IUser | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
-
+  // Ajout du lien Test pour les admin
+  if (userInfo?.role.id === 1) {
+    const pushTestLink = {
+      id: 4,
+      name: 'Test',
+      link: '/test',
+    };
+    // on verifie si le lien n'existe pas deja
+    const found = navContent.some((el) => el.id === pushTestLink.id);
+    if (!found) navContent.push(pushTestLink);
+  }
   const updateUserInfo = () => {
     const storedUserInfo = sessionStorage.getItem('user');
     if (storedUserInfo) {
@@ -31,36 +40,30 @@ function Navbar({ navContent }: NavbarProp) {
     setSessionToken(storedSessionToken);
   };
 
-  // Ajout du lien Test pour les admin
-  if (userInfo?.role.id === 1) {
-    const pushTestLink = {
-      id: 4,
-      name: 'Test',
-      link: '/test',
-    };
-    // on verifie si le lien n'existe pas deja
-    const found = navContent.some((el) => el.id === pushTestLink.id);
-    if (!found) navContent.push(pushTestLink);
-  }
+  const scrollCallBack = () => {
+    const nav = document.querySelector('#nav-bar') as HTMLElement;
+    const nextElement = nav.nextElementSibling as HTMLElement;
+
+    if (nav.offsetTop !== null
+      && (window.scrollY) > (nav.offsetTop - nav.offsetHeight)) {
+      nav.classList.add('fixed-top');
+      // on ajoute un marginTop au premier élément de la page
+      nextElement.setAttribute('style', `margin-top: ${nav.offsetHeight}px`);
+    }
+    if (
+      (window.scrollY) < (nav.offsetTop - nav.offsetHeight)
+      || (window.scrollY + nav.offsetHeight) < nextElement.offsetTop) {
+      nav.classList.remove('fixed-top');
+      // on supprime le marginTop à l'element suivant
+      nextElement.setAttribute('style', 'margin-top: 0');
+    }
+  };
 
   useEffect(() => {
     updateUserInfo();
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'user' || e.key === 'sessionToken') {
         updateUserInfo();
-      }
-    };
-
-    const scrollCallBack = () => {
-      const nav = document.querySelector('#nav-bar') as HTMLElement;
-      const heroPage = document.querySelector('#home') as HTMLElement;
-      const heigthPrez = heroPage?.scrollHeight || 0;
-
-      if (nav.offsetTop !== null && window.scrollY > nav.offsetTop) {
-        nav.classList.add('fixed-top');
-      }
-      if (window.scrollY < nav.offsetTop || window.scrollY < heigthPrez) {
-        nav.classList.remove('fixed-top');
       }
     };
     window.addEventListener('scroll', scrollCallBack);
@@ -74,68 +77,65 @@ function Navbar({ navContent }: NavbarProp) {
     };
   }, [navContent]);
   return (
-    <>
-      <header>
-        <nav
-          id="nav-bar"
-          className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
-          style={{
-            backgroundColor: '#1d1d20',
-            height: '60px',
-          }}
-        >
-          <NavBar navContentArray={navContent} />
-          {
-            (sessionToken !== null && userInfo !== null)
-              ? (
-                <>
-                  <p className="text-light m-2 d-none d-md-block">
-                    {`Bienvenu ${userInfo.username}`}
-                  </p>
-                  <a
-                    href="/user/setting"
-                    className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#aside"
-                  >
-                    <img
-                      src={avatar}
-                      alt="avatar"
-                      className="rounded-circle"
-                      width="32"
-                      height="32"
-                    />
-                  </a>
-                  <button
-                    type="button"
-                    className="btn align-items-end text-light d-block d-md-none"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#aside"
-                    aria-controls="offcanvasRight"
-                  >
-                    <Menu color="black" className="m-0" />
-                  </button>
-                </>
-              )
-              : (
-                <button
-                  type="button"
-                  className="btn text-light fw-bold"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalLogin"
-                  data-bs-dismiss="modal"
-                >
-                  Connexion
-                </button>
+    <nav
+      id="nav-bar"
+      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
+      style={{
+        backgroundColor: '#1d1d20',
+        // height: '60px',
+      }}
+    >
+      <Login />
+      <Register />
+      <NavBar navContentArray={navContent} />
+      {
+        (sessionToken !== null && userInfo !== null)
+          ? (
+            <>
+              <p className="text-light m-2 d-none d-md-block">
+                {`Bienvenu ${userInfo.username}`}
+              </p>
+              <a
+                href="/user/setting"
+                className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#aside"
+              >
+                <img
+                  src={avatar}
+                  alt="avatar"
+                  className="rounded-circle"
+                  width="32"
+                  height="32"
+                />
+              </a>
+              <button
+                type="button"
+                className="btn align-items-end text-light d-block d-md-none"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#aside"
+                aria-controls="offcanvasRight"
+              >
+                <Menu color="black" className="m-0" />
+              </button>
+            </>
+          )
+          : (
+            <button
+              type="button"
+              className="btn btn-dark text-light fw-bold "
+              data-bs-toggle="modal"
+              data-bs-target="#modalLogin"
+              data-bs-dismiss="modal"
+            >
+              Connexion
+            </button>
 
-              )
-          }
+          )
+      }
 
-        </nav>
+    </nav>
 
-      </header>
-      {userInfo && (<MenuNav navContent={[navItemsUser, navItemsMouss]} />)}
-    </>
   );
 }
 

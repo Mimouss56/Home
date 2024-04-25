@@ -10,26 +10,18 @@
 	text-align: $text-align;
 }
 
-.loading {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: #000;
-	z-index: 9999;
-}
-
 .loading-text {
 	@include position-center;
 	width: 100%;
 	height: 100px;
 	line-height: 100px;
-	span {
+
+	& span {
 		display: inline-block;
 		margin: 0 5px;
 		color: #fff;
-    font-family: 'Quattrocento Sans', sans-serif;
+		font-family: 'Quattrocento Sans', sans-serif;
+
 		@for $i from 0 through 6 {
 			&:nth-child(#{$i + 1}) {
 				filter: blur(0px);
@@ -40,6 +32,11 @@
 }
 
 @keyframes blur-text {
-	0% {filter: blur(0px);}
-	100% {filter: blur(4px);}
+	0% {
+		filter: blur(0px);
+	}
+
+	100% {
+		filter: blur(4px);
+	}
 }

@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { IContact } from '../../@types/Home/ent';
 import useFormInput from '../../hook/useFormInput';
 
-interface IProps {
-  contact: IContact;
-}
-
-function DetailsContact({ contact }: IProps) {
+function DetailsContact({ contact }: { contact: IContact }) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(contact);
@@ -20,7 +16,7 @@ function DetailsContact({ contact }: IProps) {
   }, [setForm, contact]);
 
   return (
-    <div className="mb-2 card ">
+    <div className="mb-2 card rounded-0">
       <h5 className="px-2">
         <div className="d-flex flex-wrap justify-content-between ">
           <div className="input-group mb-1 w-50">
@@ -93,7 +89,6 @@ function DetailsContact({ contact }: IProps) {
               <i className="bi bi-check" />
             </button>
           )}
-
         </div>
       </h5>
       <div>
@@ -129,30 +124,19 @@ function DetailsContact({ contact }: IProps) {
             name="phone"
           />
         </div>
-        {!showForm && (
-          <button
-            type="button"
-            className="btn btn-secondary text-end"
-            onClick={() => setShowForm(!showForm)}
-          >
-            <i className="bi bi-pencil" />
-            <span className="mx-2">Editer</span>
-          </button>
-        )}
-        {showForm && (
-          <button
-            type="button"
-            className="btn btn-success text-end"
-            onClick={(e : never) => {
-              setShowForm(!showForm);
+        <button
+          type="button"
+          className={`btn ${!showForm ? 'btn-secondary' : 'btn-success'} text-end`}
+          onClick={(e:never) => {
+            setShowForm(!showForm);
+            if (showForm) {
               handleSave(e, '/api/home/suivi/contact', () => { });
-            }}
-          >
-            <i className="bi bi-check" />
-            <span className="mx-2">Enregistrer</span>
-          </button>
-        )}
-
+            }
+          }}
+        >
+          <i className={`bi ${!showForm ? 'bi-pencil' : 'bi-check'}`} />
+          <span className="mx-2">{!showForm ? 'Editer' : 'Enregistrer'}</span>
+        </button>
       </div>
     </div>
   );

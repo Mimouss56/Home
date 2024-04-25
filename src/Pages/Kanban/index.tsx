@@ -6,7 +6,6 @@ import ModalAddList from '../../components/Modal/Kanban/formListKanban';
 import List from '../../components/Kanban/list';
 import { IListTemplate } from '../../@types/Home/kanban';
 import SectionLayout from '../../layout/SectionLayout';
-import Navbar from '../../layout/Navbar';
 
 export default function Kanban() {
   const [lists, setLists] = useState([] as IListTemplate['list'][]);
@@ -49,7 +48,6 @@ export default function Kanban() {
 
   return (
     <>
-      <Navbar navContent={[]} />
       <SectionLayout
         idName={idName}
         title="oKanban"

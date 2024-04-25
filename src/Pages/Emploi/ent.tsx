@@ -1,44 +1,53 @@
-import { useState } from 'react';
+/* eslint-disable max-len */
+import { useEffect, useState } from 'react';
 import { IContact, IEntreprise, IInteraction } from '../../@types/Home/ent';
 import DetailsInteraction from './viewInteraction';
 import AddContactModal from '../../components/Modal/Ent/formContact';
-import DetailsContact from './viewContact';
 import ModalAddInteraction from '../../components/Modal/Ent/formInteraction';
+import useFetchData from '../../hook/useFetchData';
+import ContactCollapse from '../../components/CollapseContact';
 
-function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
-  const [entreprise, setEntreprise] = useState(ent);
-  const [filteredInteraction, setFilteredInteraction] = useState(
-    entreprise.contact.flatMap((contact) => contact.interaction),
-  );
-  const [showContactDetails, setShowContactDetails] = useState(false);
+function DetailsEntreprise({ id }: { id: number }) {
+  const [dataEnt, loadingdata] = useFetchData(`/api/home/ent/${id}`);
+  const [entreprise, setEntreprise] = useState<IEntreprise>(dataEnt);
   const [idContact, setIdContact] = useState(0);
 
-  const handleAddInteractionOfUser = (data: IInteraction) => {
-    setFilteredInteraction(
-      (prev) => [...prev, data],
-    );
-  };
-
   const handleAddContact = (data: IContact) => {
-    setEntreprise((prevEntreprise) => {
-      const updatedContacts = [...prevEntreprise.contact, data];
-
-      return {
-        ...prevEntreprise,
-        contact: updatedContacts,
-      };
-    });
+    // add contact to entreprise
+    entreprise.contact.push(data);
   };
+
+  const handleShowContact = (e: Event) => {
+    const idUser = (e.target as HTMLElement).getAttribute('data-bs-id');
+    setIdContact(Number(idUser));
+  };
+
+  const handleAddInteractionOfUser = (data: IInteraction) => {
+    // add interaction to contact
+    const contact = entreprise.contact.find((c) => c.id === data.id);
+    if (contact) {
+      contact.interaction.push(data);
+    }
+  };
+
+  useEffect(() => {
+    setEntreprise(dataEnt);
+  }, [dataEnt]);
+
+  if (loadingdata || typeof entreprise !== 'object') return <div>Chargement ...</div>;
+
   if (!entreprise) {
     return <div>Aucune entreprise de trouvé ...</div>;
   }
 
   return (
-    <div className="d-flex flex-wrap min-wh-100">
+    <section
+      className="d-flex flex-wrap bg-dark vh-100 mx-auto w-100"
+    >
       {/* 1er colonne */}
-      <div className="d-flex flex-wrap col-lg-3">
+      <div className="d-flex flex-column col-lg-3 mx-auto justify-content-center ">
 
-        {/* details ENT */}
+        {/* Card ENT */}
         <div className="d-flex flex-column flex-wrap m-auto">
           <h2>{`Détails de ${entreprise.name}`}</h2>
           <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid m-auto" width="150px" />
@@ -47,67 +56,64 @@ function DetailsEntreprise({ ent }: { ent: IEntreprise }) {
 
         {/* Contact Details */}
         <div className="d-flex flex-column flex-wrap w-100 ">
-          <h3>Contact</h3>
+          <div className="d-flex flex-wrap justify-content-between ">
+            <h3>Contact</h3>
+
+            <button
+              type="button"
+              className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25 mb-2"
+              data-bs-toggle="modal"
+              data-bs-target="#addContact"
+              data-bs-id-ent={entreprise.id}
+            >
+              <i className="bi bi-plus-circle-fill" />
+              <span className="vr mx-2" />
+              <span>Ajout</span>
+            </button>
+
+          </div>
           <div className="list-group mb-2">
-            {entreprise.contact.map((contact) => (
-              <button
+            {entreprise.contact?.map((contact) => (
+              <ContactCollapse
                 key={contact.id}
-                type="button"
-                className="list-group-item list-group-item-action w-100 rounded-0 border-1"
-                itemID={contact.id.toString()}
-                onClick={() => {
-                  setFilteredInteraction(contact.interaction);
-                  setShowContactDetails(true);
-                  setIdContact(contact.id);
-                }}
-              >
-                {`${contact.nom} ${contact.prenom}`}
-              </button>
+                contact={contact}
+                onClick={handleShowContact}
+              />
             ))}
           </div>
-          <button
-            type="button"
-            className="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill w-25 mb-2"
-            data-bs-toggle="modal"
-            data-bs-target="#addContact"
-            data-bs-id-ent={entreprise.id}
-          >
-            <i className="bi bi-plus-circle-fill" />
-            <span className="vr mx-2" />
-            <span>Ajout</span>
-          </button>
-
-          {showContactDetails && idContact && (
-            <DetailsContact contact={
-              entreprise.contact.find((contact) => contact.id === idContact) as IContact
-            }
-            />
-          )}
 
         </div>
+
       </div>
+
+      {/* 2eme colonne */}
 
       <div className="col-lg-9">
 
-        <DetailsInteraction interactions={filteredInteraction} />
-        {idContact !== 0 && (
-          <div className="mt-3 text-end ">
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#addInteraction"
-              data-bs-id-contact={idContact}
-            >
-              Ajouter une interaction
-            </button>
-          </div>
-        )}
+        <DetailsInteraction
+          interactions={entreprise.contact?.flatMap((contact) => contact.interaction)}
+        />
+        {
+          idContact !== 0 && (
+            <div className="mt-3 text-end ">
+              <button
+                type="button"
+                className="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addInteraction"
+                data-bs-id-contact={idContact}
+              >
+                Ajouter une interaction
+              </button>
+            </div>
+          )
+        }
 
       </div>
+
       <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />
-    </div>
+    </section>
   );
 }
 

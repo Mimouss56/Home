@@ -1,6 +1,6 @@
 const { hardSkill } = require('../models/index.mapper');
 
-const textValue = 'softSkill';
+const textValue = 'hardSkill';
 
 /**
  * @typedef {object} HardSkill - Description de la compétence
