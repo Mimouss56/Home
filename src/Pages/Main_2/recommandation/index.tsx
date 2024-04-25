@@ -12,7 +12,7 @@ function Recommandation() {
   return (
     <SectionLayout idName={idName} title="Recommandations" addButton="addRecommandation">
       <div
-        className="d-flex flex-column justify-content-evenly justify-items-center w-100 mx-auto position-relative"
+        className="d-flex flex-column justify-content-evenly justify-items-center w-100 mx-auto "
         id={`${idName}-content`}
         style={{
           height: `${dataRecommendation.length * 75}vh`,

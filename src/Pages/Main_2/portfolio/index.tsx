@@ -23,7 +23,7 @@ function HexaSection() {
   return (
     <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
       <div
-        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5 d-none d-md-block "
+        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5 d-none d-md-block overflow-hidden z-0"
         id={`${idName}-content`}
       >
         <div className="my-5">
@@ -33,8 +33,8 @@ function HexaSection() {
               content: 'test',
               width: width / 2 + marginHexa,
               float: 'left',
-              height: '120%',
-              backgroundColor: 'yellow',
+              height: width * 1.1547 + marginHexa * 2,
+              // backgroundColor: 'yellow',
             }}
           />
           {dataPortfolio && dataPortfolio

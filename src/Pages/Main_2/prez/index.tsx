@@ -23,7 +23,7 @@ function Prez() {
   }
 
   return (
-    <section id={idName} className="vh-100 d-flex align-items-center position-relative overflow-hidden bg-dark">
+    <section id={idName} className="vh-100 d-flex align-items-center position-relative overflow-hidden">
       <div
         id={`${idName}-content`}
         className="h-lg-50 m-md-auto row my-sm-0 h-sm-100"

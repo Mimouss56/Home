@@ -11,15 +11,20 @@ function SectionLayout({
 }: SectionLayoutProps) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const isMouss = (userSession?.username === 'Mouss');
+  const nav = document.getElementById('nav-bar');
 
   return (
     <section
-      className="d-flex justify-content-center flex-column bg-dark"
+      className="d-flex justify-content-center flex-column"
       id={idName}
     >
       <div
-        className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary"
+        className="d-flex justify-content-between w-100 mx-auto border-1 border-top border-bottom p-2 bg-secondary position-sticky z-1 "
         id={`${idName}-header`}
+        style={{
+          // top en dessous de la navbar
+          top: nav?.offsetHeight,
+        }}
       >
         <h2>{title}</h2>
         {addButton && isMouss && (
