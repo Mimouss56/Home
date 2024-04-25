@@ -21,11 +21,7 @@ function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
 
   return (
-    <SectionLayout
-      idName={idName}
-      title="Mes différentes réalisations"
-      addButton="addPortfolio"
-    >
+    <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
       <div
         className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5 d-none d-md-block "
         id={`${idName}-content`}
