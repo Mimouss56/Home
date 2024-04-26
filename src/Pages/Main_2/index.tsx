@@ -14,7 +14,7 @@ function MainDev() {
       <Navbar navContent={navTop} />
       <HexaSection />
       <Recommandation />
-      {/* <NewsSection /> */}
+      <NewsSection />
     </Suspense>
   );
 }

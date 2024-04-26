@@ -40,25 +40,6 @@ function Navbar({ navContent }: NavbarProp) {
     setSessionToken(storedSessionToken);
   };
 
-  const scrollCallBack = () => {
-    const nav = document.querySelector('#nav-bar') as HTMLElement;
-    const nextElement = nav.nextElementSibling as HTMLElement;
-
-    if (nav.offsetTop !== null
-      && (window.scrollY) > (nav.offsetTop - nav.offsetHeight)) {
-      nav.classList.add('fixed-top');
-      // on ajoute un marginTop au premier élément de la page
-      nextElement.setAttribute('style', `margin-top: ${nav.offsetHeight}px`);
-    }
-    if (
-      (window.scrollY) < (nav.offsetTop - nav.offsetHeight)
-      || (window.scrollY + nav.offsetHeight) < nextElement.offsetTop) {
-      nav.classList.remove('fixed-top');
-      // on supprime le marginTop à l'element suivant
-      nextElement.setAttribute('style', 'margin-top: 0');
-    }
-  };
-
   useEffect(() => {
     updateUserInfo();
     const handleStorageChange = (e: StorageEvent) => {
@@ -66,20 +47,18 @@ function Navbar({ navContent }: NavbarProp) {
         updateUserInfo();
       }
     };
-    window.addEventListener('scroll', scrollCallBack);
     window.addEventListener('storage', handleStorageChange);
     document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('scroll', scrollCallBack);
       document.removeEventListener('newLogin', updateUserInfo);
     };
   }, [navContent]);
   return (
     <nav
       id="nav-bar"
-      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark "
+      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky z-1 top-0"
       style={{
         backgroundColor: '#1d1d20',
         // height: '60px',

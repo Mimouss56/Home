@@ -5,9 +5,11 @@ interface SectionLayoutProps {
   title: string;
   addButton: string | null;
   children: React.ReactNode;
+  // eslint-disable-next-line react/require-default-props
+  className?: string;
 }
 function SectionLayout({
-  idName, title, addButton, children,
+  idName, title, addButton, children, className,
 }: SectionLayoutProps) {
   const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
   const isMouss = (userSession?.username === 'Mouss');
@@ -15,7 +17,7 @@ function SectionLayout({
 
   return (
     <section
-      className="d-flex justify-content-center flex-column"
+      className={`d-flex justify-content-center flex-column ${className || ''}`}
       id={idName}
     >
       <div
