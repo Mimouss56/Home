@@ -58,7 +58,7 @@ function Navbar({ navContent }: NavbarProp) {
   return (
     <nav
       id="nav-bar"
-      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky z-1 top-0"
+      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky z-3 top-0"
       style={{
         backgroundColor: '#1d1d20',
         // height: '60px',
