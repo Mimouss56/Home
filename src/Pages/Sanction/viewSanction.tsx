@@ -32,22 +32,21 @@ function ModalViewDetails() {
     }
   };
 
-  const handleRead = async (id: number) => {
-    try {
-      await axiosInstance.put(`/api/home/notif/${id}`);
-      const updatedData = dataNotif.map((notif) => {
-        if (notif.id === id) {
-          return { ...notif, read: true };
-        }
-        return notif;
-      });
-      sessionStorage.setItem('dataNotif', JSON.stringify(updatedData));
-    } catch (error) {
-      toast.error(`Erreur lors de la lecture de la notification: ${error}`);
-    }
-  };
-
   useEffect(() => {
+    const handleRead = async (id: number) => {
+      try {
+        await axiosInstance.put(`/api/home/sanction/${id}/read`);
+        const updatedData = dataNotif.map((notif) => {
+          if (notif.id === id) {
+            return { ...notif, read: true };
+          }
+          return notif;
+        });
+        sessionStorage.setItem('dataNotif', JSON.stringify(updatedData));
+      } catch (error) {
+        toast.error(`Erreur lors de la lecture de la notification: ${error}`);
+      }
+    };
     const addItemModal = document.getElementById('modalViewSanction');
 
     if (addItemModal) {
@@ -55,18 +54,19 @@ function ModalViewDetails() {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
-        if (Number(idModal) !== 0) fetchData(Number(idModal), user.role.id);
+        if (Number(idModal) !== 0) {
+          fetchData(Number(idModal), user.role.id);
+          if (user.role.id !== 1) handleRead(Number(idModal));
+        }
       });
     }
     // on remove le addEventListener
     return () => {
       if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => {});
+        addItemModal.removeEventListener('show.bs.modal', () => { });
       }
     };
-  }, [user.role.id]);
-
-  if (user.role.id !== 1) handleRead(sanction.id);
+  }, [user.role.id, dataNotif]);
 
   return (
     <div className="modal fade" id="modalViewSanction">

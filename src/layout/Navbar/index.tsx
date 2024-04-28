@@ -6,6 +6,9 @@ import { IUser } from '../../@types/Home/user';
 import { baseUrl } from '../../../config.json';
 import Login from '../../components/Modal/Auth/login';
 import Register from '../../components/Modal/Auth/register';
+import MenuNav from '../User/aside.user';
+import navItemsUser from '../../../data/navItemsUser.json';
+import navItemsMouss from '../../../data/navItemsMouss.json';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -48,72 +51,81 @@ function Navbar({ navContent }: NavbarProp) {
       }
     };
     window.addEventListener('storage', handleStorageChange);
-    document.addEventListener('newLogin', updateUserInfo);
+    // document.addEventListener('newLogin', updateUserInfo);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      document.removeEventListener('newLogin', updateUserInfo);
+      // document.removeEventListener('newLogin', updateUserInfo);
     };
   }, [navContent]);
   return (
-    <nav
-      id="nav-bar"
-      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky z-3 top-0"
-      style={{
-        backgroundColor: '#1d1d20',
-        // height: '60px',
-      }}
-    >
-      <Login />
-      <Register />
-      <NavBar navContentArray={navContent} />
-      {
-        (sessionToken !== null && userInfo !== null)
-          ? (
-            <>
-              <p className="text-light m-2 d-none d-md-block">
-                {`Bienvenu ${userInfo.username}`}
-              </p>
-              <a
-                href="/user/setting"
-                className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#aside"
-              >
-                <img
-                  src={avatar}
-                  alt="avatar"
-                  className="rounded-circle"
-                  width="32"
-                  height="32"
-                />
-              </a>
+    <>
+      <nav
+        id="nav-bar"
+        className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky z-3 top-0"
+        style={{
+          backgroundColor: '#1d1d20',
+          // height: '60px',
+        }}
+      >
+        <NavBar navContentArray={navContent} />
+        {
+          (sessionToken !== null && userInfo !== null)
+            ? (
+              <>
+                <MenuNav navContent={[navItemsUser, navItemsMouss]} />
+
+                <p className="text-light m-2 d-none d-md-block">
+                  {`Bienvenu ${userInfo.username}`}
+                </p>
+                <a
+                  href="/user/setting"
+                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#aside"
+                >
+                  <img
+                    src={avatar}
+                    alt="avatar"
+                    className="rounded-circle"
+                    width="32"
+                    height="32"
+                  />
+                </a>
+                <button
+                  type="button"
+                  className="btn align-items-end text-light d-block d-md-none"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#aside"
+                  aria-controls="offcanvasRight"
+                >
+                  <Menu color="black" className="m-0" />
+                </button>
+              </>
+            )
+            : (
               <button
                 type="button"
-                className="btn align-items-end text-light d-block d-md-none"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#aside"
-                aria-controls="offcanvasRight"
+                className="btn btn-dark text-light fw-bold "
+                data-bs-toggle="modal"
+                data-bs-target="#modalLogin"
+                data-bs-dismiss="modal"
+                data-bs-backdrop="static"
               >
-                <Menu color="black" className="m-0" />
+                Connexion
               </button>
-            </>
-          )
-          : (
-            <button
-              type="button"
-              className="btn btn-dark text-light fw-bold "
-              data-bs-toggle="modal"
-              data-bs-target="#modalLogin"
-              data-bs-dismiss="modal"
-            >
-              Connexion
-            </button>
 
-          )
-      }
+            )
+        }
 
-    </nav>
+      </nav>
+      {!sessionToken && (
+        <>
+          <Login />
+          <Register />
+        </>
+      )}
+    </>
 
   );
 }

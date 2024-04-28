@@ -11,7 +11,7 @@ export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
   const { handleUpload } = useImageUpload();
   const [imageFile] = useState<IAvatarWithoutObject | null>(null);
   const [isHover, setIsHover] = useState(false);
-  const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
+  const url = window.location.hostname === 'localhost2' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const urlImage = await handleUpload(e); // Gère l'upload de l'image
