@@ -8,19 +8,16 @@ import ListFeedBack from '../Pages/Admin/Home/Feedback';
 
 function RoutesAdmin() {
   return (
-    <section style={{ marginLeft: '15vw' }}>
-      <Routes>
-        <Route path="news" element={<News />} />
-        <Route path="users" element={<User />} />
-        <Route path="options" element={<Options />} />
-        <Route path="sites" element={<Sites />} />
-        <Route path="feedback" element={<ListFeedBack />} />
+    <Routes>
+      <Route path="news" element={<News />} />
+      <Route path="users" element={<User />} />
+      <Route path="options" element={<Options />} />
+      <Route path="sites" element={<Sites />} />
+      <Route path="feedback" element={<ListFeedBack />} />
 
-        <Route path="*" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
 
-      </Routes>
-
-    </section>
+    </Routes>
 
   );
 }

@@ -51,7 +51,6 @@ function Login() {
       sessionStorage.setItem('sessionToken', sessionToken);
       sessionStorage.setItem('user', JSON.stringify(user));
       sessionStorage.setItem('notifToast', message);
-      document.dispatchEvent(new Event('newLogin'));
       // on ferme la modal
       const modal = document.getElementById('modalLogin') as HTMLElement;
       modal.classList.remove('show');

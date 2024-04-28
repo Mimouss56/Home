@@ -55,7 +55,7 @@ function CardRecomm({ card, index }: CardRecommProps) {
   return (
     <div
       id="recommandation-card"
-      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column  justify-content-center "
+      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column justify-content-center "
       key={card.id}
       style={cardStyle}
       ref={cardRef}
@@ -77,16 +77,20 @@ function CardRecomm({ card, index }: CardRecommProps) {
           </cite>
 
         </div>
-        <div className="col-md-8 px-5">
+        <div className="col-md-8 px-xs-0 px-sm-5">
           <div className="card-body">
             <button
               type="button"
               className="fw-100 fs-5 lh-1 position-relative m-2 card border-0" // .blockquote
               onClick={() => setShowDetailsText(!showDetailsText)}
             >
+
+              {!showDetailsText
+                ? <span className="fs-5">{excerpt(card.recommandation, excerptLength)}</span>
+                : <span className="fs-5">{card.recommandation}</span>}
               <span
                 id="beforeBlock"
-                className="text-secondary position-absolute"
+                className="text-secondary position-absolute d-none d-sm-block"
                 style={{
                   top: '-2rem',
                   width: '4rem',
@@ -98,12 +102,9 @@ function CardRecomm({ card, index }: CardRecommProps) {
               >
                 “
               </span>
-              {!showDetailsText
-                ? <span className="fs-5">{excerpt(card.recommandation, excerptLength)}</span>
-                : <span className="fs-5">{card.recommandation}</span>}
               <span
                 id="afterBlock"
-                className="text-secondary position-absolute"
+                className="text-secondary position-absolute d-none d-sm-block"
                 style={{
                   bottom: '-2rem',
                   width: '4rem',

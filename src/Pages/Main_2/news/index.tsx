@@ -17,7 +17,7 @@ function NewsSection() {
       addButton="addModalNews"
     >
       <div
-        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5 d-none d-md-block "
+        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 my-5  " // d-none d-md-block
         id={`${idName}-content`}
       >
         {listNews && listNews
