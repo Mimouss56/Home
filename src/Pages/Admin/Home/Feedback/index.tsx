@@ -10,7 +10,7 @@ function ListFeedBack() {
 
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get('/feedback/');
+      const response = await axiosInstance.get('/api/home/feedback/');
 
       setFeedbackList(response.data);
     } catch (error) {

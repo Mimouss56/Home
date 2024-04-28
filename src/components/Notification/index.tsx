@@ -10,7 +10,7 @@ function Notifications() {
   const [listNotif, setListNotif] = useState<INotif[]>([]);
   const [showNotif, setShowNotif] = useState(false);
 
-  const handleReadNotif = (id: number, type: string) => {
+  const handleReadNotif = (id: number, type: 'feedback' | 'sanction') => {
     try {
       axiosInstance.put(`/api/home/${type}/${id}/read`, { read: true });
       const newListNotif = listNotif.filter((notif) => notif.id !== id);

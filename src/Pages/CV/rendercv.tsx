@@ -6,6 +6,7 @@ import axiosInstance from '../../utils/axios';
 import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import { IUser } from '../../@types/Home/user';
 import Textarea from '../../components/Form/textarea';
+import SectionLayout from '../../layout/SectionLayout';
 
 function RenderCv() {
   const [listJob, setListJob] = useState<IEmploi[]>([]);
@@ -30,7 +31,11 @@ function RenderCv() {
   }, []);
 
   return (
-    <div className="d-flex flex-column justify-content-center w-75 m-auto bg-dark vh-100">
+    <SectionLayout
+      idName="render-cv"
+      title="Création de CV"
+      addButton={null}
+    >
       <div className="input-group mb-3 w-50 mx-auto my-5">
         <span className="input-group-text" id="prefixId">Titre</span>
         <input
@@ -61,7 +66,8 @@ function RenderCv() {
       >
         <ExportPDF listJob={listJob} listSchool={listSchool} title={title} />
       </PDFViewer>
-    </div>
+
+    </SectionLayout>
   );
 }
 

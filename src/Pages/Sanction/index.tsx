@@ -10,10 +10,11 @@ import ModalViewDetails from './viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
 
 dayjs.extend(isoWeek);
-
+const initMaxSanction = 10;
 function Sanction() {
   const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
+  const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
 
   const fetchData = async (idRole: number) => {
     try {
@@ -57,10 +58,11 @@ function Sanction() {
       <ModalViewDetails />
       <ModalAddSanction onAddElement={handleAddElement} />
       <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">
-        <div className="table-responsive">
+        <div className="table-responsive min-vh-100 mt-5">
           <table className="table table-striped table-sm text-center">
             <thead>
               <tr>
+                <th scope="col" />
                 <th />
                 <th scope="col">Description</th>
                 <th scope="col">Week</th>
@@ -78,42 +80,42 @@ function Sanction() {
                 .filter((sanction) => {
                   if (user.role.id !== 1) return sanction.child?.id === user.id; return sanction;
                 })
+                .slice(0, nbMaxSanction)
                 .map((sanction) => (
                   <tr
                     key={sanction.id}
-                    className={sanction.warn ? 'table-danger' : ''}
+                    className={`sanction-item ${sanction.warn ? 'table-danger' : ''} overflow-hidden `}
+                    style={{
+                      transition: 'max-height 0.5s ease-in-out',
+                    }}
                   >
-                    <td
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalViewSanction"
-                      data-bs-id={sanction.id}
-                    >
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-warning mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalViewSanction"
+                        data-bs-id={sanction.id}
+                      >
+                        <i className="bi bi-eye" />
+                      </button>
+                    </td>
+                    <td>
                       {
                         !sanction.read && user.role.id !== 1 && (
                           <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
                       }
                     </td>
-                    <td
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalViewSanction"
-                      data-bs-id={sanction.id}
-                    >
+                    <td>
                       {excerpt(sanction.label)}
                     </td>
-                    <td
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalViewSanction"
-                      data-bs-id={sanction.id}
-                    >
+                    <td>
                       {`S${sanction.date?.week}/${sanction.date?.year}`}
                     </td>
-                    <td
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalViewSanction"
-                      data-bs-id={sanction.id}
-                    >
+                    <td>
                       {sanction.author?.username}
                     </td>
+
                     {
                       user.role.id === 1 && (
                         <>
@@ -141,6 +143,17 @@ function Sanction() {
                     }
                   </tr>
                 ))}
+              <tr>
+                <td colSpan={7}>
+                  <button
+                    type="button"
+                    className="btn btn-warning"
+                    onClick={() => setNbMaxSanction((prevMax) => prevMax + 5)}
+                  >
+                    Voir plus
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

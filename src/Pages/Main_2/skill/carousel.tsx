@@ -35,7 +35,7 @@ function CarouselSkill({ skills }: { skills: IHard[] }) {
   if (!skills) return null;
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center mb-5">
       <div
         className="overflow-hidden position-relative"
         id="marquee"
