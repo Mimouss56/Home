@@ -18,7 +18,8 @@ if (new Date().getMonth() === 11) {
   import('./scss/christmasTheme.scss');
 }
 // afficher le feedback en dehors du mode dev déclarer dans le .env
-const showFeedback = process.env.NODE_ENV === 'dev';
+const showFeedback = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development';
+
 // User menu
 
 function App() {
