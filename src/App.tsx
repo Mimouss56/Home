@@ -42,7 +42,6 @@ function App() {
       <Snow />
 
       <Notifications />
-      {/* {userInfo && (<MenuNav navContent={[navItemsUser, navItemsMouss]} />)} */}
       {window.location.pathname === '/' ? null : <Navbar navContent={navTop} />}
       <main><ListeRoute /></main>
       <Footer />
