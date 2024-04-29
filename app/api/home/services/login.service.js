@@ -24,7 +24,6 @@ module.exports = {
   */
   async login(username, password) {
     const userExist = await user.base.findOne({ where: { username } });
-    console.log(userExist);
 
     if (!userExist || userExist.length === 0) {
       return {
@@ -66,7 +65,6 @@ module.exports = {
       sessionToken: token,
       message: `Connecté sous ${userExist.username} !`,
       data: {
-        ...await userService.getData(userExist.id),
         dataNotif,
       },
       // id: userExist.id,

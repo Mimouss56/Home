@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
@@ -11,11 +12,23 @@ import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
 import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
+import useFetchData from '../hook/useFetchData';
 
 function ListeRoute() {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
-  const isAdmin = (userSession?.role.label === 'admin');
-  const isESA = (userSession?.role.label === 'esa' || userSession?.role.label === 'admin');
+  // const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const [dataMe] = useFetchData('/api/home/@me');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isESA, setIsESA] = useState(false);
+
+  useEffect(() => {
+    if (typeof dataMe !== 'object') {
+      console.log(dataMe);
+
+      setIsAdmin(dataMe?.role.label === 'admin');
+      // const isAdmin = (dataMe?.role.label === 'admin');
+      setIsESA(dataMe?.role.label === 'esa' || dataMe?.role.label === 'admin');
+    }
+  }, [dataMe]);
 
   return (
     <Routes>

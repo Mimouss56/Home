@@ -33,6 +33,26 @@ const loggedAs = async (req, res, next) => {
   }
 };
 
+const loggedAsMe = async (req, res, next) => {
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(' ')[1];
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const userById = await userService.getData(decoded.id);
+      req.user = userById;
+
+      return next();
+    } catch (error) {
+      return res.status(401).json({
+        statusCode: 401,
+        message: 'You are not logged',
+      });
+    }
+  }
+  return next();
+};
+
 const checkRole = (minimumRole) => async (req, res, next) => {
   const { user } = req;
   const userInfo = await userService.getData(user.id);
@@ -80,5 +100,6 @@ module.exports = {
   isHimself,
   checkRole,
   loggedAs,
+  loggedAsMe,
   loggedESA,
 };
