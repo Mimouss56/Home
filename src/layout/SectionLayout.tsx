@@ -1,4 +1,5 @@
 import { IUser } from '../@types/Home/user';
+import useUserStore from '../store/user.store';
 
 interface SectionLayoutProps {
   idName: string;
@@ -11,7 +12,7 @@ interface SectionLayoutProps {
 function SectionLayout({
   idName, title, addButton, children, className,
 }: SectionLayoutProps) {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const userSession = useUserStore((state) => state.user) as IUser;
   const isMouss = (userSession?.username === 'Mouss');
   const nav = document.getElementById('nav-bar');
 

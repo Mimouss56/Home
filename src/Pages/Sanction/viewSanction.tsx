@@ -8,13 +8,14 @@ import 'dayjs/locale/fr';
 import { ISanction } from '../../@types/Home/sanction';
 import axiosInstance from '../../utils/axios';
 import { INotif } from '../../@types/notifToast';
+import useUserStore from '../../store/user.store';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 function ModalViewDetails() {
   const [sanction, setSanction] = useState<ISanction>({} as ISanction);
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const user = useUserStore((state) => state.user);
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
 
   const fetchData = async (id: number, idRole: number) => {

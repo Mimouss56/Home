@@ -5,6 +5,7 @@ import useCheckPassword from '../../hook/utils/usePasswordCheck';
 import useFormInput from '../../hook/useFormInput';
 import axiosInstance from '../../utils/axios';
 import { ErrorAxios } from '../../@types/error';
+import useUserStore from '../../store/user.store';
 
 const initData = {
   password: '',
@@ -14,7 +15,7 @@ const initData = {
 function Password() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const user = useUserStore((state) => state.user);
   const {
     // setPassword,
     // password,

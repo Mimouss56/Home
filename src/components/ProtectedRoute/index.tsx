@@ -1,4 +1,6 @@
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useUserStore from '../../store/user.store';
 
 interface ProtectedRouteProps {
   children: JSX.Element
@@ -8,11 +10,12 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = sessionStorage.getItem('sessionToken') || '';
+  const user = useUserStore().getMe();
+  console.log('user', user);
 
   // Si absence de Token dans le sessionStorage, redirection vers la page d'accueil
   if (!token) {
-    sessionStorage.setItem('notifToast', 'Vous devez être connecté pour accéder à cette page');
-    sessionStorage.removeItem('user');
+    toast.error('Vous devez être connecté pour accéder à cette page');
 
     return <Navigate to="/" replace />;
   }
@@ -25,8 +28,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (dateNow > dateExp) {
     sessionStorage.removeItem('sessionToken');
-    sessionStorage.removeItem('user');
-    sessionStorage.setItem('notifToast', 'Votre session a expiré');
+    toast.error('Votre session a expiré');
     return <Navigate to="/" replace />;
   }
   return children;
