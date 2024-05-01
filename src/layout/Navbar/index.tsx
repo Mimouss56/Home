@@ -1,4 +1,5 @@
 import { Menu } from 'react-feather';
+import { useContext } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { baseUrl } from '../../../config.json';
@@ -7,7 +8,8 @@ import Register from '../../components/Modal/Auth/register';
 import AsideUserMenu from '../User/aside.user';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navItemsMouss from '../../../data/navItemsMouss.json';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
+// import useUserStore from '../../store/user.store';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -15,7 +17,10 @@ interface NavbarProp {
 
 function Navbar({ navContent }: NavbarProp) {
   const sessionToken = sessionStorage.getItem('sessionToken');
-  const user = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
+  console.log(user);
+
+  // const user = useUserStore((state) => state.user);
   if (user?.role.id === 1) {
     const pushTestLink = {
       id: 4,
@@ -43,13 +48,13 @@ function Navbar({ navContent }: NavbarProp) {
       >
         <NavBar navContentArray={navContent} />
         {
-          (sessionToken !== null)
+          (sessionToken !== null && user !== null)
             ? (
               <>
                 <AsideUserMenu navContent={[navItemsUser, navItemsMouss]} />
 
                 <p className="text-light m-2 d-none d-md-block">
-                  {`Bienvenu ${user?.username}`}
+                  {`Bienvenu ${user.username}`}
                 </p>
                 <button
                   type="button"
@@ -59,7 +64,7 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-target="#aside"
                 >
                   <img
-                    src={`${baseUrl}/images/${user?.avatar.path}`}
+                    src={`${baseUrl}/images/${user.avatar.path}`}
                     alt="avatar"
                     className="rounded-circle"
                     width="32"

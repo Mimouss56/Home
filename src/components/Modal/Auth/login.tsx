@@ -1,21 +1,43 @@
-import { FormEvent, useRef, useState } from 'react';
-import useUserStore from '../../../store/user.store';
+import {
+  FormEvent, useContext, useRef, useState,
+} from 'react';
+import { toast } from 'react-toastify';
+import { userContext } from '../../../store/user.context';
+import axiosInstance from '../../../utils/axios';
+// import useUserStore from '../../../store/user.store';
 
 function Login() {
-  const store = useUserStore();
+  // const store = useUserStore();
+  const { setUser } = useContext(userContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error] = useState(false);
-  const [errorMessage] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const loginRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     loginRef.current?.classList.remove('show');
-    store.login(username, password);
+    // store.login(username, password);
     const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
     backdrop.remove();
+
+    try {
+      const res = await axiosInstance.post('/api/home/login', { username, password });
+      const {
+        sessionToken, message, user,
+      } = res.data;
+
+      sessionStorage.setItem('sessionToken', sessionToken);
+      toast.success(`🦄 ${message} !`);
+      setUser(user);
+      // on modifie le contexte de user
+    } catch (err) {
+      const { response } = err as { response: { data: string } };
+      setErrorMessage(response.data);
+      setError(true);
+    }
   };
 
   return (
