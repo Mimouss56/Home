@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useCheckPassword from '../../hook/utils/usePasswordCheck';
 import useFormInput from '../../hook/useFormInput';
 import axiosInstance from '../../utils/axios';
 import { ErrorAxios } from '../../@types/error';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 const initData = {
   password: '',
@@ -15,12 +15,8 @@ const initData = {
 function Password() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const user = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
   const {
-    // setPassword,
-    // password,
-    // setConfirmPassword,
-    // confirmPassword,
     checkPassword,
     error,
     errorMessage,
@@ -34,7 +30,7 @@ function Password() {
     // On met à jour les infos du user par la route /user/:id
     try {
       const response = await axiosInstance.put(
-        `/api/home/user/${user.id}`,
+        `/api/home/user/${user?.id}`,
         { ...form, passwordEdit: true },
       );
       toast.info(response.data.message);

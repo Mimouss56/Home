@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
+// import Test from '../Pages/Test';
 import Dashboard from './Dashboard';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
@@ -11,17 +12,12 @@ import Feedback from '../components/Feedback';
 import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
 import Pokedex from '../Pages/Pokedex';
-import useUserStore from '../store/user.store';
+import { userContext } from '../store/user.context';
 
 function ListeRoute() {
-  const userInfo = useUserStore((state) => state.user);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isESA, setIsESA] = useState(false);
-
-  useEffect(() => {
-    setIsAdmin(userInfo?.role.label === 'admin');
-    setIsESA(userInfo?.role.label === 'esa' || userInfo?.role.label === 'admin');
-  }, [userInfo]);
+  const { user } = useContext(userContext);
+  const isAdmin = user?.role.id === 1;
+  const isESA = user?.role.label === 'esa' || user?.role.label === 'admin';
 
   return (
     <Routes>

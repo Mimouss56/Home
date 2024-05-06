@@ -1,19 +1,19 @@
-import { IUser } from '../../@types/Home/user';
+import { useContext } from 'react';
 import useFormInput from '../../hook/useFormInput';
-import useUserStore from '../../store/user.store';
 import Textarea from '../Form/textarea';
+import { userContext } from '../../store/user.context';
 
 function Complement() {
-  const user = useUserStore((state) => state.user) as IUser;
+  const { user } = useContext(userContext);
   const initData = {
     info: true,
-    id: user.id,
-    prez: user.prez || '',
-    phone: user.phone || '',
-    address: user.address || '',
-    linkedin: user.linkedin || '',
-    github: user.github || '',
-    website: user.website || '',
+    id: user?.id,
+    prez: user?.prez || '',
+    phone: user?.phone || '',
+    address: user?.address || '',
+    linkedin: user?.linkedin || '',
+    github: user?.github || '',
+    website: user?.website || '',
   };
   const {
     form, handleChange, handleSave,

@@ -1,12 +1,13 @@
+import { useContext } from 'react';
 import { IEntreprise } from '../../@types/Home/ent';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 interface EntCardProps {
   ent: IEntreprise;
 }
 
 function EntCard({ ent }: EntCardProps) {
-  const user = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
   const {
     id, name, urlImg, contact,
   } = ent;

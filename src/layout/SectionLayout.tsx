@@ -1,5 +1,5 @@
-import { IUser } from '../@types/Home/user';
-import useUserStore from '../store/user.store';
+import { useContext } from 'react';
+import { userContext } from '../store/user.context';
 
 interface SectionLayoutProps {
   idName: string;
@@ -12,8 +12,8 @@ interface SectionLayoutProps {
 function SectionLayout({
   idName, title, addButton, children, className,
 }: SectionLayoutProps) {
-  const userSession = useUserStore((state) => state.user) as IUser;
-  const isMouss = (userSession?.username === 'Mouss');
+  const { user } = useContext(userContext);
+  const isMouss = (user?.username === 'Mouss');
   const nav = document.getElementById('nav-bar');
 
   return (
