@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
-// import Test from '../Pages/Test';
 import Dashboard from './Dashboard';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
