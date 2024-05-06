@@ -7,8 +7,6 @@ interface ProtectedRouteProps {
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = sessionStorage.getItem('sessionToken') || '';
-  const user = useUserStore().getMe();
-  console.log('user', user);
 
   // Si absence de Token dans le sessionStorage, redirection vers la page d'accueil
   if (!token) {

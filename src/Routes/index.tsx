@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
-import Test from '../Pages/Test';
-import { IUser } from '../@types/Home/user';
+// import Test from '../Pages/Test';
 import Dashboard from './Dashboard';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
@@ -12,7 +11,6 @@ import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
 import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
-import useFetchData from '../hook/useFetchData';
 import Pokedex from '../Pages/Pokedex';
 import { userContext } from '../store/user.context';
 

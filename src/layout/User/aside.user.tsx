@@ -51,10 +51,10 @@ function AsideUserMenu({ navContent }: MenuProp) {
     >
       <ul className="nav nav-pills flex-column mb-auto p-0 m-0 list-unstyled ">
         <Nav navItems={navItemsUser as MenuItemsProp[]} />
-        {userSession?.username === 'Mouss' && navItemsMouss && (
+        {user?.username === 'Mouss' && navItemsMouss && (
           <Nav navItems={navItemsMouss as MenuItemsProp[]} />
         )}
-        {(userSession?.role.label === 'admin' || userSession?.child) && (
+        {(user?.role.label === 'admin' || user?.child) && (
           <Nav navItems={[{
             id: 4,
             title: 'Sanction',
