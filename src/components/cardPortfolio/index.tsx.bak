@@ -1,14 +1,15 @@
-/* eslint-disable react/no-danger */
+import { useContext } from 'react';
 import ICardPortfolio from '../../@types/portfolio';
 import { baseUrl } from '../../../config.json';
 import defaultImage from '../../assets/images/finishWebsite.png';
 import './style.scss';
 import useFetchData from '../../hook/useFetchData';
 import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 function CardPortfolio() {
-  const dataMe = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
+
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
 
   const listPortfolio = dataPortfolio
@@ -36,7 +37,7 @@ function CardPortfolio() {
             </div>
             <div className="col-md-8">
               <div className="card-body">
-                {dataMe && dataMe.username === 'Mouss' && (
+                {user?.username === 'Mouss' && (
                   <button
                     type="button"
                     className="bi bi-gear text-danger btn position-absolute top-0 end-0 "

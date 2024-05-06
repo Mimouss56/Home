@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
@@ -8,15 +8,15 @@ import 'dayjs/locale/fr';
 import { ISanction } from '../../@types/Home/sanction';
 import axiosInstance from '../../utils/axios';
 import { INotif } from '../../@types/notifToast';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 function ModalViewDetails() {
   const [sanction, setSanction] = useState<ISanction>({} as ISanction);
-  const user = useUserStore((state) => state.user);
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
+  const { user } = useContext(userContext);
 
   const fetchData = async (id: number, idRole: number) => {
     try {
@@ -56,8 +56,8 @@ function ModalViewDetails() {
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
         if (Number(idModal) !== 0) {
-          fetchData(Number(idModal), user.role.id);
-          if (user.role.id !== 1) handleRead(Number(idModal));
+          if (user) fetchData(Number(idModal), user.role.id);
+          if (user?.role.id !== 1) handleRead(Number(idModal));
         }
       });
     }
@@ -67,7 +67,7 @@ function ModalViewDetails() {
         addItemModal.removeEventListener('show.bs.modal', () => { });
       }
     };
-  }, [user.role.id, dataNotif]);
+  }, [user, dataNotif]);
 
   return (
     <div className="modal fade" id="modalViewSanction">

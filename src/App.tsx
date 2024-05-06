@@ -12,6 +12,7 @@ import Notifications from './components/Notification';
 import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
+import { UserProvider } from './store/user.context';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
@@ -32,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <UserProvider>
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -45,7 +46,7 @@ function App() {
       {window.location.pathname === '/' ? null : <Navbar navContent={navTop} />}
       <main><ListeRoute /></main>
       <Footer />
-    </>
+    </UserProvider>
   );
 }
 
