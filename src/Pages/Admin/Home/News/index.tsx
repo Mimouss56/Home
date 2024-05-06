@@ -4,8 +4,6 @@ import { INews } from '../../../../@types/Home/news';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import ModalAddNews from '../../../../components/Modal/News/formNews';
-import Navbar from '../../../../layout/Navbar';
-import navTop from '../../../../../data/navTop.json';
 
 function NewsList() {
   const [newsList, setNewsList] = useState<INews[]>([]);
@@ -60,7 +58,6 @@ function NewsList() {
 
   return (
     <>
-      <Navbar navContent={navTop} />
       {/* Bootstrap Modal */}
       <ModalAddNews onAddElement={fetchListNews} />
       <article>
