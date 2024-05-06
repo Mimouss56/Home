@@ -1,6 +1,5 @@
 import { Menu } from 'react-feather';
 import { useContext } from 'react';
-import { useContext } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import { baseUrl } from '../../../config.json';
@@ -10,7 +9,6 @@ import AsideUserMenu from '../User/aside.user';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navItemsMouss from '../../../data/navItemsMouss.json';
 import { userContext } from '../../store/user.context';
-// import { userContext } from '../../store/user.context';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -46,7 +44,7 @@ function Navbar({ navContent }: NavbarProp) {
       >
         <NavBar navContentArray={navContent} />
         {
-          (sessionToken !== null && user !== null && user !== null)
+          (sessionToken !== null && user !== null)
             ? (
               <>
                 <AsideUserMenu navContent={[navItemsUser, navItemsMouss]} />
