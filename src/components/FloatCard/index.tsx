@@ -3,11 +3,12 @@ import { ICard } from '../../@types/Home/card';
 import { excerpt, textFormatDuration } from '../../utils/main';
 import { baseUrl } from '../../../config.json';
 import defaultImg from '../../assets/images/finishWebsite.png';
+import useUserStore from '../../store/user.store';
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target, type,
 }: ICard) {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const user = useUserStore((state) => state.user);
 
   // on check si l'url de l'image est local ou externe
   const [urlImgState, setUrlImgState] = useState('');
