@@ -5,10 +5,12 @@ import defaultImage from '../../assets/images/finishWebsite.png';
 import './style.scss';
 import useFetchData from '../../hook/useFetchData';
 import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
+import useUserStore from '../../store/user.store';
 
 function CardPortfolio() {
+  const dataMe = useUserStore((state) => state.user);
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
-  const [dataMe] = useFetchData('/api/home/user/@me');
+
   const listPortfolio = dataPortfolio
     .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1)) as ICardPortfolio[];
 

@@ -8,11 +8,12 @@ import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from './viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
+import useUserStore from '../../store/user.store';
 
 dayjs.extend(isoWeek);
 const initMaxSanction = 10;
 function Sanction() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+  const user = useUserStore((state) => state.user);
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
 

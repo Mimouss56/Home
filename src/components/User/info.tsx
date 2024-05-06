@@ -1,9 +1,10 @@
 import { IUser } from '../../@types/Home/user';
 import useFormInput from '../../hook/useFormInput';
+import useUserStore from '../../store/user.store';
 import Textarea from '../Form/textarea';
 
 function Complement() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}') as IUser;
+  const user = useUserStore((state) => state.user) as IUser;
   const initData = {
     info: true,
     id: user.id,

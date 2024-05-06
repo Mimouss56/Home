@@ -1,11 +1,12 @@
 import { IEntreprise } from '../../@types/Home/ent';
+import useUserStore from '../../store/user.store';
 
 interface EntCardProps {
   ent: IEntreprise;
 }
 
-const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 function EntCard({ ent }: EntCardProps) {
+  const user = useUserStore((state) => state.user);
   const {
     id, name, urlImg, contact,
   } = ent;

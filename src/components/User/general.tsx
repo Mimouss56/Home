@@ -1,15 +1,16 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import { IAvatarWithoutObject, IUser } from '../../@types/Home/user';
+import { IAvatarWithoutObject } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
 import FileUploader from '../fileUploader';
 import { ErrorAxios } from '../../@types/error';
 import useImageUpload from '../../hook/utils/useImageUpload';
 import useFormInput from '../../hook/useFormInput';
+import useUserStore from '../../store/user.store';
 
 function InfosUser() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}') as IUser;
+  const user = useUserStore((state) => state.user);
   const initData = {
     last_name: user.last_name || '',
     first_name: user.first_name || '',
