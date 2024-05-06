@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ViewCVPage from '../Pages/CV';
 import Sanction from '../Pages/Sanction';
+import Test from '../Pages/Test';
+import { IUser } from '../@types/Home/user';
 import Dashboard from './Dashboard';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
@@ -10,18 +12,24 @@ import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
 import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
+import useFetchData from '../hook/useFetchData';
 import Pokedex from '../Pages/Pokedex';
-import useUserStore from '../store/user.store';
 
 function ListeRoute() {
-  const userInfo = useUserStore((state) => state.user);
+  // const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const [dataMe] = useFetchData('/api/home/@me');
   const [isAdmin, setIsAdmin] = useState(false);
   const [isESA, setIsESA] = useState(false);
 
   useEffect(() => {
-    setIsAdmin(userInfo?.role.label === 'admin');
-    setIsESA(userInfo?.role.label === 'esa' || userInfo?.role.label === 'admin');
-  }, [userInfo]);
+    if (typeof dataMe !== 'object') {
+      console.log(dataMe);
+
+      setIsAdmin(dataMe?.role.label === 'admin');
+      // const isAdmin = (dataMe?.role.label === 'admin');
+      setIsESA(dataMe?.role.label === 'esa' || dataMe?.role.label === 'admin');
+    }
+  }, [dataMe]);
 
   return (
     <Routes>
