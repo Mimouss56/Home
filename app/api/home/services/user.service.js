@@ -67,6 +67,11 @@ const generateByDefault = async (data, dataOption) => {
 
 module.exports = {
 
+  /**
+   *
+   * @param {*} id
+   * @return {User}
+   */
   async getData(id) {
     const userByID = await user.base.findByPk(id);
     if (!userByID) {

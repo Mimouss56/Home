@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { loggedAs } = require('../../../middlewares/auth.middleware');
+const { loggedAs, loggedAsMe } = require('../../../middlewares/auth.middleware');
 const { validate } = require('../../../middlewares/validate.middleware');
 const loginController = require('../controllers/auth.controller');
 const { loginSchema } = require('../schemas/auth.schema');
@@ -28,6 +28,8 @@ router.post('/login', validate(loginSchema), loginController.login);
  * @return 401 - Unauthorized
 */
 router.post('/register', loginController.register);
+
+router.use('/@me', loggedAsMe, loginController.getMe);
 router.use('/cv', require('./cv.router'));
 
 router.use('/news', require('./news.router'));

@@ -12,7 +12,7 @@ import { MoussID, baseUrl } from '../../../../../config.json';
 import { IUser } from '../../../../@types/Home/user';
 
 function Contact() {
-  const [userInfo, setUserInfo] = useState({} as IUser);
+  const [userMouss, setUserInfo] = useState({} as IUser);
   const fetchInfo = async () => {
     try {
       const userInfoDataReponse = await axiosInstance.get(`/api/home/user/${MoussID}`);
@@ -46,42 +46,42 @@ function Contact() {
         alignItems: 'center',
       }}
       >
-        <Image src={`${baseUrl}/images/${userInfo.avatar?.path}`} style={styles.avatarImg} />
-        <Text style={styles.styleH1}>{`${userInfo.last_name} ${userInfo.first_name}`}</Text>
+        <Image src={`${baseUrl}/images/${userMouss.avatar?.path}`} style={styles.avatarImg} />
+        <Text style={styles.styleH1}>{`${userMouss.last_name} ${userMouss.first_name}`}</Text>
       </View>
       <Text style={styles.styleContent}>
-        {userInfo.prez}
+        {userMouss.prez}
       </Text>
       <Text style={styles.styleTitle}>Contact</Text>
       <View style={styles.styleList}>
-        <Link src={`mailto:${userInfo.email}`}>
-          <Text style={styles.styleLink}>{userInfo.email}</Text>
+        <Link src={`mailto:${userMouss.email}`}>
+          <Text style={styles.styleLink}>{userMouss.email}</Text>
         </Link>
-        <Link src={`tel:${userInfo.phone}`} style={styles.styleLink}>
-          <Text style={styles.styleLink}>{userInfo.phone}</Text>
+        <Link src={`tel:${userMouss.phone}`} style={styles.styleLink}>
+          <Text style={styles.styleLink}>{userMouss.phone}</Text>
         </Link>
-        <Text style={styles.styleLink}>{userInfo.address}</Text>
-        {userInfo.website && (
-          <Link src={`${userInfo.website}`} style={styles.linkWithImg}>
+        <Text style={styles.styleLink}>{userMouss.address}</Text>
+        {userMouss.website && (
+          <Link src={`${userMouss.website}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/domain.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userInfo.website}
+              {userMouss.website}
             </Text>
           </Link>
         )}
-        {userInfo.linkedin && (
-          <Link src={`${userInfo.linkedin}`} style={styles.linkWithImg}>
+        {userMouss.linkedin && (
+          <Link src={`${userMouss.linkedin}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userInfo.linkedin.split('/')[4]}
+              {userMouss.linkedin.split('/')[4]}
             </Text>
           </Link>
         )}
-        {userInfo.github && (
-          <Link src={`${userInfo.github}`} style={styles.linkWithImg}>
+        {userMouss.github && (
+          <Link src={`${userMouss.github}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/github.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userInfo.github.split('/')[3]}
+              {userMouss.github.split('/')[3]}
             </Text>
           </Link>
         )}
