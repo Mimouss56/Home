@@ -9,8 +9,8 @@ function Login() {
   const { setUser } = useContext(userContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error] = useState(false);
-  const [errorMessage] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const loginRef = useRef<HTMLFormElement>(null);
 
