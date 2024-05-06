@@ -4,10 +4,8 @@ import {
 import { toast } from 'react-toastify';
 import { userContext } from '../../../store/user.context';
 import axiosInstance from '../../../utils/axios';
-// import useUserStore from '../../../store/user.store';
 
 function Login() {
-  // const store = useUserStore();
   const { setUser } = useContext(userContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +17,6 @@ function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     loginRef.current?.classList.remove('show');
-    // store.login(username, password);
     const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
     backdrop.remove();
 

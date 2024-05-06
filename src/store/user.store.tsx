@@ -6,7 +6,7 @@ import useNotifStore from './notif.store';
 
 interface IUserState {
   user: null | IUser;
-  error: string
+  error: string;
 
   logout: () => void;
   login: (username: string, password: string) => Promise<IUser>;
@@ -14,6 +14,7 @@ interface IUserState {
   // handleError: (error: any) => boolean;
   // register: (dataUser: any) => Promise<boolean>;
   // loginWithToken: () => Promise<boolean>;
+  getMe: () => Promise<IUser>;
 
 }
 const useUserStore = create<IUserState>((set) => ({
@@ -46,6 +47,14 @@ const useUserStore = create<IUserState>((set) => ({
       set({ error: response.data });
       return error;
     }
+  },
+  getMe: async () => {
+    const token = sessionStorage.getItem('sessionToken');
+    if (token) {
+      const dataMe = await axiosInstance.get('/api/home/@me');
+      return dataMe.data;
+    }
+    return null;
   },
 
   // register: async (dataUser) => {

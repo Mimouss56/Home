@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import { excerpt, textFormatDuration } from '../../utils/main';
 import { baseUrl } from '../../../config.json';
 import defaultImg from '../../assets/images/finishWebsite.png';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target, type,
 }: ICard) {
-  const user = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
 
   // on check si l'url de l'image est local ou externe
   const [urlImgState, setUrlImgState] = useState('');
@@ -88,7 +88,7 @@ function FloatCard({
         }}
       >
         <div className="card-body">
-          {user && user.username === 'Mouss' && (
+          {user?.username === 'Mouss' && (
             <button
               type="button"
               className="bi bi-gear text-danger btn position-absolute top-0 end-0 "

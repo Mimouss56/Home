@@ -9,7 +9,6 @@ import AsideUserMenu from '../User/aside.user';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navItemsMouss from '../../../data/navItemsMouss.json';
 import { userContext } from '../../store/user.context';
-// import useUserStore from '../../store/user.store';
 
 interface NavbarProp {
   navContent: MenuProp[];
@@ -18,9 +17,6 @@ interface NavbarProp {
 function Navbar({ navContent }: NavbarProp) {
   const sessionToken = sessionStorage.getItem('sessionToken');
   const { user } = useContext(userContext);
-  console.log(user);
-
-  // const user = useUserStore((state) => state.user);
   if (user?.role.id === 1) {
     const pushTestLink = {
       id: 4,
