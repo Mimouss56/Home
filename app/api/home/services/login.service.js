@@ -64,9 +64,9 @@ module.exports = {
     const userLogged = {
       sessionToken: token,
       message: `Connecté sous ${userExist.username} !`,
-      data: {
-        dataNotif,
-      },
+      dataNotif,
+      user: userInfo,
+
       // id: userExist.id,
       // username: userExist.username,
       // email: userExist.email,

@@ -1,6 +1,5 @@
 const loginService = require('../services/login.service');
 const registerService = require('../services/register.service');
-const userService = require('../services/user.service');
 
 module.exports = {
   async login(req, res) {
@@ -28,9 +27,6 @@ module.exports = {
 
   async getMe(req, res) {
     if (!req.user) return res.json({});
-    const { id } = req.user;
-    const user = await userService.getData(id);
-
-    return res.json(user);
+    return res.json(req.user);
   },
 };
