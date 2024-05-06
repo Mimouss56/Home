@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { toast } from 'react-toastify';
@@ -8,12 +8,12 @@ import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from './viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
-import useUserStore from '../../store/user.store';
+import { userContext } from '../../store/user.context';
 
 dayjs.extend(isoWeek);
 const initMaxSanction = 10;
 function Sanction() {
-  const user = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
   const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
 
@@ -47,12 +47,12 @@ function Sanction() {
     }
   };
   const handleAddElement = () => {
-    fetchData(user.role.id);
+    if (user) fetchData(user?.role.id);
   };
 
   useEffect(() => {
-    fetchData(user.role.id);
-  }, [user.role.id]);
+    if (user) fetchData(user.role.id);
+  }, [user]);
 
   return (
     <>
@@ -68,7 +68,7 @@ function Sanction() {
                 <th scope="col">Description</th>
                 <th scope="col">Week</th>
                 <th scope="col">Auteur</th>
-                {user.role.id === 1 && (
+                {user?.role.id === 1 && (
                   <>
                     <th scope="col">Enfant</th>
                     <th scope="col">Actions</th>
@@ -79,7 +79,7 @@ function Sanction() {
             <tbody>
               {sanctionList
                 .filter((sanction) => {
-                  if (user.role.id !== 1) return sanction.child?.id === user.id; return sanction;
+                  if (user?.role.id !== 1) return sanction.child?.id === user?.id; return sanction;
                 })
                 .slice(0, nbMaxSanction)
                 .map((sanction) => (
@@ -103,7 +103,7 @@ function Sanction() {
                     </td>
                     <td>
                       {
-                        !sanction.read && user.role.id !== 1 && (
+                        !sanction.read && user?.role.id !== 1 && (
                           <span className="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">New</span>)
                       }
                     </td>
@@ -118,7 +118,7 @@ function Sanction() {
                     </td>
 
                     {
-                      user.role.id === 1 && (
+                      user?.role.id === 1 && (
                         <>
                           <td className="text-capitalize">{sanction.child?.username.toLowerCase()}</td>
                           <td>

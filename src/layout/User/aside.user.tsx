@@ -1,16 +1,16 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
 import { MenuItemsProp } from '../../@types/menu';
-import useUserStore from '../../store/user.store';
 import Nav from '../../components/Menu/asideUserNav';
+import { userContext } from '../../store/user.context';
 
 interface MenuProp {
   navContent: MenuItemsProp[][];
 }
 
 function AsideUserMenu({ navContent }: MenuProp) {
-  const userSession = useUserStore((state) => state.user);
+  const { user } = useContext(userContext);
   const [navItemsUser, navItemsMouss] = navContent;
 
   const handleClickLogout = () => {
@@ -51,10 +51,10 @@ function AsideUserMenu({ navContent }: MenuProp) {
     >
       <ul className="nav nav-pills flex-column mb-auto p-0 m-0 list-unstyled ">
         <Nav navItems={navItemsUser as MenuItemsProp[]} />
-        {userSession?.username === 'Mouss' && navItemsMouss && (
+        {user?.username === 'Mouss' && navItemsMouss && (
           <Nav navItems={navItemsMouss as MenuItemsProp[]} />
         )}
-        {(userSession?.role.label === 'admin' || userSession?.child) && (
+        {(user?.role.label === 'admin' || user?.child) && (
           <Nav navItems={[{
             id: 4,
             title: 'Sanction',
@@ -75,7 +75,7 @@ function AsideUserMenu({ navContent }: MenuProp) {
         />
 
       )} */}
-        {(userSession?.role.label === 'esa' || userSession?.role.label === 'admin') && (
+        {(user?.role.label === 'esa' || user?.role.label === 'admin') && (
           <Nav navItems={[
             {
               id: 1,
@@ -88,7 +88,7 @@ function AsideUserMenu({ navContent }: MenuProp) {
           />
         )}
 
-        {userSession?.role.label === 'admin' && (
+        {user?.role.label === 'admin' && (
           <Nav navItems={[
             {
               id: 1,
