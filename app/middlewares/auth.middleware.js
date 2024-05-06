@@ -39,6 +39,7 @@ const loggedAsMe = async (req, res, next) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
       const userById = await userService.getData(decoded.id);
       req.user = userById;
 
