@@ -29,35 +29,7 @@ function Navbar({ navContent }: NavbarProp) {
     const found = navContent.some((el) => el.id === pushTestLink.id);
     if (!found) navContent.push(pushTestLink);
   }
-  const updateUserInfo = () => {
-    const storedUserInfo = sessionStorage.getItem('user');
-    if (storedUserInfo) {
-      const user = JSON.parse(storedUserInfo) as IUser;
-      setUserInfo(user);
-      setAvatar(user.avatar ? `${baseUrl}/images/${user.avatar.path}` : 'https://pluspng.com/img-png/github-octocat-logo-vector-png--896.jpg');
-    } else {
-      setUserInfo(null);
-    }
 
-    const storedSessionToken = sessionStorage.getItem('sessionToken');
-    setSessionToken(storedSessionToken);
-  };
-
-  useEffect(() => {
-    updateUserInfo();
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'user' || e.key === 'sessionToken') {
-        updateUserInfo();
-      }
-    };
-    window.addEventListener('storage', handleStorageChange);
-    // document.addEventListener('newLogin', updateUserInfo);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      // document.removeEventListener('newLogin', updateUserInfo);
-    };
-  }, [navContent]);
   return (
     <>
       <nav

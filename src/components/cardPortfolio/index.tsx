@@ -7,8 +7,8 @@ import useFetchData from '../../hook/useFetchData';
 import ModalAddFolio from '../Modal/PortFolio/formPortfolio';
 
 function CardPortfolio() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
+  const [dataMe] = useFetchData('/api/home/user/@me');
   const listPortfolio = dataPortfolio
     .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1)) as ICardPortfolio[];
 
@@ -34,7 +34,7 @@ function CardPortfolio() {
             </div>
             <div className="col-md-8">
               <div className="card-body">
-                {user && user.username === 'Mouss' && (
+                {dataMe && dataMe.username === 'Mouss' && (
                   <button
                     type="button"
                     className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
