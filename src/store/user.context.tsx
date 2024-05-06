@@ -15,7 +15,7 @@ const userContext = createContext<IUserContext>({
   setUser: () => { },
 });
 
-function UserProvider({ children }: { children: ReactNode }): ReactElement {
+function UserContextProvider({ children }: { children: ReactNode }): ReactElement {
   const [user, setUser] = useState<IUser | null>(null);
   const token = sessionStorage.getItem('sessionToken');
   // si j'ai un token et !user alors on recupere l'utilisateur
@@ -36,5 +36,5 @@ function UserProvider({ children }: { children: ReactNode }): ReactElement {
 
 export {
   userContext,
-  UserProvider,
+  UserContextProvider,
 };
