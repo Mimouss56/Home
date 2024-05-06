@@ -1,18 +1,16 @@
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface ProtectedRouteProps {
   children: JSX.Element
 }
-// Vérifie si un token existe dans le sessionStorage, si oui accès aux pages
-// si non redirection vers formulaire de connexion
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {
   const token = sessionStorage.getItem('sessionToken') || '';
 
   // Si absence de Token dans le sessionStorage, redirection vers la page d'accueil
   if (!token) {
-    sessionStorage.setItem('notifToast', 'Vous devez être connecté pour accéder à cette page');
-    sessionStorage.removeItem('user');
+    toast.error('Vous devez être connecté pour accéder à cette page');
 
     return <Navigate to="/" replace />;
   }
@@ -25,8 +23,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (dateNow > dateExp) {
     sessionStorage.removeItem('sessionToken');
-    sessionStorage.removeItem('user');
-    sessionStorage.setItem('notifToast', 'Votre session a expiré');
+    toast.error('Votre session a expiré');
     return <Navigate to="/" replace />;
   }
   return children;

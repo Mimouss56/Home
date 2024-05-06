@@ -1,19 +1,20 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
-import { IAvatarWithoutObject, IUser } from '../../@types/Home/user';
+import { useContext, useEffect, useState } from 'react';
+import { IAvatarWithoutObject } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
 import FileUploader from '../fileUploader';
 import { ErrorAxios } from '../../@types/error';
 import useImageUpload from '../../hook/utils/useImageUpload';
 import useFormInput from '../../hook/useFormInput';
+import { userContext } from '../../store/user.context';
 
 function InfosUser() {
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}') as IUser;
+  const { user } = useContext(userContext);
   const initData = {
-    last_name: user.last_name || '',
-    first_name: user.first_name || '',
-    email: user.email,
+    last_name: user?.last_name || '',
+    first_name: user?.first_name || '',
+    email: user?.email,
   };
   const [editName, setEditName] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
@@ -26,7 +27,7 @@ function InfosUser() {
     setImageFile(file);
 
     try {
-      axiosInstance.put(`/api/home/user/${user.id}`, { main: true, avatar: file.id });
+      axiosInstance.put(`/api/home/user/${user?.id}`, { main: true, avatar: file.id });
       const newUser = {
         ...user,
         avatar: file,
@@ -50,7 +51,7 @@ function InfosUser() {
     // On met à jour les infos du user par la route /user/:id
     try {
       const response = await axiosInstance.put(
-        `/api/home/user/${user.id}`,
+        `/api/home/user/${user?.id}`,
         { ...form, main: true },
       );
       toast.info(response.data.message);
@@ -74,19 +75,19 @@ function InfosUser() {
   };
 
   useEffect(() => {
-    if (user.avatar?.path !== imageFile?.path) {
+    if (user?.avatar?.path !== imageFile?.path) {
       setImageFile(imageFile);
     }
-  }, [user.avatar, imageFile, setImageFile]);
+  }, [user, imageFile, setImageFile]);
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="card border-white">
         <div className="card-body">
           <h4 className="card-title text-dark">
-            {`Informations Générales de ${user.username}`}
+            {`Informations Générales de ${user?.username}`}
           </h4>
-          <FileUploader submit={handleChangeFile} img={user.avatar?.path || ''} />
+          <FileUploader submit={handleChangeFile} img={user?.avatar?.path || ''} />
 
           <div className="input-group mb-3">
             <span className="input-group-text" id="Nom">
@@ -166,14 +167,14 @@ function InfosUser() {
 
           <div className="mt-3">
             <span className="badge bg-primary me-2">
-              {user.role.label}
+              {user?.role.label}
             </span>
-            {user.family && (
+            {user?.family && (
               <span className="badge bg-success me-2">
                 Membre de la famille
               </span>
             )}
-            {user.child && (
+            {user?.child && (
               <span className="badge bg-warning me-2">Enfant</span>
             )}
           </div>

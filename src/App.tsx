@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 //  CSS
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,7 @@ import Notifications from './components/Notification';
 import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
+import { UserProvider } from './store/user.context';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
@@ -23,8 +24,10 @@ const showFeedback = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 
 // User menu
 
 function App() {
+  const [showNav, setShowNav] = useState(true);
   useEffect(() => {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
+    if (window.location.pathname === '/') setShowNav(false);
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
       sessionStorage.removeItem('notifToast');
@@ -32,7 +35,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <UserProvider>
       <ToastContainer
         position="top-left"
         autoClose={5000}
@@ -42,10 +45,10 @@ function App() {
       <Snow />
 
       <Notifications />
-      {window.location.pathname === '/' ? null : <Navbar navContent={navTop} />}
+      {showNav && <Navbar navContent={navTop} />}
       <main><ListeRoute /></main>
       <Footer />
-    </>
+    </UserProvider>
   );
 }
 

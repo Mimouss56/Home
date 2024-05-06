@@ -1,11 +1,13 @@
+import { useContext } from 'react';
 import { IEntreprise } from '../../@types/Home/ent';
+import { userContext } from '../../store/user.context';
 
 interface EntCardProps {
   ent: IEntreprise;
 }
 
-const user = JSON.parse(sessionStorage.getItem('user') || '{}');
 function EntCard({ ent }: EntCardProps) {
+  const { user } = useContext(userContext);
   const {
     id, name, urlImg, contact,
   } = ent;

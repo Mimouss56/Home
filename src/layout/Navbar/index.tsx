@@ -1,25 +1,23 @@
 import { Menu } from 'react-feather';
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import { IUser } from '../../@types/Home/user';
 import { baseUrl } from '../../../config.json';
 import Login from '../../components/Modal/Auth/login';
 import Register from '../../components/Modal/Auth/register';
-import MenuNav from '../User/aside.user';
+import AsideUserMenu from '../User/aside.user';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navItemsMouss from '../../../data/navItemsMouss.json';
+import { userContext } from '../../store/user.context';
 
 interface NavbarProp {
   navContent: MenuProp[];
 }
 
 function Navbar({ navContent }: NavbarProp) {
-  const [avatar, setAvatar] = useState('');
-  const [userInfo, setUserInfo] = useState<IUser | null>(null);
-  const [sessionToken, setSessionToken] = useState<string | null>(null);
-  // Ajout du lien Test pour les admin
-  if (userInfo?.role.id === 1) {
+  const sessionToken = sessionStorage.getItem('sessionToken');
+  const { user } = useContext(userContext);
+  if (user?.role.id === 1) {
     const pushTestLink = {
       id: 4,
       name: 'Test',
@@ -29,6 +27,10 @@ function Navbar({ navContent }: NavbarProp) {
     const found = navContent.some((el) => el.id === pushTestLink.id);
     if (!found) navContent.push(pushTestLink);
   }
+  // if (user.avatar) {
+  //   setAvatar();
+  // }
+  // console.log('store.user', store.user);
 
   return (
     <>
@@ -42,28 +44,29 @@ function Navbar({ navContent }: NavbarProp) {
       >
         <NavBar navContentArray={navContent} />
         {
-          (sessionToken !== null && userInfo !== null)
+          (sessionToken !== null && user !== null)
             ? (
               <>
-                <MenuNav navContent={[navItemsUser, navItemsMouss]} />
+                <AsideUserMenu navContent={[navItemsUser, navItemsMouss]} />
 
                 <p className="text-light m-2 d-none d-md-block">
-                  {`Bienvenu ${userInfo.username}`}
+                  {`Bienvenu ${user.username}`}
                 </p>
-                <a
-                  href="/user/setting"
-                  className="d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
+                <button
+                  type="button"
+                  // href="/user/setting"
+                  className="btn d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                 >
                   <img
-                    src={avatar}
+                    src={`${baseUrl}/images/${user.avatar.path}`}
                     alt="avatar"
                     className="rounded-circle"
                     width="32"
                     height="32"
                   />
-                </a>
+                </button>
                 <button
                   type="button"
                   className="btn align-items-end text-light d-block d-md-none"

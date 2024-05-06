@@ -1,22 +1,16 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { IUser } from '../../@types/Home/user';
 import { MenuItemsProp } from '../../@types/menu';
-
-import './style.scss';
 import Nav from '../../components/Menu/asideUserNav';
-import ProtectedRoute from '../../components/ProtectedRoute';
+import { userContext } from '../../store/user.context';
 
 interface MenuProp {
   navContent: MenuItemsProp[][];
 }
 
-function Menu({ navContent }: MenuProp) {
-  const userSession = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
-  const isAdmin = (userSession.role.label === 'admin');
-  const isESA = (userSession.role.label === 'esa' || userSession.role.label === 'admin');
-  const isMouss = (userSession.username === 'Mouss');
+function AsideUserMenu({ navContent }: MenuProp) {
+  const { user } = useContext(userContext);
   const [navItemsUser, navItemsMouss] = navContent;
 
   const handleClickLogout = () => {
@@ -47,77 +41,75 @@ function Menu({ navContent }: MenuProp) {
   }, []);
 
   return (
-    <ProtectedRoute>
-      <aside
-        id="aside"
-        className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right shadow-lg"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        data-bs-dismiss="true"
-      >
-        <ul className="nav nav-pills flex-column mb-auto">
-          <Nav navItems={navItemsUser as MenuItemsProp[]} />
-          {isMouss && navItemsMouss && (
-            <Nav navItems={navItemsMouss as MenuItemsProp[]} />
-          )}
-          {(isAdmin || userSession.child) && (
-            <Nav navItems={[{
-              id: 4,
-              title: 'Sanction',
-              link: '/sanction',
-              icon: 'bandaid',
-              component: 'Sanction',
-            }] as MenuItemsProp[]}
-            />
-          )}
-          {/* {isFamily && (
-            <Nav navItems={[{
-              id: 4,
-              title: 'Domotic',
-              link: '/domotic',
-              icon: 'plug',
-              component: 'Sanction',
-            }] as MenuItemsProp[]}
-            />
+    <aside
+      id="aside"
+      className="flex-shrink-0 p-3 bg-light offcanvas offcanvas-end w-10 w-sm-100 h-100 bg-white border-right shadow-lg position-fixed end-0 border"
+      data-bs-scroll="true"
+      data-bs-backdrop="false"
+      data-bs-dismiss="offcanvas"
 
-          )} */}
-          {isESA && (
-            <Nav navItems={[
-              {
-                id: 1,
-                title: 'ESA',
-                link: '/ESA',
-                icon: 'setting',
-                component: 'Admin',
-              },
-            ] as MenuItemsProp[]}
-            />
-          )}
+    >
+      <ul className="nav nav-pills flex-column mb-auto p-0 m-0 list-unstyled ">
+        <Nav navItems={navItemsUser as MenuItemsProp[]} />
+        {user?.username === 'Mouss' && navItemsMouss && (
+          <Nav navItems={navItemsMouss as MenuItemsProp[]} />
+        )}
+        {(user?.role.label === 'admin' || user?.child) && (
+          <Nav navItems={[{
+            id: 4,
+            title: 'Sanction',
+            link: '/sanction',
+            icon: 'bandaid',
+            component: 'Sanction',
+          }] as MenuItemsProp[]}
+          />
+        )}
+        {/* {isFamily && (
+        <Nav navItems={[{
+          id: 4,
+          title: 'Domotic',
+          link: '/domotic',
+          icon: 'plug',
+          component: 'Sanction',
+        }] as MenuItemsProp[]}
+        />
 
-          {isAdmin && (
-            <Nav navItems={[
-              {
-                id: 1,
-                title: 'Espace Admin',
-                link: '/admin',
-                icon: 'setting',
-                component: 'Admin',
-              },
-            ] as MenuItemsProp[]}
-            />
-          )}
-          <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
-            Déconnexion
-          </button>
+      )} */}
+        {(user?.role.label === 'esa' || user?.role.label === 'admin') && (
+          <Nav navItems={[
+            {
+              id: 1,
+              title: 'ESA',
+              link: '/ESA',
+              icon: 'setting',
+              component: 'Admin',
+            },
+          ] as MenuItemsProp[]}
+          />
+        )}
 
-        </ul>
-        <hr />
-        <Outlet />
-      </aside>
+        {user?.role.label === 'admin' && (
+          <Nav navItems={[
+            {
+              id: 1,
+              title: 'Espace Admin',
+              link: '/admin',
+              icon: 'setting',
+              component: 'Admin',
+            },
+          ] as MenuItemsProp[]}
+          />
+        )}
+        <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>
+          Déconnexion
+        </button>
 
-    </ProtectedRoute>
+      </ul>
+      <hr />
+      <Outlet />
+    </aside>
 
   );
 }
 
-export default Menu;
+export default AsideUserMenu;

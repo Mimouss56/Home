@@ -1,14 +1,15 @@
+import { useContext } from 'react';
 import AsideMenuAdmin from './aside.menu';
 import navItemsAdmin from '../../../data/navItemsAdmin.json';
-import { IUser } from '../../@types/Home/user';
 import RoutesAdmin from '../../Routes/admin';
+import { userContext } from '../../store/user.context';
 
 function PageAdminHome() {
-  const userInfo = JSON.parse(sessionStorage.getItem('user') as string) as IUser;
+  const { user } = useContext(userContext);
 
   return (
     <div className="row">
-      {userInfo.role.id === 1 && (<AsideMenuAdmin navItems={navItemsAdmin} />)}
+      {user?.role.id === 1 && (<AsideMenuAdmin navItems={navItemsAdmin} />)}
 
       <section
         className="offset-col-2 col-10 active vh-100 px-5 py-2"
