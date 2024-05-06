@@ -148,7 +148,7 @@ function Sanction() {
                   <button
                     type="button"
                     className="btn btn-warning"
-                    onClick={() => setNbMaxSanction((prevMax) => prevMax + initMaxSanction)}
+                    onClick={() => setNbMaxSanction((prevMax) => prevMax + 5)}
                   >
                     Voir plus
                   </button>
