@@ -5,9 +5,12 @@ import AddContactModal from '../../components/Modal/Ent/formContact';
 import ModalAddInteraction from '../../components/Modal/Ent/formInteraction';
 import ContactCollapse from '../../components/CollapseContact';
 import { entContext } from '../../store/ent.context';
+import { userContext } from '../../store/user.context';
+import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 
 function DetailsEntreprise({ id }: { id: number }) {
   const { ent, setEnt } = useContext(entContext);
+  const { user } = useContext(userContext);
   // on filtre l'entreprise par son id
   const entreprise = ent.find((e) => e.id === id);
   const [idContact, setIdContact] = useState(0);
@@ -36,20 +39,44 @@ function DetailsEntreprise({ id }: { id: number }) {
 
   return (
     <section
-      className="d-flex flex-wrap vh-100 mx-auto w-100 pt-5"
+      className="d-flex flex-wrap vh-100 mx-auto w-100 pt-5 row"
+      style={{ height: '100vp' }}
     >
-      {/* 1er colonne */}
-      <div className="d-flex flex-column col-lg-3 mx-auto ">
 
+      {/* 1er colonne */}
+      <div className="d-flex flex-column col-xs-12 col-lg-3 px-3 h-lg-100">
+        <button
+          type="button"
+          className="btn btn-primary mb-2 w-50 mx-auto"
+          onClick={() => window.history.back()}
+        >
+          <i className="bi bi-box-arrow-up-left" />
+          Retour à la liste
+        </button>
         {/* Card ENT */}
-        <div className="d-flex flex-column flex-wrap">
-          <h2>{`Détails de ${entreprise.name}`}</h2>
-          <img src={entreprise.urlImg} alt={entreprise.name} className="img-fluid m-auto" width="150px" />
-          <i>{`${entreprise.address}, ${entreprise.postalCode} ${entreprise.town}`}</i>
+        <div className="d-flex flex-column flex-wrap mb-5 bg-secondary-subtle text-dark rounded p-2 position-relative">
+          {user?.username === 'Mouss' && (
+            <button
+              type="button"
+              className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
+              data-bs-toggle="modal"
+              data-bs-target="#addEntModal"
+              data-bs-id-ent={id}
+              data-bs-type="ent"
+            />
+          )}
+          <img
+            src={entreprise.urlImg}
+            alt={entreprise.name}
+            className="img-fluid m-auto my-4"
+            width="150px"
+          />
+          <i>{`${entreprise.address},`}</i>
+          <i>{` ${entreprise.postalCode} ${entreprise.town}`}</i>
         </div>
 
         {/* Contact Details */}
-        <div className="d-flex flex-column flex-wrap w-100 ">
+        <div className="d-flex flex-column flex-wrap w-100 mb-5">
           <div className="d-flex flex-wrap justify-content-between ">
             <h3>Contact</h3>
 
@@ -109,6 +136,8 @@ function DetailsEntreprise({ id }: { id: number }) {
 
       <ModalAddInteraction onAddElement={handleAddInteractionOfUser} />
       <AddContactModal onAddElement={handleAddContact} />
+      <AddEntModal />
+
     </section>
   );
 }

@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
-import useFetchData from '../../../hook/useFetchData';
 import SkillInput from '../../Job/softSkillInput';
 import { ISoftSkill } from '../../../@types/Home/softSkill';
-import { IEntreprise } from '../../../@types/Home/ent';
 import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
 import Textarea from '../../Form/textarea';
 import InputText from '../../Form/inputText';
+import { entContext } from '../../../store/ent.context';
 
 const initFormData = {
   type: 'job',
@@ -33,8 +32,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
-  const [dataEnt] = useFetchData('/api/home/ent');
-  const listEnt = dataEnt as IEntreprise[];
+  const { ent } = useContext(entContext);
 
   const fetchData = (async (id: number) => {
     try {
@@ -54,10 +52,8 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     } catch (err) {
       const error = err as Error;
       toast.error(error.message);
+      return initFormData;
     }
-    const response = await axiosInstance.get(`/api/home/cv/${id}`);
-    const emploiData = response.data;
-    return emploiData;
   });
 
   const handleAddSkill = (skill: ISoftSkill) => {
@@ -160,8 +156,8 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                     required
                   >
                     <option value={0} disabled>Choisir une entreprise</option>
-                    {listEnt.map((ent) => (
-                      <option key={ent.id} value={ent.id}>{ent.name}</option>
+                    {ent.map((e) => (
+                      <option key={e.id} value={e.id}>{e.name}</option>
                     ))}
                   </select>
                   {/* // Intitulé Input */}

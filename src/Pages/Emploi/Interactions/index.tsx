@@ -62,10 +62,9 @@ function Interations({ listEnt }: { listEnt: IEntreprise[] }) {
 
   return (
     <>
-      <div className="">
-        <h1>Listing des interations</h1>
-      </div>
-      <div className="table-responsive w-75 mx-auto">
+      <h1>Listing des interations</h1>
+
+      <div className="table-responsive mx-3">
         <table className="table">
           <thead>
             <tr>

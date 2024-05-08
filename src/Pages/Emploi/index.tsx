@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { IEntreprise } from '../../@types/Home/ent';
-// import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
+import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
 import Interations from './Interactions';
 import SectionLayout from '../../layout/SectionLayout';
@@ -26,34 +26,35 @@ function EntPage() {
 
   return (
     <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
-      <div className="input-group mb-3 w-50 m-auto">
-        <span className="input-group-text" id="search-ent">
-          <i className="bi bi-search" />
-        </span>
-        <input
-          type="search"
-          className="form-control"
-          placeholder="Entreprise"
-          aria-label="Entreprise"
-          aria-describedby="search-ent"
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        {/* Afficher le bouton "Ajouter" seulement si la recherche ne retourne aucun résultat */}
-        {filteredEmplois.length === 0 && (
-          <button
-            type="button"
-            className="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#addEntModal"
-            data-bs-id={0}
-          >
-            Ajouter
-          </button>
-        )}
-      </div>
-      <section className="d-flex flex-row min-vh-100">
-        <div className="col-7">
+
+      <section className="d-flex flex-lg-row min-vh-100 pt-5 flex-sm-column flex-wrap justify-content-center ">
+        <div className="col-lg-7 col-sm-12 mx-sm-auto h-100">
+          <div className="input-group w-75 m-auto mb-2">
+            <span className="input-group-text" id="search-ent">
+              <i className="bi bi-search" />
+            </span>
+            <input
+              type="search"
+              className="form-control"
+              placeholder="Entreprise"
+              aria-label="Entreprise"
+              aria-describedby="search-ent"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            {filteredEmplois.length === 0 && (
+              <button
+                type="button"
+                className="btn btn-primary z-3"
+                data-bs-toggle="modal"
+                data-bs-target="#addEntModal"
+                data-bs-id={0}
+                data-bs-name-search={searchTerm}
+              >
+                Ajouter
+              </button>
+            )}
+          </div>
           {filteredEmplois && (
             <div className="d-flex flex-wrap justify-content-evenly ">
               {filteredEmplois.map((item) => (
@@ -70,17 +71,12 @@ function EntPage() {
             </div>
           )}
         </div>
-        <div className="col-5">
+        <div className="col-lg-5">
           <Interations listEnt={filteredEmplois} />
         </div>
       </section>
       {/* Modal Add Ent */}
-      {/* <AddEntModal
-        onAddElement={() => {
-          // on push le nouvel élément dans le tableau
-          setEnt((prevState: IEntreprise[]) => prevState.push(data));
-        }}
-      /> */}
+      <AddEntModal />
     </SectionLayout>
   );
 }
