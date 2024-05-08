@@ -3,8 +3,6 @@ import ICardPortfolio from '../../@types/portfolio';
 import ModalAddFolio from '../../components/Modal/PortFolio/formPortfolio';
 import FloatCard from '../../components/FloatCard';
 import useFetchData from '../../hook/useFetchData';
-import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
 import SectionLayout from '../../layout/SectionLayout';
 
 function Portfolio() {
@@ -13,7 +11,6 @@ function Portfolio() {
   const idName = 'portfolio';
   return (
     <>
-      <Navbar navContent={navTop} />
       <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio">
         <div className="d-flex justify-content-center flex-wrap max-vh-100 my-5 w-75 mx-auto">
           {listPortfolio && listPortfolio.map((item) => (

@@ -27,10 +27,6 @@ function Navbar({ navContent }: NavbarProp) {
     const found = navContent.some((el) => el.id === pushTestLink.id);
     if (!found) navContent.push(pushTestLink);
   }
-  // if (user.avatar) {
-  //   setAvatar();
-  // }
-  // console.log('store.user', store.user);
 
   return (
     <>
@@ -49,18 +45,24 @@ function Navbar({ navContent }: NavbarProp) {
               <>
                 <AsideUserMenu navContent={[navItemsUser, navItemsMouss]} />
 
-                <p className="text-light m-2 d-none d-md-block">
+                <p className="text-light p-2 d-none d-md-block mb-0">
                   {`Bienvenu ${user.username}`}
                 </p>
                 <button
                   type="button"
                   // href="/user/setting"
-                  className="btn d-block link-body-emphasis text-decoration-none m-2 d-none d-md-block"
+                  className="btn d-block link-body-emphasis text-decoration-none px-2 d-none d-md-block"
                   data-bs-toggle="offcanvas"
                   data-bs-target="#aside"
                 >
                   <img
-                    src={`${baseUrl}/images/${user.avatar.path}`}
+                    src={
+                      user.avatar
+                        ? `${baseUrl}/images/${user.avatar.path}`
+                        // image default github
+
+                        : 'https://avatars.githubusercontent.com/u/583231?v=1'
+                    }
                     alt="avatar"
                     className="rounded-circle"
                     width="32"

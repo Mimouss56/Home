@@ -1,40 +1,35 @@
-import { useCallback, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { AxiosResponse } from 'axios';
 import { IEntreprise } from '../../../@types/Home/ent';
 import useFormInput from '../../../hook/useFormInput';
-import axiosInstance from '../../../utils/axios';
+import { entContext } from '../../../store/ent.context';
 
-interface AddEntModalProps {
-  onAddElement: (data: IEntreprise) => void;
-}
 const initFormData = {
-  // name: '',
   address: '',
   postalCode: '',
   town: '',
   urlImg: '',
   id: 0,
-  // contact: [],
 } as IEntreprise;
 
-function AddEntModal({ onAddElement }: AddEntModalProps) {
+function AddEntModal() {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
+  const { ent } = useContext(entContext);
 
-  const fetchData = useCallback(async (id: number) => {
-    if (id === 0) {
-      setForm(initFormData);
-      return;
+  const onAddElement = (data: AxiosResponse) => {
+    const { data: returnValue } = data;
+    const newEnt = returnValue as IEntreprise;
+
+    const index = ent.findIndex((e) => e.id === newEnt.id);
+    if (index === -1) {
+      ent.push(newEnt);
+    } else {
+      ent[index] = newEnt;
     }
-    try {
-      const response = await axiosInstance.get(`/api/home/ent/${id}`);
-      const data = await response.data;
-      setForm(data);
-    } catch (error) {
-      toast.error('Erreur lors de la récupération des données de la sanction à éditer');
-    }
-  }, [setForm]);
+  };
 
   useEffect(() => {
     const addItemModal = document.getElementById('addEntModal');
@@ -42,8 +37,14 @@ function AddEntModal({ onAddElement }: AddEntModalProps) {
       addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
+        const nameAdd = button.getAttribute('data-bs-name-search');
+        if (nameAdd) setForm({ ...initFormData, name: nameAdd });
         const idEnt = button.getAttribute('data-bs-id-ent');
-        fetchData(Number(idEnt));
+
+        if (idEnt) {
+          const entDetails = ent.find((e) => e.id === Number(idEnt));
+          if (entDetails) setForm(entDetails);
+        }
       });
     }
     // on remove le addEventListener
@@ -52,7 +53,7 @@ function AddEntModal({ onAddElement }: AddEntModalProps) {
         addItemModal.removeEventListener('show.bs.modal', () => { });
       }
     };
-  }, [fetchData, setForm]);
+  }, [setForm, ent]);
 
   return (
     <form onSubmit={(e) => handleSave(e, '/api/home/ent', onAddElement)}>
