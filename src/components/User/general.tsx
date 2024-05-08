@@ -19,9 +19,7 @@ function InfosUser() {
   const [editName, setEditName] = useState(false);
   const [editEmail, setEditEmail] = useState(false);
   const [imageFile, setImageFile] = useState<IAvatarWithoutObject | null>(null);
-  const {
-    resetImageUpload,
-  } = useImageUpload();
+  const { resetImageUpload } = useImageUpload();
   const { form, handleChange } = useFormInput(initData);
   const handleChangeFile = (file: IAvatarWithoutObject) => {
     setImageFile(file);

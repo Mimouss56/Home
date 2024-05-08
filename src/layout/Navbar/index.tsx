@@ -27,10 +27,6 @@ function Navbar({ navContent }: NavbarProp) {
     const found = navContent.some((el) => el.id === pushTestLink.id);
     if (!found) navContent.push(pushTestLink);
   }
-  // if (user.avatar) {
-  //   setAvatar();
-  // }
-  // console.log('store.user', store.user);
 
   return (
     <>
@@ -60,7 +56,13 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-target="#aside"
                 >
                   <img
-                    src={`${baseUrl}/images/${user.avatar.path}`}
+                    src={
+                      user.avatar
+                        ? `${baseUrl}/images/${user.avatar.path}`
+                        // image default github
+
+                        : 'https://avatars.githubusercontent.com/u/583231?v=1'
+                    }
                     alt="avatar"
                     className="rounded-circle"
                     width="32"

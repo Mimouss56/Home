@@ -1,36 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IEntreprise } from '../../@types/Home/ent';
-import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
+// import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
 import Interations from './Interactions';
-import useFetchData from '../../hook/useFetchData';
 import SectionLayout from '../../layout/SectionLayout';
+import { entContext } from '../../store/ent.context';
 
 function EntPage() {
-  const [emplois, setEmplois] = useState<IEntreprise[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>([]);
+  const { ent } = useContext(entContext);
 
-  const [data] = useFetchData('/api/home/ent');
-  const listEnt = data as IEntreprise[];
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredEmplois, setFilteredEmplois] = useState<IEntreprise[]>(ent);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
     setSearchTerm(searchValue);
-    const filtered = emplois.filter(
+    const filtered = ent.filter(
       (item) => item.name.toLowerCase().includes(searchValue.toLowerCase()),
     );
     setFilteredEmplois(filtered);
   };
-
-  const fetchEnt = (allEnt: IEntreprise[]) => {
-    setEmplois(allEnt);
-    setFilteredEmplois(allEnt);
-  };
-
   useEffect(() => {
-    fetchEnt(listEnt);
-  }, [listEnt]);
+    setFilteredEmplois(ent);
+  }, [ent]);
 
   return (
     <SectionLayout idName="ent" title="Suivi Candidature" addButton={null}>
@@ -83,11 +75,12 @@ function EntPage() {
         </div>
       </section>
       {/* Modal Add Ent */}
-      <AddEntModal
+      {/* <AddEntModal
         onAddElement={() => {
-          setEmplois((prev) => [...prev, data]);
+          // on push le nouvel élément dans le tableau
+          setEnt((prevState: IEntreprise[]) => prevState.push(data));
         }}
-      />
+      /> */}
     </SectionLayout>
   );
 }

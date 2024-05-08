@@ -13,17 +13,19 @@ const idName = 'landing-page';
 const width = 300;
 function Prez() {
   const [dataMouss] = useFetchData(`/api/home/user/${MoussID}`);
-  const [dataHardSkill] = useFetchData('/api/home/hardskill');
-  // const listHardSkill = dataHardSkill.filter((skill: IHard) => skill.stack === 'back');
-
   const Mouss = dataMouss.user as IUser;
+
+  const [dataHardSkill] = useFetchData('/api/home/hardskill');
 
   if (!Mouss) {
     return <div>Loading...</div>;
   }
 
   return (
-    <section id={idName} className="vh-100 d-flex align-items-center position-relative overflow-hidden">
+    <section
+      id={idName}
+      className="vh-100 d-flex align-items-center position-relative overflow-hidden"
+    >
       <div
         id={`${idName}-content`}
         className="h-lg-50 m-md-auto row my-sm-0 h-sm-100"

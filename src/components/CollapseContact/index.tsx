@@ -12,6 +12,7 @@ function ContactCollapse({ contact, onClick }: { contact: IContact, onClick: (e:
         data-bs-target={`#collapse_${contact.id}`}
         aria-expanded="false"
         aria-controls="collapseExample"
+        data-bs-id-contact={contact.id}
         onClick={onClick}
       >
         {`${contact.nom} ${contact.prenom}`}
