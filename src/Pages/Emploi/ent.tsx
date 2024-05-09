@@ -39,8 +39,8 @@ function DetailsEntreprise({ id }: { id: number }) {
 
   return (
     <section
-      className="d-flex flex-wrap vh-100 mx-auto w-100 pt-5 row"
-      style={{ height: '100vp' }}
+      className="d-flex flex-wrap mx-auto w-100 pt-5 row min-h-100 min-vh-100 "
+      // style={{ height: '100vp' }}
     >
 
       {/* 1er colonne */}
@@ -109,7 +109,7 @@ function DetailsEntreprise({ id }: { id: number }) {
 
       {/* 2eme colonne */}
 
-      <div className="col-lg-9">
+      <div className="col-lg-9 h-100">
 
         <DetailsInteraction
           interactions={

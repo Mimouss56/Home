@@ -71,7 +71,7 @@ function EntPage() {
             </div>
           )}
         </div>
-        <div className="col-lg-5">
+        <div className="col-lg-5 ">
           <Interations listEnt={filteredEmplois} />
         </div>
       </section>
