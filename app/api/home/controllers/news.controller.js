@@ -59,6 +59,29 @@ module.exports = {
     });
   },
 
+  async updatePatch(req, res) {
+    const { id } = req.params;
+    const newsData = await newsService.getData(id);
+    const {
+      title,
+      content,
+      draft,
+    } = req.body;
+    const inputQuery = {
+      title: title || newsData.title,
+      content: content || newsData.content,
+      draft: draft !== undefined ? draft : newsData.draft,
+      id_author: req.user.id,
+    };
+    const result = await newsService.update(id, inputQuery);
+
+    if (result.code) return res.status(result.code).json(result);
+    return res.json({
+      message: 'News modifiée',
+      data: await newsService.getData(id),
+    });
+  },
+
   async delete(req, res) {
     const { id } = req.params;
     const result = await newsService.delete(id);

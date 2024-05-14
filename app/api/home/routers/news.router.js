@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { isAdminPost } = require('../../../middlewares/validate.middleware');
 const { loggedAs } = require('../../../middlewares/auth.middleware');
-const { news } = require('../schemas/news.schema');
+const { news, newsPatch } = require('../schemas/news.schema');
 
 const newsController = require('../controllers/news.controller');
 
@@ -48,6 +48,18 @@ router.route('/:id')
    * @return 500 - Erreur serveur
    */
   .put(isAdminPost(news), newsController.update)
+
+  /**
+     * PATCH /api/home/news/{id}
+     * @summary Modifie un article
+     * @tags News
+     * @security BearerAuth
+     * @param {string} id.params.required - L'ID de l'article
+     * @param {NewsPatch} request.body.required - L'article à modifier
+     * @return {News} 200 - L'article modifié
+     * @return 500 - Erreur serveur
+     */
+  .patch(isAdminPost(newsPatch), newsController.updatePatch)
 
   /**
    * DELETE /api/home/news/{id}

@@ -19,7 +19,14 @@ const newsPut = Joi.object({
   draft: Joi.boolean().optional(),
 });
 
+const newsPatch = Joi.object({
+  title: Joi.string().optional(),
+  content: Joi.string().optional(),
+  draft: Joi.boolean().optional(),
+});
+
 module.exports = {
   news,
   newsPut,
+  newsPatch,
 };
