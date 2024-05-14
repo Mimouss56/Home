@@ -40,87 +40,86 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
   }, [setForm, form]);
 
   return (
-    <form onSubmit={(e) => handleSave(
-      e,
-      '/api/home/suivi/interaction',
-      onAddElement,
-    )}
+    <form
+      onSubmit={(e) => handleSave(
+        e,
+        '/api/home/suivi/interaction',
+        onAddElement,
+      )}
+      className="modal fade"
+      id="addInteraction"
     >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title" id="modalTitleId">
+              Ajouter une interaction
+            </h5>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            />
+          </div>
+          <div className="modal-body">
+            <div className="container-fluid">
 
-      {/* // <!-- Modal --> */}
-      <div className="modal fade" id="addInteraction">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="modalTitleId">
-                Ajouter une interaction
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              />
-            </div>
-            <div className="modal-body">
-              <div className="container-fluid">
-
-                {/* //Input Moyen */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text">Moyen</span>
-                  <input
-                    type="text"
-                    name="moyen"
-                    id="moyen"
-                    className="form-control"
-                    placeholder="Par quel moyen ?"
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* //Input Réponse */}
-                <Textarea
-                  title="Réponse"
-                  text={form.reponse}
+              {/* //Input Moyen */}
+              <div className="input-group mb-3">
+                <span className="input-group-text">Moyen</span>
+                <input
+                  type="text"
+                  name="moyen"
+                  id="moyen"
+                  className="form-control"
+                  placeholder="Par quel moyen ?"
                   onChange={handleChange}
-                  name="reponse"
-                  leng={500}
-                  icon={null}
                 />
+              </div>
 
-                {/* //Input Status */}
-                <div className="input-group mb-3">
-                  <label htmlFor="status" className="input-group-text">Status</label>
-                  <select
-                    name="idStatus"
-                    className="form-select"
-                    onChange={handleChange}
-                    value={form.idStatus}
-                  >
-                    <option value={0} disabled>Choisir un status</option>
-                    {status.map((s) => (
-                      <option key={s.id} value={s.id}>{s.label}</option>
-                    ))}
-                  </select>
-                </div>
+              {/* //Input Réponse */}
+              <Textarea
+                title="Réponse"
+                text={form.reponse}
+                onChange={handleChange}
+                name="reponse"
+                leng={500}
+                icon={null}
+              />
+
+              {/* //Input Status */}
+              <div className="input-group mb-3">
+                <label htmlFor="status" className="input-group-text">Status</label>
+                <select
+                  name="idStatus"
+                  className="form-select"
+                  onChange={handleChange}
+                  value={form.idStatus}
+                >
+                  <option value={0} disabled>Choisir un status</option>
+                  {status.map((s) => (
+                    <option key={s.id} value={s.id}>{s.label}</option>
+                  ))}
+                </select>
               </div>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                data-bs-dismiss="modal"
-              >
-                Save
-              </button>
-            </div>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Save
+            </button>
           </div>
         </div>
       </div>

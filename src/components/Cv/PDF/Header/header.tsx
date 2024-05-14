@@ -1,8 +1,7 @@
 import { Text, StyleSheet } from '@react-pdf/renderer';
 import { styleContent } from '../../Styles/content';
-import { ICVDetails } from '../../../../@types/Home/emploi';
 
-function HeaderCv({ title }: { title: ICVDetails }) {
+function HeaderCv({ title, desc }: { title: string, desc: string }) {
   const styles = StyleSheet.create({
     styleContent: styleContent as object,
     styleH1: {
@@ -19,10 +18,10 @@ function HeaderCv({ title }: { title: ICVDetails }) {
   return (
     <>
       <Text style={styles.styleH1}>
-        {title.title}
+        {title}
       </Text>
       <Text style={styles.styleContent}>
-        {title.description}
+        {desc}
       </Text>
     </>
   );

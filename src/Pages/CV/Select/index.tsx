@@ -1,11 +1,8 @@
-interface ISelected {
-  skills: ISkill[];
-  onHandleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-}
+import { ISoftSkill } from '../../../@types/Home/softSkill';
 
-interface ISkill {
-  id: number;
-  name: string;
+interface ISelected {
+  skills: ISoftSkill[];
+  onHandleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function Selected({ skills, onHandleSelect }: ISelected) {

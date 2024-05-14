@@ -118,6 +118,7 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
             <div className="mb-3">
               <div className="input-group mb-3">
                 <Editor
+                  apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
                   init={initEditorConfig}
                   initialValue={form.content}
                   textareaName="content"

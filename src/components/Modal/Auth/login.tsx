@@ -16,9 +16,6 @@ function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    loginRef.current?.classList.remove('show');
-    const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
-    backdrop.remove();
 
     try {
       const res = await axiosInstance.post('/api/home/login', { username, password });
@@ -29,6 +26,10 @@ function Login() {
       sessionStorage.setItem('sessionToken', sessionToken);
       toast.success(`🦄 ${message} !`);
       setUser(user);
+      loginRef.current?.classList.remove('show');
+      const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
+      backdrop.remove();
+
       // on modifie le contexte de user
     } catch (err) {
       const { response } = err as { response: { data: string } };

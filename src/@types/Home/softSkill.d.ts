@@ -7,5 +7,5 @@ export interface ICreateSoftSkill {
   name: string;
 }
 export interface IArraySoftSkill {
-  competences: ISkill[];
+  competences: ISoftSkill[];
 }

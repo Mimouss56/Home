@@ -1,7 +1,6 @@
 import {
   Page, View, Document, StyleSheet, Font, Text, Image, Link,
 } from '@react-pdf/renderer';
-import { ICVDetails, IEmploi } from '../../../@types/Home/emploi';
 import HeaderCv from './Header/header';
 import Xp from './Main/xp';
 import Contact from './Info/contact';
@@ -14,10 +13,9 @@ import Skills from './Info/skills';
 import Lang from './Info/lang';
 import Hobbies from './Info/hobbies';
 import Dev from './Main/dev';
+import { IUser } from '../../../@types/Home/user';
 
-interface Props { listJob: IEmploi[], listSchool: IEmploi[], title: ICVDetails }
-
-function PDFExport({ listJob, listSchool, title }: Props) {
+function PDFExport({ info }: { info: IUser }) {
   const styles = StyleSheet.create({
     styleGlob: Glob as object,
     styleLeft: Left as object,
@@ -37,10 +35,17 @@ function PDFExport({ listJob, listSchool, title }: Props) {
       <Page size="A4">
         <View style={styles.styleGlob}>
           <View style={styles.styleLeft}>
-            <HeaderCv title={title} />
+            <HeaderCv title={info.cv.title} desc={info.cv.description} />
             <Dev />
-            <Xp content={listJob} titre="Autres Expériences" />
-            <Xp content={listSchool} titre="Formations" />
+            <Xp
+              content={
+                info?.cv.job.filter(
+                  (j) => j.competences.some((c) => c.name === 'Maintenance'),
+                )
+              }
+              titre="Autres Expériences"
+            />
+            <Xp content={info.cv.school} titre="Formations" />
             <View style={styles.styleFooter}>
               <Text>
                 {'CV généré avec passion avec '}
@@ -55,7 +60,7 @@ function PDFExport({ listJob, listSchool, title }: Props) {
             </View>
           </View>
           <View style={styles.styleRight}>
-            <Contact />
+            <Contact mouss={info} />
             <Skills />
             <Lang />
             <Hobbies />

@@ -11,8 +11,10 @@ import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
 import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
-import Pokedex from '../Pages/Pokedex';
 import { userContext } from '../store/user.context';
+import { EntProvider } from '../store/ent.context';
+import Test from '../Pages/Test';
+import NewsSection from '../Pages/Main_2/news';
 
 function ListeRoute() {
   const { user } = useContext(userContext);
@@ -22,9 +24,10 @@ function ListeRoute() {
   return (
     <Routes>
       <Route path="/" element={<MainDev />} />
-      <Route path={'cv' || 'about'} element={<ViewCVPage />} />
+      <Route path={'cv' || 'about'} element={<EntProvider><ViewCVPage /></EntProvider>} />
       <Route path="feedback" element={<Feedback />} />
-      <Route path="test" element={(<Pokedex />)} />
+      <Route path="changelog" element={(<NewsSection />)} />
+      <Route path="test" element={(<Test />)} />
       {/* // ProtectedRoute */}
       <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />
 

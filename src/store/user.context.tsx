@@ -1,7 +1,6 @@
 import {
   ReactElement, ReactNode, createContext, useMemo, useState,
 } from 'react';
-import { toast } from 'react-toastify';
 import { IUser } from '../@types/Home/user';
 import axiosInstance from '../utils/axios';
 
@@ -22,8 +21,8 @@ function UserProvider({ children }: { children: ReactNode }): ReactElement {
   if (token && !user) {
     axiosInstance.get('/api/home/@me').then((res) => {
       setUser(res.data);
-    }).catch((err) => {
-      toast.error(`Une erreur est survenue : ${err.message}`);
+    }).catch(() => {
+      setUser(null);
     });
   }
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);

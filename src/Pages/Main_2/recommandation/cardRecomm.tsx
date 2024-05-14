@@ -55,7 +55,7 @@ function CardRecomm({ card, index }: CardRecommProps) {
   return (
     <div
       id="recommandation-card"
-      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column justify-content-center "
+      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column justify-content-center bg-secondary"
       key={card.id}
       style={cardStyle}
       ref={cardRef}
@@ -70,7 +70,10 @@ function CardRecomm({ card, index }: CardRecommProps) {
             height="100px"
           />
           <cite className="d-flex justify-content-center ">
-            <a href={card.linkedinLink}>
+            <a
+              href={card.linkedinLink}
+              className="link-underline link-underline-opacity-0 link-info "
+            >
               <i className="bi bi-linkedin mx-1" />
               {card.author}
             </a>
@@ -84,19 +87,21 @@ function CardRecomm({ card, index }: CardRecommProps) {
               className="fw-100 fs-5 lh-1 position-relative m-2 card border-0" // .blockquote
               onClick={() => setShowDetailsText(!showDetailsText)}
             >
-
-              {!showDetailsText
-                ? <span className="fs-5">{excerpt(card.recommandation, excerptLength)}</span>
-                : <span className="fs-5">{card.recommandation}</span>}
+              <span
+                className="fs-5 bg-secondary text-info"
+              >
+                {!showDetailsText
+                  ? excerpt(card.recommandation, excerptLength)
+                  : card.recommandation}
+              </span>
               <span
                 id="beforeBlock"
-                className="text-secondary position-absolute d-none d-sm-block"
+                className="text-info position-absolute d-none d-sm-block"
                 style={{
                   top: '-2rem',
                   width: '4rem',
                   height: '4rem',
                   fontSize: '8rem',
-                  // color: $gray-500,
                   left: '-4rem',
                 }}
               >
@@ -104,13 +109,12 @@ function CardRecomm({ card, index }: CardRecommProps) {
               </span>
               <span
                 id="afterBlock"
-                className="text-secondary position-absolute d-none d-sm-block"
+                className="text-info position-absolute d-none d-sm-block"
                 style={{
                   bottom: '-2rem',
                   width: '4rem',
                   height: '4rem',
                   fontSize: '8rem',
-                  color: 'red',
                   right: '-4rem',
                 }}
               >

@@ -1,83 +1,67 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { PDFDownloadLink } from '@react-pdf/renderer';
-
-import { MoussID } from '../../../config.json';
-
-import axiosInstance from '../../utils/axios';
-
 import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/formJob';
-import { IUser } from '../../@types/Home/user';
-import { ICVDetails, IEmploi } from '../../@types/Home/emploi';
 import useFetchData from '../../hook/useFetchData';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';
+import { moussContext } from '../../store/mouss.context';
+import { IEmploi } from '../../@types/Home/emploi';
 
 function ViewCVPage() {
-  const [searchParams] = useSearchParams();
-  const [listJob, setListJob] = useState<IEmploi[]>([]);
-  const [listSchool, setListSchool] = useState<IEmploi[]>([]);
-  const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
-  const [infoCV, setInfoCV] = useState({} as ICVDetails);
-  const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
-
   const [dataSkillList] = useFetchData('/api/home/softskill');
+  const { mouss } = useContext(moussContext);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
+  const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
 
-  // Chargement des jobs de Mouss
-  const fetchDataJobMouss = async () => {
-    const response = await axiosInstance.get(`/api/home/user/${MoussID}`);
-    const userInfo = response.data.user as IUser;
-    const { job, school, ...infoDetailsCV } = userInfo.cv;
-    setInfoCV(infoDetailsCV);
-    setListJob(userInfo.cv.job);
-    setFilteredJob(userInfo.cv.job);
-    // setFilteredJob(
-    //   searchParams.get('fj') ? applyFilter(searchParams.get('fj') as string) : userInfo.cv.job,
-    // );
-    setListSchool(userInfo.cv.school);
+  const AddOnMoussContext = (newJob: IEmploi) => {
+    console.log(newJob);
+
+    mouss?.cv.job.push(newJob);
   };
-
   // Gestion du select
   const applyFilter = (selectedValue: string) => {
-    if (!selectedValue) {
-      setFilteredJob(listJob);
-      searchParams.delete('fj');
-    } else {
-      // on filtre les jobs en fonction de la compétence selectionnée
-      const filterJob = listJob.filter(
-        (job) => job.competences?.some((competence) => competence.name === selectedValue),
-      );
-
-      setFilteredJob(filterJob);
-      searchParams.set('fj', selectedValue);
-    }
-
-    window.history.replaceState(null, '', `?${searchParams.toString()}`);
+    setSearchParams({ fj: selectedValue });
     setSelectedSkill(selectedValue);
+    setFilteredJob(mouss?.cv.job.filter(
+      (j) => j.competences.some((c) => c.name === selectedValue),
+    ) || []);
   };
 
   useEffect(() => {
-    fetchDataJobMouss();
-  }, []);
+    if (mouss) {
+      if (searchParams.get('fj')) {
+        setFilteredJob(mouss.cv.job.filter(
+          (j) => j.competences.some((c) => c.name === searchParams.get('fj')),
+        ));
+      } else {
+        setFilteredJob(mouss.cv.job);
+      }
+    }
+  }, [mouss, searchParams]);
 
+  if (!mouss || dataSkillList.length === 0) {
+    return null;
+  }
+  const { job, school, ...infoDetailsCV } = mouss.cv;
   return (
     <>
-      <section className="bg-dark pb-5 w-100">
+      <section className="bg-dark py-5 w-100 d-flex flex-row justify-content-center ">
 
-        {!selectedSkill
-          && (
-            <Selected
-              skills={dataSkillList}
-              onHandleSelect={(e) => applyFilter(e.target.value)}
-            />
-          )}
+        {!selectedSkill && (
+          <Selected
+            skills={dataSkillList}
+            onHandleSelect={(e) => applyFilter(e.target.value)}
+          />
+        )}
         {selectedSkill && (
           <PDFDownloadLink
             className="btn btn-primary"
-            document={<ExportPDF listJob={filteredJob} listSchool={listSchool} title={infoCV} />}
+            document={<ExportPDF listJob={filteredJob} listSchool={school} title={infoDetailsCV} />}
             fileName="Cv-LE_PRIOL_Matthieu.pdf"
           >
             {({ loading }) => (loading ? (
@@ -97,7 +81,7 @@ function ViewCVPage() {
         title="Présentation"
         addButton={null}
       >
-        <p className="m-3 w-75 mx-auto">{infoCV.description}</p>
+        <p className="m-3 w-75 mx-auto">{infoDetailsCV.description}</p>
       </SectionLayout>
       <SectionLayout
         idName="xp"
@@ -106,19 +90,20 @@ function ViewCVPage() {
       >
         <div className="d-flex flex-wrap justify-content-evenly">
 
-          {filteredJob && filteredJob.sort(
-            (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
-          )
-            .map((job) => (
+          {filteredJob && filteredJob
+            .sort(
+              (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
+            )
+            .map((j) => (
               <FloatCard
-                key={job.id}
-                id={job.id}
-                title={job.title}
-                desc={job.description}
-                urlImg={job.ent.urlImg}
-                alt={job.ent.name}
-                date={job.date}
-                competences={job.competences || []}
+                key={j.id}
+                id={j.id}
+                title={j.title}
+                desc={j.description}
+                urlImg={j.ent.urlImg}
+                alt={j.ent.name}
+                date={j.date}
+                competences={j.competences || []}
                 target="addItem"
                 type="job"
               />
@@ -134,21 +119,21 @@ function ViewCVPage() {
       >
         <div className="d-flex flex-wrap justify-content-evenly">
 
-          {listSchool && listSchool.sort(
+          {school && school.sort(
             (a, b) => new Date(b.date.fin).getTime() - new Date(a.date.fin).getTime(),
           )
-            .map((job) => (
+            .map((j) => (
               <div
-                key={job.id}
+                key={j.id}
               >
                 <FloatCard
-                  id={job.id}
-                  title={job.title}
-                  desc={job.description}
-                  urlImg={job.ent.urlImg}
-                  alt={job.ent.name}
-                  date={job.date}
-                  competences={job.competences || []}
+                  id={j.id}
+                  title={j.title}
+                  desc={j.description}
+                  urlImg={j.ent.urlImg}
+                  alt={j.ent.name}
+                  date={j.date}
+                  competences={j.competences || []}
                   target="addItem"
                   type="job"
                 />
@@ -157,7 +142,7 @@ function ViewCVPage() {
         </div>
       </SectionLayout>
 
-      <ModalAddItem onAddElement={fetchDataJobMouss} listSkill={dataSkillList} />
+      <ModalAddItem onAddElement={AddOnMoussContext} listSkill={dataSkillList} />
 
     </>
   );

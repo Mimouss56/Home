@@ -76,7 +76,7 @@ function Navbar({ navContent }: NavbarProp) {
                   data-bs-target="#aside"
                   aria-controls="offcanvasRight"
                 >
-                  <Menu color="black" className="m-0" />
+                  <Menu color="grey" className="m-0" />
                 </button>
               </>
             )
