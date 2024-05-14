@@ -1,25 +1,16 @@
-import { IUser } from '../../../@types/Home/user';
-import useFetchData from '../../../hook/useFetchData';
+import { useContext } from 'react';
 import './textNeon.scss';
 import './animateCircle.scss';
 import './borderNeon.scss';
 import '../../../scss/styles.scss';
-import { MoussID } from '../../../../config.json';
 import CarouselSkill from '../skill/carousel';
-// import { IHard } from '../../../@types/Home/hardSkill';
+import { moussContext } from '../../../store/mouss.context';
 
 const idName = 'landing-page';
 
 const width = 300;
 function Prez() {
-  const [dataMouss] = useFetchData(`/api/home/user/${MoussID}`);
-  const Mouss = dataMouss.user as IUser;
-
-  const [dataHardSkill] = useFetchData('/api/home/hardskill');
-
-  if (!Mouss) {
-    return <div>Loading...</div>;
-  }
+  const { mouss } = useContext(moussContext);
 
   return (
     <section
@@ -44,8 +35,8 @@ function Prez() {
             tth
             <span className="blinkText">ieu</span>
           </h1>
-          <p>{`${Mouss.prez}`}</p>
-          <CarouselSkill skills={dataHardSkill} />
+          <p>{`${mouss?.prez}`}</p>
+          <CarouselSkill />
         </div>
         <div className="col-md-6 d-flex justify-content-center my-auto mw-100">
           <div

@@ -1,27 +1,14 @@
 import {
   Text, StyleSheet, View, Link, Image,
 } from '@react-pdf/renderer';
-import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import {
   UrlRight, imgStyle, linkWithImg, styleContent, styleList, styleSection, avatarImg,
 } from '../../Styles/content';
 import { styleH1, styleTitle } from '../../Styles/title';
-import axiosInstance from '../../../../utils/axios';
-import { MoussID, baseUrl } from '../../../../../config.json';
+import { baseUrl } from '../../../../../config.json';
 import { IUser } from '../../../../@types/Home/user';
 
-function Contact() {
-  const [userMouss, setUserInfo] = useState({} as IUser);
-  const fetchInfo = async () => {
-    try {
-      const userInfoDataReponse = await axiosInstance.get(`/api/home/user/${MoussID}`);
-      setUserInfo(userInfoDataReponse.data.user);
-    } catch (error) {
-      toast.error('Erreur lors de la récupération des données');
-    }
-  };
-
+function Contact({ mouss }: { mouss: IUser }) {
   const styles = StyleSheet.create({
     styleSection: styleSection as object,
     styleH1: styleH1 as object,
@@ -34,10 +21,6 @@ function Contact() {
     avatarImg: avatarImg as object,
   });
 
-  useEffect(() => {
-    fetchInfo();
-  }, []);
-
   return (
     <View style={styles.styleSection}>
       <View style={{
@@ -46,42 +29,42 @@ function Contact() {
         alignItems: 'center',
       }}
       >
-        <Image src={`${baseUrl}/images/${userMouss.avatar?.path}`} style={styles.avatarImg} />
-        <Text style={styles.styleH1}>{`${userMouss.last_name} ${userMouss.first_name}`}</Text>
+        <Image src={`${baseUrl}/images/${mouss.avatar?.path}`} style={styles.avatarImg} />
+        <Text style={styles.styleH1}>{`${mouss.last_name} ${mouss.first_name}`}</Text>
       </View>
       <Text style={styles.styleContent}>
-        {userMouss.prez}
+        {mouss.prez}
       </Text>
       <Text style={styles.styleTitle}>Contact</Text>
       <View style={styles.styleList}>
-        <Link src={`mailto:${userMouss.email}`}>
-          <Text style={styles.styleLink}>{userMouss.email}</Text>
+        <Link src={`mailto:${mouss.email}`}>
+          <Text style={styles.styleLink}>{mouss.email}</Text>
         </Link>
-        <Link src={`tel:${userMouss.phone}`} style={styles.styleLink}>
-          <Text style={styles.styleLink}>{userMouss.phone}</Text>
+        <Link src={`tel:${mouss.phone}`} style={styles.styleLink}>
+          <Text style={styles.styleLink}>{mouss.phone}</Text>
         </Link>
-        <Text style={styles.styleLink}>{userMouss.address}</Text>
-        {userMouss.website && (
-          <Link src={`${userMouss.website}`} style={styles.linkWithImg}>
+        <Text style={styles.styleLink}>{mouss.address}</Text>
+        {mouss.website && (
+          <Link src={`${mouss.website}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/domain.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userMouss.website}
+              {mouss.website}
             </Text>
           </Link>
         )}
-        {userMouss.linkedin && (
-          <Link src={`${userMouss.linkedin}`} style={styles.linkWithImg}>
+        {mouss.linkedin && (
+          <Link src={`${mouss.linkedin}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/linkedin.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userMouss.linkedin.split('/')[4]}
+              {mouss.linkedin.split('/')[4]}
             </Text>
           </Link>
         )}
-        {userMouss.github && (
-          <Link src={`${userMouss.github}`} style={styles.linkWithImg}>
+        {mouss.github && (
+          <Link src={`${mouss.github}`} style={styles.linkWithImg}>
             <Image src="https://img.icons8.com/ios-filled/32/ffffff/github.png" style={styles.imgStyle} />
             <Text style={styles.styleLink}>
-              {userMouss.github.split('/')[3]}
+              {mouss.github.split('/')[3]}
             </Text>
           </Link>
         )}

@@ -176,6 +176,7 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
                   <i className="bi bi-file-earmark-text px-1" />
                 </span>
                 <Editor
+                  apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
                   init={initEditorConfig}
                   initialValue={formData.description}
                   textareaName="description"

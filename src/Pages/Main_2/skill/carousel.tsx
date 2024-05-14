@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { IHard } from '../../../@types/Home/hardSkill';
 import Tags from '../../../components/Tag';
+import useFetchData from '../../../hook/useFetchData';
 
-function CarouselSkill({ skills }: { skills: IHard[] }) {
+function CarouselSkill() {
+  const [dataHardSkills] = useFetchData('/api/home/hardskill');
+
+  const skills = dataHardSkills as IHard[];
   const [elementDisplayed, setElementDisplayed] = useState(1);
   const marqueeRef = useRef<HTMLDivElement>(null);
 
@@ -28,11 +32,12 @@ function CarouselSkill({ skills }: { skills: IHard[] }) {
     }
     const marqueeContent = document.querySelector('ul#marquee-content') as HTMLUListElement;
 
-    for (let i = 0; i < Number(elementDisplayed); i += 1) {
-      marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+    if (marqueeContent && marqueeContent.children && marqueeContent.children.length > 0) {
+      for (let i = 0; i < Number(elementDisplayed); i += 1) {
+        marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
+      }
     }
   }, [skills, elementDisplayed]);
-  if (!skills) return null;
 
   return (
     <div className="d-flex justify-content-center mb-5">

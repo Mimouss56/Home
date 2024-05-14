@@ -5,7 +5,7 @@ import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
 import SkillInput from '../../Job/softSkillInput';
 import { ISoftSkill } from '../../../@types/Home/softSkill';
-import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
+import { IEmploi } from '../../../@types/Home/emploi';
 import Textarea from '../../Form/textarea';
 import InputText from '../../Form/inputText';
 import { entContext } from '../../../store/ent.context';
@@ -19,10 +19,10 @@ const initFormData = {
   fin: '',
   description: '',
   competences: [] as number[],
-} as IEmploiPost;
+};
 
 interface ModalAddItemProps {
-  onAddElement: (data: IEmploiPost) => void;
+  onAddElement: (data: IEmploi) => void;
   listSkill: ISoftSkill[];
 }
 
@@ -47,7 +47,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
         fin: emploiData.date.fin,
         description: emploiData.description,
         competences: emploiData.competences.flatMap((c: ISoftSkill) => c.id),
-      } as IEmploiPost;
+      };
       return returnData;
     } catch (err) {
       const error = err as Error;
@@ -90,7 +90,8 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
         const button = relatedTarget as HTMLButtonElement;
         const id = button.getAttribute('data-bs-id');
         if (id === null) {
-          setForm(initFormData);
+          const type = button.getAttribute('data-bs-type') as 'job' | 'school';
+          setForm({ ...initFormData, type });
           return;
         }
         const editForm = button.getAttribute('data-bs-edit');
@@ -156,7 +157,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                     required
                   >
                     <option value={0} disabled>Choisir une entreprise</option>
-                    {ent.map((e) => (
+                    {ent?.map((e) => (
                       <option key={e.id} value={e.id}>{e.name}</option>
                     ))}
                   </select>

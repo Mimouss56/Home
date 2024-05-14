@@ -13,6 +13,7 @@ import MainDev from '../Pages/Main_2';
 import PageAdminHome from '../layout/Admin/index';
 import Pokedex from '../Pages/Pokedex';
 import { userContext } from '../store/user.context';
+import { EntProvider } from '../store/ent.context';
 
 function ListeRoute() {
   const { user } = useContext(userContext);
@@ -22,7 +23,7 @@ function ListeRoute() {
   return (
     <Routes>
       <Route path="/" element={<MainDev />} />
-      <Route path={'cv' || 'about'} element={<ViewCVPage />} />
+      <Route path={'cv' || 'about'} element={<EntProvider><ViewCVPage /></EntProvider>} />
       <Route path="feedback" element={<Feedback />} />
       <Route path="test" element={(<Pokedex />)} />
       {/* // ProtectedRoute */}

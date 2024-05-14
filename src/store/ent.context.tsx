@@ -11,7 +11,7 @@ interface IEntContext {
 }
 
 const entContext = createContext<IEntContext>({
-  ent: [],
+  ent: [] as IEntreprise[] | [],
   setEnt: () => { },
 });
 

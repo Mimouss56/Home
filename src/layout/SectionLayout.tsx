@@ -36,6 +36,7 @@ function SectionLayout({
             className="btn btn-primary"
             data-bs-toggle="modal"
             data-bs-target={`#${addButton}`}
+            data-bs-type={idName}
           >
             Ajout d&apos;un item
           </button>

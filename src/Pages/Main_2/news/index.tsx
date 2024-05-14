@@ -1,14 +1,17 @@
+import { useContext } from 'react';
 import { INews } from '../../../@types/Home/news';
 import Card from '../../../components/Card';
 import ModalAddNews from '../../../components/Modal/News/formNews';
 import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
+import { userContext } from '../../../store/user.context';
 
 const idName = 'news';
 
 function NewsSection() {
   const [dataNews] = useFetchData('/api/home/news');
   const listNews = dataNews as INews[];
+  const { user } = useContext(userContext);
 
   return (
     <SectionLayout
@@ -29,7 +32,9 @@ function NewsSection() {
             </Card>
           ))}
       </div>
-      <ModalAddNews onAddElement={() => dataNews} />
+      {user?.username === 'Mouss' && (
+        <ModalAddNews onAddElement={() => dataNews} />
+      )}
     </SectionLayout>
 
   );

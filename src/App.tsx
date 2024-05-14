@@ -13,6 +13,7 @@ import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
 import { UserProvider } from './store/user.context';
+import { MoussProvider } from './store/mouss.context';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
@@ -36,18 +37,20 @@ function App() {
 
   return (
     <UserProvider>
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        theme="light"
-      />
-      {showFeedback && <Feedback />}
-      <Snow />
+      <MoussProvider>
+        <ToastContainer
+          position="top-left"
+          autoClose={5000}
+          theme="light"
+        />
+        {showFeedback && <Feedback />}
+        <Snow />
 
-      <Notifications />
-      {showNav && <Navbar navContent={navTop} />}
-      <main><ListeRoute /></main>
-      <Footer />
+        <Notifications />
+        {showNav && <Navbar navContent={navTop} />}
+        <main><ListeRoute /></main>
+        <Footer />
+      </MoussProvider>
     </UserProvider>
   );
 }
