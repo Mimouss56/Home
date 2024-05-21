@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import './style.scss';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 import axiosInstance from '../../utils/axios';
 import Tags from '../../components/Tag';
 import { IHard } from '../../@types/Home/hardSkill';
@@ -14,8 +15,10 @@ function Test() {
       try {
         const res = await axiosInstance.get('/api/home/hardskill');
         setSkills(res.data);
-      } catch (err) {
-        toast.error(err.message);
+      } catch (err: AxiosError | unknown) {
+        const { message } = err as AxiosError;
+
+        toast.error(message);
       }
     };
 
@@ -31,16 +34,7 @@ function Test() {
       const marqueeElementsDisplayed = Math.floor(
         marquee.clientWidth / tagElem.clientWidth,
       );
-      const marqueeElemWidth = marquee.clientWidth / marqueeElementsDisplayed;
-
-      const root = document.documentElement;
-
-      root.style.setProperty('--marquee-elements', skills.length.toString());
-      root.style.setProperty('--marquee-elements-displayed', marqueeElementsDisplayed.toString());
-      root.style.setProperty('--marquee-element-width', `${marqueeElemWidth}px`);
-
-      const translateXValue = -marqueeElemWidth * skills.length;
-
+      const totalElemWidth = marquee.clientWidth / marqueeElementsDisplayed;
       for (let i = 0; i < marqueeElementsDisplayed; i += 1) {
         marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
       } // on crée le keyframe scrolling
@@ -48,14 +42,14 @@ function Test() {
       style.innerHTML = `
       @keyframes scrolling {
         0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-1 * ${marqueeElemWidth}px * ${skills.length})); }
+        100% { transform: translateX(calc(-${totalElemWidth}px * ${skills.length})); }
       }        // `;
       document.head.appendChild(style);
     }
   }, [skills]);
   if (skills.length === 0) return <h1>loading...</h1>;
   return (
-    <div className="marquee" ref={marqueeRef}>
+    <div className="marquee overflow-hidden position-relative vw-100" ref={marqueeRef}>
       <div
         className="before position-absolute top-0 z-1 h-100 start-0 w-25 "
         style={{
@@ -82,6 +76,10 @@ function Test() {
           <li
             key={skill.id}
             id={skill.label}
+            className="d-flex justify-content-center  align-content-center flex-shrink-0 mh-100"
+            style={{
+              whiteSpace: 'nowrap',
+            }}
           >
             <Tags
               icon={skill.urlIcon}
