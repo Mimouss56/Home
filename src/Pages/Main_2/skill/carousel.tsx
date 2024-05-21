@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import { IHard } from '../../../@types/Home/hardSkill';
 import Tags from '../../../components/Tag';
 import axiosInstance from '../../../utils/axios';
-import Skills from '../../../components/Cv/PDF/Info/skills';
 
 function CarouselSkill() {
   const [skills, setSkills] = useState<IHard[]>([]);
