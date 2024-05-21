@@ -8,7 +8,8 @@ import { IHard } from '../../@types/Home/hardSkill';
 
 function Test() {
   const [skills, setSkills] = useState<IHard[]>([]);
-  const marqueeRef = useRef<HTMLDivElement>(document.querySelector('.marquee'));
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const styleRef = useRef<HTMLStyleElement | null>(null);
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -28,25 +29,37 @@ function Test() {
   useEffect(() => {
     if (skills.length !== 0 && marqueeRef.current) {
       const marquee = marqueeRef.current;
-      const marqueeContent = marquee.children[2] as HTMLUListElement;
+      const marqueeContent = marquee.querySelector('.marquee-content') as HTMLUListElement;
       const tagElem = marqueeContent.childNodes[0] as HTMLLIElement;
 
-      const marqueeElementsDisplayed = Math.floor(
-        marquee.clientWidth / tagElem.clientWidth,
-      );
+      const marqueeElementsDisplayed = Math.floor(marquee.clientWidth / tagElem.clientWidth);
       const totalElemWidth = marquee.clientWidth / marqueeElementsDisplayed;
+
       for (let i = 0; i < marqueeElementsDisplayed; i += 1) {
         marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
-      } // on crée le keyframe scrolling
-      const style = document.createElement('style');
-      style.innerHTML = `
-      @keyframes scrolling {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-${totalElemWidth}px * ${skills.length})); }
-      }        // `;
-      document.head.appendChild(style);
+      }
+
+      if (!styleRef.current) {
+        const style = document.createElement('style');
+        style.innerHTML = `
+          @keyframes scrolling {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-${totalElemWidth}px * ${skills.length})); }
+          }
+        `;
+        document.head.appendChild(style);
+        styleRef.current = style;
+      }
     }
+
+    return () => {
+      if (styleRef.current) {
+        document.head.removeChild(styleRef.current);
+        styleRef.current = null;
+      }
+    };
   }, [skills]);
+
   if (skills.length === 0) return <h1>loading...</h1>;
   return (
     <div className="marquee overflow-hidden position-relative vw-100" ref={marqueeRef}>
