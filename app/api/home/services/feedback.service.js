@@ -21,7 +21,7 @@ const generateByDefault = async (data) => ({
   path: data.path,
   draft: data.draft,
   read: data.read,
-  createdAt: data.createdAt,
+  createdAt: data.created_at,
 });
 
 module.exports = {
