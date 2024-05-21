@@ -19,8 +19,6 @@ function ViewCVPage() {
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
 
   const AddOnMoussContext = (newJob: IEmploi) => {
-    console.log(newJob);
-
     mouss?.cv.job.push(newJob);
   };
   // Gestion du select
@@ -50,32 +48,6 @@ function ViewCVPage() {
   const { job, school, ...infoDetailsCV } = mouss.cv;
   return (
     <>
-      <section className="bg-dark py-5 w-100 d-flex flex-row justify-content-center ">
-
-        {!selectedSkill && (
-          <Selected
-            skills={dataSkillList}
-            onHandleSelect={(e) => applyFilter(e.target.value)}
-          />
-        )}
-        {selectedSkill && (
-          <PDFDownloadLink
-            className="btn btn-primary"
-            document={<ExportPDF listJob={filteredJob} listSchool={school} title={infoDetailsCV} />}
-            fileName="Cv-LE_PRIOL_Matthieu.pdf"
-          >
-            {({ loading }) => (loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
-                <span role="status">Loading...</span>
-              </>
-            ) : (
-              'Télécharger le CV'
-            ))}
-          </PDFDownloadLink>
-        )}
-      </section>
-
       <SectionLayout
         idName="prez"
         title="Présentation"
@@ -141,6 +113,31 @@ function ViewCVPage() {
             ))}
         </div>
       </SectionLayout>
+      <section className="py-5 w-100 d-flex flex-row justify-content-center ">
+
+        {!selectedSkill && (
+          <Selected
+            skills={dataSkillList}
+            onHandleSelect={(e) => applyFilter(e.target.value)}
+          />
+        )}
+        {selectedSkill && (
+          <PDFDownloadLink
+            className="btn btn-primary"
+            document={<ExportPDF info={mouss} />}
+            fileName="Cv-LE_PRIOL_Matthieu.pdf"
+          >
+            {({ loading }) => (loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+                <span role="status">Loading...</span>
+              </>
+            ) : (
+              'Télécharger le CV'
+            ))}
+          </PDFDownloadLink>
+        )}
+      </section>
 
       <ModalAddItem onAddElement={AddOnMoussContext} listSkill={dataSkillList} />
 

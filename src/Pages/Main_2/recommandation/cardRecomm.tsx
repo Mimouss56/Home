@@ -17,6 +17,8 @@ function CardRecomm({ card, index }: CardRecommProps) {
     right: index % 2 !== 0 ? '0' : '',
     top: `${25 + (index * 5)}%`,
     minHeight: '300px',
+    backgroundColor: '#113550',
+    borderColor: 'rgb(80, 223, 219)',
   };
 
   useEffect(() => {
@@ -55,7 +57,7 @@ function CardRecomm({ card, index }: CardRecommProps) {
   return (
     <div
       id="recommandation-card"
-      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column justify-content-center bg-secondary"
+      className="card w-75 mx-auto my-5 position-sticky p-4 d-flex flex-column justify-content-center shadow "
       key={card.id}
       style={cardStyle}
       ref={cardRef}
@@ -64,7 +66,7 @@ function CardRecomm({ card, index }: CardRecommProps) {
         <div className="col-md-4 mx-auto align-self-center text-center">
           <img
             src={card.avatar}
-            className="img-thumbnail rounded-circle text-center mx-auto"
+            className="img-thumbnail rounded-circle text-center mx-auto mb-2"
             alt={card.author}
             width="100px"
             height="100px"
@@ -88,7 +90,10 @@ function CardRecomm({ card, index }: CardRecommProps) {
               onClick={() => setShowDetailsText(!showDetailsText)}
             >
               <span
-                className="fs-5 bg-secondary text-info"
+                className="fs-5 text-info"
+                style={{
+                  backgroundColor: '#113550',
+                }}
               >
                 {!showDetailsText
                   ? excerpt(card.recommandation, excerptLength)

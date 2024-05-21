@@ -24,8 +24,8 @@ function Footer() {
 
       </span>
       <div>
-        <a className="text-white mx-2 link-underline link-underline-opacity-0" href="/about">About</a>
-        <a className="text-white mx-2 link-underline link-underline-opacity-0" href="/changelog">Changelog</a>
+        <a className="mx-2 link-underline link-underline-opacity-0 link-info " href="/about">About</a>
+        <a className="mx-2 link-underline link-underline-opacity-0 link-info " href="/changelog">Changelog</a>
 
       </div>
     </footer>

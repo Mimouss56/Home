@@ -76,7 +76,9 @@ function Interations({ listEnt }: { listEnt: IEntreprise[] }) {
           </thead>
           <tbody>
             {listInteractions
-              .filter((inter) => inter.status?.label !== 'Refus')
+              .filter(
+                (inter) => inter.status?.label !== 'Refus' && inter.status?.label !== 'Valider',
+              )
               .map((inter) => {
                 const diff = dayjs().diff(dayjs(inter.createdAt), 'days');
                 const bgColor = objectColor.find((obj) => diff >= obj.date) || { color: 'table-info' };

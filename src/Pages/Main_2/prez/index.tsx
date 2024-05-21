@@ -15,13 +15,13 @@ function Prez() {
   return (
     <section
       id={idName}
-      className="vh-100 d-flex align-items-center position-relative overflow-hidden"
+      className="vh-100 d-flex align-items-center overflow-hidden"
     >
       <div
         id={`${idName}-content`}
         className="h-lg-50 m-md-auto row my-sm-0 h-sm-100"
       >
-        <div className="col-md-6 my-auto px-5">
+        <div className="col-md-6 px-5 my-5 position-relative overflow-hidden ">
           <h1 id="prezName" className="neonText">
             l
             <span className="blinkText">e</span>

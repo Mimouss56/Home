@@ -17,31 +17,37 @@ $bg-dark: $dark;
 $bg-secondary: $secondary;
 $bg-light: $light;
 $bg-primary: $primary;
-:root{
-  --primary: #273c4d;
-  --secondary: #8fa8d0;
-  --warning: #c28422;
-  --dark: #113550;
-  --light : #d4e3df;
-  --info: #50dfdb;
-  --bg-dark: #113550;
-  --bg-secondary: #8fa8d0;
-  --bg-light: #d4e3df;
-  --bg-primary: #273c4d;
+
+:root {
+  --primary: $primary;
+  --secondary:$secondary;
+  --warning: $warning;
+  --dark: $dark;
+  --light: $light;
+  --info: $neon;
+  --bg-dark: $dark;
+  --bg-secondary: $secondary;
+  --bg-light: $light;
+  --bg-primary: $primary;
 
 }
+
+$alpha : 1;
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
   color: $neon;
+  background: linear-gradient(180deg, $dark, 90%, $light);
+  // rgba(#113550, $alpha)
 }
 
-$alpha : 1;
 $steps: 100;
 
 section {
-  background-color: rgba(#113550, $alpha)
+  background-color: transparent;
+
 }
 
 
