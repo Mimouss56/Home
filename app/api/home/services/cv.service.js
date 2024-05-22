@@ -92,7 +92,7 @@ module.exports = {
         await cv.SkillCV(result.id, competences);
       }
       // on ajoute le lien entre le cv et l'utilisateur
-      await cv.addJobUser(result.id, idUser);
+      await cv.details.addJobUser(result.id, idUser);
 
       const returnValue = await this.generateObject(result);
       return returnValue;

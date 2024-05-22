@@ -1,109 +1,31 @@
-import { useEffect, useRef, useState } from 'react';
+/* eslint-disable jsx-a11y/alt-text */
+import { useContext } from 'react';
+import useFetchData from '../../hook/useFetchData';
+import { userContext } from '../../store/user.context';
 import './style.scss';
-import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
-import axiosInstance from '../../utils/axios';
-import Tags from '../../components/Tag';
-import { IHard } from '../../@types/Home/hardSkill';
+import ICardPortfolio from '../../@types/portfolio';
+import FlipCard from '../../components/HexagonCard/flipCard';
 
 function Test() {
-  const [skills, setSkills] = useState<IHard[]>([]);
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const styleRef = useRef<HTMLStyleElement | null>(null);
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        const res = await axiosInstance.get('/api/home/hardskill');
-        setSkills(res.data);
-      } catch (err: AxiosError | unknown) {
-        const { message } = err as AxiosError;
-
-        toast.error(message);
-      }
-    };
-
-    fetchSkills();
-  }, []);
-
-  useEffect(() => {
-    if (skills.length !== 0 && marqueeRef.current) {
-      const marquee = marqueeRef.current;
-      const marqueeContent = marquee.querySelector('.marquee-content') as HTMLUListElement;
-      const tagElem = marqueeContent.childNodes[0] as HTMLLIElement;
-
-      const marqueeElementsDisplayed = Math.floor(marquee.clientWidth / tagElem.clientWidth);
-      const totalElemWidth = marquee.clientWidth / marqueeElementsDisplayed;
-
-      for (let i = 0; i < marqueeElementsDisplayed; i += 1) {
-        marqueeContent.appendChild(marqueeContent.children[i].cloneNode(true));
-      }
-
-      if (!styleRef.current) {
-        const style = document.createElement('style');
-        style.innerHTML = `
-          @keyframes scrolling {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(calc(-${totalElemWidth}px * ${skills.length})); }
-          }
-        `;
-        document.head.appendChild(style);
-        styleRef.current = style;
-      }
-    }
-
-    return () => {
-      if (styleRef.current) {
-        document.head.removeChild(styleRef.current);
-        styleRef.current = null;
-      }
-    };
-  }, [skills]);
-
-  if (skills.length === 0) return <h1>loading...</h1>;
+  const [dataPortfolio] = useFetchData('/api/home/portfolio');
+  const { user } = useContext(userContext);
   return (
-    <div className="marquee overflow-hidden position-relative vw-100" ref={marqueeRef}>
-      <div
-        className="before position-absolute top-0 z-1 h-100 start-0 w-25 "
-        style={{
-          content: '""',
-          background: 'linear-gradient(to right, #111 0%, transparent 100%)',
-        }}
-      />
-      <div
-        className="after position-absolute top-0 z-1 h-100 end-0 w-25"
-        style={{
-          content: '""',
-          background: 'linear-gradient(to left, #111 0%, transparent 100%)',
-
-        }}
-      />
-      <ul
-        className="marquee-content list-unstyled h-100 d-flex"
-        style={{
-          animation: `scrolling ${skills.length * 3}s linear infinite`,
-
-        }}
-      >
-        {skills.map((skill) => (
-          <li
-            key={skill.id}
-            id={skill.label}
-            className="d-flex justify-content-center  align-content-center flex-shrink-0 mh-100"
-            style={{
-              whiteSpace: 'nowrap',
-            }}
-          >
-            <Tags
-              icon={skill.urlIcon}
-              name={skill.label}
-              color={skill.color}
-            />
-          </li>
+    <ul className="honeycomb">
+      <li className="honeycomb-cell">
+        <img className="honeycomb-cell__image" src="https://source.unsplash.com/random/1" />
+        <div className="honeycomb-cell__title">Diseño exclusivo</div>
+      </li>
+      {dataPortfolio && dataPortfolio
+        .sort((a: ICardPortfolio, b: ICardPortfolio) => (a.id < b.id ? -1 : 1))
+        .map((item: ICardPortfolio) => (
+          <FlipCard
+            key={item.id}
+            img={item.urlImg}
+            title={item.nameSite}
+            widthHexa={200}
+          />
         ))}
-      </ul>
-    </div>
-
+    </ul>
   );
 }
 
