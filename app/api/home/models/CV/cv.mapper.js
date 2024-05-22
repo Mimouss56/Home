@@ -30,7 +30,7 @@ module.exports = class CV extends CoreDatamapper {
    * @param {number} idUser - id of user
    * @returns
    */
-  async JobUser(idJob, idUser) {
+  async addJobUser(idJob, idUser) {
     const preparedQuery = {
       text: `
         INSERT INTO "${this.userRelated}" (id_user, id_job) 
