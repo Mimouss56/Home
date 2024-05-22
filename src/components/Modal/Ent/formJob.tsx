@@ -132,7 +132,8 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                   className="form-select input-group-select"
                   aria-label="select Type"
                   value={form.type}
-                  onChange={(e) => setForm({ ...form, type: e.target.value })}
+                  name="type"
+                  onChange={handleChange}
                   required
                 >
                   <option value="job">Emploi</option>
