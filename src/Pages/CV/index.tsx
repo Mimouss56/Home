@@ -18,8 +18,19 @@ function ViewCVPage() {
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
 
-  const AddOnMoussContext = (newJob: IEmploi) => {
-    mouss?.cv.job.push(newJob);
+  const AddOnMoussContext = (data: IEmploi) => {
+    const newjob = {
+      id: data.id,
+      title: data.title,
+      date: data.date,
+      description: data.description,
+      ent: data.ent,
+      type: data.type,
+      competences: data.competences,
+
+    } as IEmploi;
+
+    mouss?.cv.job.push(newjob);
   };
   // Gestion du select
   const applyFilter = (selectedValue: string) => {
@@ -56,7 +67,7 @@ function ViewCVPage() {
         <p className="m-3 w-75 mx-auto">{infoDetailsCV.description}</p>
       </SectionLayout>
       <SectionLayout
-        idName="xp"
+        idName="job"
         title="Expériences"
         addButton="addItem"
       >

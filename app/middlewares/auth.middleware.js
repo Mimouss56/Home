@@ -36,7 +36,6 @@ const loggedAs = async (req, res, next) => {
 const loggedAsMe = async (req, res, next) => {
   if (req.headers.authorization) {
     const token = req.headers.authorization.split(' ')[1];
-
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userById = await userService.getData(decoded.id);
@@ -46,7 +45,8 @@ const loggedAsMe = async (req, res, next) => {
     } catch (error) {
       return res.status(401).json({
         statusCode: 401,
-        message: 'You are not logged',
+        message: `You are not logged : ${error.message}`,
+        error,
       });
     }
   }

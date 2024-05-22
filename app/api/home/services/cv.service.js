@@ -89,7 +89,7 @@ module.exports = {
       const result = await cv.details.create(rest);
       if (competences.lengh > 0) {
         // on ajoute le lien entre le cv et les skills
-        await cv.SkillCV(result.id, competences);
+        await cv.details.SkillCV(result.id, competences);
       }
       // on ajoute le lien entre le cv et l'utilisateur
       await cv.details.addJobUser(result.id, idUser);
