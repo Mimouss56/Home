@@ -13,13 +13,17 @@ import { entContext } from '../../../store/ent.context';
 const initFormData = {
   type: 'job',
   id: 0,
-  id_ent: 0,
+  ent: {
+    id: 0,
+  },
   title: '',
-  debut: '',
-  fin: '',
+  date: {
+    debut: '',
+    fin: '',
+  },
   description: '',
-  competences: [] as number[],
-};
+  competences: [],
+} as IEmploi;
 
 interface ModalAddItemProps {
   onAddElement: (data: IEmploi) => void;
@@ -38,17 +42,8 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     try {
       const response = await axiosInstance.get(`/api/home/cv/${id}`);
       const emploiData = response.data as IEmploi;
-      const returnData = {
-        type: emploiData.type,
-        id: emploiData.id,
-        id_ent: emploiData.ent.id,
-        title: emploiData.title,
-        debut: emploiData.date.debut,
-        fin: emploiData.date.fin,
-        description: emploiData.description,
-        competences: emploiData.competences.flatMap((c: ISoftSkill) => c.id),
-      };
-      return returnData;
+
+      return emploiData;
     } catch (err) {
       const error = err as Error;
       toast.error(error.message);
@@ -60,7 +55,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     // on recupere l'ancien liste des form.competences
     const oldArraySkills = form.competences;
     // on ajoute le skill.id à la liste des form.competences
-    oldArraySkills.push(skill.id);
+    oldArraySkills.push(skill);
     // on met à jour le state
     setForm({ ...form, competences: oldArraySkills });
 
@@ -75,7 +70,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
       // on recupere l'ancien liste des form.competences
       const oldArraySkills = form.competences;
       // on supprime le skill.id à la liste des form.competences
-      const newArraySkills = oldArraySkills.filter((skill) => skill !== idSkill);
+      const newArraySkills = oldArraySkills.filter((skill) => skill.id !== idSkill);
       // on met à jour le state
       setForm({ ...form, competences: newArraySkills });
     }
@@ -100,7 +95,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
           return;
         }
 
-        const detailsCV = await fetchData(parseInt(id, 10));
+        const detailsCV = await fetchData(parseInt(id, 10)) as IEmploi;
 
         setForm(detailsCV);
       });
@@ -153,8 +148,15 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                     className="form-select"
                     aria-label="select Ent"
                     name="id_ent"
-                    value={form.id_ent}
-                    onChange={handleChange}
+                    value={form.ent.id}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        ent: {
+                          id: parseInt(e.target.value, 10),
+                        },
+                      });
+                    }}
                     required
                   >
                     <option value={0} disabled>Choisir une entreprise</option>
@@ -187,8 +189,16 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                     aria-label="Date de début"
                     aria-describedby="basic-addon1"
                     name="debut"
-                    value={dayjs(form.debut).format('YYYY-MM-DD')}
-                    onChange={handleChange}
+                    value={dayjs(form.date.debut).format('YYYY-MM-DD')}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        date: {
+                          ...form.date,
+                          debut: e.target.value,
+                        },
+                      });
+                    }}
                   />
                 </div>
                 {/* // Date Fin Input */}
@@ -203,8 +213,16 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                     aria-label="Date de fin"
                     aria-describedby="basic-addon1"
                     name="fin"
-                    value={dayjs(form.fin).format('YYYY-MM-DD')}
-                    onChange={handleChange}
+                    value={dayjs(form.date.fin).format('YYYY-MM-DD')}
+                    onChange={(e) => {
+                      setForm({
+                        ...form,
+                        date: {
+                          ...form.date,
+                          fin: e.target.value,
+                        },
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -222,10 +240,10 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                 {/* // List des ID des Skills */}
                 {form.competences.map((skillID) => (
                   <span
-                    key={skillID}
+                    key={skillID.id}
                     className="badge d-flex align-items-center p-1 pe-2 border rounded-pill text-light-emphasis bg-light-subtle border-light-subtle"
                   >
-                    {listSkill.find((skill) => skill.id === skillID)?.name}
+                    {listSkill.find((skill) => skill.id === skillID.id)?.name}
                     <span className="vr mx-2" />
                     <button
                       type="button"
@@ -253,7 +271,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                 {addInput && (
                   <SkillInput
                     onSkillSelected={handleAddSkill}
-                    skills={form.competences}
+                    skills={form.competences.flatMap((c) => c.id)}
                     listSkills={listSkill}
                   />
                 )}

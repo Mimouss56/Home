@@ -43,7 +43,7 @@ module.exports = class CV extends CoreDatamapper {
 
   /**
    * @param {number} id - id of CV
-   * @param {array} data - array of idSkill
+   * @param {number[]} data - array of idSkill
    */
   async SkillCV(id, data) {
     // on suppresse les anciennes compétences

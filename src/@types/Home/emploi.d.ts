@@ -1,20 +1,15 @@
-import { IEntreprise } from './ent.d';
+import { IEntObject } from './ent.d';
 import { IArraySoftSkill } from './softSkill';
 
-export interface IEmploi extends IDateEmploi, IArraySoftSkill {
+export interface IEmploi extends IDateEmploi, IArraySoftSkill, IEntObject {
   id: number,
   title: string
-  date: {
-    debut: string,
-    fin: string
-  },
   description: string,
-  ent: IEntreprise
   type: 'job' | 'school'
 }
 
 export interface IDateEmploi {
-  date?: {
+  date: {
     debut: string,
     fin: string
   }

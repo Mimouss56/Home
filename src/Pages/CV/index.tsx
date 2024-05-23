@@ -19,18 +19,7 @@ function ViewCVPage() {
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
 
   const AddOnMoussContext = (data: IEmploi) => {
-    const newjob = {
-      id: data.id,
-      title: data.title,
-      date: data.date,
-      description: data.description,
-      ent: data.ent,
-      type: data.type,
-      competences: data.competences,
-
-    } as IEmploi;
-
-    mouss?.cv.job.push(newjob);
+    mouss?.cv.job.push(data);
   };
   // Gestion du select
   const applyFilter = (selectedValue: string) => {
@@ -53,10 +42,11 @@ function ViewCVPage() {
     }
   }, [mouss, searchParams]);
 
-  if (!mouss || dataSkillList.length === 0) {
+  if (!mouss) {
     return null;
   }
   const { job, school, ...infoDetailsCV } = mouss.cv;
+
   return (
     <>
       <SectionLayout
@@ -83,12 +73,12 @@ function ViewCVPage() {
                 id={j.id}
                 title={j.title}
                 desc={j.description}
-                urlImg={j.ent.urlImg}
-                alt={j.ent.name}
+                urlImg={j.ent.urlImg || 'https://via.placeholder.com/150'}
+                alt={j.ent.name || 'No Image'}
                 date={j.date}
                 competences={j.competences || []}
                 target="addItem"
-                type="job"
+                type={j.type}
               />
 
             ))}
@@ -113,12 +103,12 @@ function ViewCVPage() {
                   id={j.id}
                   title={j.title}
                   desc={j.description}
-                  urlImg={j.ent.urlImg}
-                  alt={j.ent.name}
+                  urlImg={j.ent.urlImg || 'https://via.placeholder.com/150'}
+                  alt={j.ent.name || 'No Image'}
                   date={j.date}
                   competences={j.competences || []}
                   target="addItem"
-                  type="job"
+                  type={j.type}
                 />
               </div>
             ))}

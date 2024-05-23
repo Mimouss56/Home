@@ -10,13 +10,24 @@ const Joi = require('joi');
  */
 
 const postJob = Joi.object({
-  type: Joi.string().required(),
-  id_ent: Joi.number().required(),
+  // type est soit job, soit school
+  type: Joi.string().valid('job', 'school').required(),
+  ent: {
+    id: Joi.number().required(),
+  },
+  // id_ent: Joi.number().required(),
   title: Joi.string().required(),
   description: Joi.string().required(),
-  debut: Joi.date().required(),
-  fin: Joi.date().required(),
-  competences: Joi.array().items(Joi.number()),
+  date: {
+    debut: Joi.date().required(),
+    fin: Joi.date().required(),
+  },
+  // competences est un array d'objets de type id, name
+  competences: Joi.array().items(Joi.object({
+    id: Joi.number(),
+    name: Joi.string(),
+  })).optional().allow(null),
+  // competences: Joi.array().items(Joi.number()),
 });
 module.exports = {
   postJob,

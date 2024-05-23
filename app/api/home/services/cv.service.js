@@ -87,9 +87,10 @@ module.exports = {
     const { competences, id_user: idUser, ...rest } = inputQuery;
     try {
       const result = await cv.details.create(rest);
-      if (competences.lengh > 0) {
+
+      if (competences.length > 0) {
         // on ajoute le lien entre le cv et les skills
-        await cv.details.SkillCV(result.id, competences);
+        await cv.details.SkillCV(result.id, competences.map((e) => e.id));
       }
       // on ajoute le lien entre le cv et l'utilisateur
       await cv.details.addJobUser(result.id, idUser);
