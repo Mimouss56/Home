@@ -14,6 +14,11 @@ const postJob = Joi.object({
   type: Joi.string().valid('job', 'school').required(),
   ent: {
     id: Joi.number().required(),
+    name: Joi.string().required(),
+    address: Joi.string().not().required(),
+    postalCode: Joi.string().not().required(),
+    town: Joi.string().not().required(),
+    urlImg: Joi.string().not().required(),
   },
   // id_ent: Joi.number().required(),
   title: Joi.string().required(),

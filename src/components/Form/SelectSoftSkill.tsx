@@ -1,29 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { ICreateSoftSkill, ISoftSkill } from '../../@types/Home/softSkill';
 import axiosInstance from '../../utils/axios';
+import { softSkillContext } from '../../store/skill.context';
 
 interface SkillInputProps {
   onSkillSelected: (skill: ISoftSkill) => void;
-  skills: number[] // Skills du CV
-  listSkills: ISoftSkill[] // Liste completes des skills
+  skillsCV: number[] // Skills du CV
 }
 
-function SkillInput({ onSkillSelected, skills, listSkills }: SkillInputProps) {
+function SkillInput({ onSkillSelected, skillsCV }: SkillInputProps) {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filteredSkills, setFilteredSkills] = useState<ISoftSkill[]>([]);
+  const { skills, setSkills } = useContext(softSkillContext);
 
   useEffect(() => {
     if (searchTerm) {
       // on filtre les skills en excluant ceux qui sont déjà dans la skills
-      const filtered = listSkills.filter(
-        (skill) => !skills.find((s) => s === skill.id)
+      const filtered = skills.filter(
+        (skill) => !skillsCV.find((s) => s === skill.id)
           && skill.name.toLowerCase().includes(searchTerm.toLowerCase()),
       );
       setFilteredSkills(filtered);
     } else {
       setFilteredSkills([]);
     }
-  }, [searchTerm, listSkills, skills]);
+  }, [searchTerm, skills, skillsCV]);
 
   const handleAddSkill = async () => {
     const newSkill: ICreateSoftSkill = {
@@ -32,8 +33,8 @@ function SkillInput({ onSkillSelected, skills, listSkills }: SkillInputProps) {
 
     const response = await axiosInstance.post('/api/home/softskill', newSkill);
     const skill = response.data as ISoftSkill;
-    // on ajoute le skill à la liste des skills
-    listSkills.push(skill);
+    // on ajoute le skill à la liste des skills du context
+    setSkills([...skills, skill]);
     onSkillSelected(skill);
   };
 
@@ -44,7 +45,6 @@ function SkillInput({ onSkillSelected, skills, listSkills }: SkillInputProps) {
           type="text"
           className="form-control"
           placeholder="Skills"
-          aria-label="Recipient's username"
           aria-describedby="basic-addon2"
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}

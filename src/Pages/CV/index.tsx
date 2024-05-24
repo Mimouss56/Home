@@ -5,18 +5,19 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/formJob';
-import useFetchData from '../../hook/useFetchData';
+// import useFetchData from '../../hook/useFetchData';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';
 import { moussContext } from '../../store/mouss.context';
 import { IEmploi } from '../../@types/Home/emploi';
 
 function ViewCVPage() {
-  const [dataSkillList] = useFetchData('/api/home/softskill');
+  // const [dataSkillList] = useFetchData('/api/home/softskill');
   const { mouss } = useContext(moussContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
+  // const [showModal, setShowModal] = useState(false);
 
   const AddOnMoussContext = (data: IEmploi) => {
     mouss?.cv.job.push(data);
@@ -118,7 +119,6 @@ function ViewCVPage() {
 
         {!selectedSkill && (
           <Selected
-            skills={dataSkillList}
             onHandleSelect={(e) => applyFilter(e.target.value)}
           />
         )}
@@ -140,8 +140,7 @@ function ViewCVPage() {
         )}
       </section>
 
-      <ModalAddItem onAddElement={AddOnMoussContext} listSkill={dataSkillList} />
-
+      <ModalAddItem onAddElement={AddOnMoussContext} />
     </>
   );
 }

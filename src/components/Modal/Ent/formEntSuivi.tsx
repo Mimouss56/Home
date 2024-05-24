@@ -2,14 +2,17 @@ import { useContext, useEffect } from 'react';
 import { IEntreprise } from '../../../@types/Home/ent';
 import useFormInput from '../../../hook/useFormInput';
 import { entContext } from '../../../store/ent.context';
+import ButtonEndModal from '../../Form/ButtonFooterModal';
+import InputText from '../../Form/inputText';
 
-const initFormData = {
+const initFormData: IEntreprise = {
   address: '',
   postalCode: '',
   town: '',
   urlImg: '',
   id: 0,
-} as IEntreprise;
+  name: '',
+};
 
 function AddEntModal() {
   const {
@@ -64,86 +67,47 @@ function AddEntModal() {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
           <div className="modal-body">
-            <div className="mb-3 input-group">
-              <span className="input-group-text" id="nameEnt">Nom</span>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                placeholder="Nom de l'entreprise"
-                value={form.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3 input-group">
-              <span className="input-group-text" id="addressEnt">
-                <i className="bi bi-geo-alt" />
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                name="address"
-                value={form.address}
-                onChange={handleChange}
-                placeholder="N°, rue, avenue, etc..."
-              />
-            </div>
+            <InputText
+              title="Nom"
+              text={form.name}
+              name="name"
+              onChange={handleChange}
+              placeholder="Nom de l'entreprise"
+            />
+            <InputText
+              title="Nom"
+              text={form.address}
+              name="address"
+              onChange={handleChange}
+              placeholder="N°, rue, avenue, etc..."
+              icon="geo-alt"
+            />
+            <InputText
+              title="Code postal"
+              text={form.postalCode}
+              name="postalCode"
+              onChange={handleChange}
+              placeholder="Code postal"
+              icon="map"
+            />
+            <InputText
+              title="Ville"
+              text={form.town}
+              name="town"
+              onChange={handleChange}
+              icon="buildings"
+            />
 
-            <div className="mb-3 input-group">
-              <span className="input-group-text" id="postalCode">
-                <i className="bi bi-map" />
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                id="postalCode"
-                name="postalCode"
-                value={form.postalCode}
-                onChange={handleChange}
-                placeholder="Code postal"
-              />
-            </div>
-            <div className="mb-3 input-group">
-              <span className="input-group-text" id="town">
-                <i className="bi bi-buildings" />
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                id="town"
-                name="town"
-                value={form.town}
-                onChange={handleChange}
-                placeholder="Ville"
-              />
-            </div>
+            <InputText
+              title="urlImg"
+              text={form.urlImg}
+              name="urlImg"
+              onChange={handleChange}
+              icon="globe2"
+              placeholder="URL de l'image"
 
-            <div className="input-group mb-3">
-              <span className="input-group-text" id="urlImg">
-                <i className="bi bi-globe2" />
-              </span>
-              <input
-                type="text"
-                className="form-control"
-                id="urlImg"
-                name="urlImg"
-                placeholder="URL de l'image"
-                value={form.urlImg}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                data-bs-dismiss="modal"
-              >
-                Save changes
-              </button>
-            </div>
+            />
+            <ButtonEndModal />
           </div>
         </div>
       </div>

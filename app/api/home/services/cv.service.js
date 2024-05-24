@@ -115,7 +115,7 @@ module.exports = {
     const { competences, id_user: idUser, ...rest } = inputQuery;
     try {
       const result = await cv.details.update(id, rest);
-      await cv.details.SkillCV(result.id, competences);
+      await cv.details.SkillCV(result.id, competences.map((e) => e.id));
 
       const returnValue = await this.generateObject(result);
       return returnValue;

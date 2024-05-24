@@ -15,15 +15,19 @@ export interface IDateEmploi {
   }
 }
 
-export interface IEmploiPost {
-  type: string,
+export interface IEmploiPost extends IArraySoftSkill {
+  type: 'job' | 'school'
   id: number,
-  id_ent: number,
+  ent: {
+    id: number,
+    name: string,
+  },
   title: string,
-  debut: string,
-  fin: string,
+  date: {
+    debut: string,
+    fin: string,
+  }
   description: string,
-  competences: number[]
 }
 
 export interface ICVDetails {

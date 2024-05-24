@@ -1,6 +1,6 @@
 export interface IEntreprise extends IArrayContact {
   id: number;
-  name?: string;
+  name: string;
   address?: string;
   postalCode?: string;
   town?: string;
@@ -28,6 +28,14 @@ export interface IInteraction {
   moyen: string,
   reponse:string,
   status?: IStatus,
+  createdAt: string,
+}
+export interface IInteractionPost {
+  id_contact: number,
+  moyen: string,
+  reponse: string,
+  idStatus: number,
+  id: number,
   createdAt: string,
 }
 

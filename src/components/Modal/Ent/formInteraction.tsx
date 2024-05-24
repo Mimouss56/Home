@@ -1,43 +1,64 @@
 /* eslint-disable max-len */
-import { useEffect } from 'react';
-import { IInteraction, IStatus } from '../../../@types/Home/ent';
+import { useEffect, useRef } from 'react';
+import { IInteraction, IInteractionPost, IStatus } from '../../../@types/Home/ent';
 import useFormInput from '../../../hook/useFormInput';
 import Textarea from '../../Form/textarea';
 import useFetchData from '../../../hook/useFetchData';
+import ButtonEndModal from '../../Form/ButtonFooterModal';
+import InputText from '../../Form/inputText';
 
-function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteraction) => void }) {
-  const initDataForm = {
-    id_contact: 0,
-    moyen: '',
-    reponse: '',
-    idStatus: 0,
-    id: 0,
-    createdAt: '',
+const initDataForm: IInteractionPost = {
+  id_contact: 0,
+  moyen: '',
+  reponse: '',
+  idStatus: 0,
+  id: 0,
+  createdAt: '',
+};
+const handleRetrieveModal = async (
+  event: Event,
+  setForm: (arg0: IInteractionPost) => void,
+  form: IInteractionPost,
+) => {
+  const { relatedTarget } = event as unknown as { relatedTarget: EventTarget };
+  const button = relatedTarget as HTMLButtonElement;
+  const idContact = button.getAttribute('data-bs-id-contact');
+  try {
+    setForm({ ...form, id_contact: Number(idContact) });
+  } catch (error) {
+    setForm({ ...initDataForm });
+  }
+};
+
+const retrieveIDModal = (
+  setForm: ((arg0: IInteractionPost) => void),
+  addInter: HTMLDivElement | null,
+  form: IInteractionPost,
+) => {
+  if (addInter) {
+    addInter.addEventListener('show.bs.modal', (event) => handleRetrieveModal(event, setForm, form));
+  }
+  // on remove le addEventListener
+  return () => {
+    if (addInter) {
+      addInter.removeEventListener('show.bs.modal', () => { });
+    }
   };
+};
+
+export default function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteraction) => void }) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initDataForm);
+  const addInter = useRef(null);
   const [dataStatus] = useFetchData('/api/home/suivi/status');
   const status = dataStatus as IStatus[];
 
-  useEffect(() => {
-    const addItemModal = document.getElementById('addInteraction');
+  useEffect(
+    () => retrieveIDModal(setForm, addInter.current, form),
 
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        const idContact = button.getAttribute('data-bs-id-contact');
-        setForm({ ...form, id_contact: Number(idContact) });
-      });
-    }
-
-    return () => {
-      if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => { });
-      }
-    };
-  }, [setForm, form]);
+    [setForm, form],
+  );
 
   return (
     <form
@@ -48,6 +69,7 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
       )}
       className="modal fade"
       id="addInteraction"
+      ref={addInter}
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
@@ -66,17 +88,14 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
             <div className="container-fluid">
 
               {/* //Input Moyen */}
-              <div className="input-group mb-3">
-                <span className="input-group-text">Moyen</span>
-                <input
-                  type="text"
-                  name="moyen"
-                  id="moyen"
-                  className="form-control"
-                  placeholder="Par quel moyen ?"
-                  onChange={handleChange}
-                />
-              </div>
+              <InputText
+                title="Moyen"
+                text={form.moyen}
+                onChange={handleChange}
+                name="moyen"
+                placeholder="Par quel moyen ?"
+
+              />
 
               {/* //Input Réponse */}
               <Textarea
@@ -105,27 +124,11 @@ function ModalAddInteraction({ onAddElement }: { onAddElement: (data: IInteracti
               </div>
             </div>
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              data-bs-dismiss="modal"
-            >
-              Save
-            </button>
-          </div>
+          <ButtonEndModal />
+
         </div>
       </div>
 
     </form>
   );
 }
-
-export default ModalAddInteraction;

@@ -15,6 +15,7 @@ import { userContext } from '../store/user.context';
 import { EntProvider } from '../store/ent.context';
 import Test from '../Pages/Test';
 import NewsSection from '../Pages/Main_2/news';
+import { SoftSkillProvider } from '../store/skill.context';
 
 function ListeRoute() {
   const { user } = useContext(userContext);
@@ -24,7 +25,7 @@ function ListeRoute() {
   return (
     <Routes>
       <Route path="/" element={<MainDev />} />
-      <Route path={'cv' || 'about'} element={<EntProvider><ViewCVPage /></EntProvider>} />
+      <Route path={'cv' || 'about'} element={<EntProvider><SoftSkillProvider><ViewCVPage /></SoftSkillProvider></EntProvider>} />
       <Route path="feedback" element={<Feedback />} />
       <Route path="changelog" element={(<NewsSection />)} />
       <Route path="test" element={(<Test />)} />

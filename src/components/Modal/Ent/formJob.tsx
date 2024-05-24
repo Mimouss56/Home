@@ -1,20 +1,26 @@
-import { useContext, useEffect, useState } from 'react';
+import {
+  useContext, useEffect,
+  useRef,
+} from 'react';
 import dayjs from 'dayjs';
-import { toast } from 'react-toastify';
+import { AxiosPromise } from 'axios';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
-import SkillInput from '../../Job/softSkillInput';
+import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
 import { ISoftSkill } from '../../../@types/Home/softSkill';
-import { IEmploi } from '../../../@types/Home/emploi';
+import { entContext } from '../../../store/ent.context';
 import Textarea from '../../Form/textarea';
 import InputText from '../../Form/inputText';
-import { entContext } from '../../../store/ent.context';
+import DateInput from '../../Form/Date';
+import SoftSkillInput from '../../Job/softSkillComponant';
+import ButtonEndModal from '../../Form/ButtonFooterModal';
 
-const initFormData = {
+const initFormData: IEmploiPost = {
   type: 'job',
   id: 0,
   ent: {
     id: 0,
+    name: '',
   },
   title: '',
   date: {
@@ -23,106 +29,73 @@ const initFormData = {
   },
   description: '',
   competences: [],
-} as IEmploi;
+};
+
+const fetchData = (id: number): Promise<AxiosPromise> => axiosInstance.get(`/api/home/cv/${id}`); // 1Action -> 1Promise
+
+const handleRetrieveModal = async (event: Event, setForm: (arg0: IEmploiPost) => void) => {
+  const { relatedTarget } = event as unknown as { relatedTarget: EventTarget };
+  const button = relatedTarget as HTMLButtonElement;
+  try {
+    const id = button.getAttribute('data-bs-id');
+    if (!id) {
+      throw new Error('id is not defined');
+    }
+    const idCv = parseInt(id, 10);
+    const result = await fetchData(idCv);
+    const detailsCV = result.data;
+    setForm(detailsCV);
+  } catch (error) {
+    const type = button.getAttribute('data-bs-type') as 'job' | 'school';
+    setForm({ ...initFormData, type });
+  }
+};
+
+const retrieveIDModal = (setForm: ((arg0: IEmploi) => void), addItemRef: HTMLDivElement | null) => {
+  if (addItemRef) {
+    addItemRef.addEventListener('show.bs.modal', (event) => handleRetrieveModal(event, setForm));
+  }
+  // on remove le addEventListener
+  return () => {
+    if (addItemRef) {
+      addItemRef.removeEventListener('show.bs.modal', () => { });
+    }
+  };
+};
+
+const handleChangeListSkill = (formState: {
+  form: IEmploi; setForm: (arg0: IEmploi) => void;
+}, addSkill: ISoftSkill) => {
+  const oldArraySkills = formState.form.competences;
+  oldArraySkills.push(addSkill);
+  formState.setForm({ ...formState.form, competences: oldArraySkills });
+};
 
 interface ModalAddItemProps {
   onAddElement: (data: IEmploi) => void;
-  listSkill: ISoftSkill[];
 }
 
-function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
-  const [edit, setEdit] = useState(false);
-  const [addInput, setAddInput] = useState(false);
+export default function ModalAddItem({ onAddElement }: ModalAddItemProps) {
   const {
     form, setForm, handleChange, handleSave,
   } = useFormInput(initFormData);
   const { ent } = useContext(entContext);
+  const addItemRef = useRef(null);
 
-  const fetchData = (async (id: number) => {
-    try {
-      const response = await axiosInstance.get(`/api/home/cv/${id}`);
-      const emploiData = response.data as IEmploi;
-
-      return emploiData;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(error.message);
-      return initFormData;
-    }
-  });
-
-  const handleAddSkill = (skill: ISoftSkill) => {
-    // on recupere l'ancien liste des form.competences
-    const oldArraySkills = form.competences;
-    // on ajoute le skill.id à la liste des form.competences
-    oldArraySkills.push(skill);
-    // on met à jour le state
-    setForm({ ...form, competences: oldArraySkills });
-
-    setAddInput(false);
-  };
-
-  const handleDeleteSkill = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { target } = e;
-    const button = target as HTMLButtonElement;
-    const idSkill = Number(button.parentElement?.id);
-    if (idSkill) {
-      // on recupere l'ancien liste des form.competences
-      const oldArraySkills = form.competences;
-      // on supprime le skill.id à la liste des form.competences
-      const newArraySkills = oldArraySkills.filter((skill) => skill.id !== idSkill);
-      // on met à jour le state
-      setForm({ ...form, competences: newArraySkills });
-    }
-  };
-
-  useEffect(() => {
-    const addItemModal = document.getElementById('addItem');
-
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        const id = button.getAttribute('data-bs-id');
-        if (id === null) {
-          const type = button.getAttribute('data-bs-type') as 'job' | 'school';
-          setForm({ ...initFormData, type });
-          return;
-        }
-        const editForm = button.getAttribute('data-bs-edit');
-        if (editForm === null) {
-          setEdit(!editForm);
-          return;
-        }
-
-        const detailsCV = await fetchData(parseInt(id, 10)) as IEmploi;
-
-        setForm(detailsCV);
-      });
-    }
-    // on remove le addEventListener
-    return () => {
-      if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => { });
-      }
-    };
-  }, [setForm, form]);
+  useEffect(
+    () => retrieveIDModal(setForm, addItemRef.current),
+    [setForm, addItemRef],
+  );
 
   return (
-    <form onSubmit={async (e) => handleSave(
-      e,
-      '/api/home/cv/@me',
-      onAddElement,
-    )}
-    >
-      <div className="modal fade" id="addItem">
+    <form onSubmit={async (event) => handleSave(event, '/api/home/cv/@me', onAddElement)}>
+      <div className="modal fade" id="addItem" ref={addItemRef}>
         <div className="modal-dialog modal-dialog-centered modal-xl ">
           <div className="modal-content">
             <div className="modal-header">
+
               <div className="input-group">
-                <span className="input-group-text" id="basic-addon1">
-                  {edit ? 'Editer un' : 'Ajouter un'}
-                </span>
+                <span className="input-group-text" id="basic-addon1">type</span>
                 <select
                   className="form-select input-group-select"
                   aria-label="select Type"
@@ -154,6 +127,7 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                         ...form,
                         ent: {
                           id: parseInt(e.target.value, 10),
+                          name: '',
                         },
                       });
                     }}
@@ -178,53 +152,36 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
               {/* // Date Input */}
               <div className="d-flex justify-content-between">
                 {/* // Date Debut Input */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="bi bi-calendar px-1" />
-                  </span>
-                  <input
-                    type="date"
-                    className="form-control"
-                    placeholder="Date de début"
-                    aria-label="Date de début"
-                    aria-describedby="basic-addon1"
-                    name="debut"
-                    value={dayjs(form.date.debut).format('YYYY-MM-DD')}
-                    onChange={(e) => {
-                      setForm({
-                        ...form,
-                        date: {
-                          ...form.date,
-                          debut: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </div>
+
+                <DateInput
+                  placeholder="Date de début"
+                  name="debut"
+                  value={dayjs(form.date.debut).format('YYYY-MM-DD')}
+                  onChange={(event) => {
+                    setForm({
+                      ...form,
+                      date: {
+                        ...form.date,
+                        debut: event.target.value,
+                      },
+                    });
+                  }}
+                />
                 {/* // Date Fin Input */}
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="bi bi-calendar px-1" />
-                  </span>
-                  <input
-                    type="date"
-                    className="form-control"
-                    placeholder="Date de fin"
-                    aria-label="Date de fin"
-                    aria-describedby="basic-addon1"
-                    name="fin"
-                    value={dayjs(form.date.fin).format('YYYY-MM-DD')}
-                    onChange={(e) => {
-                      setForm({
-                        ...form,
-                        date: {
-                          ...form.date,
-                          fin: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </div>
+                <DateInput
+                  placeholder="Date de fin"
+                  name="fin"
+                  value={dayjs(form.date.fin).format('YYYY-MM-DD')}
+                  onChange={(e) => {
+                    setForm({
+                      ...form,
+                      date: {
+                        ...form.date,
+                        fin: e.target.value,
+                      },
+                    });
+                  }}
+                />
               </div>
               {/* // Description Input */}
               <Textarea
@@ -236,58 +193,11 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
                 leng={500}
               />
               {/* // Skill Input */}
-              <div className="input-group mb-3">
-                {/* // List des ID des Skills */}
-                {form.competences.map((skillID) => (
-                  <span
-                    key={skillID.id}
-                    className="badge d-flex align-items-center p-1 pe-2 border rounded-pill text-light-emphasis bg-light-subtle border-light-subtle"
-                  >
-                    {listSkill.find((skill) => skill.id === skillID.id)?.name}
-                    <span className="vr mx-2" />
-                    <button
-                      type="button"
-                      className="btn-close"
-                      aria-label="Close"
-                      onClick={handleDeleteSkill}
-                      id={skillID.toString()}
-                    >
-                      <i className="bi bi-x" />
-                    </button>
-                  </span>
-                ))}
-                {/* // Add Skill Button */}
-                {!addInput && (
-                  <button
-                    className="btn rounded-pill bg-success-subtle"
-                    type="button"
-                    onClick={() => setAddInput(!addInput)}
-                  >
-                    <i className="bi bi-plus-circle" />
-                  </button>
-                )}
-
-                {/* // Input Skill */}
-                {addInput && (
-                  <SkillInput
-                    onSkillSelected={handleAddSkill}
-                    skills={form.competences.flatMap((c) => c.id)}
-                    listSkills={listSkill}
-                  />
-                )}
-
-              </div>
-
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Save changes
-                </button>
-              </div>
+              <SoftSkillInput
+                actualSkills={form.competences}
+                onChange={(event) => handleChangeListSkill({ form, setForm }, event)}
+              />
+              <ButtonEndModal />
             </div>
           </div>
         </div>
@@ -295,5 +205,3 @@ function ModalAddItem({ onAddElement, listSkill }: ModalAddItemProps) {
     </form>
   );
 }
-
-export default ModalAddItem;
