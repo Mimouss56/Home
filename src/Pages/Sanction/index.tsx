@@ -6,7 +6,7 @@ import axiosInstance from '../../utils/axios';
 import { excerpt } from '../../utils/main';
 import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
-import ModalViewDetails from './viewSanction';
+import ModalViewDetails from '../../components/Modal/Sanction/viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
 import { userContext } from '../../store/user.context';
 

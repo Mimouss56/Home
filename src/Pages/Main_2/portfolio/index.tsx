@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import ICardPortfolio from '../../../@types/portfolio';
-import DetailsFloatCard from '../../../components/FloatCard/modalViewDetailsFloatCard';
+import DetailsFloatCard from '../../../components/Modal/PortFolio/viewDetailsFloatCard';
 import FlipCard from '../../../components/HexagonCard/flipCard';
 import ModalAddFolio from '../../../components/Modal/PortFolio/formPortfolio';
 import useFetchData from '../../../hook/useFetchData';
@@ -14,9 +14,6 @@ const float = 1.732 * width + 4 * marginHexa - 1;
 // creation d'un style root
 const root = document.documentElement;
 root.style.setProperty('--float', `${float}px`);
-
-// calc(1.732 * #{ $width } + 4 * #{ $margin } - 1px);
-
 const idName = 'portfolio';
 
 function HexaSection() {
@@ -24,20 +21,19 @@ function HexaSection() {
   const { user } = useContext(userContext);
 
   return (
-    <SectionLayout idName={idName} title="Mes différentes réalisations" addButton="addPortfolio" className="d-none d-md-block">
+    <SectionLayout idName={idName} title="Diverses réalisations" addButton="addPortfolio" className="">
       <div
-        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 py-5 d-none d-md-block overflow-hidden z-0"
+        className="w-75 m-auto d-flex justify-content-center flex-wrap max-vh-100 py-5 overflow-hidden "
         id={`${idName}-content`}
       >
         <div className="my-5">
           <div
             id="beforeFloat"
             style={{
-              content: 'test',
-              width: width / 2 + marginHexa,
+              width: `${width / 2 + marginHexa}px`,
+              height: '120%',
               float: 'left',
-              height: width * 1.1547 + marginHexa * 2,
-              // backgroundColor: 'yellow',
+              content: '',
             }}
           />
           {dataPortfolio && dataPortfolio

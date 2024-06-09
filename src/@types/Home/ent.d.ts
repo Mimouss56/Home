@@ -40,7 +40,7 @@ export interface IInteractionPost {
 }
 
 export interface IArrayInter {
-  interaction: IInteraction[];
+  interaction?: IInteraction[];
 }
 
 export interface IInterVue {

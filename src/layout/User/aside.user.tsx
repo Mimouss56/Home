@@ -8,18 +8,17 @@ import { userContext } from '../../store/user.context';
 interface MenuProp {
   navContent: MenuItemsProp[][];
 }
+const handleClickLogout = () => {
+  sessionStorage.removeItem('user');
+  sessionStorage.removeItem('sessionToken');
+  sessionStorage.removeItem('dataNotif');
+  sessionStorage.setItem('notifToast', 'Vous êtes déconnecté !');
+  window.location.replace('/');
+};
 
 function AsideUserMenu({ navContent }: MenuProp) {
   const { user } = useContext(userContext);
   const [navItemsUser, navItemsMouss] = navContent;
-
-  const handleClickLogout = () => {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('sessionToken');
-    sessionStorage.removeItem('dataNotif');
-    sessionStorage.setItem('notifToast', 'Vous êtes déconnecté !');
-    window.location.replace('/');
-  };
 
   useEffect(() => {
     const asideElement = document.getElementById('aside');

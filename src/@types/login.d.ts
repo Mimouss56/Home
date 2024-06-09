@@ -1,10 +1,7 @@
-import { IRole } from './Home/user';
+import { IRole, IUser } from './Home/user';
 
-export interface LoginResponse extends IRole {
-  token: string;
-  id: number
-  username: string
-  email: string
+export interface LoginResponse {
   sessionToken: string
   message: string
+  user: IUser
 }

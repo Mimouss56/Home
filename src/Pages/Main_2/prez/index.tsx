@@ -19,7 +19,7 @@ function Prez() {
     >
       <div
         id={`${idName}-content`}
-        className="h-lg-50 m-md-auto row my-sm-0 h-sm-100"
+        className="h-lg-50 m-md-auto row my-sm-0 h-sm-100 z-n1"
       >
         <div className="col-md-6 px-5 my-5 position-relative overflow-hidden ">
           <h1 id="prezName" className="neonText">

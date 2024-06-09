@@ -1,6 +1,6 @@
 import IRecommandations from '../../../@types/Home/recommandation';
-import InputText from '../../../components/Form/inputText';
-import Textarea from '../../../components/Form/textarea';
+import InputText from '../../Form/inputText';
+import Textarea from '../../Form/textarea';
 import useFormInput from '../../../hook/useFormInput';
 
 interface AddRecommModalProps {

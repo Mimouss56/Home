@@ -1,5 +1,5 @@
 import IRecommandation from '../../../@types/Home/recommandation';
-import ModalAddRecomm from './modalAddRecomm';
+import ModalAddRecomm from '../../../components/Modal/PortFolio/formRecomm';
 import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
 import CardRecomm from './cardRecomm';

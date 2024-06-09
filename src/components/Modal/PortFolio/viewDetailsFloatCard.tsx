@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { ICard } from '../../@types/Home/card';
-import axiosInstance from '../../utils/axios';
-import ICardPortfolio from '../../@types/portfolio';
-import { baseUrl } from '../../../config.json';
-import defaultImg from '../../assets/images/finishWebsite.png';
-import { userContext } from '../../store/user.context';
+import { ICard } from '../../../@types/Home/card';
+import axiosInstance from '../../../utils/axios';
+import ICardPortfolio from '../../../@types/portfolio';
+import { baseUrl } from '../../../../config.json';
+import defaultImg from '../../../assets/images/finishWebsite.png';
+import { userContext } from '../../../store/user.context';
 
 const initValueCard: ICard = {
   id: 0,
@@ -119,7 +119,7 @@ function DetailsFloatCard() {
             </div>
             <div className="modal-footer">
               {card.target && (
-                <a href={card.urlSite} className="btn btn-primary">{card.target}</a>
+                <a href={card.urlSite} className="btn btn-primary">{card.title}</a>
               )}
               <button
                 type="button"

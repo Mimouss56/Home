@@ -1,4 +1,4 @@
-import { IEntObject } from './ent.d';
+import { IEntObject } from './ent';
 import { IArraySoftSkill } from './softSkill';
 
 export interface IEmploi extends IDateEmploi, IArraySoftSkill, IEntObject {
@@ -9,7 +9,7 @@ export interface IEmploi extends IDateEmploi, IArraySoftSkill, IEntObject {
 }
 
 export interface IDateEmploi {
-  date: {
+  date?: {
     debut: string,
     fin: string
   }

@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 import { useEffect, useRef } from 'react';
-import { IInteraction, IInteractionPost, IStatus } from '../../../@types/Home/ent';
-import useFormInput from '../../../hook/useFormInput';
-import Textarea from '../../Form/textarea';
-import useFetchData from '../../../hook/useFetchData';
-import ButtonEndModal from '../../Form/ButtonFooterModal';
-import InputText from '../../Form/inputText';
+import { IInteraction, IInteractionPost, IStatus } from '../../../../@types/Home/ent';
+import useFormInput from '../../../../hook/useFormInput';
+import Textarea from '../../../Form/textarea';
+import useFetchData from '../../../../hook/useFetchData';
+import ButtonEndModal from '../../../Form/ButtonFooterModal';
+import InputText from '../../../Form/inputText';
 
 const initDataForm: IInteractionPost = {
   id_contact: 0,

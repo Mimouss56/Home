@@ -24,11 +24,12 @@ const showFeedback = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 
 
 // User menu
 
-function App() {
+export default function App() {
   const [showNav, setShowNav] = useState(true);
   useEffect(() => {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
-    if (window.location.pathname === '/') setShowNav(false);
+    if (document.getElementById('landing-page')) setShowNav(false);
+
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
       sessionStorage.removeItem('notifToast');
@@ -54,5 +55,3 @@ function App() {
     </UserProvider>
   );
 }
-
-export default App;

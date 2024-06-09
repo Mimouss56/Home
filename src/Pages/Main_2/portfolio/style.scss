@@ -1,3 +1,6 @@
-#beforeFloat{
-  shape-outside: repeating-linear-gradient(rgba(0, 0, 0, 0) 0 calc(var(--float) - 3px), #000 var(--float));
+#beforeFloat {
+  shape-outside: repeating-linear-gradient(
+    #0000 0 calc(var(--float) - 3px),
+    #000 var(--float));
+    
 }

@@ -20,7 +20,7 @@ import { SoftSkillProvider } from '../store/skill.context';
 function ListeRoute() {
   const { user } = useContext(userContext);
   const isAdmin = user?.role.id === 1;
-  const isESA = user?.role.label === 'esa' || user?.role.label === 'admin';
+  const isESA = user?.role.label === 'esa' || isAdmin;
 
   return (
     <Routes>

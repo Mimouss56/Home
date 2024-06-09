@@ -1,8 +1,6 @@
 import {
   ReactElement, ReactNode, createContext, useMemo, useState,
 } from 'react';
-import { VerifyErrors } from 'jsonwebtoken';
-import { toast } from 'react-toastify';
 import { IUser } from '../@types/Home/user';
 import axiosInstance from '../utils/axios';
 
@@ -23,8 +21,8 @@ function UserProvider({ children }: { children: ReactNode }): ReactElement {
   if (token && !user) {
     axiosInstance.get('/api/home/@me').then((res) => {
       setUser(res.data);
-    }).catch((err: VerifyErrors) => {
-      toast.error(err.message);
+    }).catch(() => {
+      // toast.error(err.message);
       sessionStorage.removeItem('sessionToken');
       setUser(null);
     });

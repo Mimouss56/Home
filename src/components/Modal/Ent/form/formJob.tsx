@@ -4,16 +4,16 @@ import {
 } from 'react';
 import dayjs from 'dayjs';
 import { AxiosPromise } from 'axios';
-import axiosInstance from '../../../utils/axios';
-import useFormInput from '../../../hook/useFormInput';
-import { IEmploi, IEmploiPost } from '../../../@types/Home/emploi';
-import { ISoftSkill } from '../../../@types/Home/softSkill';
-import { entContext } from '../../../store/ent.context';
-import Textarea from '../../Form/textarea';
-import InputText from '../../Form/inputText';
-import DateInput from '../../Form/Date';
-import SoftSkillInput from '../../Job/softSkillComponant';
-import ButtonEndModal from '../../Form/ButtonFooterModal';
+import axiosInstance from '../../../../utils/axios';
+import useFormInput from '../../../../hook/useFormInput';
+import { IEmploi, IEmploiPost } from '../../../../@types/Home/emploi';
+import { ISoftSkill } from '../../../../@types/Home/softSkill';
+import { entContext } from '../../../../store/ent.context';
+import Textarea from '../../../Form/textarea';
+import InputText from '../../../Form/inputText';
+import DateInput from '../../../Form/Date';
+import SoftSkillInput from '../../../Job/softSkillComponant';
+import ButtonEndModal from '../../../Form/ButtonFooterModal';
 
 const initFormData: IEmploiPost = {
   type: 'job',

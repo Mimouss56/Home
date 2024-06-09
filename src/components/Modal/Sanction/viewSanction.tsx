@@ -5,10 +5,10 @@ import { toast } from 'react-toastify';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
 
-import { ISanction } from '../../@types/Home/sanction';
-import axiosInstance from '../../utils/axios';
-import { INotif } from '../../@types/notifToast';
-import { userContext } from '../../store/user.context';
+import { ISanction } from '../../../@types/Home/sanction';
+import axiosInstance from '../../../utils/axios';
+import { INotif } from '../../../@types/notifToast';
+import { userContext } from '../../../store/user.context';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);

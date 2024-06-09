@@ -22,7 +22,7 @@ const initFormData = {
   urlSite: '',
 };
 
-function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
+export default function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
   const {
     form: formData,
     handleChange,
@@ -144,73 +144,75 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
   }, [fetchJobData]);
 
   return (
-    <form onSubmit={handleSave}>
-      <div className="modal fade" id="addPortfolio">
-        <div className="modal-dialog modal-dialog-centered modal-xl ">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Ajouter un élément</h2>
+    <form
+      onSubmit={handleSave}
+      className="modal fade"
+      id="addPortfolio"
+    >
+      <div className="modal-dialog modal-dialog-centered modal-xl ">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>Ajouter un élément</h2>
 
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-            </div>
-            <div className="modal-body">
-              <div className="d-flex justify-content-between">
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="basic-addon1">
-                    <i className="bi bi-globe2 px-1" />
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Nom du Site"
-                    aria-label="nameSite"
-                    aria-describedby="basic-addon1"
-                    name="nameSite"
-                    value={formData.nameSite}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+          </div>
+          <div className="modal-body">
+            <div className="d-flex justify-content-between">
               <div className="input-group mb-3">
                 <span className="input-group-text" id="basic-addon1">
-                  <i className="bi bi-file-earmark-text px-1" />
-                </span>
-                <Editor
-                  apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
-                  init={initEditorConfig}
-                  initialValue={formData.description}
-                  textareaName="description"
-                  onEditorChange={(description) => setEditorContent(description)}
-                />
-              </div>
-              <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
-              <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">
-                  https://
+                  <i className="bi bi-globe2 px-1" />
                 </span>
                 <input
+                  type="text"
                   className="form-control"
-                  placeholder="Url du site"
-                  aria-label="Url du site"
+                  placeholder="Nom du Site"
+                  aria-label="nameSite"
                   aria-describedby="basic-addon1"
-                  name="urlSite"
-                  value={formData.urlSite}
+                  name="nameSite"
+                  value={formData.nameSite}
                   onChange={handleChange}
                 />
               </div>
+            </div>
+            <div className="input-group mb-3">
+              <span className="input-group-text" id="basic-addon1">
+                <i className="bi bi-file-earmark-text px-1" />
+              </span>
+              <Editor
+                apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
+                init={initEditorConfig}
+                initialValue={formData.description}
+                textareaName="description"
+                onEditorChange={(description) => setEditorContent(description)}
+              />
+            </div>
+            <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
+            <div className="input-group mb-3">
+              <span className="input-group-text" id="basic-addon1">
+                https://
+              </span>
+              <input
+                className="form-control"
+                placeholder="Url du site"
+                aria-label="Url du site"
+                aria-describedby="basic-addon1"
+                name="urlSite"
+                value={formData.urlSite}
+                onChange={handleChange}
+              />
+            </div>
 
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  data-bs-dismiss="modal"
-                  onClick={() => handleDelete(formData.id)}
-                >
-                  Delete
-                </button>
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
-              </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+                onClick={() => handleDelete(formData.id)}
+              >
+                Delete
+              </button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
             </div>
           </div>
         </div>
@@ -218,5 +220,3 @@ function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
     </form>
   );
 }
-
-export default ModalAddFolio;

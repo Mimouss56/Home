@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
-import { IEntreprise } from '../../../@types/Home/ent';
-import useFormInput from '../../../hook/useFormInput';
-import { entContext } from '../../../store/ent.context';
-import ButtonEndModal from '../../Form/ButtonFooterModal';
-import InputText from '../../Form/inputText';
+import { IEntreprise } from '../../../../@types/Home/ent';
+import useFormInput from '../../../../hook/useFormInput';
+import { entContext } from '../../../../store/ent.context';
+import ButtonEndModal from '../../../Form/ButtonFooterModal';
+import InputText from '../../../Form/inputText';
 
 const initFormData: IEntreprise = {
   address: '',

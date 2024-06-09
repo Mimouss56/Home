@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { IContact } from '../../../@types/Home/ent';
-import useFormInput from '../../../hook/useFormInput';
-import InputText from '../../Form/inputText';
-import ButtonEndModal from '../../Form/ButtonFooterModal';
+import { IContact } from '../../../../@types/Home/ent';
+import useFormInput from '../../../../hook/useFormInput';
+import InputText from '../../../Form/inputText';
+import ButtonEndModal from '../../../Form/ButtonFooterModal';
 
 const initFormData: IContact = {
   nom: '',

@@ -22,7 +22,7 @@ function SectionLayout({
       id={idName}
     >
       <div
-        className="d-flex justify-content-between w-100 mx-auto border-1 border-info-subtle border-top border-bottom p-2 bg-secondary position-sticky z-2 "
+        className="d-flex justify-content-between w-100 mx-auto border-1 border-info-subtle border-top border-bottom p-2 bg-secondary position-sticky z-2"
         id={`${idName}-header`}
         style={{
           // top en dessous de la navbar

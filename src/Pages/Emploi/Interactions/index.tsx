@@ -15,7 +15,7 @@ function Interations({ listEnt }: { listEnt: IEntreprise[] }) {
     const lastInteractionsArray: IInterVue[] = [];
 
     entreprises.forEach((entreprise) => {
-      entreprise.contact.forEach((contact) => {
+      entreprise.contact?.forEach((contact) => {
         if (contact.interaction && contact.interaction.length > 0) {
           // Trier les interactions par date de création
           contact.interaction.sort(

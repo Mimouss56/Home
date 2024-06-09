@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
-import ModalAddItem from '../../components/Modal/Ent/formJob';
+import ModalAddItem from '../../components/Modal/Ent/form/formJob';
 // import useFetchData from '../../hook/useFetchData';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';

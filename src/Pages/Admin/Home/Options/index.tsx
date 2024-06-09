@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IOption } from '../../../../@types/Home/option';
-import ModalAdd from './modalAddOption';
+import ModalAdd from '../../../../components/Modal/Admin/addOption';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorAxios, ErrorSanctionProps } from '../../../../@types/error';
 
