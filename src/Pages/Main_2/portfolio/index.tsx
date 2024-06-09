@@ -7,6 +7,7 @@ import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
 import './style.scss';
 import { userContext } from '../../../store/user.context';
+import { moussContext } from '../../../store/mouss.context';
 
 const width = 200;
 const marginHexa = 2;
@@ -19,6 +20,7 @@ const idName = 'portfolio';
 function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
   const { user } = useContext(userContext);
+  const { mouss } = useContext(moussContext);
 
   return (
     <SectionLayout idName={idName} title="Diverses réalisations" addButton="addPortfolio" className="">
@@ -65,7 +67,7 @@ function HexaSection() {
         </div>
       </div>
       <DetailsFloatCard />
-      {user?.username === 'Mouss' && <ModalAddFolio onAddElement={dataPortfolio} />}
+      {user?.id === mouss?.id && <ModalAddFolio onAddElement={dataPortfolio} />}
     </SectionLayout>
 
   );

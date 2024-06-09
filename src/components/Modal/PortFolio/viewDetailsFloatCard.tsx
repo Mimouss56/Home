@@ -6,6 +6,7 @@ import ICardPortfolio from '../../../@types/portfolio';
 import { baseUrl } from '../../../../config.json';
 import defaultImg from '../../../assets/images/finishWebsite.png';
 import { userContext } from '../../../store/user.context';
+import { moussContext } from '../../../store/mouss.context';
 
 const initValueCard: ICard = {
   id: 0,
@@ -21,6 +22,7 @@ const initValueCard: ICard = {
 function DetailsFloatCard() {
   const [card, setCard] = useState<ICard>(initValueCard);
   const { user } = useContext(userContext);
+  const { mouss } = useContext(moussContext);
 
   useEffect(() => {
     const addItemModal = document.getElementById('viewDetailsFloatCard');
@@ -94,12 +96,12 @@ function DetailsFloatCard() {
                     backgroundColor: '#113550',
                   }}
                 >
-                  {user?.username === 'Mouss' && (
+                  {user?.id === mouss?.id && (
                     <button
                       type="button"
                       className="bi bi-gear text-danger btn position-absolute top-0 end-0 "
                       data-bs-toggle="modal"
-                      data-bs-target="#addModalNews"
+                      data-bs-target="#addPortfolio"
                       data-bs-id={card.id}
                       data-bs-edit="true"
                       data-bs-type="portfolio"
