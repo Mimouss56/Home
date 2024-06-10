@@ -29,6 +29,7 @@ export default function App() {
   useEffect(() => {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
     if (document.getElementById('landing-page')) setShowNav(false);
+    console.log(document.getElementById('landing-page'));
 
     if (sessionStorage.getItem('notifToast') != null) {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
@@ -38,20 +39,18 @@ export default function App() {
 
   return (
     <UserProvider>
-      <MoussProvider>
-        <ToastContainer
-          position="top-left"
-          autoClose={5000}
-          theme="light"
-        />
-        {showFeedback && <Feedback />}
-        <Snow />
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        theme="light"
+      />
+      {showFeedback && <Feedback />}
+      <Snow />
 
-        <Notifications />
-        {showNav && <Navbar navContent={navTop} />}
-        <main><ListeRoute /></main>
-        <Footer />
-      </MoussProvider>
+      <Notifications />
+      {showNav && <Navbar navContent={navTop} />}
+      <main><ListeRoute /></main>
+      <Footer />
     </UserProvider>
   );
 }
