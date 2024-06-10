@@ -15,13 +15,7 @@
     "icon": "kanban",
     "component": "Kanban"
   },
-  {
-    "id": 6,
-    "title": "Portfolio",
-    "link": "/user/portfolio",
-    "icon": "award",
-    "component": "portfolio"
-  },
+
   {
     "id": 7,
     "title": "Suivi Emploi",
