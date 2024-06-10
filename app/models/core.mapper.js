@@ -190,7 +190,7 @@ module.exports = class CoreDatamapper {
     return result.rowCount;
   }
 
-  async close() {
-    await this.client.end();
+  close() {
+    return this.client.end();
   }
 };

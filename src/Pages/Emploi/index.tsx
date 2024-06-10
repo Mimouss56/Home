@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { IEntreprise } from '../../@types/Home/ent';
-import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
+import AddEntModal from '../../components/Modal/Ent/form/formEntSuivi';
 import EntCard from '../../components/FloatCard/entCard';
 import Interations from './Interactions';
 import SectionLayout from '../../layout/SectionLayout';

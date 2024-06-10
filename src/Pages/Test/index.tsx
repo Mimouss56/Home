@@ -1,14 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useContext } from 'react';
 import useFetchData from '../../hook/useFetchData';
-import { userContext } from '../../store/user.context';
-import './style.scss';
 import ICardPortfolio from '../../@types/portfolio';
 import FlipCard from '../../components/HexagonCard/flipCard';
 
 function Test() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
-  const { user } = useContext(userContext);
   return (
     <ul className="honeycomb">
       <li className="honeycomb-cell">

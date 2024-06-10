@@ -68,82 +68,84 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, '/api/home/sanction', onAddElement)}>
-      <div className="modal fade" id="ModalAddSanction">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>
-                {form.id === 0 ? 'Ajouter' : 'Editer'}
-                {' '}
-                la sanction
-              </h2>
+    <form
+      onSubmit={(e) => handleSave(e, '/api/home/sanction', onAddElement)}
+      className="modal fade"
+      id="ModalAddSanction"
+    >
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>
+              {form.id === 0 ? 'Ajouter' : 'Editer'}
+              {' '}
+              la sanction
+            </h2>
 
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+          </div>
+          <div className="modal-body">
+            <div className="d-flex justify-content-around col ">
+              <div className="input-group mb-3">
+                <span className="input-group-text" id="important">Important</span>
+                <div className="form-check form-switch mb-3">
+                  <input
+                    className="form-check-input input-group "
+                    type="checkbox"
+                    role="switch"
+                    name="warn"
+                    checked={form.warn || false}
+                    onChange={handleSwitchSanction}
+                  />
+                </div>
+              </div>
+              <div className="input-group mb-3">
+                <label className="input-group-text" htmlFor="inputGroupChild">Choix Enfant</label>
+                <select
+                  className="form-select"
+                  id="inputGroupChild"
+                  aria-label="choix de l'enfant"
+                  name="id_child"
+                  onChange={handleChange}
+                  value={form.id_child}
+                >
+                  <option>Choose...</option>
+                  {childrenList.map((childInfo) => (
+                    <option
+                      key={childInfo.id}
+                      value={childInfo.id}
+                      className="text-capitalize"
+                    >
+                      {childInfo.username}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="modal-body">
-              <div className="d-flex justify-content-around col ">
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="important">Important</span>
-                  <div className="form-check form-switch mb-3">
-                    <input
-                      className="form-check-input input-group "
-                      type="checkbox"
-                      role="switch"
-                      name="warn"
-                      checked={form.warn || false}
-                      onChange={handleSwitchSanction}
-                    />
-                  </div>
-                </div>
-                <div className="input-group mb-3">
-                  <label className="input-group-text" htmlFor="inputGroupChild">Choix Enfant</label>
-                  <select
-                    className="form-select"
-                    id="inputGroupChild"
-                    aria-label="choix de l'enfant"
-                    name="id_child"
-                    onChange={handleChange}
-                    value={form.id_child}
-                  >
-                    <option>Choose...</option>
-                    {childrenList.map((childInfo) => (
-                      <option
-                        key={childInfo.id}
-                        value={childInfo.id}
-                        className="text-capitalize"
-                      >
-                        {childInfo.username}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <Textarea
-                title="Raison"
-                text={form.label}
-                onChange={handleChange}
-                name="label"
-                leng={500}
-                icon={null}
-              />
-              <div className="modal-footer d-flex justify-content-around">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Fermer
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-success"
-                  data-bs-dismiss="modal"
-                >
-                  {form.id !== 0 ? 'Modifier' : 'Ajouter'}
-                </button>
+            <Textarea
+              title="Raison"
+              text={form.label}
+              onChange={handleChange}
+              name="label"
+              leng={500}
+              icon={null}
+            />
+            <div className="modal-footer d-flex justify-content-around">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Fermer
+              </button>
+              <button
+                type="submit"
+                className="btn btn-success"
+                data-bs-dismiss="modal"
+              >
+                {form.id !== 0 ? 'Modifier' : 'Ajouter'}
+              </button>
 
-              </div>
             </div>
           </div>
         </div>

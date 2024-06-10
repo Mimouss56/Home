@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { userContext } from '../../../store/user.context';
 import axiosInstance from '../../../utils/axios';
 
-function Login() {
+export default function Login() {
   const { setUser } = useContext(userContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,26 +16,20 @@ function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    try {
-      const res = await axiosInstance.post('/api/home/login', { username, password });
-      const {
-        sessionToken, message, user,
-      } = res.data;
-
-      sessionStorage.setItem('sessionToken', sessionToken);
-      toast.success(`🦄 ${message} !`);
-      setUser(user);
-      loginRef.current?.classList.remove('show');
-      const backdrop = document.querySelector('.modal-backdrop') as HTMLElement;
-      backdrop.remove();
-
-      // on modifie le contexte de user
-    } catch (err) {
-      const { response } = err as { response: { data: string } };
-      setErrorMessage(response.data);
+    const result = await axiosInstance.post('/api/home/login', {
+      username,
+      password,
+    });
+    if (result.status !== 200) {
+      setErrorMessage(result.data);
       setError(true);
     }
+    const {
+      sessionToken, message, user,
+    } = result.data;
+    sessionStorage.setItem('sessionToken', sessionToken);
+    toast.success(`🦄 ${message} !`);
+    setUser(user);
   };
 
   return (
@@ -101,6 +95,7 @@ function Login() {
             <button
               type="submit"
               className="btn btn-primary"
+              data-bs-dismiss="modal"
             >
               Se connecter
             </button>
@@ -110,5 +105,3 @@ function Login() {
     </form>
   );
 }
-
-export default Login;

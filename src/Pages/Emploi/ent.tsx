@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
 import { IContact, IInteraction } from '../../@types/Home/ent';
 import DetailsInteraction from './viewInteraction';
-import AddContactModal from '../../components/Modal/Ent/formContact';
-import ModalAddInteraction from '../../components/Modal/Ent/formInteraction';
+import AddContactModal from '../../components/Modal/Ent/form/formContact';
+import ModalAddInteraction from '../../components/Modal/Ent/form/formInteraction';
 import ContactCollapse from '../../components/CollapseContact';
 import { entContext } from '../../store/ent.context';
 import { userContext } from '../../store/user.context';
-import AddEntModal from '../../components/Modal/Ent/formEntSuivi';
+import AddEntModal from '../../components/Modal/Ent/form/formEntSuivi';
 
 function DetailsEntreprise({ id }: { id: number }) {
   const { ent, setEnt } = useContext(entContext);
@@ -18,7 +18,7 @@ function DetailsEntreprise({ id }: { id: number }) {
 
   const handleAddContact = (data: IContact) => {
     // add contact to entreprise
-    entreprise.contact.push(data);
+    entreprise.contact?.push(data);
     setEnt([...ent]);
     // entreprise.contact.push(data);
   };
@@ -29,18 +29,18 @@ function DetailsEntreprise({ id }: { id: number }) {
 
   const handleAddInteractionOfUser = (data: IInteraction) => {
     // add interaction to contact
-    const contact = entreprise.contact.find((c) => c.id === data.id);
+    const contact = entreprise.contact?.find((c) => c.id === data.id);
     if (contact) {
-      contact.interaction.push(data);
+      contact.interaction?.push(data);
       // on met à jour le contact dans l'entreprise
-      entreprise.contact = entreprise.contact.map((c) => (c.id === contact.id ? contact : c));
+      entreprise.contact = entreprise.contact?.map((c) => (c.id === contact.id ? contact : c));
     }
   };
 
   return (
     <section
       className="d-flex flex-wrap mx-auto w-100 pt-5 row min-h-100 min-vh-100 "
-      // style={{ height: '100vp' }}
+    // style={{ height: '100vp' }}
     >
 
       {/* 1er colonne */}
@@ -114,8 +114,8 @@ function DetailsEntreprise({ id }: { id: number }) {
         <DetailsInteraction
           interactions={
             idContact === 0
-              ? entreprise.contact?.flatMap((contact) => contact.interaction)
-              : entreprise.contact?.filter((c) => c.id === idContact)[0].interaction
+              ? entreprise.contact?.flatMap((contact) => contact.interaction) || []
+              : entreprise.contact?.filter((c) => c.id === idContact)[0]?.interaction || []
           }
         />
         {

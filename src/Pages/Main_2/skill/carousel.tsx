@@ -72,15 +72,12 @@ function CarouselSkill() {
         className="before position-absolute top-0 z-1 h-100 start-0 w-25 "
         style={{
           content: '""',
-          // background: 'linear-gradient(to right, #111 0%, transparent 100%)',
         }}
       />
       <div
         className="after position-absolute top-0 z-1 h-100 end-0 w-25"
         style={{
           content: '""',
-          // background: 'linear-gradient(to left, #111 0%, transparent 100%)',
-
         }}
       />
       <ul
@@ -95,10 +92,7 @@ function CarouselSkill() {
             key={skill.id}
             id={skill.label}
             className="d-flex justify-content-center  align-content-center flex-shrink-0 mh-100"
-            style={{
-              whiteSpace: 'nowrap',
-              // width: marqueeRef.current?.clientWidth / marqueeRef.current?.childNodes.length,
-            }}
+
           >
             <Tags
               icon={skill.urlIcon}

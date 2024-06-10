@@ -85,6 +85,7 @@ export default function ModalAddList({ updateCards }: ModalProps) {
                   onChange={(event) => setContent(event.target.value)}
                   name="content"
                   icon={null}
+                  leng={250}
                 />
 
                 <div className="input-group mb-3">

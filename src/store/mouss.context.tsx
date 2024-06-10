@@ -1,7 +1,8 @@
 import {
-  ReactElement, ReactNode, createContext, useMemo, useState,
+  ReactNode, createContext, useEffect, useMemo, useState,
 } from 'react';
 import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
 import axiosInstance from '../utils/axios';
 import { IUser } from '../@types/Home/user';
 import { MoussID } from '../../config.json';
@@ -9,27 +10,52 @@ import { MoussID } from '../../config.json';
 interface IMoussContext {
   mouss: IUser | undefined;
   setMouss: (mouss: IUser) => void;
+  isLoading: boolean;
+  error: Error | null;
 }
 
 const moussContext = createContext<IMoussContext>({
   mouss: {} as IUser,
   setMouss: () => { },
+  isLoading: false,
+  error: null,
 });
 
-function MoussProvider({ children }: { children: ReactNode }): ReactElement {
-  const [mouss, setMouss] = useState<IUser>();
-  if (!mouss) {
-    axiosInstance.get(`/api/home/user/${MoussID}`)
-      .then((res) => {
-        // on trie par ordre alphabétique
-        setMouss(res.data.user);
-      })
-      .catch((err) => {
-        toast.error(`Une erreur est survenue : ${err.message}`);
-      });
+async function fetchMouss(): Promise<IUser | AxiosError> {
+  try {
+    const result = await axiosInstance.get(`/api/home/user/${MoussID}`);
+    return result.data.user;
+  } catch (err) {
+    const error = err as AxiosError;
+    toast.error(`Une erreur est survenue : ${error.message}`);
+    return error;
   }
+}
 
-  const value = useMemo(() => ({ mouss, setMouss }), [mouss, setMouss]);
+function MoussProvider({ children }: { children: ReactNode }) {
+  const [mouss, setMouss] = useState<IUser>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const moussData = await fetchMouss();
+      if (moussData instanceof Error) {
+        setError(moussData);
+        setIsLoading(false);
+        return;
+      }
+      setMouss(moussData);
+      setIsLoading(false);
+      setError(null);
+    };
+    fetchData();
+  }, []);
+
+  const value = useMemo(() => ({
+    mouss, setMouss, isLoading, error,
+  }), [mouss, setMouss, isLoading, error]);
   return (
     <moussContext.Provider value={value}>
       {children}

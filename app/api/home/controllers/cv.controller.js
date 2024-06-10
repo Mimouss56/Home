@@ -36,11 +36,13 @@ module.exports = {
 
     const {
       competences,
-      id_ent: idEnt,
+      ent: { id: idEnt },
       title,
       description,
-      debut,
-      fin,
+      date: {
+        debut,
+        fin,
+      },
       type,
     } = req.body;
 
@@ -54,7 +56,6 @@ module.exports = {
       date_ended: fin,
       id_user: req.user.id,
     };
-
     if (req.params && req.params.id !== undefined && req.params.id !== 'undefined') {
       result = await cvService.update(req.params.id, inputQuery);
       if (result.code) return res.status(result.code).json(result);
