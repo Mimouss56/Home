@@ -10,7 +10,7 @@ module.exports = {
     const { id } = req.params;
     const user = await userService.getData(id);
 
-    res.json({ user });
+    res.json(user);
   },
 
   async put(req, res) {

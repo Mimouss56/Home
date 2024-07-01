@@ -2,7 +2,7 @@ import {
   ReactNode, createContext, useEffect, useMemo, useState,
 } from 'react';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import axiosInstance from '../utils/axios';
 import { IUser } from '../@types/Home/user';
 import { MoussID } from '../../config.json';
@@ -23,8 +23,8 @@ const moussContext = createContext<IMoussContext>({
 
 async function fetchMouss(): Promise<IUser | AxiosError> {
   try {
-    const result = await axiosInstance.get(`/api/home/user/${MoussID}`);
-    return result.data.user;
+    const result: AxiosResponse<IUser> = await axiosInstance.get(`/api/home/user/${MoussID}`);
+    return result.data;
   } catch (err) {
     const error = err as AxiosError;
     toast.error(`Une erreur est survenue : ${error.message}`);
@@ -38,6 +38,7 @@ function MoussProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    if (mouss) return;
     const fetchData = async () => {
       setIsLoading(true);
       const moussData = await fetchMouss();
@@ -51,7 +52,7 @@ function MoussProvider({ children }: { children: ReactNode }) {
       setError(null);
     };
     fetchData();
-  }, []);
+  }, [mouss]);
 
   const value = useMemo(() => ({
     mouss, setMouss, isLoading, error,
