@@ -5,6 +5,8 @@ import axiosInstance from '../utils/axios';
 
 const useFormInput = <T extends object>(initialValue: T) => {
   const [form, setForm] = useState<T>(initialValue);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -34,6 +36,8 @@ const useFormInput = <T extends object>(initialValue: T) => {
       toast.success(message);
     } catch (err) {
       const { response } = err as ErrorSanctionProps;
+      setError(true);
+      setErrorMessage(response.data.error || response.data.message);
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
@@ -54,6 +58,10 @@ const useFormInput = <T extends object>(initialValue: T) => {
     setForm,
     handleSave,
     handleDelete,
+    error,
+    errorMessage,
+    setError,
+    setErrorMessage,
   };
 };
 

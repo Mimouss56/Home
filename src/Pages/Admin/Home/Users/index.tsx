@@ -25,6 +25,7 @@ function User() {
     try {
       await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         role: event.target.value,
+        option: true,
       });
       fetchUsers();
     } catch (error) {
@@ -37,6 +38,8 @@ function User() {
     try {
       const response = await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         child: event.target.checked,
+        option: true,
+
       });
       fetchUsers();
       toast.success(`🦄 ${response.data.message} !`);
@@ -50,6 +53,8 @@ function User() {
     try {
       const response = await axiosInstance.put(`/api/home/user/${event.target.id}`, {
         family: event.target.checked,
+        option: true,
+
       });
       fetchUsers();
       toast.success(`🦄 ${response.data.message} !`);

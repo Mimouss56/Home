@@ -1,5 +1,5 @@
 interface IInputText {
-  type?: 'text' | 'email' | 'tel' | 'date',
+  type?: 'text' | 'email' | 'tel' | 'date' | 'password',
   text?: string,
   title: string,
   name: string,

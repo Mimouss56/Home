@@ -8,7 +8,8 @@
     "react": "vite --open --host",
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
-    "remove-command-bot": "node bot/deploy/remove-commands.js"
+    "remove-command-bot": "node bot/deploy/remove-commands.js",
+    "eslint": "eslint src/**/*.tsx"
   },
   "author": "Mouss",
   "license": "ISC",
@@ -21,7 +22,7 @@
     "@types/sortablejs": "^1.15.5",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
-    "eslint": "^8.44.0",
+    "eslint": "^8.26.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

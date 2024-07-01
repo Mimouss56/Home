@@ -2,8 +2,10 @@ import {
   FormEvent, useContext, useRef, useState,
 } from 'react';
 import { toast } from 'react-toastify';
+import { AxiosError, AxiosResponse } from 'axios';
 import { userContext } from '../../../store/user.context';
 import axiosInstance from '../../../utils/axios';
+import { ILoggedUser } from '../../../@types/Home/user';
 
 export default function Login() {
   const { setUser } = useContext(userContext);
@@ -16,25 +18,30 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const result = await axiosInstance.post('/api/home/login', {
-      username,
-      password,
-    });
-    if (result.status !== 200) {
-      setErrorMessage(result.data);
+    try {
+      const result: AxiosResponse<ILoggedUser> = await axiosInstance.post('/api/home/login', {
+        username,
+        password,
+      });
+      const {
+        sessionToken, message, user,
+      } = result.data;
+      sessionStorage.setItem('sessionToken', sessionToken);
+      toast.success(`🦄 ${message} !`);
+      setUser(user);
+    } catch (err) {
       setError(true);
+      if (err instanceof AxiosError) {
+        setErrorMessage(err.response?.data);
+      } else {
+        setErrorMessage(`'Une erreur inattendue est survenue: '${err}`);
+      }
     }
-    const {
-      sessionToken, message, user,
-    } = result.data;
-    sessionStorage.setItem('sessionToken', sessionToken);
-    toast.success(`🦄 ${message} !`);
-    setUser(user);
   };
 
   return (
     <form
-      onSubmit={(e) => handleSubmit(e)}
+      onSubmit={handleSubmit}
       ref={loginRef}
       className="modal fade"
       id="modalLogin"
@@ -49,8 +56,8 @@ export default function Login() {
             <h1 className="modal-title fs-5" id="exampleModalLabel">Connexion</h1>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
-          <div className="modal-body">
-            <div className="input-group mb-3 has-validation">
+          <div className="modal-body has-validation">
+            <div className="input-group mb-3 ">
               <i className="input-group-text bi bi-person" />
               <input
                 id="username"
@@ -61,15 +68,13 @@ export default function Login() {
                 onChange={(e) => setUsername(e.target.value)}
                 aria-describedby="username"
               />
-              <div id="username" className="invalid-feedback">
-                {errorMessage}
-              </div>
+
             </div>
             <div className="input-group mb-3 ">
               <i className="input-group-text bi bi-key" />
               <input
                 type={showPassword ? 'text' : 'password'}
-                className="form-control"
+                className={`form-control ${error ? 'is-invalid' : ''}`}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -80,6 +85,9 @@ export default function Login() {
                 onClick={() => setShowPassword(!showPassword)}
               />
 
+            </div>
+            <div className="help-block text-danger">
+              {errorMessage}
             </div>
           </div>
           <div className="modal-footer d-flex justify-content-around">
@@ -95,7 +103,7 @@ export default function Login() {
             <button
               type="submit"
               className="btn btn-primary"
-              data-bs-dismiss="modal"
+            // data-bs-dismiss="modal"
             >
               Se connecter
             </button>
