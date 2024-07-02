@@ -1,9 +1,4 @@
-interface DateInputProps {
-  placeholder: string;
-  name: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { DateInputProps } from '../../@types/Home/formElement';
 
 function DateInput({
   placeholder, name, value, onChange,

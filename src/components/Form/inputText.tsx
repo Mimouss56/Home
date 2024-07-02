@@ -1,12 +1,4 @@
-interface IInputText {
-  type?: 'text' | 'email' | 'tel' | 'date' | 'password',
-  text?: string,
-  title: string,
-  name: string,
-  icon?: string | null,
-  placeholder?: string,
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
+import { IInputText } from '../../@types/Home/formElement';
 
 function InputText({
   title, text, onChange, name, icon, type, placeholder,

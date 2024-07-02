@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import useImageUpload from '../../hook/utils/useImageUpload'; // Assurez-vous que le chemin est correct
+import useImageUpload from '../../hook/utils/useImageUpload';
 import { IAvatarWithoutObject } from '../../@types/Home/user';
 
 type FileUploaderProps = {
   submit: (file: IAvatarWithoutObject) => void;
   img: string | undefined;
 };
+const url = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
 export default function FileUploader({ submit, img = '' }: FileUploaderProps) {
   const { handleUpload } = useImageUpload();
   const [imageFile] = useState<IAvatarWithoutObject | null>(null);
   const [isHover, setIsHover] = useState(false);
-  const url = window.location.hostname === 'localhost2' ? 'http://localhost:3001' : 'https://www.mimouss.fr';
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const urlImage = await handleUpload(e); // Gère l'upload de l'image
+    const urlImage = await handleUpload(e);
+
     if (urlImage) {
       submit(urlImage);
     }
-    return null;
   };
   const styleRound: React.CSSProperties = {
     position: 'absolute',

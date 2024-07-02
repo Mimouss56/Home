@@ -1,15 +1,8 @@
-interface IForm {
-  text: string,
-  title: string,
-  leng: number,
-  name: string,
-  icon: string | null,
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
-}
+import { ITextArea } from '../../@types/Home/formElement';
 
 function Textarea({
   title, text = '', leng, onChange, name, icon,
-}: IForm) {
+}: ITextArea) {
   return (
     <>
       <div className="input-group mb-1">
