@@ -5,5 +5,5 @@ export default interface IFeedback {
   message: string;
   path: string;
   draft: boolean;
-  created_at: string;
+  created_at?: string;
 }

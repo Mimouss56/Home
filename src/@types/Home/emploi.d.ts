@@ -9,7 +9,7 @@ export interface IEmploi extends IDateEmploi, IArraySoftSkill, IEntObject {
 }
 
 export interface IDateEmploi {
-  date?: {
+  date: {
     debut: string,
     fin: string
   }
