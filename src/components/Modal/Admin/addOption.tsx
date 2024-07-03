@@ -1,6 +1,37 @@
-function addFunction() {
+import useFormInput from '../../../hook/useFormInput';
+import ButtonEndModal from '../../Form/ButtonFooterModal';
+import SwitchButton from '../../Form/Switch';
+import InputText from '../../Form/inputText';
+
+const initAddOption = {
+  id: 0,
+  name: '',
+  value: '',
+  active: false,
+};
+
+interface AddOptionProps {
+  onAddElement: (data: IAddOption) => void;
+}
+
+interface IAddOption {
+  id: number;
+  name: string;
+  value: string;
+  active: boolean;
+}
+
+export default function AddFunction({ onAddElement }: AddOptionProps) {
+  const {
+    handleSave, handleChange, handChecked, form,
+  } = useFormInput(initAddOption);
   return (
-    <div className="modal" id="ModalAddOption">
+    <form
+      onSubmit={(e) => handleSave(e, '/api/home/option', onAddElement)}
+      className="modal"
+      id="ModalAddOption"
+    >
+
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
@@ -13,53 +44,34 @@ function addFunction() {
             />
           </div>
           <div className="modal-body">
-            <input
-              type="text"
+            <InputText
+              title="Name"
+              text={form.name}
               name="name"
-              className="form-control"
-              placeholder="Name"
-              aria-label="Name"
-              aria-describedby="button-addon2"
-            />
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Value"
-              name="value"
-              aria-label="Value"
-              aria-describedby="button-addon2"
-            />
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input "
-                type="checkbox"
-                role="switch"
-                name="active"
-              />
-            </div>
-          </div>
-          <div className="modal-footer d-flex justify-content-around">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Fermer
-            </button>
-            <button
-              type="submit"
-              className="btn btn-success"
-              data-bs-dismiss="modal"
-            >
-              Ajouter
-            </button>
+              onChange={handleChange}
+              placeholder="Nom de la variable"
 
+            />
+            <InputText
+              title="Value"
+              text={form.value}
+              name="value"
+              onChange={handleChange}
+              placeholder="Valeur de la variable"
+
+            />
+            <SwitchButton
+              name="active"
+              active={form.active}
+              onChange={handChecked}
+              title="Active"
+            />
           </div>
+          <ButtonEndModal />
+
         </div>
       </div>
-    </div>
+    </form>
 
   );
 }
-
-export default addFunction;

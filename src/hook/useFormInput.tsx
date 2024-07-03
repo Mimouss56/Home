@@ -15,6 +15,10 @@ const useFormInput = <T extends object>(initialValue: T) => {
     setForm({ ...form, [name]: value });
   };
 
+  const handChecked = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.checked });
+  };
+
   const handleSave = async (
     e: React.FormEvent<HTMLFormElement>,
     endpoint: string,
@@ -52,15 +56,17 @@ const useFormInput = <T extends object>(initialValue: T) => {
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
+
   return {
     form,
-    handleChange,
     setForm,
+    handChecked,
+    handleChange,
     handleSave,
     handleDelete,
     error,
-    errorMessage,
     setError,
+    errorMessage,
     setErrorMessage,
   };
 };

@@ -4,6 +4,7 @@ import { INews } from '../../../../@types/Home/news';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import ModalAddNews from '../../../../components/Modal/News/formNews';
+import SwitchButton from '../../../../components/Form/Switch';
 
 function NewsList() {
   const [newsList, setNewsList] = useState<INews[]>([]);
@@ -24,7 +25,7 @@ function NewsList() {
 
   const handleSwitchNews = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/api/home/news/${event.target.id}`, {
+      const response = await axiosInstance.patch(`/api/home/news/${event.target.id}`, {
         draft: event.target.checked,
       });
       setNewsList((prev) => prev.map((newsItem) => {
@@ -97,16 +98,12 @@ function NewsList() {
                   <td>{new Date(news.created_at).toLocaleDateString()}</td>
                   <td>{news.updated_at ? new Date(news.updated_at).toLocaleDateString() : '-'}</td>
                   <td>
-                    <div className="form-check form-switch ">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        defaultChecked={news.draft}
-                        id={news.id.toString()}
-                        onChange={handleSwitchNews}
-                      />
-                    </div>
+                    <SwitchButton
+                      name="draft"
+                      id={news.id.toString()}
+                      active={news.draft}
+                      onChange={handleSwitchNews}
+                    />
                   </td>
                   <td>
                     <button

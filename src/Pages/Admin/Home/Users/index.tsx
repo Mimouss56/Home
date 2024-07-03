@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '../../../../utils/axios';
 import { IUser, IRoleWithoutObject } from '../../../../@types/Home/user';
 import { ErrorSanctionProps } from '../../../../@types/error';
+import SwitchButton from '../../../../components/Form/Switch';
 
 function User() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -107,31 +108,21 @@ function User() {
                 </select>
               </td>
               <td className="text-center">
-                <div className="form-check form-switch">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    name="family"
-                    checked={!!user.family}
-                    id={user.id.toString()}
-                    onChange={handleSwitchFamily}
-                  />
-                </div>
+                <SwitchButton
+                  name="family"
+                  active={user.family}
+                  onChange={handleSwitchFamily}
+                  id={user.id.toString()}
+                />
               </td>
               <td className="text-center">
                 {user.family && (
-                  <div className="form-check form-switch">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      name="child"
-                      checked={user.child}
-                      id={user.id.toString()}
-                      onChange={handleSwitchChild}
-                    />
-                  </div>
+                  <SwitchButton
+                    name="child"
+                    active={user.child}
+                    onChange={handleSwitchChild}
+                    id={user.id.toString()}
+                  />
                 )}
               </td>
               <td className="text-center">

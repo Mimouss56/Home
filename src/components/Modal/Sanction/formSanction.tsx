@@ -7,6 +7,7 @@ import { IUser } from '../../../@types/Home/user';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
 import Textarea from '../../Form/textarea';
+import SwitchButton from '../../Form/Switch';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -21,7 +22,7 @@ const initFormData = {
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
   const {
-    form, setForm, handleChange, handleSave,
+    form, setForm, handleChange, handleSave, handChecked,
   } = useFormInput(initFormData);
 
   const addItemModal = document.getElementById('ModalAddSanction');
@@ -63,10 +64,6 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
     fetchChildren();
   }, []);
 
-  const handleSwitchSanction = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, warn: event.target.checked }));
-  };
-
   return (
     <form
       onSubmit={(e) => handleSave(e, '/api/home/sanction', onAddElement)}
@@ -87,17 +84,12 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
           <div className="modal-body">
             <div className="d-flex justify-content-around col ">
               <div className="input-group mb-3">
-                <span className="input-group-text" id="important">Important</span>
-                <div className="form-check form-switch mb-3">
-                  <input
-                    className="form-check-input input-group "
-                    type="checkbox"
-                    role="switch"
-                    name="warn"
-                    checked={form.warn || false}
-                    onChange={handleSwitchSanction}
-                  />
-                </div>
+                <SwitchButton
+                  name="warn"
+                  active={form.warn}
+                  onChange={handChecked}
+                  title="Important"
+                />
               </div>
               <div className="input-group mb-3">
                 <label className="input-group-text" htmlFor="inputGroupChild">Choix Enfant</label>

@@ -7,6 +7,7 @@ import 'dayjs/locale/fr';
 import axiosInstance from '../../utils/axios';
 import { ErrorSanctionProps } from '../../@types/error';
 import { INews } from '../../@types/Home/news';
+import SwitchButton from '../Form/Switch';
 
 interface CardProps {
   children: HtmlHTMLAttributes<HTMLParagraphElement>['children'];
@@ -53,18 +54,13 @@ export function CardNews({ info }: { info: INews }) {
           </time>
           {user?.username === 'Mouss' && (
             <div className="d-flex flex-row ">
-              <p className="me-2">{draft ? 'Brouillon' : 'En ligne'}</p>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  name="draft"
-                  checked={!draft}
-                  id={info.id.toString()}
-                  onChange={handleChangeDraft}
-                />
-              </div>
+              <SwitchButton
+                name="draft"
+                active={!draft}
+                onChange={handleChangeDraft}
+                id={info.id.toString()}
+                title="En ligne"
+              />
             </div>
 
           )}

@@ -5,6 +5,7 @@ import axiosInstance from '../../../utils/axios';
 import { ICardNews } from '../../../@types/Home/card';
 import useFormInput from '../../../hook/useFormInput';
 import { initEditorConfig } from '../../../utils/main';
+import SwitchButton from '../../Form/Switch';
 
 interface NewsFormProps {
   onAddElement: (data: ICardNews) => void;
@@ -19,7 +20,7 @@ const initFormData = {
 
 function ModalAddNews({ onAddElement }: NewsFormProps) {
   const {
-    form, setForm, handleChange,
+    form, setForm, handleChange, handChecked,
   } = useFormInput(initFormData);
   const [editorContent, setEditorContent] = useState<string>('');
 
@@ -60,10 +61,6 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
       toast.warning(error.message || 'Une erreur s\'est produite lors de la sauvegarde.');
     }
   }, [editorContent, form, onAddElement]);
-
-  const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, draft: event.target.checked }));
-  };
 
   useEffect(() => {
     const addItemModal = document.getElementById('addModalNews');
@@ -135,18 +132,13 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
               >
                 Save
               </button>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  name="draft"
-                  checked={form.draft || false}
-                  {...(form.id && { id: form.id.toString() })}
-                  onChange={handleSwitch}
-                />
-                Brouillon
-              </div>
+              <SwitchButton
+                name="draft"
+                active={form.draft}
+                onChange={handChecked}
+                id={form.id.toString()}
+                title="Brouillon"
+              />
             </div>
           </form>
         </div>

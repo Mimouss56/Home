@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import IFeedback from '../../../../@types/Home/feedback';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import axiosInstance from '../../../../utils/axios';
+import SwitchButton from '../../../../components/Form/Switch';
 
 function ListFeedBack() {
   const [feedbackList, setFeedbackList] = useState<IFeedback[]>([]);
@@ -20,7 +21,7 @@ function ListFeedBack() {
   };
   const handleSwitch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const response = await axiosInstance.put(`/feedback/${event.target.id}`, {
+      const response = await axiosInstance.patch(`/feedback/${event.target.id}`, {
         draft: event.target.checked,
       });
       setFeedbackList((prev) => prev.map((newsItem) => {
@@ -67,16 +68,12 @@ function ListFeedBack() {
                     <td>{feedback.path}</td>
                     <td>{dayjs(feedback.created_at).format('DD/MM/YYYY')}</td>
                     <td>
-                      <div className="form-check form-switch ">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          role="switch"
-                          defaultChecked={feedback.draft}
-                          id={feedback.id.toString()}
-                          onChange={handleSwitch}
-                        />
-                      </div>
+                      <SwitchButton
+                        name="draft"
+                        active={feedback.draft}
+                        onChange={handleSwitch}
+                        id={feedback.id.toString()}
+                      />
                     </td>
                   </tr>
                 ))}
