@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { user } = require('../models/index.mapper');
-const userService = require('./user.service');
 
 module.exports = {
 
@@ -45,9 +45,23 @@ module.exports = {
       await user.infos.create({
         user_id: data.id,
       });
-      return {
-        ...await userService.getData(data.id),
+      const token = jwt.sign(
+        {
+          id: data.id,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: process.env.JWT_EXPIRES_IN, // 24 hours
+        },
+      );
+      const userRegistered = {
+        sessionToken: token,
+        message: `Utilisateur créé sous ${data.username} !`,
       };
+      return userRegistered;
+      // return {
+      //   ...await userService.getData(data.id),
+      // };
     } catch (error) {
       return {
         code: 500,

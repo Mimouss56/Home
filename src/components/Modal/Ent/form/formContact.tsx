@@ -12,7 +12,7 @@ const initFormData: IContact = {
   role: '',
   idEnt: 0,
   id: 0,
-  interaction: [],
+  // interaction: [],
 };
 
 const handleRetrieveModal = async (

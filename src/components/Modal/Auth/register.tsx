@@ -1,42 +1,43 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
+import { AxiosError, AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
+import { IRegister } from '../../../@types/register';
+import useFormInput from '../../../hook/useFormInput';
+import { ILoggedUser } from '../../../@types/Home/user';
+import InputText from '../../Form/inputText';
+
+const initRegister: IRegister = {
+  username: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
 
 function Register() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const {
+    form, handleChange, error, errorMessage, setError, setErrorMessage,
+  } = useFormInput(initRegister);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const dataInput = {
-      username,
-      password,
-      confirmPassword,
-      email,
-    };
+    setLoading(true);
 
     try {
-      setError(false);
-      const res = await axiosInstance.post('/api/home/register', dataInput);
-      // on ferme la modal
-      const modal = document.getElementById('modalregister');
-      const backdrop = document.querySelector('.modal-backdrop');
-      backdrop?.remove();
-      modal?.classList.remove('show');
-
+      const res: AxiosResponse<ILoggedUser> = await axiosInstance.post('/api/home/register', form);
       toast.info(`${res.data.message}, Merci de vous reconnecter !`);
 
       setLoading(false);
     } catch (err) {
-      const { response } = err as { response: { data: string } };
       setError(true);
-      toast.error(response.data);
+      if (err instanceof AxiosError) {
+        setErrorMessage(err.response?.data);
+      } else {
+        setErrorMessage(`'Une erreur inattendue est survenue: '${err}`);
+      }
     }
   };
 
@@ -56,62 +57,55 @@ function Register() {
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
           </div>
           <div className="modal-body">
+            <InputText
+              title="Username"
+              text={form.username}
+              name="username"
+              icon="person"
+              onChange={handleChange}
+            />
+            <InputText
+              title="Email"
+              text={form.email}
+              name="email"
+              icon="envelope-at"
+              onChange={handleChange}
+              type="email"
+            />
             <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text bi bi-person" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {error && <span className="help-block">{errorMessage}</span>}
-            </div>
-            <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text">@</i>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {error && <span className="help-block">{errorMessage}</span>}
-            </div>
-            <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text bi bi-key" />
+              <span className="input-group-text"><i className="bi bi-key px-1" /></span>
               <input
                 type={showPassword ? 'text' : 'password'}
                 className="form-control"
+                name="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={form.password}
+                onChange={handleChange}
               />
               <button
                 type="button"
                 className={`input-group-text bi bi-eye${!showPassword ? '-slash' : ''}`}
-                onMouseEnter={() => setShowPassword(showPassword)}
-                onMouseLeave={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword(!showPassword)}
               />
-              {error && <span className="help-block">{errorMessage}</span>}
             </div>
             <div className={`input-group mb-3 ${error ? 'has-error' : ''}`}>
-              <i className="input-group-text bi bi-key" />
+              <span className="input-group-text"><i className="bi bi-key px-1" /></span>
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 className="form-control"
                 placeholder="Confirm password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
+                value={form.confirmPassword}
+                onChange={handleChange}
               />
               <button
                 type="button"
                 className={`input-group-text bi bi-eye${!showConfirmPassword ? '-slash' : ''}`}
-                onMouseEnter={() => setShowConfirmPassword(!showConfirmPassword)}
-                onMouseLeave={() => setShowConfirmPassword(showConfirmPassword)}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               />
-              {error && <span className="help-block">{errorMessage}</span>}
             </div>
+            {error && <span className="help-block">{errorMessage}</span>}
+
           </div>
           <div className="modal-footer d-flex justify-content-around">
             <button

@@ -13,14 +13,13 @@ import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
 import { UserProvider } from './store/user.context';
-import { MoussProvider } from './store/mouss.context';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
   import('./scss/christmasTheme.scss');
 }
 // afficher le feedback en dehors du mode dev déclarer dans le .env
-const showFeedback = process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'development';
+const showFeedback = true;
 
 // User menu
 

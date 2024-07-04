@@ -4,7 +4,7 @@ const textValue = 'role';
 
 /**
  * @typedef {object} Role - Role object
- * @property {string} id - Role id
+ * @property {number} id - Role id
  * @property {string} label - Role label
  * @property {string} color - Role color
 

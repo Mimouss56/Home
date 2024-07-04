@@ -64,3 +64,14 @@ export interface IAuthor extends IRole {
     last_visited: string
   }
 }
+
+export interface ILoggedUser {
+  sessionToken: string;
+  message: string;
+  user: IUser;
+
+  dataNotif: {
+    sanction: ISanction;
+    feedback?: IFeedback;
+  };
+}

@@ -6,14 +6,14 @@ export default function ButtonEndModal() {
         className="btn btn-secondary"
         data-bs-dismiss="modal"
       >
-        Close
+        Fermer
       </button>
       <button
         type="submit"
         className="btn btn-primary"
         data-bs-dismiss="modal"
       >
-        Save
+        Enregistrer
       </button>
     </div>
   );

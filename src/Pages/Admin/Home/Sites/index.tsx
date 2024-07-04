@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { ErrorAxios, ErrorSanctionProps } from '../../../../@types/error';
 import ISites from '../../../../@types/Home/sites';
 import axiosInstance from '../../../../utils/axios';
+import SwitchButton from '../../../../components/Form/Switch';
 
 function Sites() {
   const [listSites, setListSites] = useState<ISites[]>([]);
@@ -100,47 +101,33 @@ function Sites() {
                 name="value"
                 aria-describedby="button-addon2"
               />
+              <SwitchButton
+                name="active"
+                active={site.maintenance}
+                onChange={handleSwitch}
+                id={site.id.toString()}
+                title="Maintenance"
+              />
 
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  defaultChecked={site.maintenance}
-                  id={site.id.toString()}
-                  onChange={handleSwitch}
-                  name="maintenance"
-                />
-                <label className="form-check-label" htmlFor={site.id.toString()}>
-                  Maintenance
-                </label>
-              </div>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id={site.id.toString()}
-                  defaultChecked={site.ban}
-                  onChange={handleSwitch}
-                  name="ban"
-                />
-                <label className="form-check-label" htmlFor={site.id.toString()}>
-                  Ban
-                </label>
-                {site.ban_at && (
-                  <div className="form-text">
-                    {`Banni: ${dayjs(site.ban_at).format('DD/MM/YYYY')}`}
-                  </div>
-                )}
-              </div>
+              <SwitchButton
+                name="ban"
+                active={site.ban}
+                onChange={handleSwitch}
+                id={site.id.toString()}
+                title="Ban"
+              />
+              {site.ban_at && (
+                <div className="form-text">
+                  {`Banni: ${dayjs(site.ban_at).format('DD/MM/YYYY')}`}
+                </div>
+              )}
+
               <button
                 type="button"
                 className="btn btn-danger"
                 onClick={() => handleDelete(site.id)}
               >
                 <i className="bi bi-x" />
-
               </button>
 
             </div>
@@ -167,36 +154,20 @@ function Sites() {
                 aria-describedby="button-addon2"
                 onChange={(e) => setSetUrlSite(e.target.value)}
               />
-
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  defaultChecked={false}
-                  onChange={() => setSetMaintenanceSite(!setMaintenanceSite)}
-                  name="maintenance"
-                  id="add"
-                />
-                <label className="form-check-label" htmlFor="add">
-                  Maintenance
-                </label>
-              </div>
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="ban"
-                  defaultChecked={false}
-                  onChange={() => setSetBanSite(!setBanSite)}
-                  name="ban"
-                />
-                <label className="form-check-label" htmlFor="ban">
-                  Ban Site
-
-                </label>
-              </div>
+              <SwitchButton
+                name="active"
+                active={setMaintenanceSite}
+                onChange={() => setSetMaintenanceSite(!setMaintenanceSite)}
+                id="add"
+                title="Maintenance"
+              />
+              <SwitchButton
+                name="ban"
+                active={setBanSite}
+                onChange={() => setSetBanSite(!setBanSite)}
+                id="add"
+                title="Ban Site"
+              />
               <button
                 type="button"
                 className="btn btn-success"

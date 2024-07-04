@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { useContext, useState } from 'react';
 import { ISoftSkill } from '../../@types/Home/softSkill';
-import SkillInput from '../Input/SelectSoftSkill';
+import SkillInput from '../Form/SelectSoftSkill';
 import { softSkillContext } from '../../store/skill.context';
 
 function SoftSkillInput({ actualSkills, onChange }: { actualSkills: ISoftSkill[], onChange: (arg0: ISoftSkill) => void; }) {

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IOption } from '../../../../@types/Home/option';
-import ModalAdd from '../../../../components/Modal/Admin/addOption';
 import axiosInstance from '../../../../utils/axios';
 import { ErrorAxios, ErrorSanctionProps } from '../../../../@types/error';
+import AddFunction from '../../../../components/Modal/Admin/addOption';
+import SwitchButton from '../../../../components/Form/Switch';
 
 function Options() {
   const [listOptions, setListOptions] = useState<IOption[]>([]);
@@ -33,26 +34,6 @@ function Options() {
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
-    }
-  };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { name, value } = e.target as typeof e.target & {
-      name: { value: string };
-      value: { value: string };
-    };
-    const inputData = {
-      name: name.value,
-      value: value.value,
-    };
-    try {
-      const result = await axiosInstance.post('/api/home/option', inputData);
-
-      toast.info(result.data.message);
-      fetchListOptions();
-    } catch (err) {
-      const { message } = err as ErrorAxios;
-      toast.error(message);
     }
   };
 
@@ -103,16 +84,12 @@ function Options() {
                   defaultValue={option.value}
                 />
               )}
-              <div className="form-check form-switch">
-                <input
-                  className="form-check-input "
-                  type="checkbox"
-                  role="switch"
-                  defaultChecked={option.active}
-                  id={option.id.toString()}
-                  onChange={handleSwitch}
-                />
-              </div>
+              <SwitchButton
+                name="active"
+                active={option.active}
+                onChange={handleSwitch}
+                id={option.id.toString()}
+              />
 
             </div>
             <div className="btn-group input-form" role="group" aria-label="Basic example">
@@ -127,10 +104,7 @@ function Options() {
           </li>
         ))}
       </ul>
-      <form onSubmit={handleSubmit}>
-        <ModalAdd />
-
-      </form>
+      <AddFunction onAddElement={() => fetchListOptions()} />
 
     </div>
 

@@ -4,6 +4,7 @@ import axiosInstance from '../../../utils/axios';
 
 import { ICantineStudent, IStudent } from '../../../@types/ESA/student';
 import { ErrorSanctionProps } from '../../../@types/error';
+import SwitchButton from '../../../components/Form/Switch';
 
 export default function PresenceCantine() {
   const [students, setStudents] = useState<ICantineStudent[]>([]);
@@ -71,16 +72,12 @@ export default function PresenceCantine() {
                   {/* //Prévu */}
                   <td />
                   <td>
-                    <div className="form-check form-switch ">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        checked={student.present}
-                        id={student.id.toString()}
-                        onChange={handleSwitch}
-                      />
-                    </div>
+                    <SwitchButton
+                      name="present"
+                      active={student.present}
+                      onChange={handleSwitch}
+                      id={student.id.toString()}
+                    />
                   </td>
                 </tr>
               ))}
