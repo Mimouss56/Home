@@ -8,13 +8,13 @@ export interface ICreateNews extends IAuthor {
   created_at: string;
   updated_at: string;
 }
-export interface INews extends IAuthor {
+export interface INews {
   id: number;
   title: string;
   content: string;
   draft: boolean;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface ITag {

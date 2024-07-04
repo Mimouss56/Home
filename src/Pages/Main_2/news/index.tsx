@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { INews } from '../../../@types/Home/news';
-import { CardNews } from '../../../components/Card';
+import { CardNews } from '../../../components/.unused/Card';
 import ModalAddNews from '../../../components/Modal/News/formNews';
 import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
@@ -24,7 +24,12 @@ function NewsSection() {
         id={`${idName}-content`}
       >
         {listNews && listNews
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+          .sort((a, b) => {
+            if (a.created_at && b.created_at) {
+              return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            }
+            return 0;
+          })
           .map((item) => (
             (!item.draft || user?.username === 'Mouss') && (<CardNews key={item.id} info={item} />)
           ))}

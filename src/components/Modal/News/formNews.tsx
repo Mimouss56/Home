@@ -1,88 +1,86 @@
-import { useState, useEffect, useCallback } from 'react';
-import { toast } from 'react-toastify';
+import {
+  useEffect, useRef,
+} from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
-import { ICardNews } from '../../../@types/Home/card';
 import useFormInput from '../../../hook/useFormInput';
 import { initEditorConfig } from '../../../utils/main';
 import SwitchButton from '../../Form/Switch';
+import { INews } from '../../../@types/Home/news';
 
 interface NewsFormProps {
-  onAddElement: (data: ICardNews) => void;
+  onAddElement: (data: INews) => void;
 }
 
-const initFormData = {
+const initFormData: INews = {
   id: 0,
   title: '',
   content: '',
   draft: false,
 };
+const handleRetrieveModal = async (
+  event: Event,
+  setForm: (arg0: INews) => void,
+  endpoint: string,
+  searchDataset: string,
+) => {
+  const { relatedTarget } = event as unknown as { relatedTarget: EventTarget };
+  const button = relatedTarget as HTMLButtonElement;
+  try {
+    const url = `${endpoint}/${button.dataset[searchDataset]}`;
+    const dataNews: AxiosResponse = await axiosInstance.get(url);
+    setForm(dataNews.data);
+  } catch (error) {
+    setForm(initFormData);
+  }
+};
 
-function ModalAddNews({ onAddElement }: NewsFormProps) {
-  const {
-    form, setForm, handleChange, handChecked,
-  } = useFormInput(initFormData);
-  const [editorContent, setEditorContent] = useState<string>('');
-
-  const fetchData = useCallback(async (id: number) => {
-    if (id === 0) {
-      setForm(initFormData);
-      return;
+const retrieveIDModal = (
+  setForm: ((arg0: INews) => void),
+  addItemRef: HTMLDivElement | null,
+  endpoint: string,
+  searchDataset: string,
+) => {
+  if (addItemRef) {
+    addItemRef.addEventListener(
+      'show.bs.modal',
+      (event) => handleRetrieveModal(event, setForm, endpoint, searchDataset),
+    );
+  }
+  // on remove le addEventListener
+  return () => {
+    if (addItemRef) {
+      addItemRef.removeEventListener('show.bs.modal', () => { });
     }
-    try {
-      const response = await axiosInstance(`/api/home/news/${id}`);
-      const data = await response.data;
-      setForm(data);
-    } catch (error) {
-      toast.error('Erreur lors de la récupération des données des News à éditer');
+  };
+};
+export default function ModalAddNews({ onAddElement }: NewsFormProps) {
+  const {
+    form, setForm, handleChange, handChecked, handleSave,
+  } = useFormInput(initFormData);
+
+  const addNewsForm = useRef(null);
+
+  useEffect(() => {
+    if (addNewsForm.current) {
+      retrieveIDModal(
+        setForm,
+        addNewsForm.current,
+        '/api/home/news',
+        'bsId',
+      );
     }
   }, [setForm]);
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { id } = form;
-    const inputData = {
-      title: form.title,
-      content: editorContent,
-      draft: form.draft,
-    };
-
-    try {
-      const endpoint = id !== 0 ? `/api/home/news/${form.id}` : '/api/home/news';
-      const method = id !== 0 ? axiosInstance.put : axiosInstance.post;
-      const response = await method(endpoint, inputData);
-
-      toast.success(response.data.message);
-      const { message, code, ...cleanedData } = response.data;
-
-      onAddElement(cleanedData);
-    } catch (err) {
-      const error = err as Error;
-      toast.warning(error.message || 'Une erreur s\'est produite lors de la sauvegarde.');
-    }
-  }, [editorContent, form, onAddElement]);
-
-  useEffect(() => {
-    const addItemModal = document.getElementById('addModalNews');
-
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
-        const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
-        const button = relatedTarget as HTMLButtonElement;
-        const id = button.getAttribute('data-bs-id') || '0';
-        fetchData(parseInt(id, 10));
-      });
-    }
-    // on remove le addEventListener
-    return () => {
-      if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => { });
-      }
-    };
-  }, [fetchData]);
-
   return (
-    <div className="modal" tabIndex={-1} id="addModalNews">
+    <form
+      onSubmit={(e) => handleSave(e, '/api/home/news', onAddElement)}
+      className="modal"
+      tabIndex={-1}
+      id="addModalNews"
+      ref={addNewsForm}
+    >
       <div className="modal-dialog modal-dialog-centered modal-xl">
         <div className="modal-content">
           <div className="modal-header">
@@ -93,58 +91,68 @@ function ModalAddNews({ onAddElement }: NewsFormProps) {
               data-bs-dismiss="modal"
             />
           </div>
-          <form onSubmit={handleSubmit} className="m-5">
 
-            <div className="mb-3">
-              <div className="input-group mb-3">
-                <span className="input-group-text" id="basic-addon1">
-                  Title
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Title"
-                  aria-label="Title"
-                  aria-describedby="basic-addon1"
-                  name="title"
-                  value={form.title}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <div className="mb-3">
-              <div className="input-group mb-3">
-                <Editor
-                  apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
-                  init={initEditorConfig}
-                  initialValue={form.content}
-                  textareaName="content"
-                  onEditorChange={(content) => setEditorContent(content)}
-                />
-              </div>
-            </div>
-
-            <div className="modal-footer d-flex justify-content-between">
-              <button
-                type="submit"
-                className="btn btn-primary"
-                data-bs-dismiss="modal"
-              >
-                Save
-              </button>
-              <SwitchButton
-                name="draft"
-                active={form.draft}
-                onChange={handChecked}
-                id={form.id.toString()}
-                title="Brouillon"
+          <div className="mb-3">
+            <div className="input-group mb-3">
+              <span className="input-group-text" id="basic-addon1">
+                Title
+              </span>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Title"
+                aria-label="Title"
+                aria-describedby="basic-addon1"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
               />
             </div>
-          </form>
+          </div>
+          <div className="mb-3">
+            <div className="input-group mb-3">
+              <Editor
+                apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
+                init={initEditorConfig}
+                initialValue={form.content}
+                textareaName="content"
+                onEditorChange={(content) => setForm({ ...form, content })}
+              />
+            </div>
+          </div>
+
+          <div className="modal-footer d-flex justify-content-between">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Save
+            </button>
+            <SwitchButton
+              name="draft"
+              active={form.draft}
+              onChange={handChecked}
+              id={form.id.toString()}
+              title="Brouillon"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </form>
+
   );
 }
-
-export default ModalAddNews;
+// const fetchData = useCallback(async (id: number) => {
+//   if (id === 0) {
+//     setForm(initFormData);
+//     return;
+//   }
+//   try {
+//     const response = await axiosInstance.get(`/api/home/news/${id}`);
+//     const data = await response.data;
+//     setForm(data);
+//   } catch (error) {
+//     toast.error('Erreur lors de la récupération des données des News à éditer');
+//   }
+// }, [setForm]);

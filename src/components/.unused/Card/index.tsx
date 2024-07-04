@@ -1,30 +1,19 @@
 import { HtmlHTMLAttributes, useContext, useState } from 'react';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
-import { userContext } from '../../store/user.context';
+import { userContext } from '../../../store/user.context';
 
 import 'dayjs/locale/fr';
-import axiosInstance from '../../utils/axios';
-import { ErrorSanctionProps } from '../../@types/error';
-import { INews } from '../../@types/Home/news';
-import SwitchButton from '../Form/Switch';
+import axiosInstance from '../../../utils/axios';
+import { ErrorSanctionProps } from '../../../@types/error';
+import { INews } from '../../../@types/Home/news';
+import SwitchButton from '../../Form/Switch';
 
 interface CardProps {
   children: HtmlHTMLAttributes<HTMLParagraphElement>['children'];
 }
 
-export function Card({ children }: CardProps) {
-  return (
-    <div
-      className="card shadow-sm p-1 bg-white rounded w-100 mb-2"
-    >
-      <div className="card-body">
-        <div className="card-text">{children}</div>
-      </div>
-    </div>
 
-  );
-}
 
 export function CardNews({ info }: { info: INews }) {
   const { user } = useContext(userContext);
