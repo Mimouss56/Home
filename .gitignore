@@ -140,4 +140,4 @@ app/public/
 config.json
 tsconfig.json
 tsconfig.node.json
-/bot/.eslintrc.json
+**/.eslintrc.json

@@ -8,7 +8,7 @@ module.exports = {
 		const command = interaction.client.commands.get(interaction.commandName);
 
 		if (!command) {
-			interaction.reply({ content: `Pas de commande ${interaction.commandName} trouvé.`, ephemeral: true });
+			await interaction.reply({ content: `Pas de commande ${interaction.commandName} trouvé.`, ephemeral: true });
 			return;
 		}
 
