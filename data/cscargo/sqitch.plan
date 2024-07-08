@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=CsCargo
+
+initdb 2024-07-06T19:22:03Z Mi Mouss <mlp22@PC-MOUSS> # Initialisation de base
+financebase 2024-07-06T21:26:15Z Mi Mouss <mlp22@PC-MOUSS> # Base de la gestion finance
