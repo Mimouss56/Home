@@ -4,62 +4,61 @@ const path = require('path');
 const { REST, Routes } = require('discord.js');
 
 const deployCommands = async (clientID, tokenBot, folderNameBot) => {
-  const commands = [];
-  // Grab all the command files from the commands directory you created earlier
-  const foldersPath = path.join(__dirname, `../bots/${folderNameBot}/commands`);
-  const commandFolders = fs.readdirSync(foldersPath);
+	const commands = [];
+	// Grab all the command files from the commands directory you created earlier
+	const foldersPath = path.join(__dirname, `../bots/${folderNameBot}/commands`);
+	const commandFolders = fs.readdirSync(foldersPath);
 
-  for (const folder of commandFolders) {
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
-    for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file);
-      const command = require(filePath);
-      commands.push(command.data.toJSON());
-    }
-  }
+	for (const folder of commandFolders) {
+		const commandsPath = path.join(foldersPath, folder);
+		const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+		for (const file of commandFiles) {
+			const filePath = path.join(commandsPath, file);
+			const command = require(filePath);
+			commands.push(command.data.toJSON());
+		}
+	}
 
-  const rest = new REST().setToken(tokenBot);
+	const rest = new REST().setToken(tokenBot);
 
-  // BUILD ALL FUNCTION GLOBAL
-  (async () => {
-    try {
-      console.log(`Started refreshing ${commands.length} application (/) commands.`);
-      const data = await rest.put(
-        Routes.applicationCommands(clientID),
-        { body: commands },
-      );
-      console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-      process.exit();
-    }
-    catch (error) {
-      console.error(error);
-      process.exit();
-    }
-  })();
+	// BUILD ALL FUNCTION GLOBAL
+	(async () => {
+		try {
+			console.log(`Started refreshing ${commands.length} application (/) commands.`);
+			const data = await rest.put(
+				Routes.applicationCommands(clientID),
+				{ body: commands },
+			);
+			console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		}
+		catch (error) {
+			console.error(error);
+		}
+	})();
+	return;
 };
 
 async function removeCommands(clientID, tokenBot, guildId = null) {
-  const rest = new REST().setToken(tokenBot);
+	const rest = new REST().setToken(tokenBot);
 
-  // DELETE ALL FUNCTION
-  if (guildId) {
-    // for guild-based commands
-    rest.put(Routes.applicationGuildCommands(clientID, guildId), { body: [] })
-      .finally(() => console.log('Successfully deleted all guild commands.'))
-      .catch(console.error);
-  }
+	// DELETE ALL FUNCTION
+	if (guildId) {
+		// for guild-based commands
+		rest.put(Routes.applicationGuildCommands(clientID, guildId), { body: [] })
+			.finally(() => console.log('Successfully deleted all guild commands.'))
+			.catch(console.error);
+	}
 
 
-  // for global commands
-  rest.put(Routes.applicationCommands(clientID), { body: [] })
-    .finally(() => console.log('Successfully deleted all application commands.'))
-    .catch(console.error);
-  return;
+	// for global commands
+	rest.put(Routes.applicationCommands(clientID), { body: [] })
+		.finally(() => console.log('Successfully deleted all application commands.'))
+		.catch(console.error);
+	return;
 
 }
 
 module.exports = {
-  deployCommands,
-  removeCommands,
+	deployCommands,
+	removeCommands,
 };
