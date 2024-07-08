@@ -1,6 +1,6 @@
 const { deployCommands } = require('./index');
 require('dotenv').config();
-const botName = 'mimouss';
+const botName = 'cscargo';
 const optionsService = require('../../app/api/home/services/option.service');
 async function getBotInfo() {
     const botToken = await optionsService.getBotInfo(botName);
