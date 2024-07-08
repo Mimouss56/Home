@@ -1,6 +1,6 @@
 const { removeCommands } = require('./index');
 require('dotenv').config();
-const botName = 'mimouss';
+const botName = 'cscargo';
 const optionsService = require('../../app/api/home/services/option.service');
 const { guildID } = require('../../config.json');
 

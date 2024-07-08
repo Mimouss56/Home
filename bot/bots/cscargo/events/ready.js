@@ -4,7 +4,7 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
-    client.user.setActivity('vos commandes', { type: ActivityType.Listening });
+    client.user.setActivity('/dons', { type: ActivityType.Listening });
     if (process.env.NODE_ENV === 'dev') console.log(`Ready! Logged in as ${client.user.tag}`);
   },
 };
