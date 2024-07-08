@@ -1,0 +1,37 @@
+-- Deploy CsCargo:financebase to pg
+
+BEGIN;
+
+CREATE TABLE IF NOT EXISTS finance_cout (
+  id SERIAL PRIMARY KEY,
+  nom VARCHAR(32) NOT NULL,
+  description VARCHAR(64) NOT NULL,
+  montant DECIMAL(5,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS finance_compte (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  intitule VARCHAR(32) NOT NULL,
+  type VARCHAR(16) NOT NULL,
+  reference VARCHAR(64) DEFAULT NULL,
+  montant DECIMAL(5,2) NOT NULL,
+  valide BOOLEAN DEFAULT false,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT finance_compte_user_id_fk FOREIGN KEY (user_id)
+    REFERENCES public.user(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS finance_don (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  nb_part INTEGER DEFAULT 1 NOT NULL,
+  solde DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+  CONSTRAINT finance_don_user_id_fk FOREIGN KEY (user_id)
+    REFERENCES public.user(id)
+    ON DELETE CASCADE
+);
+
+COMMIT;
