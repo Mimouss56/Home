@@ -17,5 +17,11 @@
             "error",
             "unix"
         ]
-    }
+    },
+    "overrides": [
+        {
+            "files": ["**/*.js"]
+        }
+    ]
+    
 }
