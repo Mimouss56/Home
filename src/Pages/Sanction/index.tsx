@@ -1,58 +1,40 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../utils/axios';
 import { excerpt } from '../../utils/main';
-import { ISanction } from '../../@types/Home/sanction';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from '../../components/Modal/Sanction/viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
 import { userContext } from '../../store/user.context';
+import { sanctionsContext } from '../../store/sanction.context';
 
+dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 const initMaxSanction = 10;
 function Sanction() {
   const { user } = useContext(userContext);
-  const [sanctionList, setSanctionList] = useState<ISanction[]>([]);
+  const { sanctions, setSanctions } = useContext(sanctionsContext);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
-
-  const fetchData = async (idRole: number) => {
-    try {
-      const { data } = await axiosInstance.get('/api/home/sanction');
-      const updatedData = data.map((sanction: ISanction) => {
-        if (
-          idRole !== 1
-          && sanction.date
-          && sanction.date.week >= dayjs().isoWeek()
-          && sanction.date.year >= dayjs().year()) {
-          return { ...sanction, label: '**********' };
-        }
-        return sanction;
-      });
-
-      setSanctionList(updatedData);
-    } catch (error) {
-      toast.error(`Error fetching sanction: ${error}`);
-    }
-  };
 
   const handleDelete = async (id: number) => {
     try {
       const result = await axiosInstance.delete(`/api/home/sanction/${id}`);
-      setSanctionList((prev) => prev.filter((sanction) => sanction.id !== id));
+      const newListSanctions = sanctions.filter((sanction) => sanction.id !== id);
+      setSanctions(newListSanctions);
       toast.success(result.data.message);
     } catch (error) {
       toast.error(`Error deleting sanction: ${error}`);
     }
   };
   const handleAddElement = () => {
-    if (user) fetchData(user?.role.id);
+    if (user?.role.id === 1) {
+      // on ajoute la nouvelle sanction à la liste dans le store
+      setSanctions(sanctions);
+    }
   };
-
-  useEffect(() => {
-    if (user) fetchData(user.role.id);
-  }, [user]);
 
   return (
     <>
@@ -77,7 +59,7 @@ function Sanction() {
               </tr>
             </thead>
             <tbody>
-              {sanctionList
+              {sanctions
                 .filter((sanction) => {
                   if (user?.role.id !== 1) return sanction.child?.id === user?.id; return sanction;
                 })
@@ -111,7 +93,7 @@ function Sanction() {
                       {excerpt(sanction.label)}
                     </td>
                     <td>
-                      {`S${sanction.date?.week}/${sanction.date?.year}`}
+                      {`S${dayjs(sanction.created_at).isoWeek()}/${dayjs(sanction.created_at).isoWeekYear()}`}
                     </td>
                     <td>
                       {sanction.author?.username}

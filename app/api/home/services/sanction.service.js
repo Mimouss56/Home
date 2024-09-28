@@ -20,10 +20,7 @@ dayjs.extend(isoWeek);
  * @property {integer} id - Sanction ID
  * @property {string} label.required - Sanction label
  * @property {Author} author - Author
- * @property {object} date - Date
- * @property {integer} date.year - Year
- * @property {integer} date.week - Week
- * @property {string} date.complete - Complete date
+ * @property {integer} created_at - date de Creation
  * @property {Child} child - Child
  * @property {boolean} warn.required - Warn
  * @property {boolean} read - Read
@@ -42,11 +39,7 @@ const generateObject = async (value) => {
       email: author.email,
       role: author.role,
     },
-    date: {
-      year: value.created_at.getFullYear(),
-      week: dayjs(value.created_at).isoWeek(),
-      complete: value.created_at,
-    },
+    created_at: value.created_at,
     child: {
       id: child.id,
       username: child.username,
@@ -64,7 +57,7 @@ module.exports = {
       : await sanction.findAll();
     if (!data) return [];
     const returnValue = await Promise.all(data.map(generateObject));
-    returnValue.sort((a, b) => new Date(b.date.complete) - new Date(a.date.complete));
+    returnValue.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     return returnValue;
   },
 
@@ -81,16 +74,20 @@ module.exports = {
     }
   },
   async create(inputQuery) {
-    try {
-      const valueCreated = await sanction.create(inputQuery);
-      const returnValue = await generateObject(valueCreated);
-      return returnValue;
-    } catch (error) {
-      return {
-        code: 500,
-        message: `${textValue} not created`,
-      };
-    }
+    const valueCreated = await sanction.create(inputQuery);
+    const returnValue = await generateObject(valueCreated);
+    return returnValue;
+
+    // try {
+    //   const valueCreated = await sanction.create(inputQuery);
+    //   const returnValue = await generateObject(valueCreated);
+    //   return returnValue;
+    // } catch (error) {
+    //   return {
+    //     code: 500,
+    //     message: `${textValue} not created`,
+    //   };
+    // }
   },
   async update(id, inputQuery) {
     try {

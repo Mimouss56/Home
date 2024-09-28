@@ -1,13 +1,13 @@
 import {
-  useEffect, useState,
+  useContext,
 } from 'react';
-import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 import { ISanction } from '../../../@types/Home/sanction';
-import { IUser } from '../../../@types/Home/user';
-import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
 import Textarea from '../../Form/textarea';
 import SwitchButton from '../../Form/Switch';
+import { sanctionsContext } from '../../../store/sanction.context';
+import DateInput from '../../Form/Date';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -18,51 +18,36 @@ const initFormData = {
   id_child: 0,
   warn: false,
   read: false,
+  created_at: dayjs().format('YYYY-MM-DD'),
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
-  const [childrenList, setChildrenList] = useState<IUser[]>([]);
+  const { sanctions, childrenList } = useContext(sanctionsContext);
   const {
-    form, setForm, handleChange, handleSave, handChecked,
+    form,
+    setForm,
+    handleChange,
+    handleSave,
+    handChecked,
   } = useFormInput(initFormData);
 
   const addItemModal = document.getElementById('ModalAddSanction');
-
-  const fetchData = async (id: number) => {
-    try {
-      const response = await axiosInstance.get(`/api/home/sanction/${id}`);
-      const sanctionData = response.data;
-
-      setForm({
-        id: sanctionData.id,
-        label: sanctionData.label,
-        id_child: sanctionData.child.id,
-        warn: sanctionData.warn,
-        read: sanctionData.read,
-      });
-    } catch (error) {
-      toast.error('Erreur lors de la récupération des données de la sanction à éditer');
-    }
-  };
-  const fetchChildren = async () => {
-    const response = await axiosInstance.get('/api/home/user');
-    const { data } = response;
-    const childrenListData = data.filter((oneChild: IUser) => oneChild.child === true);
-    setChildrenList(childrenListData);
-  };
 
   if (addItemModal) {
     addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
       const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
       const button = relatedTarget as HTMLButtonElement;
       const idModal = button.getAttribute('data-bs-id');
-      if (Number(idModal) !== 0) fetchData(Number(idModal));
-      else setForm(initFormData);
+      const sanction = sanctions.find(
+        (s) => s.id === Number(idModal),
+      ) || initFormData;
+
+      setForm({
+        ...initFormData,
+        ...sanction,
+        id_child: initFormData.id_child,
+      });
     });
   }
-
-  useEffect(() => {
-    fetchChildren();
-  }, []);
 
   return (
     <form
@@ -121,6 +106,13 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
               name="label"
               leng={500}
               icon={null}
+            />
+            <DateInput
+              value={form.created_at}
+              onChange={handleChange}
+              name="created_at"
+              max={dayjs().format('YYYY-MM-DD')}
+              placeholder="Date de la sanction"
             />
             <div className="modal-footer d-flex justify-content-around">
               <button
