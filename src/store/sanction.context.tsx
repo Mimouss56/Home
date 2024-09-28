@@ -30,7 +30,7 @@ function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
         const sortChildren = res.data.filter(
           (oneChild: IUser) => oneChild.child === true,
         ).sort(
-          (a: IUser, b: IUser) => a.first_name.localeCompare(b.first_name),
+          (a: IUser, b: IUser) => a.username.localeCompare(b.username),
         );
         setChildrenList(sortChildren);
       })
