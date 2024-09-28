@@ -27,11 +27,13 @@ function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
     axiosInstance.get('/api/home/user')
       .then((res) => {
         // on trie par ordre alphabétique
-        const sortChildren = res.data.filter(
-          (oneChild: IUser) => oneChild.child === true,
-        ).sort(
-          (a: IUser, b: IUser) => a.username.localeCompare(b.username),
-        );
+        const sortChildren = res.data
+          .filter((oneChild: IUser) => oneChild.child === true)
+          .sort((a: IUser, b: IUser) => a.username.localeCompare(b.username))
+          .map((oneChild: IUser) => ({
+            id: oneChild.id,
+            username: oneChild.username,
+          }));
         setChildrenList(sortChildren);
       })
       .catch((err) => {
@@ -54,8 +56,16 @@ function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
   }
 
   const value = useMemo(() => ({
-    sanctions, childrenList, setSanctions, setChildrenList,
-  }), [sanctions, childrenList, setSanctions, setChildrenList]);
+    sanctions,
+    childrenList,
+    setSanctions,
+    setChildrenList,
+  }), [
+    sanctions,
+    childrenList,
+    setSanctions,
+    setChildrenList,
+  ]);
   return (
     <sanctionsContext.Provider value={value}>
       {children}
