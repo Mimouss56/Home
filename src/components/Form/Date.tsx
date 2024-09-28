@@ -1,7 +1,9 @@
+import dayjs from 'dayjs';
+
 import { DateInputProps } from '../../@types/Home/formElement';
 
 function DateInput({
-  placeholder, name, value, onChange,
+  placeholder, name, value, onChange, max,
 }: DateInputProps) {
   return (
     <div className="input-group mb-3">
@@ -15,8 +17,9 @@ function DateInput({
         aria-label={placeholder}
         aria-describedby="basic-addon1"
         name={name}
-        value={value}
+        value={value ? value.split('T')[0] : dayjs(value, 'DD/MM/YYYY').format('YYYY-MM-DD')}
         onChange={onChange}
+        max={max}
       />
     </div>
   );

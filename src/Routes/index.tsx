@@ -16,6 +16,7 @@ import { EntProvider } from '../store/ent.context';
 import Test from '../Pages/Test';
 import NewsSection from '../Pages/Main_2/news';
 import { SoftSkillProvider } from '../store/skill.context';
+import { SanctionProvider } from '../store/sanction.context';
 
 function ListeRoute() {
   const { user } = useContext(userContext);
@@ -30,7 +31,7 @@ function ListeRoute() {
       <Route path="changelog" element={(<NewsSection />)} />
       <Route path="test" element={(<Test />)} />
       {/* // ProtectedRoute */}
-      <Route path="sanction" element={(<ProtectedRoute><Sanction /></ProtectedRoute>)} />
+      <Route path="sanction" element={(<ProtectedRoute><SanctionProvider><Sanction /></SanctionProvider></ProtectedRoute>)} />
 
       <Route path="user/*" element={(<ProtectedRoute><Dashboard /></ProtectedRoute>)} />
       <Route path="domotic" element={<RouteDomo />} />

@@ -2,6 +2,7 @@ export interface DateInputProps {
   placeholder: string;
   name: string;
   value: string;
+  max?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

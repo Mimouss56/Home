@@ -1,8 +1,9 @@
-export interface ISanction extends ISanctionDate, ISanctionAuthor, IChild {
+export interface ISanction extends ISanctionAuthor, IChild {
   id: number;
   label: string;
   warn : boolean;
   read: boolean;
+  created_at: string
 }
 
 export interface ISanctionAuthor {
@@ -10,14 +11,6 @@ export interface ISanctionAuthor {
     id: number;
     username: string;
     email: string;
-  }
-}
-
-export interface ISanctionDate {
-  date?: {
-    year: number;
-    week: number;
-    complete: string;
   }
 }
 

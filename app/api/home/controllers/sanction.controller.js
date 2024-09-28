@@ -23,13 +23,13 @@ module.exports = {
 
   async post(req, res) {
     const {
-      label, id_child, warn,
+      label, id_child, warn, created_at,
     } = req.body;
 
     const { id: author_id } = req.user;
 
     const inputQuery = {
-      label, author_id, id_child, warn,
+      label, author_id, id_child, warn, created_at,
     };
     const result = await sanctionService.create(inputQuery);
     if (result.code) return res.status(result.code).json(result);

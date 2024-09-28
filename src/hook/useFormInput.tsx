@@ -36,7 +36,7 @@ const useFormInput = <T extends object>(initialValue: T) => {
         response = await axiosInstance.put(`${endpoint}/${id}`, formWithoutId);
       }
       const { message, code, ...cleanedData } = response.data;
-      onAddElement(cleanedData);
+      onAddElement(cleanedData as T);
       toast.success(message);
     } catch (err) {
       const { response } = err as ErrorSanctionProps;
@@ -56,7 +56,6 @@ const useFormInput = <T extends object>(initialValue: T) => {
       toast.error(`🦄 ${response.data.error || response.data.message} ! `);
     }
   };
-
   return {
     form,
     setForm,
