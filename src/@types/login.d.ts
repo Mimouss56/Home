@@ -1,4 +1,4 @@
-import { IRole, IUser } from './Home/user';
+import { IUser } from './Home/user';
 
 export interface LoginResponse {
   sessionToken: string
