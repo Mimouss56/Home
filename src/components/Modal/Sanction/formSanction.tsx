@@ -42,8 +42,11 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
       ) || initFormData;
 
       setForm({
-        ...initFormData,
-        ...sanction,
+        read: false,
+        warn: sanction.warn,
+        id: sanction.id,
+        label: sanction.label,
+        created_at: sanction.created_at,
         id_child: initFormData.id_child,
       });
     });
