@@ -39,7 +39,11 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
       const idModal = button.getAttribute('data-bs-id');
       const sanction = sanctions.find(
         (s) => s.id === Number(idModal),
-      ) || initFormData;
+      );
+      if (!sanction) {
+        setForm(initFormData);
+        return;
+      }
 
       setForm({
         read: false,
@@ -47,7 +51,8 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         id: sanction.id,
         label: sanction.label,
         created_at: sanction.created_at,
-        id_child: initFormData.id_child,
+        id_child: sanction.child?.id || 0,
+
       });
     });
   }

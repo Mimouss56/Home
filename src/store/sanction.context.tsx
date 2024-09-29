@@ -7,8 +7,8 @@ import { ISanction } from '../@types/Home/sanction';
 import { IUser } from '../@types/Home/user';
 
 interface ISanctionContext {
-  sanctions: ISanction[] | [];
-  childrenList: IUser[] | [];
+  sanctions: ISanction[];
+  childrenList: IUser[];
   setSanctions: (sanctions: ISanction[]) => void;
   setChildrenList: (children: IUser[]) => void;
 }
@@ -21,8 +21,8 @@ const sanctionsContext = createContext<ISanctionContext>({
 });
 
 function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
-  const [sanctions, setSanctions] = useState<ISanction[] | []>([]);
-  const [childrenList, setChildrenList] = useState<IUser[] | []>([]);
+  const [sanctions, setSanctions] = useState<ISanction[] >([]);
+  const [childrenList, setChildrenList] = useState<IUser[]>([]);
   if (!childrenList || childrenList.length === 0) {
     axiosInstance.get('/api/home/user')
       .then((res) => {
@@ -44,7 +44,7 @@ function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
     axiosInstance.get('/api/home/sanction')
       .then((res) => {
         // on trie par ordre alphabétique
-        const sortSanction = res.data.sort(
+        const sortSanction: ISanction[] = res.data.sort(
           // trie des sanction par date.complete desc
           (a: ISanction, b: ISanction) => b.created_at.localeCompare(a.created_at),
         );
