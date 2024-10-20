@@ -1,22 +1,28 @@
 import { Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
-import ViewCVPage from '../Pages/CV';
-import Sanction from '../Pages/Sanction';
+
 // import Test from '../Pages/Test';
-import Dashboard from './Dashboard';
+import RouteDashboard from './Dashboard';
 import RoutesESA from './ESA';
 import RouteDomo from './domotic';
+
 import ProtectedRoute from '../components/ProtectedRoute';
-import NotFound from '../Pages/Error/404';
 import Feedback from '../components/Feedback';
+
+import NotFound from '../Pages/Error/404';
 import MainDev from '../Pages/Main_2';
-import PageAdminHome from '../layout/Admin/index';
-import { userContext } from '../store/user.context';
-import { EntProvider } from '../store/ent.context';
+import ViewCVPage from '../Pages/CV';
+import Sanction from '../Pages/Sanction';
 import Test from '../Pages/Test';
 import NewsSection from '../Pages/Main_2/news';
+import AccueilPage from '../Pages/Accueil';
+
+import PageAdminHome from '../layout/Admin/index';
+
 import { SoftSkillProvider } from '../store/skill.context';
 import { SanctionProvider } from '../store/sanction.context';
+import { userContext } from '../store/user.context';
+import { EntProvider } from '../store/ent.context';
 
 function ListeRoute() {
   const { user } = useContext(userContext);
@@ -26,6 +32,7 @@ function ListeRoute() {
   return (
     <Routes>
       <Route path="/" element={<MainDev />} />
+      <Route path="accueil" element={<AccueilPage />} />
       <Route path={'cv' || 'about'} element={<EntProvider><SoftSkillProvider><ViewCVPage /></SoftSkillProvider></EntProvider>} />
       <Route path="feedback" element={<Feedback />} />
       <Route path="changelog" element={(<NewsSection />)} />
@@ -33,7 +40,7 @@ function ListeRoute() {
       {/* // ProtectedRoute */}
       <Route path="sanction" element={(<ProtectedRoute><SanctionProvider><Sanction /></SanctionProvider></ProtectedRoute>)} />
 
-      <Route path="user/*" element={(<ProtectedRoute><Dashboard /></ProtectedRoute>)} />
+      <Route path="user/*" element={(<ProtectedRoute><RouteDashboard /></ProtectedRoute>)} />
       <Route path="domotic" element={<RouteDomo />} />
 
       {isAdmin && (<Route path="admin/*" element={(<ProtectedRoute><PageAdminHome /></ProtectedRoute>)} />)}
