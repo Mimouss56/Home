@@ -19,6 +19,7 @@ const initFormData = {
   warn: false,
   read: false,
   created_at: dayjs().format('YYYY-MM-DD'),
+  paid: false,
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const { sanctions, childrenList } = useContext(sanctionsContext);
@@ -52,6 +53,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         label: sanction.label,
         created_at: sanction.created_at,
         id_child: sanction.child?.id || 0,
+        paid: !!sanction.paid,
 
       });
     });
@@ -114,6 +116,12 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
               name="label"
               leng={500}
               icon={null}
+            />
+            <SwitchButton
+              name="paid"
+              active={form.paid}
+              onChange={handChecked}
+              title="Payé"
             />
             <DateInput
               value={form.created_at}
