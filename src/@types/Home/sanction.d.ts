@@ -3,7 +3,8 @@ export interface ISanction extends ISanctionAuthor, IChild {
   label: string;
   warn : boolean;
   read: boolean;
-  created_at: string
+  created_at: string;
+  paid?: boolean;
 }
 
 export interface ISanctionAuthor {

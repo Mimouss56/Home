@@ -42,12 +42,12 @@ module.exports = {
   async put(req, res) {
     const { id } = req.params;
     const {
-      label, id_child, warn, read,
+      label, id_child, warn, read, paid,
     } = req.body;
     const { id: author_id } = req.user;
 
     const inputQuery = {
-      author_id, label, id_child, warn, read,
+      author_id, label, id_child, warn, read, paid,
     };
     const result = await sanctionService.update(id, inputQuery);
     if (result.code) return res.status(result.code).json(result);
@@ -69,6 +69,13 @@ module.exports = {
   async read(req, res) {
     const { id } = req.params;
     const result = await sanctionService.read(id);
+    if (result.code) return res.status(result.code).json(result);
+    return res.json(result);
+  },
+
+  async paid(req, res) {
+    const { id } = req.params;
+    const result = await sanctionService.paid(id);
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },

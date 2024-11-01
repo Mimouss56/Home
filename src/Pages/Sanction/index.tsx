@@ -50,6 +50,7 @@ function Sanction() {
                 <th scope="col">Description</th>
                 <th scope="col">Week</th>
                 <th scope="col">Auteur</th>
+                <th scope="col">Payé</th>
                 {user?.role.id === 1 && (
                   <>
                     <th scope="col">Enfant</th>
@@ -97,6 +98,9 @@ function Sanction() {
                     </td>
                     <td>
                       {sanction.author?.username}
+                    </td>
+                    <td>
+                      {sanction.paid ? <i className="bi bi-check2" /> : <i className="bi bi-x" />}
                     </td>
 
                     {

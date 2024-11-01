@@ -24,6 +24,7 @@ dayjs.extend(isoWeek);
  * @property {Child} child - Child
  * @property {boolean} warn.required - Warn
  * @property {boolean} read - Read
+ * @property {boolean} paid - Paid
  * @param {object} value
  * @returns
  */
@@ -46,6 +47,7 @@ const generateObject = async (value) => {
     },
     warn: value.warn,
     read: value.read,
+    paid: value.paid,
   };
   return returnValue;
 };
@@ -121,6 +123,17 @@ module.exports = {
       return {
         code: 500,
         message: `${textValue} not read`,
+      };
+    }
+  },
+  async paid(id) {
+    try {
+      const valuePaid = await sanction.update(id, { paid: true });
+      return valuePaid;
+    } catch (error) {
+      return {
+        code: 500,
+        message: `${textValue} not paid`,
       };
     }
   },
