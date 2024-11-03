@@ -54,7 +54,6 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         created_at: sanction.created_at,
         id_child: sanction.child?.id || 0,
         paid: !!sanction.paid,
-
       });
     });
   }
