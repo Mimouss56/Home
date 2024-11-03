@@ -75,3 +75,8 @@ export interface ILoggedUser {
     feedback?: IFeedback;
   };
 }
+
+export interface IChildrenList {
+  id: number;
+  username: string;
+}

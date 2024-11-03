@@ -22,15 +22,8 @@ function ModalViewDetails() {
   const retrieveSanction = useCallback((id: number): ISanction | null => {
     const dataSanction = sanctions.find((oneSanction) => oneSanction.id === id);
     if (!dataSanction) return null;
-    if (
-      user?.role.id !== 1
-      && dayjs(dataSanction.created_at).isoWeek() >= dayjs().isoWeek()
-      && dayjs(dataSanction.created_at).year() >= dayjs().year()
-    ) {
-      dataSanction.label = '**********';
-    }
     return dataSanction;
-  }, [sanctions, user]);
+  }, [sanctions]);
 
   useEffect(() => {
     const addItemModal = document.getElementById('modalViewSanction');

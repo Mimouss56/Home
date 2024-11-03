@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 //  CSS
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,9 @@ import Notifications from './components/Notification';
 import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
-import { UserProvider } from './store/user.context';
+import { userContext, UserProvider } from './store/user.context';
+import Login from './components/Modal/Auth/login';
+import Register from './components/Modal/Auth/register';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
@@ -24,6 +26,7 @@ const showFeedback = true;
 // User menu
 
 export default function App() {
+  const { user } = useContext(userContext);
   const [showNav, setShowNav] = useState(true);
   useEffect(() => {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
@@ -48,6 +51,9 @@ export default function App() {
       <Notifications />
       {showNav && <Navbar navContent={navTop} />}
       <main><ListeRoute /></main>
+      {!user && (<Login />)}
+      {!user && (<Register />)}
+
       <Footer />
     </UserProvider>
   );

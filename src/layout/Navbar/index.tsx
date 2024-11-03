@@ -4,14 +4,10 @@ import { MenuProp } from '../../@types/menu';
 import { userContext } from '../../store/user.context';
 import ConnexionBtn from './connexionNav';
 import AsideMenu from './AsideMenu';
-import Login from '../../components/Modal/Auth/login';
-import Register from '../../components/Modal/Auth/register';
 
-interface NavbarProp {
+export default function Navbar({ navContent }: {
   navContent: MenuProp[];
-}
-
-export default function Navbar({ navContent }: NavbarProp) {
+}) {
   const { user } = useContext(userContext);
 
   useEffect(() => {
@@ -28,25 +24,17 @@ export default function Navbar({ navContent }: NavbarProp) {
   }, [user, navContent]);
 
   return (
-    <>
-      <nav
-        id="nav-bar"
-        className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky top-0 z-3"
-        style={{
-          backgroundColor: '#1d1d20',
-          // height: '60px',
-        }}
-      >
-        <NavBar navContentArray={navContent} />
-        {user ? <AsideMenu /> : <ConnexionBtn />}
-      </nav>
-      {!user && (
-        <>
-          <Login />
-          <Register />
-        </>
-      )}
-    </>
+    <nav
+      id="nav-bar"
+      className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky top-0 z-3"
+      style={{
+        backgroundColor: '#1d1d20',
+        // height: '60px',
+      }}
+    >
+      <NavBar navContentArray={navContent} />
+      {user ? <AsideMenu /> : <ConnexionBtn />}
+    </nav>
 
   );
 }
