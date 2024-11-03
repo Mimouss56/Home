@@ -75,7 +75,8 @@ module.exports = {
 
   async paid(req, res) {
     const { id } = req.params;
-    const result = await sanctionService.paid(id);
+    const { paid } = req.body;
+    const result = await sanctionService.paid(id, paid);
     if (result.code) return res.status(result.code).json(result);
     return res.json(result);
   },

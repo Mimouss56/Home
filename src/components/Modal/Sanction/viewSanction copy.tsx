@@ -1,12 +1,15 @@
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import {
-  useCallback, useContext, useEffect, useState,
+  useContext, useEffect, useRef, useState,
 } from 'react';
+import { toast } from 'react-toastify';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
 
 import { ISanction } from '../../../@types/Home/sanction';
+import axiosInstance from '../../../utils/axios';
+import { INotif } from '../../../@types/notifToast';
 import { userContext } from '../../../store/user.context';
 import { sanctionsContext } from '../../../store/sanction.context';
 
@@ -14,48 +17,66 @@ dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 function ModalViewDetails() {
-  const { sanctions } = useContext(sanctionsContext);
+  const viewItemModal = useRef<HTMLDivElement>(null);
 
-  const [sanction, setSanction] = useState<ISanction>({} as ISanction);
+  const { sanctions } = useContext(sanctionsContext);
+  const [sanction, setSanction] = useState<ISanction>();
+  const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
   const { user } = useContext(userContext);
 
-  const retrieveSanction = useCallback((id: number): ISanction | null => {
-    const dataSanction = sanctions.find((oneSanction) => oneSanction.id === id);
-    if (!dataSanction) return null;
-    if (
-      user?.role.id !== 1
-      && dayjs(dataSanction.created_at).isoWeek() >= dayjs().isoWeek()
-      && dayjs(dataSanction.created_at).year() >= dayjs().year()
-    ) {
-      dataSanction.label = '**********';
-    }
-    return dataSanction;
-  }, [sanctions, user]);
-
   useEffect(() => {
-    const addItemModal = document.getElementById('modalViewSanction');
+    const modalElement = viewItemModal?.current;
 
-    if (addItemModal) {
-      addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+    const retrieveSanction = async (id: number) => {
+      const dataSanction = sanctions.find((oneSanction) => oneSanction.id === id);
+      if (!dataSanction) return;
+      if (
+        user?.role.id !== 1
+        && dayjs(dataSanction.created_at).isoWeek() >= dayjs().isoWeek()
+        && dayjs(dataSanction.created_at).year() >= dayjs().year()) {
+        dataSanction.label = '**********';
+        setSanction(dataSanction);
+      }
+    };
+
+    const handleRead = async (id: number) => {
+      try {
+        await axiosInstance.put(`/api/home/sanction/${id}/read`);
+        const updatedData = dataNotif.map((notif) => {
+          if (notif.id === id) {
+            return { ...notif, read: true };
+          }
+          return notif;
+        });
+        sessionStorage.setItem('dataNotif', JSON.stringify(updatedData));
+      } catch (error) {
+        toast.error(`Erreur lors de la lecture de la notification: ${error}`);
+      }
+    };
+
+    if (modalElement) {
+      modalElement.addEventListener('show.bs.modal', async (event: Event) => {
         const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
         const button = relatedTarget as HTMLButtonElement;
         const idModal = button.getAttribute('data-bs-id');
         if (Number(idModal) !== 0) {
-          const sanctionRetrived = retrieveSanction(Number(idModal));
-          if (sanctionRetrived) setSanction(sanctionRetrived);
+          if (user) retrieveSanction(Number(idModal));
+          if (user?.role.id !== 1) handleRead(Number(idModal));
         }
       });
     }
     // on remove le addEventListener
     return () => {
-      if (addItemModal) {
-        addItemModal.removeEventListener('show.bs.modal', () => { });
+      if (modalElement) {
+        modalElement.removeEventListener('show.bs.modal', () => { });
       }
     };
-  }, [retrieveSanction, user]);
+  }, [dataNotif, sanctions, user]);
+
+  if (sanction === undefined) return null;
 
   return (
-    <div className="modal fade" id="modalViewSanction">
+    <div className="modal fade" id="modalViewSanction" ref={viewItemModal}>
       <div className="modal-dialog modal-dialog-centered ">
         <div
           className={`modal-content ${sanction.warn ? 'bg-danger-subtle' : 'bg-warning-subtle'} bg-gradient text-dark`}

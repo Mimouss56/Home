@@ -80,7 +80,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
               <div className="input-group mb-3">
                 <SwitchButton
                   name="warn"
-                  active={form.warn}
+                  checked={form.warn}
                   onChange={handChecked}
                   title="Important"
                 />
@@ -118,7 +118,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
             />
             <SwitchButton
               name="paid"
-              active={form.paid}
+              checked={form.paid}
               onChange={handChecked}
               title="Payé"
             />
