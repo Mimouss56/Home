@@ -13,6 +13,7 @@ const sanction = Joi.object({
   warn: Joi.boolean().required(),
   read: Joi.boolean().optional(),
   created_at: Joi.date().optional(),
+  paid: Joi.boolean().optional(),
 });
 
 const objectID = Joi.object({

@@ -67,8 +67,7 @@ function Sanction() {
   };
   const handleAddElement = () => {
     if (user?.role.id === 1) {
-      // on ajoute la nouvelle sanction à la liste dans le store
-      setSanctions(sanctions);
+      setSanctions([]);
     }
   };
 

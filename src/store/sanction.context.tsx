@@ -1,10 +1,12 @@
 import {
-  ReactElement, ReactNode, createContext, useMemo, useState,
+  ReactElement, ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState,
 } from 'react';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 import axiosInstance from '../utils/axios';
 import { ISanction } from '../@types/Home/sanction';
-import { IUser } from '../@types/Home/user';
+import { IChildrenList, IUser } from '../@types/Home/user';
+import { userContext } from './user.context';
 
 interface ISanctionContext {
   sanctions: ISanction[];
@@ -21,39 +23,70 @@ const sanctionsContext = createContext<ISanctionContext>({
 });
 
 function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
-  const [sanctions, setSanctions] = useState<ISanction[] >([]);
+  const [sanctions, setSanctions] = useState<ISanction[]>([]);
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
-  if (!childrenList || childrenList.length === 0) {
-    axiosInstance.get('/api/home/user')
-      .then((res) => {
-        // on trie par ordre alphabétique
+  const { user } = useContext(userContext);
+
+  const maskSanction = useCallback((oneSanction: ISanction): ISanction => {
+    if (
+      user?.role.id !== 1
+      && dayjs(oneSanction.created_at).isoWeek() >= dayjs().isoWeek()
+      && dayjs(oneSanction.created_at).year() >= dayjs().year()
+    ) {
+      return { ...oneSanction, label: '**********' };
+    }
+    return oneSanction;
+  }, [user]);
+
+  useEffect(() => {
+    const fetchChildrenList = async () => {
+      try {
+        const res = await axiosInstance<IUser[]>('/api/home/user');
         const sortChildren = res.data
-          .filter((oneChild: IUser) => oneChild.child === true)
-          .sort((a: IUser, b: IUser) => a.username.localeCompare(b.username))
-          .map((oneChild: IUser) => ({
+          .filter((oneChild) => oneChild.child === true)
+          .sort((a, b) => a.username.localeCompare(b.username))
+          .map((oneChild) => ({
             id: oneChild.id,
             username: oneChild.username,
-          }));
-        setChildrenList(sortChildren);
-      })
-      .catch((err) => {
-        toast.error(`Une erreur est survenue : ${err.message}`);
-      });
-  }
-  if (!sanctions || sanctions.length === 0) {
-    axiosInstance.get('/api/home/sanction')
-      .then((res) => {
-        // on trie par ordre alphabétique
-        const sortSanction: ISanction[] = res.data.sort(
-          // trie des sanction par date.complete desc
-          (a: ISanction, b: ISanction) => b.created_at.localeCompare(a.created_at),
-        );
+          })) as IChildrenList[];
+        setChildrenList(sortChildren as IUser[]);
+      } catch (err) {
+        if (err instanceof Error) {
+          toast.error(`Une erreur est survenue : ${err.message}`);
+        } else {
+          toast.error('Une erreur inconnue est survenue');
+        }
+      }
+    };
+
+    if (childrenList.length === 0) {
+      fetchChildrenList();
+    }
+  }, [childrenList.length]);
+
+  useEffect(() => {
+    const fetchSanctions = async () => {
+      try {
+        const res = await axiosInstance<ISanction[]>('/api/home/sanction');
+        const sortSanction = res.data
+          .sort(
+            (a, b) => dayjs(b.created_at).diff(dayjs(a.created_at)),
+          )
+          .map((oneSanction: ISanction) => maskSanction(oneSanction));
         setSanctions(sortSanction);
-      })
-      .catch((err) => {
-        toast.error(`Une erreur est survenue : ${err.message}`);
-      });
-  }
+      } catch (err) {
+        if (err instanceof Error) {
+          toast.error(`Une erreur est survenue : ${err.message}`);
+        } else {
+          toast.error('Une erreur inconnue est survenue');
+        }
+      }
+    };
+
+    if (sanctions.length === 0) {
+      fetchSanctions();
+    }
+  }, [maskSanction, sanctions.length]);
 
   const value = useMemo(() => ({
     sanctions,
