@@ -29,6 +29,7 @@ export default function Login() {
       sessionStorage.setItem('sessionToken', sessionToken);
       toast.success(`🦄 ${message} !`);
       setUser(user);
+      loginRef.current?.classList.remove('fade');
     } catch (err) {
       setError(true);
       if (err instanceof AxiosError) {
@@ -103,7 +104,7 @@ export default function Login() {
             <button
               type="submit"
               className="btn btn-primary"
-            // data-bs-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Se connecter
             </button>
