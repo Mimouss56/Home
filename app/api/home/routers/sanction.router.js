@@ -96,4 +96,19 @@ router.route('/:id/read')
    */
   .put(validate(objectID, 'params'), sanctionController.read);
 
+router.route('/:id/paid')
+
+  /**
+   * PATCH /api/home/sanction/{id}/paid
+   * @summary Mark a sanction as paid
+   * @tags Sanction
+   * @param {integer} id.path.required - ID of the sanction
+   * @return {Sanction} 200 - Sanction updated
+   * @return 400 - Invalid data
+   * @return 404 - Sanction not found
+   * @return 500 - Unexpected error
+   * @security BearerAuth
+   */
+  .patch(validate(objectID, 'params'), sanctionController.paid);
+
 module.exports = router;

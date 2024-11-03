@@ -11,17 +11,14 @@ import SectionLayout from '../../layout/SectionLayout';
 import { userContext } from '../../store/user.context';
 import { sanctionsContext } from '../../store/sanction.context';
 import SwitchButton from '../../components/Form/Switch';
-import { INotif } from '../../@types/notifToast';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 const initMaxSanction = 10;
-
 function Sanction() {
   const { user } = useContext(userContext);
   const { sanctions, setSanctions } = useContext(sanctionsContext);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
-  const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
 
   const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, id } = e.target;
@@ -40,21 +37,6 @@ function Sanction() {
       toast.error(`Error updating sanction: ${error}`);
     }
   };
-  const handleRead = async (id: number) => {
-    try {
-      await axiosInstance.put(`/api/home/sanction/${id}/read`);
-      const updatedData = dataNotif.map((notif) => {
-        if (notif.id === id) {
-          return { ...notif, read: true };
-        }
-        return notif;
-      });
-      sessionStorage.setItem('dataNotif', JSON.stringify(updatedData));
-    } catch (error) {
-      toast.error(`Erreur lors de la lecture de la notification: ${error}`);
-    }
-  };
-
   const handleDelete = async (id: number) => {
     try {
       const result = await axiosInstance.delete(`/api/home/sanction/${id}`);
@@ -74,8 +56,6 @@ function Sanction() {
 
   return (
     <>
-      <ModalViewDetails />
-      <ModalAddSanction onAddElement={handleAddElement} />
       <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">
         <div className="table-responsive min-vh-100 mt-5">
           <table className="table table-striped table-sm text-center">
@@ -116,7 +96,6 @@ function Sanction() {
                         data-bs-toggle="modal"
                         data-bs-target="#modalViewSanction"
                         data-bs-id={sanction.id}
-                        onClick={() => handleRead(sanction.id)}
                       >
                         <i className="bi bi-eye" />
                       </button>
@@ -191,7 +170,10 @@ function Sanction() {
             </tbody>
           </table>
         </div>
+        <ModalViewDetails />
       </SectionLayout>
+      {user?.role.id === 1 && (<ModalAddSanction onAddElement={handleAddElement} />)}
+
     </>
   );
 }

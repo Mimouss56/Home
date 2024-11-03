@@ -1,24 +1,36 @@
+import { useEffect, useState } from 'react';
+
 interface SwitchButtonProps {
   name: string;
-  active: boolean;
+  checked: boolean;
+  disable?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id?: string;
   title?: string;
+  color?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
 }
 
 export default function SwitchButton({
-  name, active, onChange, id, title,
+  name, checked, onChange, id, title, color, disable,
 }: SwitchButtonProps) {
+  const [bgColor, setBgColor] = useState('');
+
+  useEffect(() => {
+    const isActive = checked ? ` bg-${color}` : '';
+    setBgColor(isActive);
+  }, [checked, color]);
+
   return (
     <div className="form-check form-switch">
       <input
-        className="form-check-input"
+        className={`form-check-input${bgColor}`}
         type="checkbox"
         role="switch"
         name={name}
-        defaultChecked={active}
+        defaultChecked={checked}
         id={id}
         onChange={onChange}
+        disabled={disable}
       // value={active.toString()}
       // checked={!!active}
       />
@@ -35,4 +47,6 @@ export default function SwitchButton({
 SwitchButton.defaultProps = {
   id: '',
   title: '',
+  color: 'primary',
+  disable: false,
 };

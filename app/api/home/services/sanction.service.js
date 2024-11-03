@@ -126,9 +126,9 @@ module.exports = {
       };
     }
   },
-  async paid(id) {
+  async paid(id, paid) {
     try {
-      const valuePaid = await sanction.update(id, { paid: true });
+      const valuePaid = await sanction.update(id, { paid });
       return valuePaid;
     } catch (error) {
       return {
