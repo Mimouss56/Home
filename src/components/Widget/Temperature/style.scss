@@ -1,0 +1,77 @@
+$width: 400px;
+$line : 15px;
+$margin : 25px;
+$wgaugeB: $width - $line*2 - $margin*2;
+
+.widgetTemp {
+  width: $width;
+  height: $width;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  overflow: hidden;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.gauge-color {
+  z-index: 1;
+  position: absolute;
+  background: conic-gradient(
+    #00aaff 0deg,
+    #00ff4c 135deg,
+    #ff0000 270deg,
+    transparent 225deg
+  );
+  width: $width;
+  height: $width;
+  top: 0;
+  border-radius: 50%;
+  transform: rotate(-135deg);
+  mask: radial-gradient(farthest-side, transparent calc(100% - $line), black 0);
+}
+
+
+.gauge-value {
+  z-index: 2;
+  position: absolute;
+  width: $line;
+  height: $width;
+  background-color: #000; // Couleur du trait
+  left: calc($width / 2 - $line / 2);
+  transform-origin: center;
+  transition: all 1.3s ease-in-out;
+  transform: rotate(-135deg);
+  // on mask le trait de 90% en haut
+  mask: linear-gradient(transparent 0%, black 0%, black 20%, transparent 20%);
+}
+
+.widgetTemp:hover .gauge-value {  transform:rotate(.36turn);
+}
+
+
+.gauge-content {
+  z-index: 3;
+  position: absolute;
+  background-color: #222;
+  width: $wgaugeB;
+  height: $wgaugeB;
+  top: 50%; /* Centrer verticalement */
+  left: 50%; /* Centrer horizontalement */
+  transform: translate(-50%, -50%); /* Ajuster pour centrer */
+  border-radius: 50%;
+}
+
+.gauge-data {
+  z-index: 4;
+  color: rgba(255, 255, 255, .2);
+  font-size: 1.5em;
+  line-height: 25px;
+  position: absolute;
+  width: 400px;
+  height: 200px;
+  top: 90px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 1s ease-out;
+}
