@@ -5,9 +5,18 @@ import imgDevMode from '../../assets/images/finishWebsite.png';
 import imgDomoticz from '../../assets/images/snapshot/domoticzDash.png';
 import imgWebmin from '../../assets/images/snapshot/imgWebmin.png';
 import './style.scss';
+import Bandeau from '../../components/Bandeau';
+
+interface IProject {
+  name: string;
+  description: string;
+  port?: number;
+  img: string;
+  url?: string;
+}
 
 export default function AccueilPage() {
-  const project = [
+  const project: IProject[] = [
     {
       name: 'Deluge BT',
       description: 'client BitTorrent Deluge WebUI',
@@ -17,8 +26,8 @@ export default function AccueilPage() {
     {
       name: 'Domoticz',
       description: 'Domoticz Home Automation System',
-      port: 8081,
       img: imgDomoticz,
+      url: 'https://domoticz.mimouss.fr',
     },
     {
       name: 'NginxUI',
@@ -53,7 +62,7 @@ export default function AccueilPage() {
         .sort((a, b) => a.name.localeCompare(b.name))
         .map((p) => (
           <a
-            href={`http://192.168.1.210:${p.port}`}
+            href={p.url || `http://192.168.1.210:${p.port}`}
             target="_blank"
             rel="noreferrer"
             className="text-decoration-none"
@@ -61,9 +70,10 @@ export default function AccueilPage() {
 
           >
             <figure
-              className="card m-4 position-relative bg-transparent border-0 hover-effect"
+              className={`card m-4 position-relative bg-transparent overflow-hidden rounded-5 border-5 hover-effect border-${p.url ? 'danger' : 'white'}`}
               style={{ width: '300px', height: '200px' }}
             >
+              {p.port && (<Bandeau>local</Bandeau>)}
               <img
                 src={p.img}
                 className="img-fluid img-thumbnail d-block rounded-5 "
@@ -71,7 +81,6 @@ export default function AccueilPage() {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'fill',
                 }}
               />
               <figcaption className="figure-caption position-absolute text-white bg-dark opacity-100 top-50 start-0 end-0 p-1 text-center">{p.name}</figcaption>
