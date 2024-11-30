@@ -66,7 +66,7 @@ export default function AccueilPage() {
             >
               <img
                 src={p.img}
-                className="img-fluid img-thumbnail d-block rounded-5"
+                className="img-fluid img-thumbnail d-block rounded-5 "
                 alt={p.description}
                 style={{
                   width: '100%',

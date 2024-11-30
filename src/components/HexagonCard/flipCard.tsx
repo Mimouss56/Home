@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import defaultImg from '../../assets/images/finishWebsite.png';
-import { baseUrl } from '../../../config.json';
 
 interface FlipCardProps {
   img: string;
   widthHexa: number;
   title: string;
 }
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 function FlipCard({ img, widthHexa, title }: FlipCardProps) {
   const [urlImgState, setUrlImgState] = useState('');
 

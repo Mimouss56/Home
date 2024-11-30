@@ -5,8 +5,9 @@ import {
   UrlRight, imgStyle, linkWithImg, styleContent, styleList, styleSection, avatarImg,
 } from '../../Styles/content';
 import { styleH1, styleTitle } from '../../Styles/title';
-import { baseUrl } from '../../../../../config.json';
 import { IUser } from '../../../../@types/Home/user';
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function Contact({ mouss }: { mouss: IUser }) {
   const styles = StyleSheet.create({

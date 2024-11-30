@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { ICard } from '../../../@types/Home/card';
 import axiosInstance from '../../../utils/axios';
 import ICardPortfolio from '../../../@types/portfolio';
-import { baseUrl } from '../../../../config.json';
 import defaultImg from '../../../assets/images/finishWebsite.png';
 import { userContext } from '../../../store/user.context';
 import { moussContext } from '../../../store/mouss.context';
@@ -17,7 +16,9 @@ const initValueCard: ICard = {
   alt: '',
   target: '',
   type: '',
+  date: { debut: '', fin: '' },
 };
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function DetailsFloatCard() {
   const [card, setCard] = useState<ICard>(initValueCard);
@@ -45,6 +46,7 @@ function DetailsFloatCard() {
                 target: returnData.urlSite,
                 type: 'portfolio',
                 competences: [],
+                date: { debut: '', fin: '' },
               });
             })
             .catch((error) => {

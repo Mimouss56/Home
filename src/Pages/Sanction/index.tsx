@@ -54,7 +54,6 @@ function Sanction() {
       toast.error(`Erreur lors de la lecture de la notification: ${error}`);
     }
   };
-
   const handleDelete = async (id: number) => {
     try {
       const result = await axiosInstance.delete(`/api/home/sanction/${id}`);

@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { AxiosError, AxiosResponse } from 'axios';
 import axiosInstance from '../utils/axios';
 import { IUser } from '../@types/Home/user';
-import { MoussID } from '../../config.json';
 
 interface IMoussContext {
   mouss: IUser | undefined;
@@ -23,7 +22,7 @@ const moussContext = createContext<IMoussContext>({
 
 async function fetchMouss(): Promise<IUser | AxiosError> {
   try {
-    const result: AxiosResponse<IUser> = await axiosInstance.get(`/api/home/user/${MoussID}`);
+    const result: AxiosResponse<IUser> = await axiosInstance.get(`/api/home/user/${import.meta.env.VITE_MOUSS_ID}`);
     return result.data;
   } catch (err) {
     const error = err as AxiosError;
