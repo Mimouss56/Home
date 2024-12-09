@@ -1,10 +1,11 @@
 import { Menu } from 'react-feather';
 import { useContext } from 'react';
-import { baseUrl } from '../../../config.json';
 import AsideUserMenu from '../User/aside.user';
 import navItemsUser from '../../../data/navItemsUser.json';
 import navItemsMouss from '../../../data/navItemsMouss.json';
 import { userContext } from '../../store/user.context';
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function AsideMenu() {
   const { user } = useContext(userContext);

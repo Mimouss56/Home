@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const { channelAnnonce } = require('../../config.json');
 
 module.exports = {
 	async sendEmbedSanction(interaction, typeSanctionName) {
@@ -7,7 +6,7 @@ module.exports = {
 		const user = interaction.options.getUser('user');
 		const author = interaction.member;
 		if (!interaction.isChatInputCommand()) return;
-		const channel = interaction.guild.channels.cache.get(channelAnnonce);
+		const channel = interaction.guild.channels.cache.get(process.env.CHANNEL_ANNONCE);
 		const embed = new EmbedBuilder()
 			.setColor(0xff0000)
 			.setTitle(`${user} vient de prendre un ${typeSanctionName}`)

@@ -79,7 +79,7 @@ export default function AccueilPage() {
               {p.port && (<Bandeau>local</Bandeau>)}
               <img
                 src={p.img}
-                className="img-fluid d-block object-fit-fill"
+                className="img-fluid img-thumbnail d-block rounded-5 "
                 alt={p.description}
                 style={{
                   width: '100%',
