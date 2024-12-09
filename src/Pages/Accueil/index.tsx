@@ -20,8 +20,9 @@ export default function AccueilPage() {
     {
       name: 'Deluge BT',
       description: 'client BitTorrent Deluge WebUI',
-      port: 8112,
+      // port: 8112,
       img: imgDeluge,
+      url: 'https://deluge.mimouss.fr',
     },
     {
       name: 'Domoticz',
@@ -32,8 +33,10 @@ export default function AccueilPage() {
     {
       name: 'NginxUI',
       description: 'Nginx WebUI',
-      port: 9000,
+      // port: 9000,
       img: imgNginxUI,
+      url: 'https://nginx-ui.mimouss.fr',
+
     },
     {
       name: 'PM2',
