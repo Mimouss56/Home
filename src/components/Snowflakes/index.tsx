@@ -1,7 +1,7 @@
-function Snow() {
+function Snow({count}: {count: number}) {
   return (
     new Date().getMonth() === 11 && (
-      [...Array(150)].map((index) => (
+      [...Array(count)].map((index) => (
         <div key={index} className="snow" />
       ))
     )

@@ -46,7 +46,7 @@ export default function App() {
         theme="light"
       />
       {showFeedback && <Feedback />}
-      <Snow />
+      <Snow count={150}/>
 
       <Notifications />
       {showNav && <Navbar navContent={navTop} />}
