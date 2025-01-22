@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { ICreateSoftSkill, ISoftSkill } from '../../@types/Home/softSkill';
 import axiosInstance from '../../utils/axios';
-import { softSkillContext } from '../../store/skill.context';
+import useSkillStore from '../../store/skill.store';
 
 interface SkillInputProps {
   onSkillSelected: (skill: ISoftSkill) => void;
@@ -11,7 +11,7 @@ interface SkillInputProps {
 function SkillInput({ onSkillSelected, skillsCV }: SkillInputProps) {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filteredSkills, setFilteredSkills] = useState<ISoftSkill[]>([]);
-  const { skills, setSkills } = useContext(softSkillContext);
+  const { skills, setSkills } = useSkillStore((state) => state);
 
   useEffect(() => {
     if (searchTerm) {

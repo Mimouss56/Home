@@ -1,12 +1,11 @@
-import { useContext } from 'react';
-import { softSkillContext } from '../../../store/skill.context';
+import useSkillStore from '../../../store/skill.store';
 
 interface ISelected {
   onHandleSelect: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function Selected({ onHandleSelect }: ISelected) {
-  const { skills } = useContext(softSkillContext);
+  const { skills } = useSkillStore((state) => state);
   return (
     <form>
       <div className="mb-3 d-flex flex-column justify-content-center align-items-center ">

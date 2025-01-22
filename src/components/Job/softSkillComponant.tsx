@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { ISoftSkill } from '../../@types/Home/softSkill';
 import SkillInput from '../Form/SelectSoftSkill';
-import { softSkillContext } from '../../store/skill.context';
+import useSkillStore from '../../store/skill.store';
 
 function SoftSkillInput({ actualSkills, onChange }: { actualSkills: ISoftSkill[], onChange: (arg0: ISoftSkill) => void; }) {
   const [addInput, setAddInput] = useState(false);
-  const { skills } = useContext(softSkillContext);
+  const { skills } = useSkillStore((state) => state);
 
   return (
     <div className="input-group mb-3">
