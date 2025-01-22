@@ -5,12 +5,12 @@ import AddContactModal from '../../components/Modal/Ent/form/formContact';
 import ModalAddInteraction from '../../components/Modal/Ent/form/formInteraction';
 import ContactCollapse from '../../components/CollapseContact';
 import { entContext } from '../../store/ent.context';
-import { userContext } from '../../store/user.context';
 import AddEntModal from '../../components/Modal/Ent/form/formEntSuivi';
+import useMeStore from '../../store/me.store';
 
 function DetailsEntreprise({ id }: { id: number }) {
   const { ent, setEnt } = useContext(entContext);
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   // on filtre l'entreprise par son id
   const entreprise = ent.find((e) => e.id === id);
   const [idContact, setIdContact] = useState(0);

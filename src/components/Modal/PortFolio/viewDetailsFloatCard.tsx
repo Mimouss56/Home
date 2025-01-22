@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { ICard } from '../../../@types/Home/card';
 import axiosInstance from '../../../utils/axios';
 import ICardPortfolio from '../../../@types/portfolio';
 import defaultImg from '../../../assets/images/finishWebsite.png';
-import { userContext } from '../../../store/user.context';
-import { moussContext } from '../../../store/mouss.context';
+import useMoussStore from '../../../store/mouss.store';
+import useMeStore from '../../../store/me.store';
 
 const initValueCard: ICard = {
   id: 0,
@@ -22,8 +22,8 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function DetailsFloatCard() {
   const [card, setCard] = useState<ICard>(initValueCard);
-  const { user } = useContext(userContext);
-  const { mouss } = useContext(moussContext);
+  const { me: user } = useMeStore((state) => state);
+  const { mouss } = useMoussStore((state) => state);
 
   useEffect(() => {
     const addItemModal = document.getElementById('viewDetailsFloatCard');

@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCheckPassword from '../../hook/utils/usePasswordCheck';
 import useFormInput from '../../hook/useFormInput';
 import axiosInstance from '../../utils/axios';
 import { ErrorAxios } from '../../@types/error';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 const initData = {
   password: '',
@@ -15,7 +15,7 @@ const initData = {
 function Password() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const {
     checkPassword,
     error,

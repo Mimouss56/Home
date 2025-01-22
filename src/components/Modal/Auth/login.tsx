@@ -1,14 +1,14 @@
 import {
-  FormEvent, useContext, useRef, useState,
+  FormEvent, useRef, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError, AxiosResponse } from 'axios';
-import { userContext } from '../../../store/user.context';
 import axiosInstance from '../../../utils/axios';
 import { ILoggedUser } from '../../../@types/Home/user';
+import useMeStore from '../../../store/me.store';
 
 export default function Login() {
-  const { setUser } = useContext(userContext);
+  const { setMe: setUser } = useMeStore((state) => state);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);

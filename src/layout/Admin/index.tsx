@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import AsideMenuAdmin from './aside.menu';
 import navItemsAdmin from '../../../data/navItemsAdmin.json';
 import RoutesAdmin from '../../Routes/admin';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 function PageAdminHome() {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   return (
     <div className="row">

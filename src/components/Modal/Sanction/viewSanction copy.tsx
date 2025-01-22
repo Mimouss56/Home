@@ -10,8 +10,8 @@ import 'dayjs/locale/fr';
 import { ISanction } from '../../../@types/Home/sanction';
 import axiosInstance from '../../../utils/axios';
 import { INotif } from '../../../@types/notifToast';
-import { userContext } from '../../../store/user.context';
 import { sanctionsContext } from '../../../store/sanction.context';
+import useMeStore from '../../../store/me.store';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
@@ -22,7 +22,7 @@ function ModalViewDetails() {
   const { sanctions } = useContext(sanctionsContext);
   const [sanction, setSanction] = useState<ISanction>();
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   useEffect(() => {
     const modalElement = viewItemModal?.current;

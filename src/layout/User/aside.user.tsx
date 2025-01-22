@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
 import { MenuItemsProp } from '../../@types/menu';
 import Nav from '../../components/Menu/asideUserNav';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 interface MenuProp {
   navContent: MenuItemsProp[][];
@@ -17,7 +17,7 @@ const handleClickLogout = () => {
 };
 
 function AsideUserMenu({ navContent }: MenuProp) {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const [navItemsUser, navItemsMouss] = navContent;
 
   useEffect(() => {

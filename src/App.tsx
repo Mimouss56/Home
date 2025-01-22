@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 //  CSS
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,9 +12,10 @@ import Notifications from './components/Notification';
 import ListeRoute from './Routes';
 import Navbar from './layout/Navbar';
 import navTop from '../data/navTop.json';
-import { userContext, UserProvider } from './store/user.context';
 import Login from './components/Modal/Auth/login';
 import Register from './components/Modal/Auth/register';
+import useMeStore from './store/me.store';
+import useMoussStore, { MoussLoader } from './store/mouss.store';
 
 // si le mois actuelle est 12 alors on import le style de noel
 if (new Date().getMonth() === 11) {
@@ -26,8 +27,10 @@ const showFeedback = true;
 // User menu
 
 export default function App() {
-  const { user } = useContext(userContext);
+  const { me } = useMeStore((state) => state);
+  const { fetch } = useMoussStore((state) => state);
   const [showNav, setShowNav] = useState(true);
+
   useEffect(() => {
     // document.title = "Nom de Ton Site"; // Remplace par le nom de ton site
     if (document.getElementById('landing-page')) setShowNav(false);
@@ -36,25 +39,29 @@ export default function App() {
       toast.success(`🦄 ${sessionStorage.getItem('notifToast')} !`);
       sessionStorage.removeItem('notifToast');
     }
-  }, []);
+    fetch();
+  }, [fetch]);
 
   return (
-    <UserProvider>
+    <>
+      <MoussLoader />
       <ToastContainer
         position="top-left"
         autoClose={5000}
         theme="light"
       />
       {showFeedback && <Feedback />}
-      <Snow count={150}/>
+      <Snow count={150} />
 
       <Notifications />
       {showNav && <Navbar navContent={navTop} />}
       <main><ListeRoute /></main>
-      {!user && (<Login />)}
-      {!user && (<Register />)}
+      {!me && (<Login />)}
+      {!me && (<Register />)}
 
       <Footer />
-    </UserProvider>
+
+    </>
+
   );
 }

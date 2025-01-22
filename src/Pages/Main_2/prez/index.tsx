@@ -1,16 +1,15 @@
-import { useContext } from 'react';
 import './textNeon.scss';
 import './animateCircle.scss';
 import './borderNeon.scss';
 import '../../../scss/styles.scss';
 import CarouselSkill from '../skill/carousel';
-import { moussContext } from '../../../store/mouss.context';
+import useMoussStore from '../../../store/mouss.store';
 
 const idName = 'landing-page';
 
 const width = 300;
 function Prez() {
-  const { mouss } = useContext(moussContext);
+  const { mouss } = useMoussStore((state) => state);
 
   return (
     <section

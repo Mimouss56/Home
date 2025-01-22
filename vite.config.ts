@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+console.log('VITE_MOUSS_ID:', process.env.VITE_MOUSS_ID);
 
 // https://vitejs.dev/config/
 export default defineConfig({

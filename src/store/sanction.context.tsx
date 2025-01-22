@@ -1,12 +1,12 @@
 import {
-  ReactElement, ReactNode, createContext, useCallback, useContext, useEffect, useMemo, useState,
+  ReactElement, ReactNode, createContext, useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import axiosInstance from '../utils/axios';
 import { ISanction } from '../@types/Home/sanction';
 import { IChildrenList, IUser } from '../@types/Home/user';
-import { userContext } from './user.context';
+import useMeStore from './me.store';
 
 interface ISanctionContext {
   sanctions: ISanction[];
@@ -25,7 +25,7 @@ const sanctionsContext = createContext<ISanctionContext>({
 function SanctionProvider({ children }: { children: ReactNode }): ReactElement {
   const [sanctions, setSanctions] = useState<ISanction[]>([]);
   const [childrenList, setChildrenList] = useState<IUser[]>([]);
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   const maskSanction = useCallback((oneSanction: ISanction): ISanction => {
     if (

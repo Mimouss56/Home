@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { userContext } from '../store/user.context';
+import useMeStore from '../store/me.store';
 
 interface SectionLayoutProps {
   idName: string;
@@ -12,7 +11,7 @@ interface SectionLayoutProps {
 function SectionLayout({
   idName, title, addButton, children, className,
 }: SectionLayoutProps) {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const isMouss = (user?.username === 'Mouss');
   const nav = document.getElementById('nav-bar');
 

@@ -1,23 +1,20 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Selected from './Select';
 import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/form/formJob';
-// import useFetchData from '../../hook/useFetchData';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';
-import { moussContext } from '../../store/mouss.context';
+import useMoussStore from '../../store/mouss.store';
 import { IEmploi } from '../../@types/Home/emploi';
 
 function ViewCVPage() {
-  // const [dataSkillList] = useFetchData('/api/home/softskill');
-  const { mouss } = useContext(moussContext);
+  const { mouss } = useMoussStore((state) => state);
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedSkill, setSelectedSkill] = useState(searchParams.get('fj') || '');
   const [filteredJob, setFilteredJob] = useState<IEmploi[]>([]);
-  // const [showModal, setShowModal] = useState(false);
 
   const AddOnMoussContext = (data: IEmploi) => {
     mouss?.cv.job.push(data);
@@ -43,11 +40,8 @@ function ViewCVPage() {
     }
   }, [mouss, searchParams]);
 
-  if (!mouss) {
-    return null;
-  }
   const { job, school, ...infoDetailsCV } = mouss.cv;
-
+µ
   return (
     <>
       <SectionLayout

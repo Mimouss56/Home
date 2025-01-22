@@ -8,17 +8,17 @@ import { excerpt } from '../../utils/main';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from '../../components/Modal/Sanction/viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
-import { userContext } from '../../store/user.context';
 import { sanctionsContext } from '../../store/sanction.context';
 import SwitchButton from '../../components/Form/Switch';
 import { INotif } from '../../@types/notifToast';
+import useMeStore from '../../store/me.store';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
 const initMaxSanction = 10;
 
 function Sanction() {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const { sanctions, setSanctions } = useContext(sanctionsContext);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];

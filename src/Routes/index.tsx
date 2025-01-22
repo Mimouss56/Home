@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { useContext } from 'react';
 
 // import Test from '../Pages/Test';
 import RouteDashboard from './Dashboard';
@@ -21,11 +20,11 @@ import PageAdminHome from '../layout/Admin/index';
 
 import { SoftSkillProvider } from '../store/skill.context';
 import { SanctionProvider } from '../store/sanction.context';
-import { userContext } from '../store/user.context';
 import { EntProvider } from '../store/ent.context';
+import useMeStore from '../store/me.store';
 
 function ListeRoute() {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const isAdmin = user?.role.id === 1;
   const isESA = user?.role.label === 'esa' || isAdmin;
 

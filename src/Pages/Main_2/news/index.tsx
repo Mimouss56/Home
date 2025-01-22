@@ -1,17 +1,16 @@
-import { useContext } from 'react';
 import { INews } from '../../../@types/Home/news';
 import { CardNews } from '../../../components/.unused/Card';
 import ModalAddNews from '../../../components/Modal/News/formNews';
 import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
-import { userContext } from '../../../store/user.context';
+import useMeStore from '../../../store/me.store';
 
 const idName = 'news';
 
 function NewsSection() {
   const [dataNews] = useFetchData('/api/home/news');
   const listNews = dataNews as INews[];
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   return (
     <SectionLayout

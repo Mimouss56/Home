@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import ExportPDF from '../../components/Cv/PDF/template';
 import { ICVDetails } from '../../@types/Home/emploi';
 import Textarea from '../../components/Form/textarea';
 import SectionLayout from '../../layout/SectionLayout';
-import { moussContext } from '../../store/mouss.context';
+import useMoussStore from '../../store/mouss.store';
 
 function RenderCv() {
   const [title, setTitle] = useState<ICVDetails>({} as ICVDetails);
 
-  const { mouss } = useContext(moussContext);
+  const { mouss } = useMoussStore((state) => state);
   useEffect(() => {
     if (mouss) {
       const { job, school, ...infoDetailsCV } = mouss.cv;

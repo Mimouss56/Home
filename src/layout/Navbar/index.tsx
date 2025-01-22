@@ -1,14 +1,14 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
-import { userContext } from '../../store/user.context';
 import ConnexionBtn from './connexionNav';
 import AsideMenu from './AsideMenu';
+import useMeStore from '../../store/me.store';
 
 export default function Navbar({ navContent }: {
   navContent: MenuProp[];
 }) {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   useEffect(() => {
     if (user?.role.id === 1) {

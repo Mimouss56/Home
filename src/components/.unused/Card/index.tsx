@@ -1,13 +1,13 @@
 import { HtmlHTMLAttributes, useContext, useState } from 'react';
 import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
-import { userContext } from '../../../store/user.context';
 
 import 'dayjs/locale/fr';
 import axiosInstance from '../../../utils/axios';
 import { ErrorSanctionProps } from '../../../@types/error';
 import { INews } from '../../../@types/Home/news';
 import SwitchButton from '../../Form/Switch';
+import useMeStore from '../../../store/me.store';
 
 interface CardProps {
   children: HtmlHTMLAttributes<HTMLParagraphElement>['children'];
@@ -16,7 +16,7 @@ interface CardProps {
 
 
 export function CardNews({ info }: { info: INews }) {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore(state => state);
   const [draft, setDraft] = useState(info.draft);
   const handleChangeDraft = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -45,7 +45,7 @@ export function CardNews({ info }: { info: INews }) {
             <div className="d-flex flex-row ">
               <SwitchButton
                 name="draft"
-                active={!draft}
+                checked={!draft}
                 onChange={handleChangeDraft}
                 id={info.id.toString()}
                 title="En ligne"

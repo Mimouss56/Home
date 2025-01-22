@@ -1,10 +1,9 @@
-import { useContext } from 'react';
 import useFormInput from '../../hook/useFormInput';
 import Textarea from '../Form/textarea';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 function Complement() {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const initData = {
     info: true,
     id: user?.id,

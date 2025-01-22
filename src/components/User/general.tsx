@@ -1,16 +1,16 @@
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IAvatarWithoutObject } from '../../@types/Home/user';
 import axiosInstance from '../../utils/axios';
 import FileUploader from '../fileUploader';
 import { ErrorAxios } from '../../@types/error';
 import useImageUpload from '../../hook/utils/useImageUpload';
 import useFormInput from '../../hook/useFormInput';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 function InfosUser() {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
   const initData = {
     last_name: user?.last_name || '',
     first_name: user?.first_name || '',

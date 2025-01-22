@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICard } from '../../@types/Home/card';
 import { excerpt, textFormatDuration } from '../../utils/main';
 import defaultImg from '../../assets/images/finishWebsite.png';
-import { userContext } from '../../store/user.context';
+import useMeStore from '../../store/me.store';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function FloatCard({
   urlImg, title, desc, date, competences, alt, id, target, type,
 }: ICard) {
-  const { user } = useContext(userContext);
+  const { me: user } = useMeStore((state) => state);
 
   // on check si l'url de l'image est local ou externe
   const [urlImgState, setUrlImgState] = useState('');

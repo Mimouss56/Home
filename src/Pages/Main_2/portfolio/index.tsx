@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import ICardPortfolio from '../../../@types/portfolio';
 import DetailsFloatCard from '../../../components/Modal/PortFolio/viewDetailsFloatCard';
 import FlipCard from '../../../components/HexagonCard/flipCard';
@@ -6,8 +5,8 @@ import ModalAddFolio from '../../../components/Modal/PortFolio/formPortfolio';
 import useFetchData from '../../../hook/useFetchData';
 import SectionLayout from '../../../layout/SectionLayout';
 import './style.scss';
-import { userContext } from '../../../store/user.context';
-import { moussContext } from '../../../store/mouss.context';
+import useMoussStore from '../../../store/mouss.store';
+import useMeStore from '../../../store/me.store';
 
 const width = 200;
 const marginHexa = 2;
@@ -19,8 +18,8 @@ const idName = 'portfolio';
 
 function HexaSection() {
   const [dataPortfolio] = useFetchData('/api/home/portfolio');
-  const { user } = useContext(userContext);
-  const { mouss } = useContext(moussContext);
+  const { me: user } = useMeStore((state) => state);
+  const { mouss } = useMoussStore((state) => state);
 
   return (
     <SectionLayout idName={idName} title="Diverses réalisations" addButton="addPortfolio" className="">
