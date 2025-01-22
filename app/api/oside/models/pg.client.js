@@ -12,7 +12,7 @@ const client = new Client({
 
 try {
   client.connect();
-  if (process.env.NODE_ENV === 'dev') logger.log('✅ CONNECTÉ À LA DB OSIDE');
+  if (process.env.NODE_ENV === 'development') logger.log('✅ CONNECTÉ À LA DB OSIDE');
 } catch (error) {
   logger.log('❌ ERREUR DE CONNECTION A LA DB', error);
 }

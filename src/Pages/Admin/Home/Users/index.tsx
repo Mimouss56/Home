@@ -110,7 +110,7 @@ function User() {
               <td className="text-center">
                 <SwitchButton
                   name="family"
-                  active={user.family}
+                  checked={user.family}
                   onChange={handleSwitchFamily}
                   id={user.id.toString()}
                 />
@@ -119,7 +119,7 @@ function User() {
                 {user.family && (
                   <SwitchButton
                     name="child"
-                    active={user.child}
+                    checked={user.child}
                     onChange={handleSwitchChild}
                     id={user.id.toString()}
                   />

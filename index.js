@@ -12,7 +12,7 @@ server.on('error', (error) => {
 });
 
 server.listen(port, () => {
-  process.env.NODE_ENV === 'dev' && debugServer(`Listening on http://localhost:${port}`);
+  process.env.NODE_ENV === 'development' && debugServer(`Listening on http://localhost:${port}`);
   bots.active();
 
 });

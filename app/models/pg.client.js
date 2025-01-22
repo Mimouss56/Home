@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect()
   .then(() => {
-    if (process.env.NODE_ENV === 'dev') logger.log('✅ CONNECTÉ À LA DB HOME');
+    if (process.env.NODE_ENV === 'development') logger.log('✅ CONNECTÉ À LA DB HOME');
   })
   .catch((error) => {
     logger.log('❌ ERREUR DE CONNEXION À LA DB', error);

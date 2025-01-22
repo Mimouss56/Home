@@ -12,7 +12,7 @@ const client = new Client({
 
 client.connect()
   .then(() => {
-    if (process.env.NODE_ENV === 'dev') logger.log('✅ CONNECTÉ À LA DB BBC');
+    if (process.env.NODE_ENV === 'development') logger.log('✅ CONNECTÉ À LA DB BBC');
   })
   .catch((error) => {
     logger.log('❌ ERREUR DE CONNEXION À LA DB BBC', error);
