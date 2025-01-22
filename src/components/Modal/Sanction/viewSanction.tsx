@@ -1,20 +1,20 @@
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import {
-  useCallback, useContext, useEffect, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import 'dayjs/locale/fr';
 
 import { ISanction } from '../../../@types/Home/sanction';
-import { sanctionsContext } from '../../../store/sanction.context';
 import useMeStore from '../../../store/me.store';
+import useSanctionStore from '../../../store/sanction.store';
 
 dayjs.extend(isoWeek);
 dayjs.extend(localizedFormat);
 
 function ModalViewDetails() {
-  const { sanctions } = useContext(sanctionsContext);
+  const { sanctions } = useSanctionStore((state) => state);
 
   const [sanction, setSanction] = useState<ISanction>({} as ISanction);
   const { me: user } = useMeStore((state) => state);

@@ -1,13 +1,11 @@
-import {
-  useContext,
-} from 'react';
 import dayjs from 'dayjs';
 import { ISanction } from '../../../@types/Home/sanction';
 import useFormInput from '../../../hook/useFormInput';
 import Textarea from '../../Form/textarea';
 import SwitchButton from '../../Form/Switch';
-import { sanctionsContext } from '../../../store/sanction.context';
 import DateInput from '../../Form/Date';
+import useSanctionStore from '../../../store/sanction.store';
+import useChildrenStore from '../../../store/children.store';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -22,7 +20,8 @@ const initFormData = {
   paid: false,
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
-  const { sanctions, childrenList } = useContext(sanctionsContext);
+  const { sanctions } = useSanctionStore((state) => state);
+  const { child: childrenList } = useChildrenStore((state) => state);
   const {
     form,
     setForm,

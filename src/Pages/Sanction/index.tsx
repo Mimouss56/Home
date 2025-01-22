@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
@@ -8,10 +8,10 @@ import { excerpt } from '../../utils/main';
 import ModalAddSanction from '../../components/Modal/Sanction/formSanction';
 import ModalViewDetails from '../../components/Modal/Sanction/viewSanction';
 import SectionLayout from '../../layout/SectionLayout';
-import { sanctionsContext } from '../../store/sanction.context';
 import SwitchButton from '../../components/Form/Switch';
 import { INotif } from '../../@types/notifToast';
 import useMeStore from '../../store/me.store';
+import useSanctionStore, { SanctionLoader } from '../../store/sanction.store';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
@@ -19,7 +19,7 @@ const initMaxSanction = 10;
 
 function Sanction() {
   const { me: user } = useMeStore((state) => state);
-  const { sanctions, setSanctions } = useContext(sanctionsContext);
+  const { sanctions, fetchSanctions, deleteSanction } = useSanctionStore((state) => state);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
 
@@ -28,13 +28,7 @@ function Sanction() {
     const idSanction = parseInt(id.split('-')[1], 10);
     try {
       const result = await axiosInstance.patch(`/api/home/sanction/${idSanction}/paid`, { paid: checked });
-      const newListSanctions = sanctions.map((sanction) => {
-        if (sanction.id === idSanction) {
-          return { ...sanction, paid: checked };
-        }
-        return sanction;
-      });
-      setSanctions(newListSanctions);
+      fetchSanctions();
       toast.success(result.data.message);
     } catch (error) {
       toast.error(`Error updating sanction: ${error}`);
@@ -54,26 +48,12 @@ function Sanction() {
       toast.error(`Erreur lors de la lecture de la notification: ${error}`);
     }
   };
-  const handleDelete = async (id: number) => {
-    try {
-      const result = await axiosInstance.delete(`/api/home/sanction/${id}`);
-      const newListSanctions = sanctions.filter((sanction) => sanction.id !== id);
-      setSanctions(newListSanctions);
-      toast.success(result.data.message);
-    } catch (error) {
-      toast.error(`Error deleting sanction: ${error}`);
-    }
-  };
-  const handleAddElement = () => {
-    if (user?.role.id === 1) {
-      setSanctions([]);
-    }
-  };
 
   return (
     <>
+      {sanctions.length === 0 && <SanctionLoader />}
       <ModalViewDetails />
-      <ModalAddSanction onAddElement={handleAddElement} />
+      <ModalAddSanction onAddElement={fetchSanctions} />
       <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">
         <div className="table-responsive min-vh-100 mt-5">
           <table className="table table-striped table-sm text-center">
@@ -165,7 +145,7 @@ function Sanction() {
                             <button
                               type="button"
                               className="btn btn-danger mx-1"
-                              onClick={() => handleDelete(sanction.id)}
+                              onClick={() => deleteSanction(sanction.id)}
                             >
                               <i className="bi bi-trash3" />
                             </button>
