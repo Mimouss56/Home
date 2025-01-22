@@ -7,7 +7,7 @@ import ExportPDF from '../../components/Cv/PDF/template';
 import ModalAddItem from '../../components/Modal/Ent/form/formJob';
 import SectionLayout from '../../layout/SectionLayout';
 import FloatCard from '../../components/FloatCard';
-import useMoussStore from '../../store/mouss.store';
+import useMoussStore, { MoussLoader } from '../../store/mouss.store';
 import { IEmploi } from '../../@types/Home/emploi';
 
 function ViewCVPage() {
@@ -40,8 +40,11 @@ function ViewCVPage() {
     }
   }, [mouss, searchParams]);
 
+  if (!mouss) {
+    return <MoussLoader />;
+  }
+
   const { job, school, ...infoDetailsCV } = mouss.cv;
-µ
   return (
     <>
       <SectionLayout

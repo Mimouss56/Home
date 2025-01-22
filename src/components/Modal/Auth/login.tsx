@@ -1,43 +1,18 @@
 import {
   FormEvent, useRef, useState,
 } from 'react';
-import { toast } from 'react-toastify';
-import { AxiosError, AxiosResponse } from 'axios';
-import axiosInstance from '../../../utils/axios';
-import { ILoggedUser } from '../../../@types/Home/user';
 import useMeStore from '../../../store/me.store';
 
 export default function Login() {
-  const { setMe: setUser } = useMeStore((state) => state);
+  const { login, error } = useMeStore((state) => state);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const loginRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    try {
-      const result: AxiosResponse<ILoggedUser> = await axiosInstance.post('/api/home/login', {
-        username,
-        password,
-      });
-      const {
-        sessionToken, message, user,
-      } = result.data;
-      sessionStorage.setItem('sessionToken', sessionToken);
-      toast.success(`🦄 ${message} !`);
-      setUser(user);
-      loginRef.current?.classList.remove('fade');
-    } catch (err) {
-      setError(true);
-      if (err instanceof AxiosError) {
-        setErrorMessage(err.response?.data);
-      } else {
-        setErrorMessage(`'Une erreur inattendue est survenue: '${err}`);
-      }
-    }
+    login(username, password);
   };
 
   return (
@@ -87,9 +62,11 @@ export default function Login() {
               />
 
             </div>
-            <div className="help-block text-danger">
-              {errorMessage}
-            </div>
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
           </div>
           <div className="modal-footer d-flex justify-content-around">
             <button
