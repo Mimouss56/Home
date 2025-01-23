@@ -6,6 +6,7 @@ import SwitchButton from '../../Form/Switch';
 import DateInput from '../../Form/Date';
 import useSanctionStore from '../../../store/sanction.store';
 import useChildrenStore from '../../../store/children.store';
+import Select from '../../Form/Select';
 
 interface ModalAddItemProps {
   onAddElement: (data: ISanction) => void;
@@ -20,8 +21,8 @@ const initFormData = {
   paid: false,
 };
 function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
-  const { sanctions } = useSanctionStore((state) => state);
-  const { child: childrenList } = useChildrenStore((state) => state);
+  const { sanctions, fetchSanctions } = useSanctionStore((state) => state);
+  const { child: childrenList, fetchChildren } = useChildrenStore((state) => state);
   const {
     form,
     setForm,
@@ -57,9 +58,11 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
     });
   }
 
+  if (childrenList.length === 0) fetchChildren()
+
   return (
     <form
-      onSubmit={(e) => handleSave(e, '/api/home/sanction', onAddElement)}
+      onSubmit={(e) => handleSave(e, '/api/home/sanction', fetchSanctions)}
       className="modal fade"
       id="ModalAddSanction"
     >
@@ -84,28 +87,15 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
                   title="Important"
                 />
               </div>
-              <div className="input-group mb-3">
-                <label className="input-group-text" htmlFor="inputGroupChild">Choix Enfant</label>
-                <select
-                  className="form-select"
-                  id="inputGroupChild"
-                  aria-label="choix de l'enfant"
-                  name="id_child"
-                  onChange={handleChange}
-                  value={form.id_child}
-                >
-                  <option>Choose...</option>
-                  {childrenList.map((childInfo) => (
-                    <option
-                      key={childInfo.id}
-                      value={childInfo.id}
-                      className="text-capitalize"
-                    >
-                      {childInfo.username}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                title='Choix Enfant'
+                list={childrenList.map((child) => ({ id: child.id, label: child.username }))}
+                name='id_child'
+                handleChange={handleChange}
+                value={form.id_child}
+                placeholder='Choisir un enfant'
+
+              />
             </div>
             <Textarea
               title="Raison"
