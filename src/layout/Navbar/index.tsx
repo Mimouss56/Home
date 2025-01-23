@@ -8,9 +8,10 @@ import useMeStore from '../../store/me.store';
 export default function Navbar({ navContent }: {
   navContent: MenuProp[];
 }) {
-  const { me: user } = useMeStore((state) => state);
-
+  const { me: user, fetch } = useMeStore((state) => state);
   useEffect(() => {
+    
+    // fetch()
     if (user?.role.id === 1) {
       const pushTestLink = {
         id: 4,
@@ -22,6 +23,10 @@ export default function Navbar({ navContent }: {
       if (!found) navContent.push(pushTestLink);
     }
   }, [user, navContent]);
+
+  useEffect(() => {
+    !user && sessionStorage.getItem('sessionToken') && fetch();
+  }, [user, fetch]);
 
   return (
     <nav

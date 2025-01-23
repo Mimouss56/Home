@@ -50,9 +50,7 @@ function AsideUserMenu({ navContent }: MenuProp) {
     >
       <ul className="nav nav-pills flex-column mb-auto p-0 m-0 list-unstyled ">
         <Nav navItems={navItemsUser as MenuItemsProp[]} />
-        {user?.username === 'Mouss' && navItemsMouss && (
-          <Nav navItems={navItemsMouss as MenuItemsProp[]} />
-        )}
+        {user?.username === 'Mouss' && navItemsMouss && <Nav navItems={navItemsMouss as MenuItemsProp[]} />}
         {(user?.role.label === 'admin' || user?.child) && (
           <Nav navItems={[{
             id: 4,
@@ -60,7 +58,7 @@ function AsideUserMenu({ navContent }: MenuProp) {
             link: '/sanction',
             icon: 'bandaid',
             component: 'Sanction',
-          }] as MenuItemsProp[]}
+          }]}
           />
         )}
         {/* {isFamily && (
@@ -74,19 +72,6 @@ function AsideUserMenu({ navContent }: MenuProp) {
         />
 
       )} */}
-        {(user?.role.label === 'esa' || user?.role.label === 'admin') && (
-          <Nav navItems={[
-            {
-              id: 1,
-              title: 'ESA',
-              link: '/ESA',
-              icon: 'setting',
-              component: 'Admin',
-            },
-          ] as MenuItemsProp[]}
-          />
-        )}
-
         {user?.role.label === 'admin' && (
           <Nav navItems={[
             {

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { MenuItemsProp } from '../../@types/menu';
 
 interface NavProps {
@@ -13,10 +13,10 @@ function Nav({ navItems }: NavProps) {
       {
         navItems.map((item: MenuItemsProp) => (
           <li key={item.title} className="nav-intem">
-            <Link to={item.link} className="nav-link ">
+            <NavLink to={item.link} className="nav-link ">
               <i className={`bi bi-${item.icon} px-1`} />
               {item.title}
-            </Link>
+            </NavLink>
           </li>
         ))
       }
