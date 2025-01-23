@@ -13,7 +13,9 @@ const useChildrenStore = create<IChildrenStore>((set) => ({
   child: [],
   fetchChildren: async () => {
     try {
-      const { data } = await axiosInstance<IUser[]>('/api/home/user');
+      console.log('fetchChildren');
+      
+      const { data } = await axiosInstance.get<IUser[]>('/api/home/user');
       const sortedChildren = data
         .filter(({ child }) => child)
         .sort((a, b) => a.username.localeCompare(b.username))

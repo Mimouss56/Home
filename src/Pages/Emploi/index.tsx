@@ -5,6 +5,7 @@ import EntCard from '../../components/FloatCard/entCard';
 import Interations from './Interactions';
 import SectionLayout from '../../layout/SectionLayout';
 import { entContext } from '../../store/ent.context';
+import { NavLink } from 'react-router-dom';
 
 function EntPage() {
   const { ent } = useContext(entContext);
@@ -58,15 +59,15 @@ function EntPage() {
           {filteredEmplois && (
             <div className="d-flex flex-wrap justify-content-evenly ">
               {filteredEmplois.map((item) => (
-                <a
-                  href={`/user/emploi/ent/${item.id}/details`}
+                <NavLink
+                  to={`/user/emploi/ent/${item.id}/details`}
                   key={item.id}
                   className="text-decoration-none"
                 >
                   <EntCard
                     ent={item}
                   />
-                </a>
+                </NavLink>
               ))}
             </div>
           )}
