@@ -24,7 +24,7 @@ function Selected({ onHandleSelect }: ISelected) {
             aria-label="Liste Compétence Emploi"
             aria-describedby="job-skill"
             defaultValue={0}
-            onChange={(e) => onHandleSelect(e)}
+            onChange={onHandleSelect}
           >
             <option value={0}>Choix Compétence</option>
             {skills.map((skill) => (
