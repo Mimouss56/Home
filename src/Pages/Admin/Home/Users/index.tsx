@@ -7,6 +7,7 @@ import axiosInstance from '../../../../utils/axios';
 import { IUser, IRoleWithoutObject } from '../../../../@types/Home/user';
 import { ErrorSanctionProps } from '../../../../@types/error';
 import SwitchButton from '../../../../components/Form/Switch';
+import Select from '../../../../components/Form/Select';
 
 function User() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -90,22 +91,13 @@ function User() {
               <td>{user.username}</td>
               <td className="d-none d-md-table-cell">{user.email}</td>
               <td>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  value={user.role.id.toString()}
-                  id={user.id.toString()}
-                  onChange={handleChangeRole}
-                >
-                  {listRole.map((role: IRoleWithoutObject) => (
-                    <option
-                      key={role.id}
-                      value={role.id.toString()}
-                    >
-                      {role.label}
-                    </option>
-                  ))}
-                </select>
+                <Select
+                  value={user.role.id}
+                  handleChange={handleChangeRole}
+                  list={listRole.map((role: IRoleWithoutObject) => ({ id: role.id, label: role.label }))}
+                  name="role"
+                  placeholder='Choisir un role'
+                  />
               </td>
               <td className="text-center">
                 <SwitchButton

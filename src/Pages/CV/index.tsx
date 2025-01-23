@@ -125,14 +125,16 @@ function ViewCVPage() {
             document={<ExportPDF info={mouss} />}
             fileName="Cv-LE_PRIOL_Matthieu.pdf"
           >
-            {({ loading }) => (loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm" aria-hidden="true" />
-                <span role="status">Loading...</span>
-              </>
-            ) : (
-              'Télécharger le CV'
-            ))}
+            {({ loading }) => {
+              return loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm" aria-hidden="true" />
+                  <span role="status">Loading...</span>
+                </>
+              ) : (
+                <>Télécharger le CV</>
+              );
+            }}
           </PDFDownloadLink>
         )}
       </section>
