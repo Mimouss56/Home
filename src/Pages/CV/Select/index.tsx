@@ -1,3 +1,4 @@
+import Select from '../../../components/Form/Select';
 import useSkillStore from '../../../store/skill.store';
 
 interface ISelected {
@@ -5,7 +6,8 @@ interface ISelected {
 }
 
 function Selected({ onHandleSelect }: ISelected) {
-  const { skills } = useSkillStore((state) => state);
+  const { skills, fetch } = useSkillStore((state) => state);
+  skills.length === 0 && fetch();
   return (
     <form>
       <div className="mb-3 d-flex flex-column justify-content-center align-items-center ">
@@ -16,29 +18,16 @@ function Selected({ onHandleSelect }: ISelected) {
           <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
         </div>
 
-        <div className="input-group fs-6" style={{ width: '300px' }}>
-          <span className="input-group-text" id="job-skill">Compétence</span>
-          <select
-            id="jobSkill"
-            className="form-select form-control"
-            aria-label="Liste Compétence Emploi"
-            aria-describedby="job-skill"
-            defaultValue={0}
-            onChange={onHandleSelect}
-          >
-            <option value={0}>Choix Compétence</option>
-            {skills.map((skill) => (
-              <option
-                key={skill.id}
-                value={skill.name}
-              >
-                {skill.name}
-
-              </option>
-            ))}
-
-          </select>
-        </div>
+        <Select
+          title="Compétence"
+          list={skills.map((skill) => ({ id: skill.id, label: skill.name }))}
+          name="jobSkill"
+          handleChange={onHandleSelect}
+          value={0}
+          placeholder="Choix Compétence"
+          style={{ width: '300px' }}
+          className='fs-6'
+        />
       </div>
     </form>
   );

@@ -6,6 +6,7 @@ import Textarea from '../../../Form/textarea';
 import useFetchData from '../../../../hook/useFetchData';
 import ButtonEndModal from '../../../Form/ButtonFooterModal';
 import InputText from '../../../Form/inputText';
+import Select from '../../../Form/Select';
 
 const initDataForm: IInteractionPost = {
   id_contact: 0,
@@ -106,26 +107,17 @@ export default function ModalAddInteraction({ onAddElement }: { onAddElement: (d
                 leng={500}
                 icon={null}
               />
-
-              {/* //Input Status */}
-              <div className="input-group mb-3">
-                <label htmlFor="status" className="input-group-text">Status</label>
-                <select
-                  name="idStatus"
-                  className="form-select"
-                  onChange={handleChange}
-                  value={form.idStatus}
-                >
-                  <option value={0} disabled>Choisir un status</option>
-                  {status.map((s) => (
-                    <option key={s.id} value={s.id}>{s.label}</option>
-                  ))}
-                </select>
-              </div>
+              <Select
+                title="Status"
+                list={status.map((s) => ({ id: s.id, label: s.label }))}
+                name="idStatus"
+                handleChange={handleChange}
+                value={form.idStatus}
+                placeholder="Choisir un status"
+              />
             </div>
           </div>
           <ButtonEndModal />
-
         </div>
       </div>
 

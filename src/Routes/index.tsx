@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 
 // import Test from '../Pages/Test';
 import RouteDashboard from './Dashboard';
-import RoutesESA from './ESA';
 import RouteDomo from './domotic';
 
 import ProtectedRoute from '../components/ProtectedRoute';
@@ -42,7 +41,6 @@ function ListeRoute() {
       <Route path="domotic" element={<RouteDomo />} />
 
       {isAdmin && (<Route path="admin/*" element={(<ProtectedRoute><PageAdminHome /></ProtectedRoute>)} />)}
-      {isESA && (<Route path="ESA/*" element={(<ProtectedRoute><RoutesESA /></ProtectedRoute>)} />)}
       <Route path="*" element={<NotFound />} />
 
     </Routes>
