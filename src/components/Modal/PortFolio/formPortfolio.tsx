@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { Editor } from '@tinymce/tinymce-react';
 import { initEditorConfig } from '../../../utils/main';
 
 import axiosInstance from '../../../utils/axios';
@@ -9,6 +8,7 @@ import ICardPortfolio from '../../../@types/portfolio';
 import FileUploader from '../../fileUploader';
 import { ErrorAxios } from '../../../@types/error';
 import useFormInput from '../../../hook/useFormInput';
+import Textarea from '../../Form/textarea';
 
 interface ModalAddItemProps {
   onAddElement: (listPortfolio: ICardPortfolio) => void;
@@ -178,13 +178,22 @@ export default function ModalAddFolio({ onAddElement }: ModalAddItemProps) {
               <span className="input-group-text" id="basic-addon1">
                 <i className="bi bi-file-earmark-text px-1" />
               </span>
-              <Editor
+              <Textarea
+                name="description"
+                onChange={handleChange}
+                title="Description"
+                leng={500}
+                text={formData.description}
+                icon={null}
+
+              />
+              {/* <Editor
                 apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
                 init={initEditorConfig}
                 initialValue={formData.description}
                 textareaName="description"
                 onEditorChange={(description) => setEditorContent(description)}
-              />
+              /> */}
             </div>
             <FileUploader submit={() => handleFileSelect} img={formData.urlImg} />
             <div className="input-group mb-3">

@@ -9,11 +9,14 @@
     "build": "vite build --emptyOutDir",
     "deploy-command-bot": "node bot/deploy/deploy-commands.js",
     "remove-command-bot": "node bot/deploy/remove-commands.js",
-    "eslint": "eslint src/**/*.tsx"
+    "eslint": "eslint src/**/*.ts*",
+    "lint:report": "npx eslint \"./**/*.{ts,tsx,jsx,js}\" --format html -o ./.reports/lint-report.html"
   },
   "author": "Mouss",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.1",
     "@types/bootstrap": "^5.2.10",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.10.10",
@@ -22,16 +25,18 @@
     "@types/sortablejs": "^1.15.8",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "globals": "^15.14.0",
     "nodemon": "^3.1.9",
     "sass": "^1.83.4",
     "stylelint": "^16.13.2",
     "stylelint-config-standard": "^37.0.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.21.0"
   },
   "dependencies": {
     "@discordjs/voice": "^0.18.0",

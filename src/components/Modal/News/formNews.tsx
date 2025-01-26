@@ -1,13 +1,12 @@
 import {
   useEffect, useRef,
 } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
 import { AxiosResponse } from 'axios';
 import axiosInstance from '../../../utils/axios';
 import useFormInput from '../../../hook/useFormInput';
-import { initEditorConfig } from '../../../utils/main';
 import SwitchButton from '../../Form/Switch';
 import { INews } from '../../../@types/Home/news';
+import Textarea from '../../Form/textarea';
 
 interface NewsFormProps {
   onAddElement: (data: INews) => void;
@@ -111,12 +110,13 @@ export default function ModalAddNews({ onAddElement }: NewsFormProps) {
           </div>
           <div className="mb-3">
             <div className="input-group mb-3">
-              <Editor
-                apiKey="vl56uroxn6dln5wlqmza3uuqjnq34ypr2y4fehtrmfgfbn6j"
-                init={initEditorConfig}
-                initialValue={form.content}
-                textareaName="content"
-                onEditorChange={(content) => setForm({ ...form, content })}
+              <Textarea
+                title="Content"
+                text={form.content}
+                leng={500}
+                onChange={handleChange}
+                name="content"
+                icon={null}
               />
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function ModalAddNews({ onAddElement }: NewsFormProps) {
             </button>
             <SwitchButton
               name="draft"
-              active={form.draft}
+              checked={form.draft}
               onChange={handChecked}
               id={form.id.toString()}
               title="Brouillon"
