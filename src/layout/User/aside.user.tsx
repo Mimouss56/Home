@@ -1,13 +1,10 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import * as bootstrap from 'bootstrap';
-import { MenuItemsProp } from '../../@types/menu';
 import Nav from '../../components/Menu/asideUserNav';
 import useMeStore from '../../store/me.store';
+import navItemsUser from '../../../data/navItemsUser.json';
 
-interface MenuProp {
-  navContent: MenuItemsProp[][];
-}
 const handleClickLogout = () => {
   sessionStorage.removeItem('user');
   sessionStorage.removeItem('sessionToken');
@@ -16,9 +13,8 @@ const handleClickLogout = () => {
   window.location.replace('/');
 };
 
-function AsideUserMenu({ navContent }: MenuProp) {
+function AsideUserMenu() {
   const { me: user } = useMeStore((state) => state);
-  const [navItemsUser, navItemsMouss] = navContent;
 
   useEffect(() => {
     const asideElement = document.getElementById('aside');
@@ -49,39 +45,18 @@ function AsideUserMenu({ navContent }: MenuProp) {
 
     >
       <ul className="nav nav-pills flex-column mb-auto p-0 m-0 list-unstyled ">
-        <Nav navItems={navItemsUser as MenuItemsProp[]} />
-        {user?.username === 'Mouss' && navItemsMouss && <Nav navItems={navItemsMouss as MenuItemsProp[]} />}
-        {(user?.role.label === 'admin' || user?.child) && (
-          <Nav navItems={[{
-            id: 4,
-            title: 'Sanction',
-            link: '/sanction',
-            icon: 'bandaid',
-            component: 'Sanction',
-          }]}
-          />
-        )}
-        {/* {isFamily && (
-        <Nav navItems={[{
-          id: 4,
-          title: 'Domotic',
-          link: '/domotic',
-          icon: 'plug',
-          component: 'Sanction',
-        }] as MenuItemsProp[]}
-        />
+        <Nav navItems={navItemsUser} />
 
-      )} */}
         {user?.role.label === 'admin' && (
           <Nav navItems={[
             {
               id: 1,
-              title: 'Espace Admin',
+              name: 'Espace Admin',
               link: '/admin',
               icon: 'setting',
               component: 'Admin',
             },
-          ] as MenuItemsProp[]}
+          ]}
           />
         )}
         <button type="button" className="btn btn-outline-danger" onClickCapture={() => handleClickLogout()}>

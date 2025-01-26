@@ -9,13 +9,13 @@ interface NavProps {
 function Nav({ navItems }: NavProps) {
   return (
     <>
-      <li className="border-top my-1" />
+      <li className="border-botton my-1" />
       {
         navItems.map((item: MenuItemsProp) => (
-          <li key={item.title} className="nav-intem">
+          <li key={item.name} className="nav-intem">
             <NavLink to={item.link} className="nav-link ">
               <i className={`bi bi-${item.icon} px-1`} />
-              {item.title}
+              {item.name}
             </NavLink>
           </li>
         ))

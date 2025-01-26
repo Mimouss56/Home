@@ -10,7 +10,7 @@ interface FlipCardProps {
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function FlipCard({ img, widthHexa, title }: FlipCardProps) {
-  const [urlImgState, setUrlImgState] = useState('');
+  const [urlImgState, setUrlImgState] = useState('step1');
 
   const style = {
     hexaStyle: {

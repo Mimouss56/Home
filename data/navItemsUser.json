@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "title": "Profil",
+    "name": "Profil",
     "link": "/user/setting",
     "icon": "person",
     "component": "Setting"

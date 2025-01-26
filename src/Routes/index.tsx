@@ -23,8 +23,6 @@ import useMeStore from '../store/me.store';
 function ListeRoute() {
   const { me: user } = useMeStore((state) => state);
   const isAdmin = user?.role.id === 1;
-  const isESA = user?.role.label === 'esa' || isAdmin;
-
   return (
     <Routes>
       <Route path="/" element={<MainDev />} />

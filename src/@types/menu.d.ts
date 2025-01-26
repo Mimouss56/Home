@@ -4,10 +4,7 @@ export interface MenuProp {
   link: string;
 }
 
-export interface MenuItemsProp {
-  id : number;
-  link : string;
+export interface MenuItemsProp extends MenuProp {
   icon : string;
-  title : string;
   component : string;
 }

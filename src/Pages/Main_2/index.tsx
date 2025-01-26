@@ -4,13 +4,12 @@ import Prez from './prez';
 import HexaSection from './portfolio';
 import Recommandation from './recommandation';
 import Navbar from '../../layout/Navbar';
-import navTop from '../../../data/navTop.json';
 
 function MainDev() {
   return (
     <Suspense fallback={<Loading />}>
       <Prez />
-      <Navbar navContent={navTop} />
+      <Navbar />
       <HexaSection />
       <Recommandation />
     </Suspense>

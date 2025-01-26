@@ -2,7 +2,7 @@
 
   {
     "id": 5,
-    "title": "Render CV",
+    "name": "Render CV",
     "link": "/user/rendercv",
     "icon": "briefcase",
     "component": "CV"
@@ -10,7 +10,7 @@
 
   {
     "id": 4,
-    "title": "Kanban",
+    "name": "Kanban",
     "link": "/user/kanban",
     "icon": "kanban",
     "component": "Kanban"
@@ -18,7 +18,7 @@
 
   {
     "id": 7,
-    "title": "Suivi Emploi",
+    "name": "Suivi Emploi",
     "link": "/user/emploi",
     "icon": "award",
     "component": "emploi"
