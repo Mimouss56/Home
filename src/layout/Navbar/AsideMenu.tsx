@@ -1,7 +1,5 @@
 import { Menu } from 'react-feather';
 import AsideUserMenu from '../User/aside.user';
-import navItemsUser from '../../../data/navItemsUser.json';
-import navItemsMouss from '../../../data/navItemsMouss.json';
 import useMeStore from '../../store/me.store';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -11,7 +9,7 @@ export default function AsideMenu() {
 
   return (
     <>
-      <AsideUserMenu navContent={[navItemsUser, navItemsMouss]} />
+      <AsideUserMenu />
 
       <p className="text-light p-2 d-none d-md-block mb-0">
         {`Bienvenu ${user?.username}`}

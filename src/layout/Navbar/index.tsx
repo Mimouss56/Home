@@ -1,45 +1,61 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import NavBar from './Menu';
 import { MenuProp } from '../../@types/menu';
 import ConnexionBtn from './connexionNav';
 import AsideMenu from './AsideMenu';
 import useMeStore from '../../store/me.store';
+import navItemsMouss from '../../../data/navItemsMouss.json';
+import navTop from '../../../data/navTop.json';
 
-export default function Navbar({ navContent }: {
-  navContent: MenuProp[];
-}) {
+export default function Navbar() {
   const { me: user, fetch } = useMeStore((state) => state);
+
+  // Fetch user data if session token exists
   useEffect(() => {
-    
-    // fetch()
+    const hasSessionToken = sessionStorage.getItem('sessionToken');
+    if (!user && hasSessionToken) {
+      fetch();
+    }
+  }, [user, fetch]);
+
+  // Calculate navigation items based on user role
+  const navContent = useMemo(() => {
+    let navigationItems = [...navTop];
+
+    if (user?.role.label === 'admin') {
+      navigationItems = [...navigationItems, ...navItemsMouss];
+    }
+
+    if (user?.role.label === 'admin' || user?.child) {
+      navigationItems.push({
+        id: 2,
+        name: 'Sanction',
+        link: '/sanction',
+      });
+    }
+
     if (user?.role.id === 1) {
-      const pushTestLink = {
+      const testLink = {
         id: 4,
         name: 'Test',
         link: '/test',
       };
-      // on verifie si le lien n'existe pas deja
-      const found = navContent.some((el) => el.id === pushTestLink.id);
-      if (!found) navContent.push(pushTestLink);
+      if (!navigationItems.some((item) => item.id === testLink.id)) {
+        navigationItems.push(testLink);
+      }
     }
-  }, [user, navContent]);
 
-  useEffect(() => {
-    !user && sessionStorage.getItem('sessionToken') && fetch();
-  }, [user, fetch]);
+    return navigationItems;
+  }, [user]);
 
   return (
     <nav
       id="nav-bar"
       className="d-flex flex-wrap align-items-center justify-content-between p-2 vw-100 border-top border-bottom bg-dark position-sticky top-0 z-3"
-      style={{
-        backgroundColor: '#1d1d20',
-        // height: '60px',
-      }}
+      style={{ backgroundColor: '#1d1d20' }}
     >
       <NavBar navContentArray={navContent} />
       {user ? <AsideMenu /> : <ConnexionBtn />}
     </nav>
-
   );
 }
