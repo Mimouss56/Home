@@ -16,7 +16,7 @@ export async function getOption(option: string) {
     const optionValue = await axiosInstance.get(`/api/home/option?name=${option}`);
 
     return optionValue.data;
-  } catch (err) {
+  } catch (_err) {
     return null;
   }
 }
