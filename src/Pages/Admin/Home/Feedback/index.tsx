@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import { toast } from 'react-toastify';
-import IFeedback from '../../../../@types/Home/feedback';
-import { ErrorSanctionProps } from '../../../../@types/error';
-import axiosInstance from '../../../../utils/axios';
-import SwitchButton from '../../../../components/Form/Switch';
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+import IFeedback from "../../../../@types/Home/feedback";
+import { ErrorSanctionProps } from "../../../../@types/error";
+import axiosInstance from "../../../../utils/axios";
+import TableFeed from "./tableFeedback";
 
 function ListFeedBack() {
   const [feedbackList, setFeedbackList] = useState<IFeedback[]>([]);
 
   const fetchData = async () => {
     try {
-      const response = await axiosInstance.get('/api/home/feedback/');
+      const response = await axiosInstance.get("/api/home/feedback/");
 
       setFeedbackList(response.data);
     } catch (error) {
@@ -24,14 +24,16 @@ function ListFeedBack() {
       const response = await axiosInstance.patch(`/feedback/${event.target.id}`, {
         draft: event.target.checked,
       });
-      setFeedbackList((prev) => prev.map((newsItem) => {
-        if (newsItem.id === Number(event.target.id)) {
-          return { ...newsItem, draft: !event.target.checked };
-        }
-        return newsItem;
-      }));
+      setFeedbackList((prev) =>
+        prev.map((newsItem) => {
+          if (newsItem.id === Number(event.target.id)) {
+            return { ...newsItem, draft: !event.target.checked };
+          }
+          return newsItem;
+        }),
+      );
       // on reinjecte dans sessionsStorage les notif a jour
-      sessionStorage.setItem('dataNotif', JSON.stringify(feedbackList));
+      sessionStorage.setItem("dataNotif", JSON.stringify(feedbackList));
       toast.success(`🦄 ${response.data.message} !`);
     } catch (error) {
       const { response } = error as ErrorSanctionProps;
@@ -48,38 +50,7 @@ function ListFeedBack() {
         <div className="col-12">
           <h1 className="text-center">Liste des feedback</h1>
           <div className="table-responsive">
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Nom</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Message</th>
-                  <th scope="col">Path</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Traité</th>
-                </tr>
-              </thead>
-              <tbody>
-                {feedbackList && feedbackList.map((feedback) => (
-                  <tr key={feedback.id}>
-                    <td>{feedback.name}</td>
-                    <td>{feedback.email}</td>
-                    <td>{feedback.message}</td>
-                    <td>{feedback.path}</td>
-                    <td>{dayjs(feedback.created_at).format('DD/MM/YYYY')}</td>
-                    <td>
-                      <SwitchButton
-                        name="draft"
-                        active={feedback.draft}
-                        onChange={handleSwitch}
-                        id={feedback.id.toString()}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
+            <TableFeed feedbackList={feedbackList} handleSwitch={handleSwitch} />
           </div>
         </div>
       </div>

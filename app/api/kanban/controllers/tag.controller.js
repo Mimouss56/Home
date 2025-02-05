@@ -1,3 +1,5 @@
+const { tag :Tag } = require('../models');
+const assert = require('assert');
 
 const tagController = {
   async getAll(req, res, next) {
@@ -55,7 +57,7 @@ const tagController = {
       next(err);
     }
   },
-  async delete(req, res) {
+  async delete(req, res, next) {
     try {
       const tag = await Tag.findByPk(req.params.id);
       if (tag) {

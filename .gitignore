@@ -142,3 +142,4 @@ config.json
 tsconfig.json
 tsconfig.node.json
 **/.eslintrc.json
+.deepsource.toml

@@ -1,16 +1,11 @@
 import dayjs from 'dayjs';
-import { ISanction } from '../../../@types/Home/sanction';
 import useFormInput from '../../../hook/useFormInput';
-import Textarea from '../../Form/textarea';
-import SwitchButton from '../../Form/Switch';
-import DateInput from '../../Form/Date';
 import useSanctionStore from '../../../store/sanction.store';
 import useChildrenStore from '../../../store/children.store';
-import Select from '../../Form/Select';
+import ModalBodySanction from './bodyFormSanction';
+import ModalHeaderSanction from './headerModal';
 
-interface ModalAddItemProps {
-  onAddElement: (data: ISanction) => void;
-}
+
 const initFormData = {
   id: 0,
   label: '',
@@ -20,7 +15,7 @@ const initFormData = {
   created_at: dayjs().format('YYYY-MM-DD'),
   paid: false,
 };
-function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
+function ModalAddSanction() {
   const { sanctions, fetchSanctions } = useSanctionStore((state) => state);
   const { child: childrenList, fetchChildren } = useChildrenStore((state) => state);
   const {
@@ -34,7 +29,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
   const addItemModal = document.getElementById('ModalAddSanction');
 
   if (addItemModal) {
-    addItemModal.addEventListener('show.bs.modal', async (event: Event) => {
+    addItemModal.addEventListener('show.bs.modal', (event: Event) => {
       const { relatedTarget } = event as unknown as { relatedTarget: HTMLElement };
       const button = relatedTarget as HTMLButtonElement;
       const idModal = button.getAttribute('data-bs-id');
@@ -53,7 +48,7 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
         label: sanction.label,
         created_at: sanction.created_at,
         id_child: sanction.child?.id || 0,
-        paid: !!sanction.paid,
+        paid: Boolean(sanction.paid),
       });
     });
   }
@@ -68,74 +63,10 @@ function ModalAddSanction({ onAddElement }: ModalAddItemProps) {
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
-          <div className="modal-header">
-            <h2>
-              {form.id === 0 ? 'Ajouter' : 'Editer'}
-              {' '}
-              la sanction
-            </h2>
+          <ModalHeaderSanction id={form.id}/>
 
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-          </div>
-          <div className="modal-body">
-            <div className="d-flex justify-content-around col ">
-              <div className="input-group mb-3">
-                <SwitchButton
-                  name="warn"
-                  checked={form.warn}
-                  onChange={handChecked}
-                  title="Important"
-                />
-              </div>
-              <Select
-                title='Choix Enfant'
-                list={childrenList.map((child) => ({ id: child.id, label: child.username }))}
-                name='id_child'
-                handleChange={handleChange}
-                value={form.id_child}
-                placeholder='Choisir un enfant'
+          <ModalBodySanction handChecked={handChecked} handleChange={handleChange} form={form}/>
 
-              />
-            </div>
-            <Textarea
-              title="Raison"
-              text={form.label}
-              onChange={handleChange}
-              name="label"
-              leng={500}
-              icon={null}
-            />
-            <SwitchButton
-              name="paid"
-              checked={form.paid}
-              onChange={handChecked}
-              title="Payé"
-            />
-            <DateInput
-              value={form.created_at}
-              onChange={handleChange}
-              name="created_at"
-              max={dayjs().format('YYYY-MM-DD')}
-              placeholder="Date de la sanction"
-            />
-            <div className="modal-footer d-flex justify-content-around">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Fermer
-              </button>
-              <button
-                type="submit"
-                className="btn btn-success"
-                data-bs-dismiss="modal"
-              >
-                {form.id !== 0 ? 'Modifier' : 'Ajouter'}
-              </button>
-
-            </div>
-          </div>
         </div>
       </div>
     </form>

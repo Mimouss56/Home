@@ -21,7 +21,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
     <div id={card.id.toString()} className="rounded m-2 p-2 bg-light" style={{ border: `3px solid ${card.color}` }}>
       <div id="header">
         <i className="bi bi-tag-fill text-success fs-5 m-2" />
-        {card.tags && card.tags.map((tag) => (
+        {card.tags?.map((tag) => (
           <span className="badge d-flex p-2 align-items-center text-bg-primary rounded-pill" key={tag.id}>
             <span className="px-1">{tag.name}</span>
             <button type="button">
@@ -42,10 +42,7 @@ export default function CardTemplate({ card, updateCards }: ICardTemplateProps) 
 
       </div>
       <div id="content" className="d-flex flex-row justify-content-between">
-        <p
-          onDoubleClick={() => {}}
-          className="text-dark"
-        >
+        <p className="text-dark">
           {card.content}
 
         </p>
