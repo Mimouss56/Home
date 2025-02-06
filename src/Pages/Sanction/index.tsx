@@ -12,6 +12,8 @@ import SwitchButton from '../../components/Form/Switch';
 import { INotif } from '../../@types/notifToast';
 import useMeStore from '../../store/me.store';
 import useSanctionStore, { SanctionLoader } from '../../store/sanction.store';
+import { TableAction, TableColumn, Table } from '../../components/Table';
+import { ISanction } from '../../@types/Home/sanction';
 
 dayjs.extend(advancedFormat);
 dayjs.extend(isoWeek);
@@ -22,6 +24,12 @@ function Sanction() {
   const { sanctions, fetchSanctions, deleteSanction } = useSanctionStore((state) => state);
   const [nbMaxSanction, setNbMaxSanction] = useState<number>(initMaxSanction);
   const dataNotif = JSON.parse(sessionStorage.getItem('dataNotif') || '[]') as INotif[];
+
+  const allSanctions = sanctions
+    .filter((sanction) => {
+      if (user?.role.id !== 1) return sanction.child?.id === user?.id; return sanction;
+    })
+    .slice(0, nbMaxSanction);
 
   const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, id } = e.target;
@@ -49,6 +57,66 @@ function Sanction() {
     }
   };
 
+  const columns: TableColumn<ISanction>[] = [
+
+    {
+      header: 'Description',
+      accessor: (row) => excerpt(row.label),
+    },
+    {
+      header: 'Week',
+      accessor: (row) => `S${dayjs(row.created_at).isoWeek()}/${dayjs(row.created_at).isoWeekYear()}`,
+    },
+    {
+      header: 'Auteur',
+      accessor: (row) => row.author?.username,
+    },
+    {
+      header: 'Payé',
+      accessor: (row) => (
+        user?.role.id === 1
+          ? <SwitchButton
+            name="paid"
+            checked={row.paid ?? false}
+            onChange={handleCheck}
+            color="success"
+            id={`switch-${row.id}`}
+          />
+          : <i className={`bi bi-${row.paid ? 'check-circle-fill text-success' : 'x-circle-fill text-danger'}`} />
+      ),
+    },
+    ...(user?.role.id === 1 ? [
+      {
+        header: 'Enfant',
+        accessor: (row: ISanction) => row.child?.username,
+      },
+    ] : []),
+
+  ];
+
+  const actions: TableAction<ISanction>[] = [{
+    header: <i className="bi bi-eye" />,
+    accessor: 'id',
+    action: (sanction) => handleRead(sanction.id),
+    className: "btn-info"
+  },
+  ...(user?.role.id === 1 ? [
+    {
+      header: <i className="bi bi-pencil" />,
+      accessor: 'id',
+      action: () => console.log('Modifier'),
+      className: "btn-warning"
+    },
+    {
+      header: <i className="bi bi-trash3" />,
+      accessor: 'id',
+      action: (sanction) => deleteSanction(sanction.id),
+      className: "btn-danger"
+    }
+  ] as TableAction<ISanction>[] : []),
+
+  ]
+
   return (
     <>
       {sanctions.length === 0 && <SanctionLoader />}
@@ -56,6 +124,11 @@ function Sanction() {
       <ModalAddSanction onAddElement={fetchSanctions} />
       <SectionLayout idName="sanction" title="Liste des Sanctions" addButton="ModalAddSanction">
         <div className="table-responsive min-vh-100 mt-5">
+          <Table<ISanction>
+            rowAction={actions}
+            data={allSanctions}
+            columns={columns}
+          />
           <table className="table table-striped table-sm text-center">
             <thead>
               <tr>
