@@ -21,26 +21,28 @@ export default function SwitchButton({
   }, [checked, color]);
 
   return (
-    <div className="form-check form-switch">
-      <input
-        className={`form-check-input${bgColor}`}
-        type="checkbox"
-        role="switch"
-        name={name}
-        defaultChecked={checked}
-        id={id}
-        onChange={onChange}
-        disabled={disable}
-      // value={active.toString()}
-      // checked={!!active}
-      />
-      {title && (
-        <label className="form-check-label" htmlFor={id}>
-          {title}
-        </label>
-      )}
-    </div>
+    <div className="input-group mb-3">
 
+      <div className="form-check form-switch">
+        <input
+          className={`form-check-input${bgColor}`}
+          type="checkbox"
+          role="switch"
+          name={name}
+          defaultChecked={checked}
+          id={id}
+          onChange={onChange}
+          disabled={disable}
+        // value={active.toString()}
+        // checked={!!active}
+        />
+        {title && (
+          <label className="form-check-label" htmlFor={id}>
+            {title}
+          </label>
+        )}
+      </div>
+    </div>
   );
 }
 
